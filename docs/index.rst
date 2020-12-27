@@ -12,7 +12,6 @@ Useful links
 
 During lab and homework help sessions, we will break out into different Zoom sessions headed by various course staff members. Their individual Zoom links are accessible below.
 
-
 People
 ------
 
