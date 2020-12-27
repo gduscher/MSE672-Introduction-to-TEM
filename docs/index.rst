@@ -28,9 +28,5 @@ People
    :maxdepth: 1
    :caption: Lessons
 
-   Intoduction/index
-   lessons/01/
-   lessons/02/index
-   lessons/03/index
-   lessons/04/style.ipynb
-   lessons/05/index
+   Introduction/index
+
