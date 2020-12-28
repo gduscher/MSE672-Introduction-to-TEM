@@ -19,7 +19,7 @@ import matplotlib
 import sphinx_rtd_theme
 matplotlib.use('agg')
 import sphinx_rtd_theme
-sys.path.insert(0, os.path.abspath('../..'))
+sys.path.insert(0, os.path.abspath('..'))
 from pyTEMlib import __version__ as pyTEMlib_version
 
 
@@ -27,7 +27,7 @@ from pyTEMlib import __version__ as pyTEMlib_version
 # This makes it so that nbsphinx properly loads the notebook images
 
 examples_source = os.path.abspath(os.path.join(
-    os.path.dirname(__file__), "..", "..", "notebooks"))
+    os.path.dirname(__file__), "", "..", "notebooks"))
 examples_dest = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "notebooks"))
 
