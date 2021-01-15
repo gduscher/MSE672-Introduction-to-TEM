@@ -1,12 +1,13 @@
 Setting up computing resources
 
-This lecture is based on jupyter notebooks. These jupytr notebooks are class notes, grahic program,
-simulation and analysis tools in one
+This lecture is based on jupyter notebooks. These jupyter notebooks are class notes, grahic program,
+simulation and analysis tools in one.
 
 In this lecture you have the choice to run these notebooks on your computer
-or inthe cloud with Google colab. In any case no programming is necessary but encouraged.
+or in the cloud with Google colab. In any case no programming is necessary but encouraged.
 At the minimum you will have to change some input parameters.
 
+I recommend to install anaconda and let the notebooks run on your computer.
 
 In order to use Google Colab, you must have a Google account.
 UTK students and employees have an account and can log in with their vol id.
@@ -15,12 +16,6 @@ For your work in this class, it advantageous to use your UTK account.
 This will facilitate collaboration with your
 teammates in the course, as well as with course staff.
 
-Many of you probably use your personal Google account on your machine,
-so it can get annoying to log in and out of it.
-A trick that I find useful is to use one browser, e.g.,
-Safari or Microsoft Edge, for your personal use, web browsing, etc.,
-and a different browser for your scientific work, including the work
-in this class.
 Google Colab are most tested for Chrome, Firefox, and Safari
 
 You can launch a Colab notebook by
@@ -37,6 +32,10 @@ units).
 The computing resources should be enough for all of our calculations
 in this course.
 However, there are some limitations you should be aware of.
+
+    The interactivity of graphs is very limited. For example, no selection
+    of datacan be done interactively. With the ``bokeh`` plotting packages
+    you can at least zoom in and out of images and line plots.
 
     If your notebook is idle for too long, you will get disconnected
     from your notebook. “Idle” means that cells are not being edited
