@@ -22,7 +22,7 @@ Lecture Content
 
 Computer Resources
 
-- `install anconda<./install_conda.html>`_
+- `Install anconda <./install_conda.html>`_
 
 
 .. toctree::
