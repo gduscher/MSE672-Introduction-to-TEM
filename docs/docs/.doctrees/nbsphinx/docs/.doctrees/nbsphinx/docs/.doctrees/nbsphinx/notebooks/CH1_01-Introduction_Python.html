@@ -1,0 +1,618 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Introduction to Python as it is used in this lecture &#8212; MSE672: Introduction to TEM Spring 2021 documentation</title>
+    <link rel="stylesheet" href="../../../../../../../../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../../../_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../../../../../../../../../" src="../../../../../../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../../../../../../_static/jquery.js"></script>
+    <script src="../../../../../../../../../../_static/underscore.js"></script>
+    <script src="../../../../../../../../../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    
+    <link rel="index" title="Index" href="../../../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../../../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../../../../../../../../../index.html">MSE672: Introduction to TEM Spring 2021 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Introduction to Python as it is used in this lecture</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<p><strong>Chapter 1:</strong><a class="reference internal" href="CH1_00-Introduction.html"><span class="doc">Introduction</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><div class="section" id="Introduction-to-Python-as-it-is-used-in-this-lecture">
+<h1>Introduction to Python as it is used in this lecture<a class="headerlink" href="#Introduction-to-Python-as-it-is-used-in-this-lecture" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/notebooks/CH1_01-Introduction_Python.ipynb%22">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/notebooks/CH1_01-Introduction_Python.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p>by Gerd Duscher, Fall 2021</p>
+<p>Microscopy Facilities Joint Institute of Advanced Materials Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<div class="section" id="Coding">
+<h2>Coding<a class="headerlink" href="#Coding" title="Permalink to this headline">¶</a></h2>
+<p>First of all, <strong>you do not need to program anything</strong>, however, you will have to change the values of input parameters in the code cells. Of course, you are encouraged to modify the code in order to explore the data analysis methods, what can go wrong.</p>
+<p>In this book, we will use the python program language. For this language, a lot of packages are available that provide algorythms for all common mathematical and statistical needs.</p>
+<p>In this book we rely most heavily on the standard numerical and scientific library: numpy and scipy</p>
+<p>The philosophy of this book is not to reinvent the wheel but to use those package which are highly optimized. The code should be as easy to read as possible, which means * the variable names are chosen in the same manner as in the formulas, * the routines of the different packages are not wrapped in others * the code is written step by step and not organized in classes</p>
+<div class="section" id="An-Example">
+<h3>An Example<a class="headerlink" href="#An-Example" title="Permalink to this headline">¶</a></h3>
+<p>We will do a lot of vector algebra so as an example we want to compute the angle between two vectors,</p>
+<p>which is calculated by the dot product: $:nbsphinx-math:<cite>vec{a}</cite> <span class="math">\cdot `:nbsphinx-math:</span>vec{b}` = <span class="math">\left</span>| <span class="math">\vec{a}</span> <span class="math">\right</span>| <span class="math">\left</span>| <span class="math">\vec{b}</span> <span class="math">\right</span>| <span class="math">\cos `(:nbsphinx-math:</span>theta`) $</p>
+<p>The dot product is really the projection of one vector onto the other one: <img alt="dot_product" class="no-scaled-link" src="docs\.doctrees\nbsphinx\docs\.doctrees\nbsphinx\docs\.doctrees\nbsphinx\notebooks\images/dot_product.jpg" style="width: 200px;" /></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># We need to import the numpy package</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># We define the two vectors</span>
+<span class="n">a_vector</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">b_vector</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># calculate the lengths of the vectors</span>
+<span class="n">a_length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a_vector</span><span class="p">)</span>
+<span class="n">b_length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b_vector</span><span class="p">)</span>
+
+<span class="c1">#now the angle between vectors a and b according to above formula</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a_vector</span><span class="p">,</span> <span class="n">b_vector</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a_length</span> <span class="o">*</span> <span class="n">b_length</span><span class="p">)</span> <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The angle between vectors a and b is </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">°&#39;</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The angle between vectors a and b is 49.80°
+</pre></div></div>
+</div>
+<p>Change the vectors now (python is picky about commas and kind of brackets, so leave those alone).</p>
+</div>
+<div class="section" id="Vector-Norm">
+<h3>Vector Norm<a class="headerlink" href="#Vector-Norm" title="Permalink to this headline">¶</a></h3>
+<p>In the above formula we use the <strong>norm</strong> function of the Linear Algebra package <strong>linalg</strong> of <strong>numpy</strong></p>
+<p>Of course the dot product of a vector with itself would give the square of the length of the vector:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Square root of dot product of vector with itself&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a_vector</span><span class="p">,</span><span class="n">a_vector</span><span class="p">)))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> Two other ways to calculate this&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">a_vector</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">a_vector</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a_vector</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Square root of dot product of vector with itself
+2.449489742783178
+
+ Two other ways to calculate this
+2.449489742783178
+2.449489742783178
+</pre></div></div>
+</div>
+<p>In crystallography we would use the normed (or unit) vectors <span class="math notranslate nohighlight">\(\hat{a}\)</span> and <span class="math notranslate nohighlight">\(\hat{b}\)</span> which are defined as <span class="math notranslate nohighlight">\(\hat{a} = \frac{\vec{a}}{\left| \vec{a} \right|}\)</span>.</p>
+<p>The dot product is then directly the cos of the angle:</p>
+<p>$:nbsphinx-math:<cite>hat{a}</cite> <span class="math">\cdot `:nbsphinx-math:</span>hat{b}` = <span class="math">\cos `(:nbsphinx-math:</span>theta`) $</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># unit vectors</span>
+<span class="n">a_normed</span> <span class="o">=</span> <span class="n">a_vector</span><span class="o">/</span><span class="n">a_length</span>
+<span class="n">b_normed</span> <span class="o">=</span> <span class="n">b_vector</span><span class="o">/</span><span class="n">b_length</span>
+
+<span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a_normed</span><span class="p">,</span> <span class="n">b_normed</span><span class="p">)</span> <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The angle between vectors a and b is </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">°&#39;</span> <span class="p">)</span>
+
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The angle between vectors a and b is 49.80°
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Functions">
+<h2>Functions<a class="headerlink" href="#Functions" title="Permalink to this headline">¶</a></h2>
+<p>For a task you use more often you might want to define a function to do that task in a reproducable manner.</p>
+<p>In the remainder of the course most computer code in the code cell is also available in the TEMlib library to improve readability of the notebooks for analyzing data.</p>
+<p>One always makes sure that one comments those functions.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">angle_between_two_vectors</span><span class="p">(</span><span class="n">vector1</span><span class="p">,</span> <span class="n">vector2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Calculation of the angle between two vectors of the same dimension by arccos of the dot product</span>
+
+<span class="sd">    Input:</span>
+<span class="sd">    ------</span>
+<span class="sd">        vector1, vector2: two vectors as lists or numpy arrays</span>
+
+<span class="sd">    Output:</span>
+<span class="sd">    -------</span>
+<span class="sd">        angle: angle between the vectors in radians</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># calculate the lengths of the vectors</span>
+    <span class="n">vector1_length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vector1</span><span class="p">)</span>
+    <span class="n">vector2_length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vector2</span><span class="p">)</span>
+
+    <span class="c1">#now the angle between vectors a and b according to above formula</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">vector1</span><span class="o">/</span><span class="n">vector1_length</span><span class="p">,</span> <span class="n">vector2</span><span class="o">/</span><span class="n">vector2_length</span><span class="p">)</span> <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">angle</span> <span class="c1">#in radians</span>
+<span class="n">help</span><span class="p">(</span><span class="n">angle_between_two_vectors</span><span class="p">)</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">angle_between_two_vectors</span><span class="p">(</span><span class="n">a_vector</span><span class="p">,</span> <span class="n">b_vector</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The angle between vectors a: </span><span class="si">{</span><span class="n">a_vector</span><span class="si">}</span><span class="s1"> and b: </span><span class="si">{</span><span class="n">b_vector</span><span class="si">}</span><span class="s1"> is </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">°&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Help on function angle_between_two_vectors in module __main__:
+
+angle_between_two_vectors(vector1, vector2)
+    Calculation of the angle between two vectors of the same dimension by arccos of the dot product
+
+    Input:
+    ------
+        vector1, vector2: two vectors as lists or numpy arrays
+
+    Output:
+    -------
+        angle: angle between the vectors in radians
+
+The angle between vectors a: [1, 1, 2] and b: [0, 3, 1] is 49.80°
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Python-Usage-in-this-Course">
+<h2>Python Usage in this Course<a class="headerlink" href="#Python-Usage-in-this-Course" title="Permalink to this headline">¶</a></h2>
+<p>We will not use a python function as shown above, because we actually just wrapped the arccos (dot product) functions and did not do anything new.</p>
+<p>While this may be a good idea to make a code more readable, this approach also hides a lot of what is going on in a program. Also, such a code tends to be rather splintered and one has to look layer by layer deeper if one wants to find out how something is calculated exactly.</p>
+<p>Therefore in this course, we will use functions only for more complex issues and avoid wrapping. Obviously, there are choices to be made and so the optimum may not always be striked. Please let me know any improvement you feel make things easier to grasp.</p>
+</div>
+<div class="section" id="Effective-Use-of-numpy">
+<h2>Effective Use of numpy<a class="headerlink" href="#Effective-Use-of-numpy" title="Permalink to this headline">¶</a></h2>
+<p>The real power of numpy will be evident if we code a function that will do the angles of a whole vector field.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">angles_to_first_vector</span><span class="p">(</span><span class="n">vector_field</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Calculation of the angle first vector and the whole vector field by arccos of the dot product</span>
+
+<span class="sd">    Input:</span>
+<span class="sd">    ------</span>
+<span class="sd">        vector_field: a list or numpy array of vectors as lists or numpy arrays</span>
+
+<span class="sd">    Output:</span>
+<span class="sd">    -------</span>
+<span class="sd">        angles: angles between first and all vectors in radians</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># calculate the normed vectors</span>
+    <span class="n">norm</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vector_field</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># our vectors are along axis 1</span>
+    <span class="n">vector_field_normed</span> <span class="o">=</span> <span class="n">vector_field</span><span class="o">/</span><span class="n">norm</span><span class="p">[:,</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>   <span class="c1">#divide each vector by its norm</span>
+
+    <span class="c1">#now the angle between each vector in the vector field and the first vector according to above formula</span>
+    <span class="n">dot_products</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">vector_field_normed</span><span class="p">,</span> <span class="n">vector_field_normed</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1">### To avoid rounding error induced confusion</span>
+    <span class="n">dot_products</span><span class="p">[</span><span class="n">dot_products</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">dot_products</span><span class="p">[</span><span class="n">dot_products</span> <span class="o">&lt;-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=-</span><span class="mi">1</span>
+
+    <span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">dot_products</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">angles</span> <span class="c1">#in radians</span>
+
+<span class="c1"># Now we define a vector field</span>
+<span class="n">vectors</span> <span class="o">=</span> <span class="p">[</span><span class="n">a_vector</span><span class="p">,</span> <span class="n">b_vector</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]]</span>
+
+<span class="c1"># and then we calculate the angles of the first vector to the whole field</span>
+<span class="n">angles</span> <span class="o">=</span> <span class="n">angles_to_first_vector</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;angles of vector field to first vector&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">angles</span><span class="p">),</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+angles of vector field to first vector
+[ 0.    49.797 40.203]
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Libraries-and-Classes">
+<h2>Libraries and Classes<a class="headerlink" href="#Libraries-and-Classes" title="Permalink to this headline">¶</a></h2>
+<p>The functions used in this lecture are organized in libraries.</p>
+<p>For a more modern programming approach they could also be grouped in classes, but classes put another layer between the notebook and code, which is desirable for abstraction but not necessarily for understanding.</p>
+<p>So for the course of this course the functions will be made available in libraries, which can be wrapped in classes for a more monolithic program.</p>
+<p>A graphical user interface (GUI) was conciously omitted in this course to encourage the user to mess around in the code. So please change the vectors and see how the angle will change.</p>
+</div>
+<div class="section" id="A-word-of-caution:">
+<h2>A word of caution:<a class="headerlink" href="#A-word-of-caution:" title="Permalink to this headline">¶</a></h2>
+<p>A notebook can become confusing, if one does not go through it in a sequential way, because the values of parameters can be changed at any stage in any code cell without the other cells having any knowledge about that.</p>
+<p>A program or function will not have that kind of confusing tendency, and therefore, once we understand atopic, a comprehensive function will be provided, like in the case of the angle function. If in doubt, let the notebook run all the way through.</p>
+</div>
+<div class="section" id="Navigation">
+<h2>Navigation<a class="headerlink" href="#Navigation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Next:</strong><a class="reference internal" href="CH1_02-Prerequisites.html"><span class="doc">Prerequesites</span></a></p></li>
+<li><p><strong>UP:</strong><a class="reference external" href="CH1-00-Introduction.ipynb">Chapter 1</a></p></li>
+<li><p><strong>List of Content:</strong><a class="reference internal" href="_MSE672_Intro_TEM.html"><span class="doc">Front</span></a></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../../../../../../../../../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduction to Python as it is used in this lecture</a><ul>
+<li><a class="reference internal" href="#Coding">Coding</a><ul>
+<li><a class="reference internal" href="#An-Example">An Example</a></li>
+<li><a class="reference internal" href="#Vector-Norm">Vector Norm</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Functions">Functions</a></li>
+<li><a class="reference internal" href="#Python-Usage-in-this-Course">Python Usage in this Course</a></li>
+<li><a class="reference internal" href="#Effective-Use-of-numpy">Effective Use of numpy</a></li>
+<li><a class="reference internal" href="#Libraries-and-Classes">Libraries and Classes</a></li>
+<li><a class="reference internal" href="#A-word-of-caution:">A word of caution:</a></li>
+<li><a class="reference internal" href="#Navigation">Navigation</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../../../../../../../../_sources/docs/.doctrees/nbsphinx/docs/.doctrees/nbsphinx/docs/.doctrees/nbsphinx/notebooks/CH1_01-Introduction_Python.ipynb.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../../../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../../../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../../../../../../../../../index.html">MSE672: Introduction to TEM Spring 2021 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Introduction to Python as it is used in this lecture</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Gerd Duscher.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>
