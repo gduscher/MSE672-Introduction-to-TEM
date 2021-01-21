@@ -47,15 +47,14 @@ However, you will not have the full functionality of the jupyter notebooks on co
 
 The notebooks are all based on a library of functions called `pyTEMlib <https://github.com/pycroscopy/pyTEMlib>`_
 
-You can `download all files <https://github.com/gduscher/MSE672-Introduction-to-TEM/archive/main.zi>`_
+You can `download all course notebooks <https://github.com/gduscher/MSE672-Introduction-to-TEM/archive/main.zi>`_
 from github as a zip file.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Course Contents:
 
    Introduction <./notebooks/index>
-   
    Computer Resources <./ComputerResources/index>
 
 Indices and tables
