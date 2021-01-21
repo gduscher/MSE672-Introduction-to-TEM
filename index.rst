@@ -6,6 +6,9 @@
 UTK MSE672
 ==========
 
+Start Page
+  
+  
 MSE672: Introduction to Transmission Electron Microscopy!
 ---------------------------------------------------------
 A Course of Materials Science & Engineering Department
@@ -38,8 +41,7 @@ I am using jupyter notebooks in my lectures and research and so here is a collec
 
 
 You will not have to install anything but you can use the notebooks in ``Google colab``. Here is a link to a notebook to try it out.
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](\n",
-    "    https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/notebooks/TestNotebook.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/notebooks/TestNotebook.ipynb)
 
 However, you will not have the full functionality of the jupyter notebooks on colab, and so I suggest to install anaconda on your laptop. You will need a fairly new version of anaconda and if you have an old version, the best way is to reinstall anaconda again.
 
