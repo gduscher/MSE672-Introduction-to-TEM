@@ -1,3 +1,4 @@
+
 # Minimal makefile for Sphinx documentation
 #
 
@@ -5,8 +6,9 @@
 # from the environment for the first two.
 SPHINXOPTS    ?=
 SPHINXBUILD   ?= sphinx-build
-SOURCEDIR     = .
-BUILDDIR      = _build
+SPHINXPROJ    = sidpy
+SOURCEDIR     = source
+BUILDDIR      = build
 
 # Put it first so that "make" without argument is like "make help".
 help:
@@ -16,5 +18,13 @@ help:
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
+
+# Create a .py (percent format with multiline comments) from an .ipynb in the first place:
+# jupytext --update-metadata '{"jupytext": {"cell_markers": "\"\"\""}}' --to py:percent <name-of-notebook>.ipynb
+
+# Convert .py to .ipynb (don't seem to need to --execute? perhaps sphinx-build does it...), then build html:
 %: Makefile
+	rmdir /S/Q build
+	rmdir /S/Q source/_autosummary
+	rmdir /S/Qsphin source/notebooks
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<title>MSE672 | The University of Tennessee, Knoxville</title><!--[if lt IE 10]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script></script><![endif]-->
+	<link rel='stylesheet' id='utthehill-style-css' href=../css/main.css?ver=2019-04-01' type='text/css' media='all' />
+</head>
+<body>
+<div class="main-content">
+	<a class="sr-only sr-only-focusable" href="#content" title="Skip to content">Skip to content</a> <a class="sr-only sr-only-focusable" href="#mainnav" title="Skip to  main navigation">Skip to main navigation</a> <a class="sr-only sr-only-focusable" href="https://oed.utk.edu/ada/campus-accessibility/" title="Report an accessibility issue">Report an accessibility issue</a>
+	<header id="main-navigation" role="banner">
+		<div class="container-columns">
+			<h1 class="ut-title">
+				<a href="http://www.utk.edu"><img src="../images/UTKLogo.png" width= "250">  </a>
+			</h1>
+			<h2 class="site-title  parent-show">
+				<a href="https://web.utk.edu/~gduscher" title="Site Title" rel="home">MSE672: Introduction to TEM</a> <a href="http://jiam.utk.edu/facilities/microscopy/index.php">
+                  <br> <a href="https://web.utk.edu/~gduscher"> <small>by Gerd Duscher </small></a>
+                  </a>
+			</h2>
+			<button type="button" class="btn btn-findpage"> <span class="sr-only">Toggle navigation</span> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path d="M4 22h-4v-4h4v4zm0-12h-4v4h4v-4zm0-8h-4v4h4v-4zm3 0v4h17v-4h-17zm0 12h17v-4h-17v4zm0 8h17v-4h-17v4z" /></svg><br>
+			Menu </button>
+		</div>
+	</header>
+    	<div id="page" class="hfeed site row-offcanvas">
+		<div id="main" class="site-main">
+			<div id="sidebar">
+<!-- #Find Box -->
+				<div class="sidebar-offcanvas inactive">
+					<nav role="navigation" id="mainnav">
+						<button type="button" class="btn btn-findpage btn-close"> <span class="sr-only">Toggle navigation</span> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z" /></svg> <span class="close">CLOSE</span> </button>
+						<div id="bellows">
+	<ul class="menu">
+
+        <li class="menu-item current_page_item"><a href="https://gduscher.github.io/MSE672-Introduction-to-TEM/Introduction/index">
+			MSE672: Introduction</a></li>
+
+            <li class="menu-item"><a href="https://gduscher.github.io/MSE672-Introduction-to-TEM/Introduction/computer_resources">Computer Resources </a></li>
+            <li class="menu-item"><a href="https://gduscher.github.io/MSE672-Introduction-to-TEM/Introduction/launch_colab">Launch Colab </a></li>
+            <li class="menu-item"><a href="https://gduscher.github.io/MSE672-Introduction-to-TEM/Introduction/install_conda">Install Anaconda </a></li>
+            <li class="menu-item"><a href="https://gduscher.github.io/MSE672-Introduction-to-TEM/Introduction/literature">Literature </a></li>
+        <li class="menu-item current_page_item"><a href="https://gduscher.github.io/MSE672-Introduction-to-TEM/">
+			MSE672: Intro to TEM</a></li>
+	</ul>
+		       </div>
+            </nav>
+    <!-- #site-navigation -->
+        </div>
+    </div>
+
+	<main id="content2" class="content-area wide">
+	<div id="content" class="site-content wide" >
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-collapse">
+        <div class="navbar-right" style="text-align: right;">
+        </div>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+    <article id="post-8" class="post-8 page type-page status-publish has-post-thumbnail hentry">
+	<!-- And here begins the Content area. This is where you place your content -->
+	<div class="entry-content reg">
+        <header class="entry-header"><h1 class="entry-title">MSE672: Setting up computing resources </h1></header>
+        <!-- <div class="entry-thumbnail"><img src="images/notebook-title.jpg" class="attachment-large wp-post-image" alt="Image of Letterhead"></div>
+		-->
+        <p class="lead">This lecture is based on jupyter notebooks. These jupyter notebooks are class notes, grahic program,
+			simulation and analysis tools in one.
+		</p>
+
+		<p> In this lecture you have the choice to run these notebooks on your computer
+		   or inthe cloud with Google colab. In any case no programming is necessary but encouraged.
+		   At the minimum you will have to change some input parameters.
+		</p>
+
+        <p> In order to use Google Colab, you must have a Google account.
+			UTK students and employees have an account and can log in with their vol id.
+			Many of you may have a personal Google account, usually set up for things like GMail, YouTube, etc.
+			For your work in this class, it advantageous to use your UTK account.
+			This will facilitate collaboration with your teammates in the course, as well as with course staff
+		</p>
+
+        <p>You can launch a Colab notebook by simply navigating to
+			<a href="https://colab.research.google.com/">https://colab.research.google.com/</a>.
+			Alternatively, you can click on a
+			<a href="https://githubtocolab.com/gduscher/MSE672-Introduction-to-TEM/blob/main/notebooks/00_TestNotebook.ipynb">
+				notebook link </a> on this webpage
+			and you will launch that notebook in Colab.
+		</p>
+
+		<h2> Watchouts when using Colab</h2>
+
+		<p>If you do run a notebook in Colab, you are doing your computing on one
+			of Google’s computers via a virtual machine. You get two CPU cores and
+			12 GB of RAM. You can also get GPUs and TPUs (Google’s tensor processing
+			units).
+			The computing resources should be enough for all of our calculations
+			in this course.
+			However, there are some limitations you should be aware of.
+		</p>
+
+		<ul>
+			<li> If your notebook is idle for too long, you will get disconnected
+				from your notebook. “Idle” means that cells are not being edited
+				or executed. The idle timeout varies depending on the load on
+				Google’s computers.
+			</li>
+			<li>Colab instances have specific software installed, so you will need
+				to install anything else you need in your notebook. <br>
+				This is not a major burden, and is discussed in the next section.
+			</li>
+
+		</ul>
+
+		<p>
+			I recommend reading the <a href="https://research.google.com/colaboratory/faq.html"> Colab FAQs</a>
+			for more information about software in Goolge colab.
+		</p>
+
+		There are two ways to run the notebooks of this course:
+			<ul>
+				<li>
+					<a href="">
+						Launch in Google Colab
+					</a>
+				</li>
+			</ul>
+		Both methods can be run in parallel; so it comes down to your personal preference.
+
+
+<footer class="entry-meta">
+
+</footer><!-- .entry-meta -->
+	</div>
+	</article>
+	</div>
+	</main>
+
+<!-- #primary -->
+	</div>
+<!-- .main-content -->
+</div>
+<footer id="colophon" class="site-footer" role="contentinfo">
+	<div class="container">
+		<div id="siteinfo">
+			<div id="meta-info">
+				<p>
+					<strong class="sitetitle">Gerd Duscher</strong><br> Professor<br> <a href="https://mse.utk.edu" >
+                  <small>Department of Materials Science & Engineering</small>
+                  </a>
+					<br>
+				</p>
+			</div>
+			<div id="meta-contact">
+				<p>
+				</p>
+			</div>
+		</div>
+<!-- #siteinfo -->
+	</div>
+
+</footer>
+<!-- #colophon -->
+</div>
+<!-- #main -->
+<div id="system-indicia">
+	<div class="container">
+		<div class="col">
+			<p class="system">
+				The flagship campus of <a href="http://tennessee.edu">the University of Tennessee System</a> and partner in <a href="http://www.tntransferpathway.org/">the Tennessee Transfer Pathway</a>.
+			</p>
+		</div>
+	</div>
+</div>
+<!-- #page -->
+<script type='text/javascript' src='//code.jquery.com/jquery-1.11.2.min.js'>
+</script>
+<script type='text/javascript' src='//images.utk.edu/scripts/thehill/v2019.20190401.js?ver=2019-04-01'>
+</script>
+
+</body>
+</html>
