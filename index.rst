@@ -45,9 +45,9 @@ You will not have to install anything but you can use the notebooks in ``Google 
 
 However, you will not have the full functionality of the jupyter notebooks on colab, and so I suggest to install anaconda on your laptop. You will need a fairly new version of anaconda and if you have an old version, the best way is to reinstall anaconda again.
 
-The notebooks are all based on a library of functions called 'pyTEMlib <https://github.com/pycroscopy/pyTEMlib>`_
+The notebooks are all based on a library of functions called `pyTEMlib <https://github.com/pycroscopy/pyTEMlib>`_
 
-You can download all files](https://github.com/gduscher/MSE672-Introduction-to-TEM/archive/main.zip)
+You can `download all files <https://github.com/gduscher/MSE672-Introduction-to-TEM/archive/main.zi>`_
 from github as a zip file.
 
 .. toctree::
@@ -55,6 +55,7 @@ from github as a zip file.
    :caption: Contents:
 
    Introduction <./notebooks/index>
+   
    Computer Resources <./ComputerResources/index>
 
 Indices and tables
