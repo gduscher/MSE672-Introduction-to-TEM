@@ -12,13 +12,17 @@ General Interest
 - `Python as used in this course <./CH1_01-Introduction_Python.html>`_
 - `Prerequisites <./CH1_02-Prerequisites.html>`_
 - `Data Representation <./CH1_03-Data_Representation.html>`_
-- `Data Formats <./CH1_04-pyNSID.html>`_
+- `Data Formats <./CH1_05-Open_File.html>`_
 
 Lecture Content
 
-- `Course Organization <./CH1_07-Course_Organization.html>`_
-- `Overview <./CH1_05-Overview.html>`_
-- `Electron Optics <./CH1_06-Electron-Optics.html>`_
+- `Course Organization <./CH1_05-Course_Organization.html>`_
+- `Overview <./CH1_06-Overview.html>`_
+- `Electron Optics <./CH1_07-Electron-Optics.html>`_
+
+Computer Resources
+
+- `install anconda<./install_conda.html>`_
 
 
 .. toctree::
