@@ -39,14 +39,15 @@ I am using jupyter notebooks in my lectures and research and so here is a collec
    However, you are required to change input parameters and you are enouraged to play around with the notebooks
 
 
-You will not have to install anything but you can use the notebooks in ``Google colab``. Here is a link to a notebook to try it out.
-[Open In Colab](https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/notebooks/TestNotebook.ipynb)
+You will not have to install anything but you can use the notebooks in ``Google colab``. Here is a 
+`link to a notebook <https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/notebooks/TestNotebook.ipynb>`_
+ to try it out.
 
 However, you will not have the full functionality of the jupyter notebooks on colab, and so I suggest to install anaconda on your laptop. You will need a fairly new version of anaconda and if you have an old version, the best way is to reinstall anaconda again.
 
-The notebooks are all based on a library of functions called [pyTEMlib](https://github.com/pycroscopy/pyTEMlib)
+The notebooks are all based on a library of functions called 'pyTEMlib <https://github.com/pycroscopy/pyTEMlib>`_
 
-You can [download all files](https://github.com/gduscher/MSE672-Introduction-to-TEM/archive/main.zip)
+You can download all files](https://github.com/gduscher/MSE672-Introduction-to-TEM/archive/main.zip)
 from github as a zip file.
 
 .. toctree::
@@ -54,6 +55,7 @@ from github as a zip file.
    :caption: Contents:
 
    Introduction <./notebooks/index>
+   Computer Resources <./ComputerResources/index>
 
 Indices and tables
 ==================
