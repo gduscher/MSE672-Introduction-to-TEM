@@ -3,8 +3,11 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to MSE672: Introduction to Transmission Electron Microscopy!
-===================================================================
+UTK MSE672
+==========
+
+MSE672: Introduction to Transmission Electron Microscopy!
+---------------------------------------------------------
 A Course of Materials Science & Engineering Department
 
 at the University at Tennessee, Knoxville
@@ -35,10 +38,15 @@ I am using jupyter notebooks in my lectures and research and so here is a collec
 
 
 You will not have to install anything but you can use the notebooks in ``Google colab``. Here is a link to a notebook to try it out.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](\n",
+    "    https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/notebooks/TestNotebook.ipynb)
 
 However, you will not have the full functionality of the jupyter notebooks on colab, and so I suggest to install anaconda on your laptop. You will need a fairly new version of anaconda and if you have an old version, the best way is to reinstall anaconda again.
 
-The notebooks are all based on a library of functions called pyTEMlib
+The notebooks are all based on a library of functions called [pyTEMlib](https://github.com/pycroscopy/pyTEMlib)
+
+You can [download all files](https://github.com/gduscher/MSE672-Introduction-to-TEM/archive/main.zip)
+from github as a zip file.
 
 .. toctree::
    :maxdepth: 2
