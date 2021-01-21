@@ -1,0 +1,230 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "<font size = \"5\"> **[MSE672: Introduction to TEM](https://gduscher.github.io/MSE672-Introduction-to-TEM/)** </font>\n",
+    "\n",
+    "<hr style=\"height:1px;border-top:4px solid #FF8200\" />\n",
+    "\n",
+    "# Course Organization\n",
+    "\n",
+    "[Download](https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/notebooks/CH1_05-Course_Organization.ipynb\")\n",
+    " \n",
+    "[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](\n",
+    "    https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/notebooks/CH1_05-Course_Organization.ipynb)\n",
+    "\n",
+    "\n",
+    "part of\n",
+    "\n",
+    "<font size = \"5\"> **[MSE672:  Introduction to Transmission Electron Microscopy](_MSE672_Intro_TEM.ipynb)**</font>\n",
+    "\n",
+    "by\n",
+    "\n",
+    "Gerd Duscher\n",
+    "\n",
+    "Materials Science & Engineering<br>\n",
+    "Joint Institute of Advanced Materials<br>\n",
+    "The University of Tennessee, Knoxville"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "## Books\n",
+    "### Williams and Carter\n",
+    "**Transmission Electron Microscopy**\n",
+    "\n",
+    "Plenum Press, 2009 (2nd Edition).\n",
+    "\n",
+    "[available  online at the library](https://utk.primo.exlibrisgroup.com/discovery/fulldisplay?docid=cdi_askewsholts_vlebooks_9780387765013&context=PC&vid=01UTN_KNOXVILLE:01UTK&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any%2Ccontains%2C%20Transmission%20Electron%20Microscopy&facet=rtype%2Cexclude%2Creviews&facet=rtype%2Cexclude%2Creference_entrys)\n",
+    "\n",
+    "### Reimer and Kohl\n",
+    "**Transmission Electron Microscopy**\n",
+    "\n",
+    "Springer, Berlin, 2007 (5th Edition).<br>\n",
+    "\n",
+    "[available  online at the library](https://utk.primo.exlibrisgroup.com/discovery/fulldisplay?docid=cdi_proquest_ebookcentral_EBC6362086&context=PC&vid=01UTN_KNOXVILLE:01UTK&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any%2Ccontains%2CReimer%20and%20Kohl&offset=0)\n",
+    "\n",
+    "### Zuo and Spence\n",
+    "\n",
+    "**Advanced Transmission Electron Microscopy: Imaging and Diffraction**\n",
+    "\n",
+    "Springer, NewYork, 2017 <br>\n",
+    "\n",
+    "available online at the Library\n",
+    "\n",
+    "### Kirkland\n",
+    "**Advanced Computing in Electron Microscopy**\n",
+    "\n",
+    "Springer, NewYork, 2010 (2nd Edition)<br>\n",
+    "\n",
+    "available online at the Library\n",
+    "\n",
+    "### R.F. Egerton\n",
+    "\n",
+    "**Electron Energy{Loss Spectroscopy in the Electron Microscope**\n",
+    "\n",
+    "Plenum Press, 2011 (3rd Edition)<br>\n",
+    "\n",
+    "available online at the Library\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Software\n",
+    "\n",
+    "### Image Analysis software for SEM and TEM\n",
+    "\n",
+    "#### Digital Micrograph\n",
+    "You can get a free offline license from [Gatan](https://www.gatan.com/resources/scripting/demo/) \n",
+    "\n",
+    "#### ImageJ\n",
+    "a free imaging software with a lot of plugins: download from [NIH](https://rsbweb.nih.gov/ij/)\n",
+    "\n",
+    "#### jupyter notebooks\n",
+    "use provided [notebooks](https://github.com/gduscher/MSE672-Introduction-to-TEM)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "## Syllabus\n",
+    "\n",
+    "| Week | Lecture | Chp. | Lab |\n",
+    "|------|---------|------|-----|\n",
+    "|01/17 - 01/23| 1:Introduction | 1 | |\n",
+    "|01/24 - 01/30| 2,3:Geometric Ray Optics | 6 ||\n",
+    "|01/31 - 02/06| 4,5:Kinematic Diffraction |  2,11 | Lab1: Basic Imaging|\n",
+    "|02/07 - 02/13 | 6,7:Kinematic Diffraction -parallel | 12  | Lab2: Basic Diffraction|\n",
+    "|02/14 - 02/20 | 8,9:Kinematic Diffraction -convergent   | 19,20 | Lab3: SAED |\n",
+    "|02/21 - 02/27 | 10,11:Dynamic Diffraction | 14,15 | Lab4: CBED |\n",
+    "|02/28 - 03/06 | 12:Imaging Overview | 22 ||\n",
+    "|03/07 - 03/13 | 13,14:Imaging Conventional | 24-27 | Lab5: Exam|\n",
+    "|03/14 - 03/20 | 15,16:Imaging Phase Contrast | 28,30 | Lab6: Two Beams|\n",
+    "|03/21 - 03/27 | 17,18:Imaging and Lens Aberrations | 31 | Lab7: Phase Contrast|\n",
+    "|03/28 - 04/03 | 19,20:Imaging Z-contrast| -  | Lab8: CTF|\n",
+    "|04/04 - 04/10  | 21,22:Spectroscopy EELS | 36-40 | Lab9: Z-contrast|\n",
+    "|04/11 - 04/17  | 23,24:Spectroscopy EDS | 33-35 | Lab10: EELS, ESI|\n",
+    "|04/18 - 04/24  | 25:Other Techniques | 29 ||\n",
+    "|04/25 - 05/01 | 26,27: TEM parts and vacuum | 5-9 ||\n",
+    "|05/02 - 05/08 | 28:Project discussion ||"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "## Office Hours\n",
+    "Office hours are Thursday  from 2 -- 4pm \\\\\n",
+    "online with the class zoom link\\\\\n",
+    "I will answer email questions in the same time slots.\n",
+    "\n",
+    "## Class and Lab\n",
+    "-  Parallel to the class there is a Lab course.\n",
+    "- We will analyze the data of the lab course, independent of whether you are participating or not,\n",
+    "- For the analysis of the data we will need a labtop in class.\n",
+    "\n",
+    "- Everyone needs a laptop in class\n",
+    "- I need real feedback on what you guys want to do and need to learn."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Homework and Quizzes\n",
+    "- Homeworks and Quizzes are the main way to determine your grade in this course.\n",
+    "- Homeworks have to be submitted electronically and generally are about analyzing on your own data which are similar to those in the practice sessions .\n",
+    "- Think of these homeworks as small take-home exams.\n",
+    "- Additionally, there will be reading assignments every week.\n",
+    "- Each week before the lecture, there will be a short quiz about the content of the reading assignments.\n",
+    "- Neither the TA nor the instructor will answer questions about your homework after the deadline.\n",
+    "- If you are more than two homeworks behind, you failed the class."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Final\n",
+    "The final is a report of how TEM will/can be used in your research.\n",
+    "This should include a critical review of  data from journal articles which did TEM similar to what  you propose."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Grades\n",
+    "The grade is a determined by 1/3 each: final, homework, and quizzes."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.6"
+  },
+  "toc": {
+   "base_numbering": "5",
+   "nav_menu": {},
+   "number_sections": true,
+   "sideBar": true,
+   "skip_h1_title": false,
+   "title_cell": "Table of Contents",
+   "title_sidebar": "Contents",
+   "toc_cell": false,
+   "toc_position": {},
+   "toc_section_display": true,
+   "toc_window_display": true
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 1
+}

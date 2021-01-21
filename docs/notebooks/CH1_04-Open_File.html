@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Open DM3 Images, Spectra, Spectrum-Images and Image-Stacks with pyNSID &#8212; MSE672: Introduction to TEM Spring 2021 documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
@@ -16,22 +17,24 @@
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <link rel="search" title="Search" href="../search.html" /> 
   </head><body>
-  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">MSE672: Introduction to TEM Spring 2021 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Open DM3 Images, Spectra, Spectrum-Images and Image-Stacks with pyNSID</a></li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          
-
           <div class="body" role="main">
             
   
@@ -2196,34 +2199,45 @@ C:\Users\gduscher\Anaconda3\lib\site-packages\pyNSID\io\hdf_utils.py:351: Future
 </div>
 
 
+            <div class="clearer"></div>
           </div>
-          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="index.html">Introduction</a></li>
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Open DM3 Images, Spectra, Spectrum-Images and Image-Stacks with pyNSID</a><ul>
+<li><a class="reference internal" href="#Import-packages-for-figures-and">Import packages for figures and</a><ul>
+<li><a class="reference internal" href="#Check-Installed-Packages">Check Installed Packages</a></li>
+<li><a class="reference internal" href="#Load-the-plotting-and-figure-packages">Load the plotting and figure packages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Open-a-file">Open a file</a></li>
+<li><a class="reference internal" href="#Data-Structure">Data Structure</a></li>
+<li><a class="reference internal" href="#File-Structure">File Structure</a></li>
+<li><a class="reference internal" href="#Adding-Data">Adding Data</a></li>
+<li><a class="reference internal" href="#Adding-additional-information">Adding additional information</a></li>
+<li><a class="reference internal" href="#Keeping-Track-of-Analysis-and-Results">Keeping Track of Analysis and Results</a></li>
+<li><a class="reference internal" href="#An-example-for-a-log">An example for a log</a></li>
+<li><a class="reference internal" href="#Open-h5_file">Open h5_file</a><ul>
+<li><a class="reference internal" href="#Short-check-if-we-got-the-data-right">Short check if we got the data right</a></li>
+<li><a class="reference internal" href="#Add-more-data-to-this-set">Add more data to this set</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#If-we-are-done,-we-close-the-pyUID-style-file.">If we are done, we close the pyUID style file.</a></li>
+<li><a class="reference internal" href="#Navigation">Navigation</a></li>
+</ul>
+</li>
 </ul>
 
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/notebooks/CH1_04-Open_File.ipynb.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -2234,32 +2248,23 @@ C:\Users\gduscher\Anaconda3\lib\site-packages\pyNSID\io\hdf_utils.py:351: Future
     </div>
 </div>
 <script>$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2021, Gerd Duscher.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-      |
-      <a href="../_sources/notebooks/CH1_04-Open_File.ipynb.txt"
-          rel="nofollow">Page source</a>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">MSE672: Introduction to TEM Spring 2021 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Open DM3 Images, Spectra, Spectrum-Images and Image-Stacks with pyNSID</a></li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Gerd Duscher.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
   </body>
 </html>
