@@ -22,4 +22,4 @@ help:
 		
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-	
+	echo > docs/.nojekyll
