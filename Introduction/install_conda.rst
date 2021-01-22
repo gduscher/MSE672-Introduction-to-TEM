@@ -14,8 +14,8 @@ Downloading and installing Anaconda
 
 Downloading and installing Anaconda is simple.
 
-    Go to the `Anaconda distribution homepageLink text <https://www.anaconda.com/products/individual>`_ and download the graphical installer.
-    Be sure to download Anaconda for Python 3.8 for the appropriate operating system.
+    Go to the `Anaconda distribution homepage <https://www.anaconda.com/products/individual>`_ and download the graphical installer.
+    Be sure to download Anaconda for Python 3.8 (or higher) for the appropriate operating system.
     Follow the on-screen instructions for installation.
     You may be prompted for optional installations, like PyCharm. You will not need these for the course.
 
@@ -29,4 +29,4 @@ Launch Anaconda Navigator
 
 We will be using jupyter notebooks throughout the course. You should see an option to launch 
 Jupyter Notebook. When you do that, a new browser window or tab will open with Jupyter notebook running. 
-For the updating and installation of necessary packages, there will be code cells within the notebooks to do that 
+For the updating and installation of necessary packages, there will be code cells within the notebooks to do that.
