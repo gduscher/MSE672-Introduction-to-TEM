@@ -287,7 +287,7 @@ div.rendered_html tbody tr:hover {
 <p><strong>Chapter 1:</strong><a class="reference internal" href="CH1_00-Introduction.html"><span class="doc">Introduction</span></a></p>
 <hr style="height:1px;border-top:4px solid #FF8200" /><div class="section" id="Prerequisites">
 <h1>Prerequisites<a class="headerlink" href="#Prerequisites" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Introduction/CH1_02-Prerequisites.ipynb%22">Download</a></p>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Introduction/CH1_02-Prerequisites.ipynb">Download</a></p>
 <p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/Introduction/CH1_02-Prerequisites.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
 <p>part of</p>
 <p><a class="reference internal" href="_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
@@ -517,7 +517,7 @@ spglib not installed; Symmetry functions of spglib disabled
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "9ac4670c598a4cfdb276c42608154cdf"}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "23e6e7cdd1a4458dbd714ab742c7c891"}</script></div>
 </div>
 <p>Get used to changing parameters and type <strong>silicon</strong> instead of <strong>Graphite</strong> in the code cell above.</p>
 </div>
@@ -575,9 +575,17 @@ Known nbextensions:
       nbextensions_configurator/tree_tab/main enabled
   config dir: C:\Users\gduscher\Anaconda3\etc\jupyter\nbconfig
     notebook section
+      jupyter-matplotlib/extension enabled
+      jupyter-js-widgets/extension enabled
+  config dir: C:\ProgramData\jupyter\nbconfig
+    notebook section
+      nbextensions_configurator/config_menu/main enabled
+      contrib_nbextensions_help_item/main enabled
+    tree section
+      nbextensions_configurator/tree_tab/main enabled
 </pre></div></div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area stderr docutils container">
@@ -612,22 +620,6 @@ Known nbextensions:
         - require?  X nbextensions_configurator/tree_tab/main
 </pre></div></div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-
-      jupyter-matplotlib/extension enabled
-      jupyter-js-widgets/extension enabled
-  config dir: C:\ProgramData\jupyter\nbconfig
-    notebook section
-      nbextensions_configurator/config_menu/main enabled
-      contrib_nbextensions_help_item/main enabled
-    tree section
-      nbextensions_configurator/tree_tab/main enabled
-</pre></div></div>
-</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
@@ -643,61 +635,37 @@ Known nbextensions:
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Requirement already satisfied: jupyter_contrib_nbextensions in c:\users\gduscher\anaconda3\lib\site-packages (0.5.1)
-Requirement already satisfied: tornado in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter_contrib_nbextensions) (6.1)
-Requirement already satisfied: ipython-genutils in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter_contrib_nbextensions) (0.2.0)
-Requirement already satisfied: jupyter-core in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter_contrib_nbextensions) (4.7.0)
-Requirement already satisfied: traitlets&gt;=4.1 in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter_contrib_nbextensions) (5.0.5)
 Requirement already satisfied: jupyter-contrib-core&gt;=0.3.3 in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter_contrib_nbextensions) (0.3.3)
-Requirement already satisfied: pyyaml in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter_contrib_nbextensions) (5.3.1)
-Requirement already satisfied: nbconvert&gt;=4.2 in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter_contrib_nbextensions) (6.0.7)
 Requirement already satisfied: notebook&gt;=4.0 in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter_contrib_nbextensions) (6.1.6)
-Requirement already satisfied: jupyter-latex-envs&gt;=1.3.8 in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter_contrib_nbextensions) (1.4.6)
+Requirement already satisfied: tornado in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter_contrib_nbextensions) (6.1)
 Requirement already satisfied: jupyter-highlight-selected-word&gt;=0.1.1 in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter_contrib_nbextensions) (0.2.0)
 Requirement already satisfied: jupyter-nbextensions-configurator&gt;=0.4.0 in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter_contrib_nbextensions) (0.4.1)
 Requirement already satisfied: lxml in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter_contrib_nbextensions) (4.6.2)
+Requirement already satisfied: jupyter-core in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter_contrib_nbextensions) (4.7.0)
+Requirement already satisfied: ipython-genutils in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter_contrib_nbextensions) (0.2.0)
+Requirement already satisfied: traitlets&gt;=4.1 in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter_contrib_nbextensions) (5.0.5)
+Requirement already satisfied: jupyter-latex-envs&gt;=1.3.8 in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter_contrib_nbextensions) (1.4.6)
+Requirement already satisfied: pyyaml in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter_contrib_nbextensions) (5.3.1)
+Requirement already satisfied: nbconvert&gt;=4.2 in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter_contrib_nbextensions) (6.0.7)
 Requirement already satisfied: setuptools in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter-contrib-core&gt;=0.3.3-&gt;jupyter_contrib_nbextensions) (49.6.0.post20210108)
 Requirement already satisfied: ipython in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter-latex-envs&gt;=1.3.8-&gt;jupyter_contrib_nbextensions) (7.19.0)
-Requirement already satisfied: jupyterlab-pygments in c:\users\gduscher\anaconda3\lib\site-packages (from nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (0.1.2)
-Requirement already satisfied: pandocfilters&gt;=1.4.1 in c:\users\gduscher\anaconda3\lib\site-packages (from nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (1.4.2)
-Requirement already satisfied: jinja2&gt;=2.4 in c:\users\gduscher\anaconda3\lib\site-packages (from nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (2.11.2)
 Requirement already satisfied: bleach in c:\users\gduscher\anaconda3\lib\site-packages (from nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (3.2.1)
-Requirement already satisfied: mistune&lt;2,&gt;=0.8.1 in c:\users\gduscher\anaconda3\lib\site-packages (from nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (0.8.4)
-Requirement already satisfied: testpath in c:\users\gduscher\anaconda3\lib\site-packages (from nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (0.4.4)
+Requirement already satisfied: jupyterlab-pygments in c:\users\gduscher\anaconda3\lib\site-packages (from nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (0.1.2)
 Requirement already satisfied: nbformat&gt;=4.4 in c:\users\gduscher\anaconda3\lib\site-packages (from nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (5.0.8)
+Requirement already satisfied: pandocfilters&gt;=1.4.1 in c:\users\gduscher\anaconda3\lib\site-packages (from nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (1.4.2)
 Requirement already satisfied: defusedxml in c:\users\gduscher\anaconda3\lib\site-packages (from nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (0.6.0)
 Requirement already satisfied: nbclient&lt;0.6.0,&gt;=0.5.0 in c:\users\gduscher\anaconda3\lib\site-packages (from nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (0.5.1)
+Requirement already satisfied: testpath in c:\users\gduscher\anaconda3\lib\site-packages (from nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (0.4.4)
+Requirement already satisfied: mistune&lt;2,&gt;=0.8.1 in c:\users\gduscher\anaconda3\lib\site-packages (from nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (0.8.4)
 Requirement already satisfied: entrypoints&gt;=0.2.2 in c:\users\gduscher\anaconda3\lib\site-packages (from nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (0.3)
 Requirement already satisfied: pygments&gt;=2.4.1 in c:\users\gduscher\anaconda3\lib\site-packages (from nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (2.7.3)
+Requirement already satisfied: jinja2&gt;=2.4 in c:\users\gduscher\anaconda3\lib\site-packages (from nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (2.11.2)
 Requirement already satisfied: MarkupSafe&gt;=0.23 in c:\users\gduscher\anaconda3\lib\site-packages (from jinja2&gt;=2.4-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (1.1.1)
 Requirement already satisfied: async-generator in c:\users\gduscher\anaconda3\lib\site-packages (from nbclient&lt;0.6.0,&gt;=0.5.0-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (1.10)
 Requirement already satisfied: nest-asyncio in c:\users\gduscher\anaconda3\lib\site-packages (from nbclient&lt;0.6.0,&gt;=0.5.0-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (1.4.3)
 Requirement already satisfied: jupyter-client&gt;=6.1.5 in c:\users\gduscher\anaconda3\lib\site-packages (from nbclient&lt;0.6.0,&gt;=0.5.0-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (6.1.11)
-Requirement already satisfied: python-dateutil&gt;=2.1 in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter-client&gt;=6.1.5-&gt;nbclient&lt;0.6.0,&gt;=0.5.0-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (2.8.1)
 Requirement already satisfied: pyzmq&gt;=13 in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter-client&gt;=6.1.5-&gt;nbclient&lt;0.6.0,&gt;=0.5.0-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (20.0.0)
-Requirement already satisfied: pywin32&gt;=1.0 in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter-core-&gt;jupyter_contrib_nbextensions) (228)
-Requirement already satisfied: jsonschema!=2.5.0,&gt;=2.4 in c:\users\gduscher\anaconda3\lib\site-packages (from nbformat&gt;=4.4-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (3.2.0)
-Requirement already satisfied: six&gt;=1.11.0 in c:\users\gduscher\anaconda3\lib\site-packages (from jsonschema!=2.5.0,&gt;=2.4-&gt;nbformat&gt;=4.4-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (1.15.0)
-Requirement already satisfied: attrs&gt;=17.4.0 in c:\users\gduscher\anaconda3\lib\site-packages (from jsonschema!=2.5.0,&gt;=2.4-&gt;nbformat&gt;=4.4-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (20.3.0)
-Requirement already satisfied: pyrsistent&gt;=0.14.0 in c:\users\gduscher\anaconda3\lib\site-packages (from jsonschema!=2.5.0,&gt;=2.4-&gt;nbformat&gt;=4.4-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (0.17.3)
-Requirement already satisfied: ipykernel in c:\users\gduscher\anaconda3\lib\site-packages (from notebook&gt;=4.0-&gt;jupyter_contrib_nbextensions) (5.4.2)
-Requirement already satisfied: terminado&gt;=0.8.3 in c:\users\gduscher\anaconda3\lib\site-packages (from notebook&gt;=4.0-&gt;jupyter_contrib_nbextensions) (0.9.2)
-Requirement already satisfied: prometheus-client in c:\users\gduscher\anaconda3\lib\site-packages (from notebook&gt;=4.0-&gt;jupyter_contrib_nbextensions) (0.9.0)
-Requirement already satisfied: Send2Trash in c:\users\gduscher\anaconda3\lib\site-packages (from notebook&gt;=4.0-&gt;jupyter_contrib_nbextensions) (1.5.0)
-Requirement already satisfied: argon2-cffi in c:\users\gduscher\anaconda3\lib\site-packages (from notebook&gt;=4.0-&gt;jupyter_contrib_nbextensions) (20.1.0)
-Requirement already satisfied: pywinpty&gt;=0.5 in c:\users\gduscher\anaconda3\lib\site-packages (from terminado&gt;=0.8.3-&gt;notebook&gt;=4.0-&gt;jupyter_contrib_nbextensions) (0.5.7)
-Requirement already satisfied: cffi&gt;=1.0.0 in c:\users\gduscher\anaconda3\lib\site-packages (from argon2-cffi-&gt;notebook&gt;=4.0-&gt;jupyter_contrib_nbextensions) (1.14.4)
-Requirement already satisfied: pycparser in c:\users\gduscher\anaconda3\lib\site-packages (from cffi&gt;=1.0.0-&gt;argon2-cffi-&gt;notebook&gt;=4.0-&gt;jupyter_contrib_nbextensions) (2.20)
-Requirement already satisfied: packaging in c:\users\gduscher\anaconda3\lib\site-packages (from bleach-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (20.8)
-Requirement already satisfied: webencodings in c:\users\gduscher\anaconda3\lib\site-packages (from bleach-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (0.5.1)
-Requirement already satisfied: jedi&gt;=0.10 in c:\users\gduscher\anaconda3\lib\site-packages (from ipython-&gt;jupyter-latex-envs&gt;=1.3.8-&gt;jupyter_contrib_nbextensions) (0.17.2)
-Requirement already satisfied: prompt-toolkit!=3.0.0,!=3.0.1,&lt;3.1.0,&gt;=2.0.0 in c:\users\gduscher\anaconda3\lib\site-packages (from ipython-&gt;jupyter-latex-envs&gt;=1.3.8-&gt;jupyter_contrib_nbextensions) (3.0.10)
-Requirement already satisfied: colorama in c:\users\gduscher\anaconda3\lib\site-packages (from ipython-&gt;jupyter-latex-envs&gt;=1.3.8-&gt;jupyter_contrib_nbextensions) (0.4.4)
-Requirement already satisfied: decorator in c:\users\gduscher\anaconda3\lib\site-packages (from ipython-&gt;jupyter-latex-envs&gt;=1.3.8-&gt;jupyter_contrib_nbextensions) (4.4.2)
-Requirement already satisfied: backcall in c:\users\gduscher\anaconda3\lib\site-packages (from ipython-&gt;jupyter-latex-envs&gt;=1.3.8-&gt;jupyter_contrib_nbextensions) (0.2.0)
-Requirement already satisfied: pickleshare in c:\users\gduscher\anaconda3\lib\site-packages (from ipython-&gt;jupyter-latex-envs&gt;=1.3.8-&gt;jupyter_contrib_nbextensions) (0.7.5)
-Requirement already satisfied: parso&lt;0.8.0,&gt;=0.7.0 in c:\users\gduscher\anaconda3\lib\site-packages (from jedi&gt;=0.10-&gt;ipython-&gt;jupyter-latex-envs&gt;=1.3.8-&gt;jupyter_contrib_nbextensions) (0.7.0)
-Requirement already satisfied: wcwidth in c:\users\gduscher\anaconda3\lib\site-packages (from prompt-toolkit!=3.0.0,!=3.0.1,&lt;3.1.0,&gt;=2.0.0-&gt;ipython-&gt;jupyter-latex-envs&gt;=1.3.8-&gt;jupyter_contrib_nbextensions) (0.2.5)
-Requirement already satisfied: pyparsing&gt;=2.0.2 in c:\users\gduscher\anaconda3\lib\site-packages (from packaging-&gt;bleach-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (2.4.7)
+Requirement already satisfied: python-dateutil&gt;=2.1 in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter-client&gt;=6.1.5-&gt;nbclient&lt;0.6.0,&gt;=0.5.0-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (2.8.1)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -708,6 +676,38 @@ Requirement already satisfied: pyparsing&gt;=2.0.2 in c:\users\gduscher\anaconda
 <span></span><span class="o">!{</span>sys.executable<span class="o">}</span> -m  jupyter nbextension <span class="nb">enable</span> toc2
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+Requirement already satisfied: pywin32&gt;=1.0 in c:\users\gduscher\anaconda3\lib\site-packages (from jupyter-core-&gt;jupyter_contrib_nbextensions) (228)
+Requirement already satisfied: jsonschema!=2.5.0,&gt;=2.4 in c:\users\gduscher\anaconda3\lib\site-packages (from nbformat&gt;=4.4-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (3.2.0)
+Requirement already satisfied: attrs&gt;=17.4.0 in c:\users\gduscher\anaconda3\lib\site-packages (from jsonschema!=2.5.0,&gt;=2.4-&gt;nbformat&gt;=4.4-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (20.3.0)
+Requirement already satisfied: six&gt;=1.11.0 in c:\users\gduscher\anaconda3\lib\site-packages (from jsonschema!=2.5.0,&gt;=2.4-&gt;nbformat&gt;=4.4-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (1.15.0)
+Requirement already satisfied: pyrsistent&gt;=0.14.0 in c:\users\gduscher\anaconda3\lib\site-packages (from jsonschema!=2.5.0,&gt;=2.4-&gt;nbformat&gt;=4.4-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (0.17.3)
+Requirement already satisfied: terminado&gt;=0.8.3 in c:\users\gduscher\anaconda3\lib\site-packages (from notebook&gt;=4.0-&gt;jupyter_contrib_nbextensions) (0.9.2)
+Requirement already satisfied: argon2-cffi in c:\users\gduscher\anaconda3\lib\site-packages (from notebook&gt;=4.0-&gt;jupyter_contrib_nbextensions) (20.1.0)
+Requirement already satisfied: prometheus-client in c:\users\gduscher\anaconda3\lib\site-packages (from notebook&gt;=4.0-&gt;jupyter_contrib_nbextensions) (0.9.0)
+Requirement already satisfied: Send2Trash in c:\users\gduscher\anaconda3\lib\site-packages (from notebook&gt;=4.0-&gt;jupyter_contrib_nbextensions) (1.5.0)
+Requirement already satisfied: ipykernel in c:\users\gduscher\anaconda3\lib\site-packages (from notebook&gt;=4.0-&gt;jupyter_contrib_nbextensions) (5.4.2)
+Requirement already satisfied: pywinpty&gt;=0.5 in c:\users\gduscher\anaconda3\lib\site-packages (from terminado&gt;=0.8.3-&gt;notebook&gt;=4.0-&gt;jupyter_contrib_nbextensions) (0.5.7)
+Requirement already satisfied: cffi&gt;=1.0.0 in c:\users\gduscher\anaconda3\lib\site-packages (from argon2-cffi-&gt;notebook&gt;=4.0-&gt;jupyter_contrib_nbextensions) (1.14.4)
+Requirement already satisfied: pycparser in c:\users\gduscher\anaconda3\lib\site-packages (from cffi&gt;=1.0.0-&gt;argon2-cffi-&gt;notebook&gt;=4.0-&gt;jupyter_contrib_nbextensions) (2.20)
+Requirement already satisfied: webencodings in c:\users\gduscher\anaconda3\lib\site-packages (from bleach-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (0.5.1)
+Requirement already satisfied: packaging in c:\users\gduscher\anaconda3\lib\site-packages (from bleach-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (20.8)
+Requirement already satisfied: backcall in c:\users\gduscher\anaconda3\lib\site-packages (from ipython-&gt;jupyter-latex-envs&gt;=1.3.8-&gt;jupyter_contrib_nbextensions) (0.2.0)
+Requirement already satisfied: jedi&gt;=0.10 in c:\users\gduscher\anaconda3\lib\site-packages (from ipython-&gt;jupyter-latex-envs&gt;=1.3.8-&gt;jupyter_contrib_nbextensions) (0.17.2)
+Requirement already satisfied: decorator in c:\users\gduscher\anaconda3\lib\site-packages (from ipython-&gt;jupyter-latex-envs&gt;=1.3.8-&gt;jupyter_contrib_nbextensions) (4.4.2)
+Requirement already satisfied: prompt-toolkit!=3.0.0,!=3.0.1,&lt;3.1.0,&gt;=2.0.0 in c:\users\gduscher\anaconda3\lib\site-packages (from ipython-&gt;jupyter-latex-envs&gt;=1.3.8-&gt;jupyter_contrib_nbextensions) (3.0.10)
+Requirement already satisfied: pickleshare in c:\users\gduscher\anaconda3\lib\site-packages (from ipython-&gt;jupyter-latex-envs&gt;=1.3.8-&gt;jupyter_contrib_nbextensions) (0.7.5)
+Requirement already satisfied: colorama in c:\users\gduscher\anaconda3\lib\site-packages (from ipython-&gt;jupyter-latex-envs&gt;=1.3.8-&gt;jupyter_contrib_nbextensions) (0.4.4)
+Requirement already satisfied: parso&lt;0.8.0,&gt;=0.7.0 in c:\users\gduscher\anaconda3\lib\site-packages (from jedi&gt;=0.10-&gt;ipython-&gt;jupyter-latex-envs&gt;=1.3.8-&gt;jupyter_contrib_nbextensions) (0.7.0)
+Requirement already satisfied: wcwidth in c:\users\gduscher\anaconda3\lib\site-packages (from prompt-toolkit!=3.0.0,!=3.0.1,&lt;3.1.0,&gt;=2.0.0-&gt;ipython-&gt;jupyter-latex-envs&gt;=1.3.8-&gt;jupyter_contrib_nbextensions) (0.2.5)
+Requirement already satisfied: pyparsing&gt;=2.0.2 in c:\users\gduscher\anaconda3\lib\site-packages (from packaging-&gt;bleach-&gt;nbconvert&gt;=4.2-&gt;jupyter_contrib_nbextensions) (2.4.7)
+</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
@@ -743,7 +743,7 @@ $.getScript('https://kmahelona.github.io/ipython_notebook_goodies/ipython_notebo
 </script></div>
 </div>
 <script type="application/vnd.jupyter.widget-state+json">
-{"state": {"e0b97fe73b944fe599ad0d826a73bc64": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "9ac4670c598a4cfdb276c42608154cdf": {"model_name": "MPLCanvasModel", "model_module": "jupyter-matplotlib", "model_module_version": "^0.8.2", "state": {"_cursor": "pointer", "_dom_classes": [], "_figure_label": "Figure", "_height": 0, "_image_mode": "full", "_message": "", "_model_module": "jupyter-matplotlib", "_model_module_version": "^0.8.2", "_model_name": "MPLCanvasModel", "_rubberband_height": 0, "_rubberband_width": 0, "_rubberband_x": 0, "_rubberband_y": 0, "_view_count": null, "_view_module": "jupyter-matplotlib", "_view_module_version": "^0.8.2", "_view_name": "MPLCanvasView", "_width": 0, "capture_scroll": false, "footer_visible": true, "header_visible": true, "layout": "IPY_MODEL_e0b97fe73b944fe599ad0d826a73bc64", "resizable": true, "toolbar": "IPY_MODEL_8cc1cf2921eb4899860f774b59de7bde", "toolbar_position": "left", "toolbar_visible": true}}, "8bcb6974bd084169a8c6cb737311ebd7": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "8cc1cf2921eb4899860f774b59de7bde": {"model_name": "ToolbarModel", "model_module": "jupyter-matplotlib", "model_module_version": "^0.8.2", "state": {"_current_action": "", "_dom_classes": [], "_model_module": "jupyter-matplotlib", "_model_module_version": "^0.8.2", "_model_name": "ToolbarModel", "_view_count": null, "_view_module": "jupyter-matplotlib", "_view_module_version": "^0.8.2", "_view_name": "ToolbarView", "button_style": "", "collapsed": true, "layout": "IPY_MODEL_8bcb6974bd084169a8c6cb737311ebd7", "orientation": "vertical", "toolitems": [["Home", "Reset original view", "home", "home"], ["Back", "Back to previous view", "arrow-left", "back"], ["Forward", "Forward to next view", "arrow-right", "forward"], ["Pan", "Left button pans, Right button zooms\nx/y fixes axis, CTRL fixes aspect", "arrows", "pan"], ["Zoom", "Zoom to rectangle\nx/y fixes axis, CTRL fixes aspect", "square-o", "zoom"], ["Download", "Download plot", "floppy-o", "save_figure"]]}}}, "version_major": 2, "version_minor": 0}
+{"state": {"bbd01f26578c4760a98b7de211c32f81": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "23e6e7cdd1a4458dbd714ab742c7c891": {"model_name": "MPLCanvasModel", "model_module": "jupyter-matplotlib", "model_module_version": "^0.8.2", "state": {"_cursor": "pointer", "_dom_classes": [], "_figure_label": "Figure", "_height": 0, "_image_mode": "full", "_message": "", "_model_module": "jupyter-matplotlib", "_model_module_version": "^0.8.2", "_model_name": "MPLCanvasModel", "_rubberband_height": 0, "_rubberband_width": 0, "_rubberband_x": 0, "_rubberband_y": 0, "_view_count": null, "_view_module": "jupyter-matplotlib", "_view_module_version": "^0.8.2", "_view_name": "MPLCanvasView", "_width": 0, "capture_scroll": false, "footer_visible": true, "header_visible": true, "layout": "IPY_MODEL_bbd01f26578c4760a98b7de211c32f81", "resizable": true, "toolbar": "IPY_MODEL_aa48abc254704e1a9a5a15f8cdc65433", "toolbar_position": "left", "toolbar_visible": true}}, "79a47e18ae8642fcbfad41d0280cd466": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "aa48abc254704e1a9a5a15f8cdc65433": {"model_name": "ToolbarModel", "model_module": "jupyter-matplotlib", "model_module_version": "^0.8.2", "state": {"_current_action": "", "_dom_classes": [], "_model_module": "jupyter-matplotlib", "_model_module_version": "^0.8.2", "_model_name": "ToolbarModel", "_view_count": null, "_view_module": "jupyter-matplotlib", "_view_module_version": "^0.8.2", "_view_name": "ToolbarView", "button_style": "", "collapsed": true, "layout": "IPY_MODEL_79a47e18ae8642fcbfad41d0280cd466", "orientation": "vertical", "toolitems": [["Home", "Reset original view", "home", "home"], ["Back", "Back to previous view", "arrow-left", "back"], ["Forward", "Forward to next view", "arrow-right", "forward"], ["Pan", "Left button pans, Right button zooms\nx/y fixes axis, CTRL fixes aspect", "arrows", "pan"], ["Zoom", "Zoom to rectangle\nx/y fixes axis, CTRL fixes aspect", "square-o", "zoom"], ["Download", "Download plot", "floppy-o", "save_figure"]]}}}, "version_major": 2, "version_minor": 0}
 </script></div>
 </div>
 

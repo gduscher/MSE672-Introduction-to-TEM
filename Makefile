@@ -23,3 +23,6 @@ help:
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 	echo > docs/.nojekyll
+	
+	https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM/main/Introduction/CH1_01-Introduction_Python.ipynb
+	https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM/main/blob/Introduction/CH1_02-Prerequisites.ipynb
