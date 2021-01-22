@@ -20,7 +20,7 @@ by Gerd Duscher
 Transmission electron microscopy is an essential tool for the characterization of materials especially of nano-structured and quantum materials. There are many different modes of operation and many different techniques available and the goal of this course is for the student be able to choose the best method for the problem at hand.
 
 Scope of Course
-===============
+---------------
 
 The focus will be on the basics of
 
@@ -51,11 +51,12 @@ You can `download all course notebooks <https://github.com/gduscher/MSE672-Intro
 from github as a zip file.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Course Contents:
 
-   Introduction <./notebooks/index>
-   Computer Resources <./ComputerResources/index>
+   Introduction <./Introduction/index>
+   Diffraction <./Diffraction/index>
+   
 
 Indices and tables
 ==================
@@ -63,3 +64,5 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+
