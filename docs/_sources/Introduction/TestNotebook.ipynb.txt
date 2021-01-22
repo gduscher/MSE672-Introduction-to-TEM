@@ -101,7 +101,9 @@
     "\n",
     "plt.figure()\n",
     "plt.plot(x,y, color='red', linewidth=2)\n",
-    "plt.text(0,0, 'MSE 672',ha='center')\n",
+    "plt.text(-23, 0,  'I', ha='center', va='center', fontsize=206)\n",
+    "\n",
+    "plt.text(20,0, 'MSE 672',va='center', fontsize=206)\n",
     "plt.gca().set_aspect('equal')"
    ]
   },
