@@ -1,0 +1,415 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<font size = \"5\"> **Chapter 1: [Introduction](CH1_00-Introduction.ipynb)** </font>\n",
+    "\n",
+    "\n",
+    "<hr style=\"height:1px;border-top:4px solid #FF8200\" />\n",
+    "\n",
+    "# Introduction to Python as it is used in this lecture\n",
+    "\n",
+    "[Download](https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Introduction/CH1_01-Introduction_Python.ipynb)\n",
+    " \n",
+    "[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](\n",
+    "    https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/Introduction/CH1_01-Introduction_Python.ipynb)\n",
+    "\n",
+    "\n",
+    "\n",
+    "part of \n",
+    "\n",
+    "<font size = \"5\"> **[MSE672:  Introduction to Transmission Electron Microscopy](_MSE672_Intro_TEM.ipynb)**</font>\n",
+    "\n",
+    "by Gerd Duscher, Fall 2021\n",
+    "\n",
+    "Microscopy Facilities<br>\n",
+    "Joint Institute of Advanced Materials<br>\n",
+    "Materials Science & Engineering<br>\n",
+    "The University of Tennessee, Knoxville\n",
+    "\n",
+    "Background and methods to analysis and quantification of data acquired with transmission electron microscopes.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Coding\n",
+    "First of all, **you do not need to program anything**, however, you will have to change the values of input parameters in the code cells. Of course, you are encouraged to modify the code in order to explore the data analysis methods, what can go wrong. \n",
+    "\n",
+    "In this book, we will use the python program language.\n",
+    "For this language, a lot of packages are available that provide algorythms for all common mathematical and statistical needs.\n",
+    "\n",
+    "In this book we rely most heavily on the standard numerical and scientific library:<b> numpy and scipy </b>\n",
+    "\n",
+    "The philosophy of this book is not to reinvent the wheel but to use those package which are highly optimized.\n",
+    "The code should be as easy to read as possible, which means \n",
+    "    * the variable names are chosen in the same manner as in the formulas, \n",
+    "    * the routines of the different packages are not wrapped in others \n",
+    "    * the code is written step by step and not organized in classes \n",
+    "\n",
+    "\n",
+    "\n",
+    "### An Example\n",
+    "We will do a lot of vector algebra so as an example we want to compute the angle between two vectors, \n",
+    "\n",
+    "which is calculated by the dot product: $\\vec{a} \\cdot \\vec{b} = \\left| \\vec{a} \\right| \\left| \\vec{b} \\right| \\cos (\\theta) $\n",
+    "\n",
+    "The dot product is really the projection of one vector onto the other one:\n",
+    "<img src=\"images/dot_product.jpg\" alt=\"dot_product\" width=\"200px\"/>\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The angle between vectors a and b is 49.80°\n"
+     ]
+    }
+   ],
+   "source": [
+    "# We need to import the numpy package\n",
+    "import numpy as np\n",
+    "\n",
+    "# We define the two vectors\n",
+    "a_vector = [1,1,2]\n",
+    "b_vector = [0,3,1]\n",
+    "\n",
+    "# calculate the lengths of the vectors\n",
+    "a_length = np.linalg.norm(a_vector)\n",
+    "b_length = np.linalg.norm(b_vector)\n",
+    "\n",
+    "#now the angle between vectors a and b according to above formula\n",
+    "theta = np.arccos(np.dot(a_vector, b_vector) / (a_length * b_length) )\n",
+    "\n",
+    "print(f'The angle between vectors a and b is {np.degrees(theta):.2f}°' )     "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Change the vectors now (python is picky about commas and kind of brackets, so leave those alone).\n",
+    "\n",
+    "### Vector Norm\n",
+    "In the above formula we use the **norm** function of the Linear Algebra package **linalg** of **numpy**\n",
+    "\n",
+    "Of course the dot product of a vector with itself would give the square of the length of the vector:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Square root of dot product of vector with itself\n",
+      "2.449489742783178\n",
+      "\n",
+      " Two other ways to calculate this\n",
+      "2.449489742783178\n",
+      "2.449489742783178\n"
+     ]
+    }
+   ],
+   "source": [
+    "print('Square root of dot product of vector with itself')\n",
+    "print(np.sqrt(np.dot(a_vector,a_vector)))\n",
+    "\n",
+    "print('\\n Two other ways to calculate this')\n",
+    "print(np.sqrt(a_vector[0]**2+a_vector[1]**2+a_vector[2]**2))\n",
+    "\n",
+    "print(np.linalg.norm(a_vector))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In crystallography we would use the normed (or unit) vectors $\\hat{a}$ and $\\hat{b}$ which are defined as  $\\hat{a} = \\frac{\\vec{a}}{\\left| \\vec{a} \\right|}$.\n",
+    "\n",
+    "The dot product is then directly the cos of the angle: \n",
+    "\n",
+    "$\\hat{a} \\cdot \\hat{b} = \\cos (\\theta) $"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The angle between vectors a and b is 49.80°\n"
+     ]
+    }
+   ],
+   "source": [
+    "# unit vectors\n",
+    "a_normed = a_vector/a_length\n",
+    "b_normed = b_vector/b_length\n",
+    "\n",
+    "theta = np.arccos(np.dot(a_normed, b_normed) )\n",
+    "\n",
+    "print(f'The angle between vectors a and b is {np.degrees(theta):.2f}°' )     \n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Functions\n",
+    "For a task you use more often you might want to define a function to do that task in a reproducable manner.\n",
+    "\n",
+    "In the remainder of the course most computer code in the code cell is also available in the TEMlib library to improve readability of the notebooks for analyzing data.\n",
+    "\n",
+    "One always makes sure that one comments those functions."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Help on function angle_between_two_vectors in module __main__:\n",
+      "\n",
+      "angle_between_two_vectors(vector1, vector2)\n",
+      "    Calculation of the angle between two vectors of the same dimension by arccos of the dot product\n",
+      "    \n",
+      "    Input:\n",
+      "    ------\n",
+      "        vector1, vector2: two vectors as lists or numpy arrays\n",
+      "        \n",
+      "    Output:\n",
+      "    -------\n",
+      "        angle: angle between the vectors in radians\n",
+      "\n",
+      "The angle between vectors a: [1, 1, 2] and b: [0, 3, 1] is 49.80°\n"
+     ]
+    }
+   ],
+   "source": [
+    "def angle_between_two_vectors(vector1, vector2):\n",
+    "    \"\"\"\n",
+    "    \n",
+    "    Calculation of the angle between two vectors of the same dimension by arccos of the dot product\n",
+    "    \n",
+    "    Input:\n",
+    "    ------\n",
+    "        vector1, vector2: two vectors as lists or numpy arrays\n",
+    "        \n",
+    "    Output:\n",
+    "    -------\n",
+    "        angle: angle between the vectors in radians\n",
+    "    \"\"\"\n",
+    "    # calculate the lengths of the vectors\n",
+    "    vector1_length = np.linalg.norm(vector1)\n",
+    "    vector2_length = np.linalg.norm(vector2)\n",
+    "    \n",
+    "    #now the angle between vectors a and b according to above formula\n",
+    "    angle = np.arccos(np.dot(vector1/vector1_length, vector2/vector2_length) )\n",
+    "    \n",
+    "    return angle #in radians\n",
+    "help(angle_between_two_vectors)\n",
+    "theta = angle_between_two_vectors(a_vector, b_vector)\n",
+    "\n",
+    "print(f'The angle between vectors a: {a_vector} and b: {b_vector} is {np.degrees(theta):.2f}°')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Python Usage in this Course\n",
+    "\n",
+    "We will not use a python function as shown above, because we actually just wrapped the arccos (dot product) functions and did not do anything new.\n",
+    "\n",
+    "While this may be a good idea to make a code more readable, this approach also hides a lot of what is going on in a program. Also, such a code tends to be rather splintered and one has to look layer by layer deeper if one wants to find out how something is calculated exactly.\n",
+    "\n",
+    "Therefore in this course, we will use functions only for more complex issues and avoid wrapping.\n",
+    "Obviously, there are choices to be made and so the optimum may not always be striked. Please let me know any improvement you feel make things easier to grasp."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Effective Use of numpy\n",
+    "The real power of numpy will be evident if we code a function that will do the angles of a whole vector field."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "angles of vector field to first vector\n",
+      "[ 0.    49.797 40.203]\n"
+     ]
+    }
+   ],
+   "source": [
+    "def angles_to_first_vector(vector_field):\n",
+    "    \"\"\"\n",
+    "    \n",
+    "    Calculation of the angle first vector and the whole vector field by arccos of the dot product\n",
+    "    \n",
+    "    Input:\n",
+    "    ------\n",
+    "        vector_field: a list or numpy array of vectors as lists or numpy arrays\n",
+    "        \n",
+    "    Output:\n",
+    "    -------\n",
+    "        angles: angles between first and all vectors in radians\n",
+    "    \"\"\"\n",
+    "    \n",
+    "    # calculate the normed vectors\n",
+    "    norm= np.linalg.norm(vector_field, axis=1) # our vectors are along axis 1\n",
+    "    vector_field_normed = vector_field/norm[:,np.newaxis]   #divide each vector by its norm\n",
+    "    \n",
+    "    #now the angle between each vector in the vector field and the first vector according to above formula\n",
+    "    dot_products = np.dot(vector_field_normed, vector_field_normed[0])\n",
+    "    \n",
+    "    ### To avoid rounding error induced confusion\n",
+    "    dot_products[dot_products > 1] = 1\n",
+    "    dot_products[dot_products <-1] =-1\n",
+    "    \n",
+    "    angles = np.arccos(dot_products) \n",
+    "    return angles #in radians\n",
+    "\n",
+    "# Now we define a vector field\n",
+    "vectors = [a_vector, b_vector, [3,2,1]]\n",
+    "\n",
+    "# and then we calculate the angles of the first vector to the whole field\n",
+    "angles = angles_to_first_vector(vectors)\n",
+    "print('angles of vector field to first vector')\n",
+    "print(np.round(np.degrees(angles),3))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Libraries and Classes\n",
+    "\n",
+    "The functions used in this lecture are organized in libraries.\n",
+    "\n",
+    "For a more modern programming approach they could also be grouped in classes, but classes  put another layer between the notebook and code, which is desirable for abstraction but not necessarily for understanding.\n",
+    "\n",
+    "So for the course of this course the functions will be made available in libraries, which can be wrapped in classes for a more monolithic program.\n",
+    "\n",
+    "A graphical user interface (GUI) was conciously omitted in this course to encourage the user to mess around in the code.\n",
+    "So please change the vectors and see how the angle will change.\n",
+    "\n",
+    "## A word of caution:\n",
+    "A notebook can become confusing, if one does not go through it in a sequential way, because the values of parameters can be changed at any stage in any code cell without the other cells having any knowledge about that.\n",
+    "\n",
+    "A program or function will not have that kind of confusing tendency, and therefore, once we understand atopic,  a comprehensive function will be provided, like in the case of the angle function.\n",
+    "If in doubt, let the notebook run all the way through.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Navigation\n",
+    "- **Next: [Prerequesites](CH1_02-Prerequisites.ipynb)**\n",
+    "- **UP: [Chapter 1](CH1-00-Introduction.ipynb)**\n",
+    "- **List of Content: [Front](_MSE672_Intro_TEM.ipynb)**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.6"
+  },
+  "toc": {
+   "base_numbering": "2",
+   "nav_menu": {},
+   "number_sections": true,
+   "sideBar": true,
+   "skip_h1_title": false,
+   "title_cell": "Table of Contents",
+   "title_sidebar": "Contents",
+   "toc_cell": false,
+   "toc_position": {},
+   "toc_section_display": true,
+   "toc_window_display": true
+  },
+  "varInspector": {
+   "cols": {
+    "lenName": 16,
+    "lenType": 16,
+    "lenVar": 40
+   },
+   "kernels_config": {
+    "python": {
+     "delete_cmd_postfix": "",
+     "delete_cmd_prefix": "del ",
+     "library": "var_list.py",
+     "varRefreshCmd": "print(var_dic_list())"
+    },
+    "r": {
+     "delete_cmd_postfix": ") ",
+     "delete_cmd_prefix": "rm(",
+     "library": "var_list.r",
+     "varRefreshCmd": "cat(var_dic_list()) "
+    }
+   },
+   "types_to_exclude": [
+    "module",
+    "function",
+    "builtin_function_or_method",
+    "instance",
+    "_Feature"
+   ],
+   "window_display": true
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
