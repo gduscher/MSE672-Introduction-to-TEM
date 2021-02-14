@@ -54,8 +54,8 @@ from github as a zip file.
    :maxdepth: 1
    :caption: Course Contents:
 
-   Introduction <./Introduction/index>
-   Diffraction <./Diffraction/index>
+   Introduction <../../Introduction/index>
+   Diffraction <../../Diffraction/index>
    
 
 Indices and tables
