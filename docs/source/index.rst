@@ -51,11 +51,11 @@ You can `download all course notebooks <https://github.com/gduscher/MSE672-Intro
 from github as a zip file.
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Course Contents:
 
-   Introduction <../../Introduction/index>
-   Diffraction <../../Diffraction/index>
+   Introduction <./Introduction/index>
+   Diffraction <./Diffraction/index>
    
 
 Indices and tables
