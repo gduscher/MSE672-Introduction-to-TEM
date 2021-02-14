@@ -44,4 +44,4 @@ jobs:
         target_branch: gh-pages
         build_dir: docs/_build/html
       env:
-        GITHUB_TOKEN: ${{ secrets.GERD2 }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
