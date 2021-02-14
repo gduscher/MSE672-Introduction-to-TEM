@@ -45,5 +45,5 @@ jobs:
         target_branch: gh-pages
         build_dir: docs/_build/html
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_PAGES }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
   
