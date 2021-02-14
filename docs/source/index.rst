@@ -55,7 +55,7 @@ from github as a zip file.
    :caption: Course Contents:
 
    Introduction <./Introduction/index>
-   Diffraction <./Diffraction/index>
+   Diffraction <Diffraction/index>
    
 
 Indices and tables
@@ -65,4 +65,10 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+.. toctree::
+   :glob:
+   :maxdepth: 2
+   :caption: Examples
+
+   Introduction/index
 
