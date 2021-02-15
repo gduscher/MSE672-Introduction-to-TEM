@@ -41,7 +41,7 @@ I am using jupyter notebooks in my lectures and research and so here is a collec
 
 You will not have to install anything but you can use the notebooks in ``Google colab``. Here is a 
 `link to a notebook <https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/Introduction/TestNotebook.ipynb>`_
- to try it out.
+to try it out.
 
 However, you will not have the full functionality of the jupyter notebooks on colab, and so I suggest to install anaconda on your laptop. You will need a fairly new version of anaconda and if you have an old version, the best way is to reinstall anaconda again.
 
@@ -55,8 +55,11 @@ from github as a zip file.
    :caption: Course Contents:
 
    Introduction <./Introduction/index>
-   Diffraction <Diffraction/index>
-   
+   Introduction<'../../Introduction/index'>
+   Introduction<../../Introduction/index>
+   Diffraction<..\..\Diffraction\index>
+   ..\..\Diffraction/index
+
 
 Indices and tables
 ==================
