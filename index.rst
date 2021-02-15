@@ -56,6 +56,8 @@ from github as a zip file.
 
    Introduction <./Introduction/index>
    Diffraction <./Diffraction/index>
+
+   Lab Course <./Lab_Course/index>
    
 
 Indices and tables
