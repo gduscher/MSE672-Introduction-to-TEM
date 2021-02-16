@@ -4,8 +4,8 @@ Diffraction
 
 This folder contains notebooks of the Chapter 2: Diffraction .
 
-Kinemtic Theory
----------------
+Kinematic Theory
+----------------
 
 - `Overview <./CH2_00-Diffraction.html>`_
 - `Electron <./CH2_01-Electron.html>`_
@@ -28,6 +28,8 @@ Dynamic Theory
 --------------
 
 - `Bethe Theory <./CH2_D01-Bloch.html>`_
+
+
 .. toctree::
     :maxdepth: 2
     :caption: Notebooks
