@@ -4,6 +4,8 @@ Diffraction
 
 This folder contains notebooks of the Chapter 2: Diffraction .
 
+Kinematic Theory
+----------------
 
 - `Overview <./CH2_00-Diffraction.html>`_
 - `Electron <./CH2_01-Electron.html>`_
@@ -21,6 +23,12 @@ This folder contains notebooks of the Chapter 2: Diffraction .
 - `HOLZ Lines <./CH2_11-HOLZ_Lines.html>`_
 - `Lattice Determination with HOLZ <./CH2_12-HOLZ_Example.html>`_
 - `Kinematic Diffraction with KinsCat <./CH2_13-Kinematic_Diffraction_with_KinsCat.html>`_
+
+Dynamic Theory
+--------------
+
+- `Bethe Theory <./CH2_D01-Bloch.html>`_
+
 
 .. toctree::
     :maxdepth: 2
@@ -41,3 +49,5 @@ This folder contains notebooks of the Chapter 2: Diffraction .
     CH2_11-HOLZ_Lines.ipynb
     CH2_12-HOLZ_Example.ipynb
     CH2_13-Kinematic_Diffraction_with_KinsCat.ipynb
+
+    CH2_D01-Bloch.ipynb
