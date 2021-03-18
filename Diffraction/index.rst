@@ -28,6 +28,13 @@ Dynamic Theory
 --------------
 
 - `Bethe Theory <./CH2_D01-Bloch.html>`_
+- `Multislice Algorithm <./CH2_D02-Mutlislice.html>`_
+- `CBED with Multislics <./CH2_D03-Multislice_CBED>`_
+
+
+Homework
+--------
+- `Homework 5 <./CH2_HW5-CBED.html>`_
 
 
 .. toctree::
@@ -51,3 +58,7 @@ Dynamic Theory
     CH2_13-Kinematic_Diffraction_with_KinsCat.ipynb
 
     CH2_D01-Bloch.ipynb
+    CH2_D02-Mutlislice.ipynb
+    CH2_D03-Multislice_CBED.ipynb
+
+    CH2_HW5-CBED.ipynb
