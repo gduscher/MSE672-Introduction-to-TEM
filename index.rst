@@ -56,6 +56,10 @@ from github as a zip file.
 
    Introduction <./Introduction/index>
    Diffraction <./Diffraction/index>
+   Imaging <./Imaging/index>
+   Spectroscopy <./Spectroscopy/index>
+   Instrument <./Instrument/index>
+
 
    Lab Course <./Lab_Course/index>
    
