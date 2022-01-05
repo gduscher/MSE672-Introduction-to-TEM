@@ -39,16 +39,14 @@ I am using jupyter notebooks in my lectures and research and so here is a collec
    However, you are required to change input parameters and you are enouraged to play around with the notebooks
 
 
-You will not have to install anything but you can use the notebooks in ``Google colab``. Here is a 
-`link to a notebook <https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/Introduction/TestNotebook.ipynb>`_
- to try it out.
-
-However, you will not have the full functionality of the jupyter notebooks on colab, and so I suggest to install anaconda on your laptop. You will need a fairly new version of anaconda and if you have an old version, the best way is to reinstall anaconda again.
+You will not have to install  anaconda on your laptop.
+You will need a fairly new version of anaconda and if you have an old version, the best way is to reinstall anaconda again.
 
 The notebooks are all based on a library of functions called `pyTEMlib <https://github.com/pycroscopy/pyTEMlib>`_
 
 You can `download all course notebooks <https://github.com/gduscher/MSE672-Introduction-to-TEM/archive/main.zi>`_
-from github as a zip file.
+from github as a zip file. However, I recommend you to use the Github desktop for a convenient way to have always the
+notebooks og the latest version on your computer.
 
 .. toctree::
    :maxdepth: 1
