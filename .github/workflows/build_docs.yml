@@ -1,9 +1,5 @@
 name: Build Sphinx Documentation
 
-runs:
-  using: 'node16'
-  main: 'main.js'
-
 on:
   pull_request:
     branches:
@@ -21,11 +17,11 @@ jobs:
         python-version: [3.9]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@vv3.6.0
       
     - name: Set up Python ${{ matrix.python-version }}
       
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@vv3.6.0
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
