@@ -1,5 +1,9 @@
 name: Build Sphinx Documentation
 
+runs:
+  using: 'node16'
+  main: 'main.js'
+
 on:
   pull_request:
     branches:
