@@ -52,8 +52,8 @@ notebooks og the latest version on your computer.
    :maxdepth: 1
    :caption: Course Contents:
 
-   Introduction <./Introduction/index>
-   Diffraction <./Diffraction/index>
+   Introduction <../Introduction/index>
+   Diffraction <../Diffraction/index>
    Imaging <./Imaging/index>
    Spectroscopy <./Spectroscopy/index>
    Instrument <./Instrument/index>
