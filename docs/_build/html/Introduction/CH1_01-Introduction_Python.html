@@ -1,0 +1,1095 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>1.1. Introduction to Python as it is used in this lecture &#8212; Introduction to Transmisison Electron Microscopy</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="1.2. Prerequisites" href="CH1_02-Prerequisites.html" />
+    <link rel="prev" title="1. Introduction" href="../introduction.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Introduction to Transmisison Electron Microscopy</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Foreword (ReadME)
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../introduction.html">
+   1. Introduction
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     1.1. Introduction to Python as it is used in this lecture
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CH1_02-Prerequisites.html">
+     1.2. Prerequisites
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CH1_03-Data_Representation.html">
+     1.3. Matplotlib and Numpy for Micrographs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CH1_04-Open_File.html">
+     1.4. Open DM3 Images, Spectra, Spectrum-Images and  Image-Stacks with pyNSID
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CH1_05-Course_Organization.html">
+     1.5. Course Organization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CH1_06-Overview.html">
+     1.6. Overview Notebook
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CH1_07-Electron-Optics.html">
+     1.7. Electron Optics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="install_conda.html">
+     1.8. Installation on your own computer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="computer_resources.html">
+     1.9. Setting up computing resources
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../diffraction.html">
+   2. Diffraction
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_01-Electron.html">
+     2.2. The Electron
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_02-Atomic_Form_Factor.html">
+     2.3. Atomic Form Factor
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_03-Basic_Crystallography.html">
+     2.4. Basic Crystallography
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_04-Structure_Factors.html">
+     2.5. Structure Factors
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_05-Diffraction_Rings.html">
+     2.6. Analyzing Ring Diffraction Pattern
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_06-Kinematic_Scattering_Geometry.html">
+     2.7. Kinematic Scattering Geometry
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_07-Plotting_Diffraction_Pattern.html">
+     2.8. Plotting Diffraction Pattern
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_08-Spot_Diffraction_Pattern.html">
+     2.9. Analyzing Spot Diffraction Pattern
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_09-Unit_Cell.html">
+     2.10. Unic Cell Determination and Stereographic Projection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_10-Kikuchi_Lines.html">
+     2.11. Kikuchi Lines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_11-HOLZ_Lines.html">
+     2.12. HOLZ Lines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_12-HOLZ_Example.html">
+     2.13. Lattice Determination with HOLZ
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_D01-Bloch.html">
+     2.16. Bethe Theory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_D02-Multislice.html">
+     2.17. Multislice Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_D03-Multislice_CBED.html">
+     2.18. CBED - Multislice Algorithm
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../imaging.html">
+   3. Imaging
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_01-Resolution.html">
+     3.1. Resolution Limit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_03-CTF.html">
+     3.2. Contrast Transfer Function
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_04-Linear_Image_Approximation.html">
+     3.3. Linear Image Approximation: Weak Phase Object
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_05-Defocus_Thickness.html">
+     3.4. Defocus-Thickness Map with Multislice Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_06-Image_Processing.html">
+     3.5. Image Processing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_07-Image_Analysis.html">
+     3.6. Image Analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_08-Thermal_Diffuse_Scattering.html">
+     3.8. Thermal-Diffuse Scattering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_09-Z_Contrast.html">
+     3.9. Z-Contrast Imaging
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_10-Ronchigram.html">
+     3.10. Ronchigram
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../spectroscopy.html">
+   4. Spectroscopy
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_01-Introduction.html">
+     4.1. Introduction to  Electron Energy-Loss Spectroscopy
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_02-Fit_Zero_Loss.html">
+     4.7. Fit of Zero-Loss Peak
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_03-Drude.html">
+     4.8. Analysing Low-Loss Spectra with Drude Theory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_07-Introduction_Core_Loss.html">
+     4.9. Introduction to Core-Loss Spectroscopy
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_08-Chemical_Composition.html">
+     4.10. Chemical Composition in Core-Loss Spectra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_09-Analyse_Core_Loss.html">
+     4.11. Analysis of Core-Loss Spectra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_10-ELNES.html">
+     4.12. Energy-Loss Near-Edge Structure
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_12-Introduction_X_Rays.html">
+     4.13. Chapter 4
+     <span class="xref myst">
+      Spectroscopy
+     </span>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_13-Bremsstrahlung.html">
+     4.15. Chapter 4
+     <span class="xref myst">
+      Spectroscopy
+     </span>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_14-Characteristic_X_Rays.html">
+     4.17. Chapter 4
+     <span class="xref myst">
+      Spectroscopy
+     </span>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_15-Detector.html">
+     4.19. Chapter 4
+     <span class="xref myst">
+      Spectroscopy
+     </span>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_16-Analyze_EDS_Spectrum.html">
+     4.23. Chapter 4
+     <span class="xref myst">
+      Spectroscopy
+     </span>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_17-Quantify_EDS_Spectrum.html">
+     4.26. Chapter 4
+     <span class="xref myst">
+      Spectroscopy
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../homework.html">
+   5. Homework
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Homework/Homework01.html">
+     5.1. Homework 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Homework/Homework02.html">
+     5.2. Homework 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Homework/Homework03.html">
+     5.4. Homework 3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Homework/Homework04.html">
+     5.5. Homework 4
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Homework/Homework05-CBED.html">
+     5.6. HW5:  Analyzing CBED Pattern
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/gduscher/MSE672-Introduction-to-TEM/main?urlpath=tree/docs/Introduction/CH1_01-Introduction_Python.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/gduscher/MSE672-Introduction-to-TEM"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/gduscher/MSE672-Introduction-to-TEM/issues/new?title=Issue%20on%20page%20%2FIntroduction/CH1_01-Introduction_Python.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/Introduction/CH1_01-Introduction_Python.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#coding">
+   1.1.1. Coding
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#an-example">
+     1.1.1.1. An Example
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#vector-norm">
+     1.1.1.2. Vector Norm
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#functions">
+   1.1.2. Functions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#python-usage-in-this-course">
+   1.1.3. Python Usage in this Course
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#effective-use-of-numpy">
+   1.1.4. Effective Use of numpy
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#libraries-and-classes">
+   1.1.5. Libraries and Classes
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-word-of-caution">
+   1.1.6. A word of caution:
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#navigation">
+   1.1.7. Navigation
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Introduction to Python as it is used in this lecture</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#coding">
+   1.1.1. Coding
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#an-example">
+     1.1.1.1. An Example
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#vector-norm">
+     1.1.1.2. Vector Norm
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#functions">
+   1.1.2. Functions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#python-usage-in-this-course">
+   1.1.3. Python Usage in this Course
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#effective-use-of-numpy">
+   1.1.4. Effective Use of numpy
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#libraries-and-classes">
+   1.1.5. Libraries and Classes
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-word-of-caution">
+   1.1.6. A word of caution:
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#navigation">
+   1.1.7. Navigation
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <p><font size = "5"> <strong>Chapter 1: <a class="reference internal" href="CH1_00-Introduction.html"><span class="doc std std-doc">Introduction</span></a></strong> </font></p>
+<hr style="height:1px;border-top:4px solid #FF8200" />
+<section class="tex2jax_ignore mathjax_ignore" id="introduction-to-python-as-it-is-used-in-this-lecture">
+<h1><span class="section-number">1.1. </span>Introduction to Python as it is used in this lecture<a class="headerlink" href="#introduction-to-python-as-it-is-used-in-this-lecture" title="Permalink to this headline">#</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Introduction/CH1_01-Introduction_Python.ipynb">Download</a></p>
+<p>part of</p>
+<p><font size = "5"> <strong><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc std std-doc">MSE672:  Introduction to Transmission Electron Microscopy</span></a></strong></font></p>
+<p>by Gerd Duscher, Spring 2023</p>
+<p>Microscopy Facilities<br>
+Institute of Advanced Materials &amp; Manufacturing<br>
+Materials Science &amp; Engineering<br>
+The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<section id="coding">
+<h2><span class="section-number">1.1.1. </span>Coding<a class="headerlink" href="#coding" title="Permalink to this headline">#</a></h2>
+<p>First, <strong>you do not need to program anything</strong>, however, you will have to change the values of input parameters in the code cells. Of course, you are encouraged to modify the code in order to explore the data analysis methods, what can go wrong.</p>
+<p>In this book, we will use the python program language.
+For this language, a lot of packages are available that provide algorithms for all common mathematical and statistical needs.</p>
+<p>In this book we rely most heavily on the standard numerical and scientific library:<b> numpy and scipy </b></p>
+<p>The philosophy of this book is not to reinvent the wheel but to use those package which are highly optimized.
+The code should be as easy to read as possible, which means
+* the variable names are chosen in the same manner as in the formulas,
+* the routines of the different packages are not wrapped in others
+* the code is written step by step and not organized in classes</p>
+<section id="an-example">
+<h3><span class="section-number">1.1.1.1. </span>An Example<a class="headerlink" href="#an-example" title="Permalink to this headline">#</a></h3>
+<p>We will do a lot of vector algebra so as an example we want to compute the angle between two vectors,</p>
+<p>which is calculated by the dot product: <span class="math notranslate nohighlight">\(\vec{a} \cdot \vec{b} = \left| \vec{a} \right| \left| \vec{b} \right| \cos (\theta) \)</span></p>
+<p><span class="math notranslate nohighlight">\( \arccos \left( \frac{\vec{a} \cdot \vec{b}} {\left| \vec{a} \right| \left| \vec{b} \right|} \right) = \theta \)</span></p>
+<p>The dot product is really the projection of one vector onto the other one:
+<img src="images/dot_product.jpg" alt="dot_product" width="200px"/></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We need to import the numpy package</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># We define the two vectors</span>
+
+<span class="n">a_vector</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">b_vector</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
+<span class="c1"># calculate the lengths of the vectors</span>
+<span class="n">a_length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a_vector</span><span class="p">)</span>
+<span class="n">b_length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b_vector</span><span class="p">)</span>
+
+
+<span class="c1">#now the angle between vectors a and b according to above formula</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a_vector</span><span class="p">,</span> <span class="n">b_vector</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a_length</span> <span class="o">*</span> <span class="n">b_length</span><span class="p">)</span> <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The angle between vectors a and b is </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">°&#39;</span> <span class="p">)</span>     
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The angle between vectors a and b is 39.63°
+</pre></div>
+</div>
+</div>
+</div>
+<p>Change the vectors now (python is picky about commas and kind of brackets, so leave those alone).</p>
+</section>
+<section id="vector-norm">
+<h3><span class="section-number">1.1.1.2. </span>Vector Norm<a class="headerlink" href="#vector-norm" title="Permalink to this headline">#</a></h3>
+<p>In the above formula we use the <strong>norm</strong> function of the Linear Algebra package <strong>linalg</strong> of <strong>numpy</strong></p>
+<p>Of course the dot product of a vector with itself would give the square of the length of the vector:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Square root of dot product of vector with itself&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a_vector</span><span class="p">,</span><span class="n">a_vector</span><span class="p">)))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> Two other ways to calculate this&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">a_vector</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">a_vector</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a_vector</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Square root of dot product of vector with itself
+2.449489742783178
+
+ Two other ways to calculate this
+2.449489742783178
+2.449489742783178
+</pre></div>
+</div>
+</div>
+</div>
+<p>In crystallography, we would use the normed (or unit) vectors <span class="math notranslate nohighlight">\(\hat{a}\)</span> and <span class="math notranslate nohighlight">\(\hat{b}\)</span> which are defined as  <span class="math notranslate nohighlight">\(\hat{a} = \frac{\vec{a}}{\left| \vec{a} \right|}\)</span>.</p>
+<p>The dot product is then directly the cos of the angle:</p>
+<p><span class="math notranslate nohighlight">\(\hat{a} \cdot \hat{b} = \cos (\theta) \)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># unit vectors</span>
+<span class="n">a_normed</span> <span class="o">=</span> <span class="n">a_vector</span><span class="o">/</span><span class="n">a_length</span>
+<span class="n">b_normed</span> <span class="o">=</span> <span class="n">b_vector</span><span class="o">/</span><span class="n">b_length</span>
+
+<span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a_normed</span><span class="p">,</span> <span class="n">b_normed</span><span class="p">)</span> <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The angle between vectors a and b is </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">°&#39;</span> <span class="p">)</span>     
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The angle between vectors a and b is 28.67°
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="functions">
+<h2><span class="section-number">1.1.2. </span>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">#</a></h2>
+<p>For a task you use more often you might want to define a function to do that task in a reproducible manner.</p>
+<p>In the remainder of the course most computer code in the code cell is also available in the TEMlib library to improve readability of the notebooks for analyzing data.</p>
+<p>One always makes sure that one comments those functions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">angle_between_two_vectors</span><span class="p">(</span><span class="n">vector1</span><span class="p">,</span> <span class="n">vector2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    Calculation of the angle between two vectors of the same dimension by arccos of the dot product</span>
+<span class="sd">    </span>
+<span class="sd">    Input:</span>
+<span class="sd">    ------</span>
+<span class="sd">        vector1, vector2: two vectors as lists or numpy arrays</span>
+<span class="sd">        </span>
+<span class="sd">    Output:</span>
+<span class="sd">    -------</span>
+<span class="sd">        angle: angle between the vectors in radians</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># calculate the lengths of the vectors</span>
+    <span class="n">vector1_length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vector1</span><span class="p">)</span>
+    <span class="n">vector2_length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vector2</span><span class="p">)</span>
+    
+    <span class="c1">#now the angle between vectors a and b according to above formula</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">vector1</span><span class="o">/</span><span class="n">vector1_length</span><span class="p">,</span> <span class="n">vector2</span><span class="o">/</span><span class="n">vector2_length</span><span class="p">)</span> <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">angle</span> <span class="c1">#in radians</span>
+<span class="n">help</span><span class="p">(</span><span class="n">angle_between_two_vectors</span><span class="p">)</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">angle_between_two_vectors</span><span class="p">(</span><span class="n">a_vector</span><span class="p">,</span> <span class="n">b_vector</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The angle between vectors a: </span><span class="si">{</span><span class="n">a_vector</span><span class="si">}</span><span class="s1"> and b: </span><span class="si">{</span><span class="n">b_vector</span><span class="si">}</span><span class="s1"> is </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">°&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Help on function angle_between_two_vectors in module __main__:
+
+angle_between_two_vectors(vector1, vector2)
+    Calculation of the angle between two vectors of the same dimension by arccos of the dot product
+    
+    Input:
+    ------
+        vector1, vector2: two vectors as lists or numpy arrays
+        
+    Output:
+    -------
+        angle: angle between the vectors in radians
+
+The angle between vectors a: [1, 1, 2] and b: [0, 5, 5.44] is 28.67°
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="python-usage-in-this-course">
+<h2><span class="section-number">1.1.3. </span>Python Usage in this Course<a class="headerlink" href="#python-usage-in-this-course" title="Permalink to this headline">#</a></h2>
+<p>We will not use a python function as shown above, because we actually just wrapped the arccos (dot product) functions and did not do anything new.</p>
+<p>While this may be a good idea to make a code more readable, this approach also hides a lot of what is going on in a program. Also, such a code tends to be rather splintered and one has to look layer by layer deeper if one wants to find out how something is calculated exactly.</p>
+<p>Therefore, in this course, we will use functions only for more complex issues and avoid wrapping.
+Obviously, there are choices to be made and so the optimum may not always be struck. Please let me know any improvement you feel make things easier to grasp.Front</p>
+</section>
+<section id="effective-use-of-numpy">
+<h2><span class="section-number">1.1.4. </span>Effective Use of numpy<a class="headerlink" href="#effective-use-of-numpy" title="Permalink to this headline">#</a></h2>
+<p>The real power of numpy will be evident if we code a function that will do the angles of a whole vector field.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">angles_to_first_vector</span><span class="p">(</span><span class="n">vector_field</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    Calculation of the angle first vector and the whole vector field by arccos of the dot product</span>
+<span class="sd">    </span>
+<span class="sd">    Input:</span>
+<span class="sd">    ------</span>
+<span class="sd">        vector_field: a list or numpy array of vectors as lists or numpy arrays</span>
+<span class="sd">        </span>
+<span class="sd">    Output:</span>
+<span class="sd">    -------</span>
+<span class="sd">        angles: angles between first and all vectors in radians</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># calculate the normed vectors</span>
+    <span class="n">norm</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vector_field</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># our vectors are along axis 1</span>
+    <span class="n">vector_field_normed</span> <span class="o">=</span> <span class="n">vector_field</span><span class="o">/</span><span class="n">norm</span><span class="p">[:,</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>   <span class="c1">#divide each vector by its norm</span>
+    
+    <span class="c1">#now the angle between each vector in the vector field and the first vector according to above formula</span>
+    <span class="n">dot_products</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">vector_field_normed</span><span class="p">,</span> <span class="n">vector_field_normed</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    
+    <span class="c1">### To avoid rounding error induced confusion</span>
+    <span class="n">dot_products</span><span class="p">[</span><span class="n">dot_products</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">dot_products</span><span class="p">[</span><span class="n">dot_products</span> <span class="o">&lt;-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=-</span><span class="mi">1</span>
+    
+    <span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">dot_products</span><span class="p">)</span> 
+    <span class="k">return</span> <span class="n">angles</span> <span class="c1">#in radians</span>
+
+<span class="c1"># Now we define a vector field</span>
+<span class="n">vectors</span> <span class="o">=</span> <span class="p">[</span><span class="n">a_vector</span><span class="p">,</span> <span class="n">b_vector</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+
+<span class="c1"># and then we calculate the angles of the first vector to the whole field</span>
+<span class="n">vector_field_angles</span> <span class="o">=</span> <span class="n">angles_to_first_vector</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;angles of vector field to first vector&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">vector_field_angles</span><span class="p">),</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>angles of vector field to first vector
+[ 0.    28.668 40.203]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="libraries-and-classes">
+<h2><span class="section-number">1.1.5. </span>Libraries and Classes<a class="headerlink" href="#libraries-and-classes" title="Permalink to this headline">#</a></h2>
+<p>The functions used in this lecture are organized in libraries.</p>
+<p>For a more modern programming approach they could also be grouped in classes, but classes  put another layer between the notebook and code, which is desirable for abstraction but not necessarily for understanding.</p>
+<p>So, within this course the functions will be made available in libraries, which can be wrapped in classes for a more monolithic program.</p>
+<p>A graphical user interface (GUI) was consciously omitted in this course to encourage the user to interact withthe code.
+Start now and change the vectors and see how the angle will change.</p>
+</section>
+<section id="a-word-of-caution">
+<h2><span class="section-number">1.1.6. </span>A word of caution:<a class="headerlink" href="#a-word-of-caution" title="Permalink to this headline">#</a></h2>
+<p>A notebook can become confusing, if one does not go through it in sequential order, because the values of parameters can be changed at any stage in any code cell without the other cells having any knowledge about that.</p>
+<p>A program or function will not have that kind of confusing tendency, and therefore, once we understand a topic,  a comprehensive function will be provided, like in the case of the angle function.
+If in doubt, let the notebook run all the way through.</p>
+</section>
+<section id="navigation">
+<h2><span class="section-number">1.1.7. </span>Navigation<a class="headerlink" href="#navigation" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p><font size = "3">  <strong>Next: <a class="reference internal" href="CH1_02-Prerequisites.html"><span class="doc std std-doc">Prerequisites</span></a></strong> </font></p></li>
+<li><p><font size = "3">  <strong>Chapter 1: <a class="reference internal" href="CH1_00-Introduction.html"><span class="doc std std-doc">Introduction</span></a></strong> </font></p></li>
+<li><p><font size = "3">  <strong>List of Content: <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc std std-doc">Front</span></a></strong> </font></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Introduction"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../introduction.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">1. </span>Introduction</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="CH1_02-Prerequisites.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">1.2. </span>Prerequisites</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Gerd Duscher UTK/IAMM<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

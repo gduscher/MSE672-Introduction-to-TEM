@@ -1,0 +1,1444 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>2.2. The Electron &#8212; Introduction to Transmisison Electron Microscopy</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.3. Atomic Form Factor" href="CH2_02-Atomic_Form_Factor.html" />
+    <link rel="prev" title="2. Diffraction" href="../diffraction.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Introduction to Transmisison Electron Microscopy</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Foreword (ReadME)
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../introduction.html">
+   1. Introduction
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Introduction/CH1_01-Introduction_Python.html">
+     1.1. Introduction to Python as it is used in this lecture
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Introduction/CH1_02-Prerequisites.html">
+     1.2. Prerequisites
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Introduction/CH1_03-Data_Representation.html">
+     1.3. Matplotlib and Numpy for Micrographs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Introduction/CH1_04-Open_File.html">
+     1.4. Open DM3 Images, Spectra, Spectrum-Images and  Image-Stacks with pyNSID
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Introduction/CH1_05-Course_Organization.html">
+     1.5. Course Organization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Introduction/CH1_06-Overview.html">
+     1.6. Overview Notebook
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Introduction/CH1_07-Electron-Optics.html">
+     1.7. Electron Optics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Introduction/install_conda.html">
+     1.8. Installation on your own computer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Introduction/computer_resources.html">
+     1.9. Setting up computing resources
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../diffraction.html">
+   2. Diffraction
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     2.2. The Electron
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CH2_02-Atomic_Form_Factor.html">
+     2.3. Atomic Form Factor
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CH2_03-Basic_Crystallography.html">
+     2.4. Basic Crystallography
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CH2_04-Structure_Factors.html">
+     2.5. Structure Factors
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CH2_05-Diffraction_Rings.html">
+     2.6. Analyzing Ring Diffraction Pattern
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CH2_06-Kinematic_Scattering_Geometry.html">
+     2.7. Kinematic Scattering Geometry
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CH2_07-Plotting_Diffraction_Pattern.html">
+     2.8. Plotting Diffraction Pattern
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CH2_08-Spot_Diffraction_Pattern.html">
+     2.9. Analyzing Spot Diffraction Pattern
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CH2_09-Unit_Cell.html">
+     2.10. Unic Cell Determination and Stereographic Projection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CH2_10-Kikuchi_Lines.html">
+     2.11. Kikuchi Lines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CH2_11-HOLZ_Lines.html">
+     2.12. HOLZ Lines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CH2_12-HOLZ_Example.html">
+     2.13. Lattice Determination with HOLZ
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CH2_D01-Bloch.html">
+     2.16. Bethe Theory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CH2_D02-Multislice.html">
+     2.17. Multislice Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="CH2_D03-Multislice_CBED.html">
+     2.18. CBED - Multislice Algorithm
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../imaging.html">
+   3. Imaging
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_01-Resolution.html">
+     3.1. Resolution Limit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_03-CTF.html">
+     3.2. Contrast Transfer Function
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_04-Linear_Image_Approximation.html">
+     3.3. Linear Image Approximation: Weak Phase Object
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_05-Defocus_Thickness.html">
+     3.4. Defocus-Thickness Map with Multislice Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_06-Image_Processing.html">
+     3.5. Image Processing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_07-Image_Analysis.html">
+     3.6. Image Analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_08-Thermal_Diffuse_Scattering.html">
+     3.8. Thermal-Diffuse Scattering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_09-Z_Contrast.html">
+     3.9. Z-Contrast Imaging
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_10-Ronchigram.html">
+     3.10. Ronchigram
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../spectroscopy.html">
+   4. Spectroscopy
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_01-Introduction.html">
+     4.1. Introduction to  Electron Energy-Loss Spectroscopy
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_02-Fit_Zero_Loss.html">
+     4.7. Fit of Zero-Loss Peak
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_03-Drude.html">
+     4.8. Analysing Low-Loss Spectra with Drude Theory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_07-Introduction_Core_Loss.html">
+     4.9. Introduction to Core-Loss Spectroscopy
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_08-Chemical_Composition.html">
+     4.10. Chemical Composition in Core-Loss Spectra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_09-Analyse_Core_Loss.html">
+     4.11. Analysis of Core-Loss Spectra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_10-ELNES.html">
+     4.12. Energy-Loss Near-Edge Structure
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_12-Introduction_X_Rays.html">
+     4.13. Chapter 4
+     <span class="xref myst">
+      Spectroscopy
+     </span>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_13-Bremsstrahlung.html">
+     4.15. Chapter 4
+     <span class="xref myst">
+      Spectroscopy
+     </span>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_14-Characteristic_X_Rays.html">
+     4.17. Chapter 4
+     <span class="xref myst">
+      Spectroscopy
+     </span>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_15-Detector.html">
+     4.19. Chapter 4
+     <span class="xref myst">
+      Spectroscopy
+     </span>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_16-Analyze_EDS_Spectrum.html">
+     4.23. Chapter 4
+     <span class="xref myst">
+      Spectroscopy
+     </span>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_17-Quantify_EDS_Spectrum.html">
+     4.26. Chapter 4
+     <span class="xref myst">
+      Spectroscopy
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../homework.html">
+   5. Homework
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Homework/Homework01.html">
+     5.1. Homework 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Homework/Homework02.html">
+     5.2. Homework 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Homework/Homework03.html">
+     5.4. Homework 3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Homework/Homework04.html">
+     5.5. Homework 4
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Homework/Homework05-CBED.html">
+     5.6. HW5:  Analyzing CBED Pattern
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/gduscher/MSE672-Introduction-to-TEM/main?urlpath=tree/docs/Diffraction/CH2_01-Electron.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/gduscher/MSE672-Introduction-to-TEM"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/gduscher/MSE672-Introduction-to-TEM/issues/new?title=Issue%20on%20page%20%2FDiffraction/CH2_01-Electron.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/Diffraction/CH2_01-Electron.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-packages-for-figures-and">
+   2.2.1. Import packages for figures and
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#check-installed-packages">
+     2.2.1.1. Check Installed Packages
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#load-the-plotting-and-figure-packages">
+     2.2.1.2. Load the plotting and figure packages
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#interaction-of-common-particles-with-matter">
+   2.2.2. Interaction of Common Particles with Matter
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#non-relativistic-de-broglie-wavelength">
+   2.2.3. Non-relativistic de Broglie Wavelength
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#relativistic-correction">
+   2.2.4. Relativistic Correction
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#relativistic-velocity">
+     2.2.4.1. Relativistic velocity
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#that-means-that-the-resolution-is-not-limited-by-the-wavelength">
+   2.2.5. That means that the resolution is not limited by the wavelength!
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#particle-flux-and-current">
+   2.2.6. Particle Flux and Current
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#navigation">
+   2.2.7. Navigation
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>The Electron</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-packages-for-figures-and">
+   2.2.1. Import packages for figures and
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#check-installed-packages">
+     2.2.1.1. Check Installed Packages
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#load-the-plotting-and-figure-packages">
+     2.2.1.2. Load the plotting and figure packages
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#interaction-of-common-particles-with-matter">
+   2.2.2. Interaction of Common Particles with Matter
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#non-relativistic-de-broglie-wavelength">
+   2.2.3. Non-relativistic de Broglie Wavelength
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#relativistic-correction">
+   2.2.4. Relativistic Correction
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#relativistic-velocity">
+     2.2.4.1. Relativistic velocity
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#that-means-that-the-resolution-is-not-limited-by-the-wavelength">
+   2.2.5. That means that the resolution is not limited by the wavelength!
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#particle-flux-and-current">
+   2.2.6. Particle Flux and Current
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#navigation">
+   2.2.7. Navigation
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <p><font size = "5"> <strong>Chapter 2: <a class="reference internal" href="CH2_00-Diffraction.html"><span class="doc std std-doc">Diffraction</span></a></strong> </font></p>
+<hr style="height:1px;border-top:4px solid #FF8200" />
+<section class="tex2jax_ignore mathjax_ignore" id="the-electron">
+<h1><span class="section-number">2.2. </span>The Electron<a class="headerlink" href="#the-electron" title="Permalink to this headline">#</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Diffraction/CH2_01-Electron.ipynb">Download</a></p>
+<p>part of</p>
+<p><font size = "5"> <strong><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc std std-doc">MSE672:  Introduction to Transmission Electron Microscopy</span></a></strong></font></p>
+<p>by Gerd Duscher, Spring 2023</p>
+<p>Microscopy Facilities<br>
+Institute of Advanced Materials &amp; Manufacturing<br>
+Materials Science &amp; Engineering<br>
+The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<p>First we load the code to make figures from pyTEMlib</p>
+<section id="import-packages-for-figures-and">
+<h2><span class="section-number">2.2.1. </span>Import packages for figures and<a class="headerlink" href="#import-packages-for-figures-and" title="Permalink to this headline">#</a></h2>
+<section id="check-installed-packages">
+<h3><span class="section-number">2.2.1.1. </span>Check Installed Packages<a class="headerlink" href="#check-installed-packages" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">get_distribution</span><span class="p">,</span> <span class="n">DistributionNotFound</span>
+
+<span class="k">def</span> <span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">get_distribution</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span><span class="o">.</span><span class="n">version</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">DistributionNotFound</span><span class="p">,</span> <span class="ne">ImportError</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2023.1.0&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span> -m pip install  --upgrade pyTEMlib -q
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>done
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="load-the-plotting-and-figure-packages">
+<h3><span class="section-number">2.2.1.2. </span>Load the plotting and figure packages<a class="headerlink" href="#load-the-plotting-and-figure-packages" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> notebook
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">scipy.constants</span> <span class="k">as</span> <span class="nn">const</span>  <span class="c1">#scientific constants</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="interaction-of-common-particles-with-matter">
+<h2><span class="section-number">2.2.2. </span>Interaction of Common Particles with Matter<a class="headerlink" href="#interaction-of-common-particles-with-matter" title="Permalink to this headline">#</a></h2>
+<p>We generally use electron, photons, and neutrons for diffraction/scattering
+experiments.</p>
+<p>These particles interact with differently with matter:</p>
+ <table style="width:80%">
+  <tr>
+    <td>X-rays</td>
+    <td>$\leftrightarrow$</td>
+    <td>electron density</td>
+  </tr>
+  <tr>
+    <td>neutrons</td>
+    <td>$\leftrightarrow$</td>
+    <td>mass of nucleus</td>
+  </tr>
+  <tr>
+    <td>neutrons</td>
+    <td>$\leftrightarrow$</td>
+    <td>magnetic moment</td>
+  </tr>
+  <tr>
+    <td>electrons</td>
+    <td>$\leftrightarrow$</td>
+    <td>screened charge of nucleus</td>
+  </tr>
+</table> 
+<p>We will deal with the nature of electrons more closely in the following</p>
+</section>
+<section id="non-relativistic-de-broglie-wavelength">
+<h2><span class="section-number">2.2.3. </span>Non-relativistic de Broglie Wavelength<a class="headerlink" href="#non-relativistic-de-broglie-wavelength" title="Permalink to this headline">#</a></h2>
+<p>The electron is a elementary particle with spin <span class="math notranslate nohighlight">\(\frac{1}{2}\)</span> (lepton).</p>
+<p><strong>Non–relativistic De Broglie wavelength</strong> of electron:</p>
+<p><span class="math notranslate nohighlight">\(\lambda = \frac{h}{p} = \frac{h}{\sqrt{2m_0E_{kin}}} \approx \frac{1.22}{\sqrt{E_{kin}}}\)</span></p>
+<p>E is the kinetic energy of the electron: <span class="math notranslate nohighlight">\(E_{kin} = eU \)</span> [eV].</p>
+<p>The wave length in a TEM is usually
+a couple of picometers . This is a
+factor of 100 smaller than your
+XRD-source.</p>
+<p>Obvioulsy, we are in the wave picture right now.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## input </span>
+<span class="n">acceleration_voltage_V</span> <span class="o">=</span> <span class="n">U</span> <span class="o">=</span> <span class="mf">300.0</span> <span class="o">*</span> <span class="mf">1000.0</span> <span class="c1">#V   </span>
+
+<span class="c1">## energy</span>
+<span class="n">E_kin</span> <span class="o">=</span> <span class="n">eU</span> <span class="o">=</span> <span class="n">const</span><span class="o">.</span><span class="n">e</span> <span class="o">*</span> <span class="n">acceleration_voltage_V</span>  <span class="c1"># potential</span>
+
+<span class="n">wave_length_m</span> <span class="o">=</span> <span class="n">const</span><span class="o">.</span><span class="n">h</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">const</span><span class="o">.</span><span class="n">m_e</span><span class="o">*</span><span class="n">E_kin</span><span class="p">)</span> <span class="c1"># non-relativistic wavelength in m</span>
+
+
+<span class="c1">##please note that we will keep all length units in nm if possible.</span>
+<span class="c1">##otherwise we useonly SI units!!!</span>
+<span class="n">wave_length_A</span> <span class="o">=</span> <span class="n">wave_length_m</span> <span class="o">*</span><span class="mf">1e10</span> <span class="c1"># now in Angstrom</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="n">const</span><span class="o">.</span><span class="n">m_e</span><span class="o">*</span><span class="n">E_kin</span><span class="p">)</span><span class="o">/</span><span class="n">const</span><span class="o">.</span><span class="n">c</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Classic wave length is </span><span class="si">{</span><span class="n">wave_length_A</span><span class="o">*</span><span class="mf">100.</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> pm for acceleration voltage </span><span class="si">{</span><span class="n">acceleration_voltage_V</span><span class="o">/</span><span class="mf">1000.</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> kV&#39;</span><span class="p">)</span>
+<span class="c1"># Notice that we change units in the output to make them most readable.</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39; which is a velocity of </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="n">const</span><span class="o">.</span><span class="n">m_e</span><span class="o">*</span><span class="n">E_kin</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> m/s or </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="n">const</span><span class="o">.</span><span class="n">m_e</span><span class="o">*</span><span class="n">E_kin</span><span class="p">)</span><span class="o">/</span><span class="n">const</span><span class="o">.</span><span class="n">c</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">% of the speed of light&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0835915790298132
+Classic wave length is 2.24 pm for acceleration voltage 300.0 kV
+ which is a velocity of 324852582.95 m/s or 108.36% of the speed of light
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="relativistic-correction">
+<h2><span class="section-number">2.2.4. </span>Relativistic Correction<a class="headerlink" href="#relativistic-correction" title="Permalink to this headline">#</a></h2>
+<p>In the table below we see that the speeds of the electron is rather close to the speed of light <span class="math notranslate nohighlight">\(c\)</span></p>
+<p>The formula for relativistic corrected wavelength is:
+<span class="math notranslate nohighlight">\(\lambda = \frac{h}{\sqrt{2m_e E_{kin} *(1+\frac{E_{kin}}{2 m_e c^2})}}\)</span></p>
+<p><strong>Please note:</strong> All units are internally in SI units: kg, s, V, J, except the length wihich is in nm!</p>
+<p>We multiply with the appropriate factors for the output</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Input: Acceleration Voltage</span>
+<span class="n">E0</span> <span class="o">=</span> <span class="n">acceleration_voltage</span> <span class="o">=</span> <span class="mf">200.0</span> <span class="o">*</span><span class="mf">1000.0</span> <span class="c1">#V</span>
+
+<span class="n">E_kin</span> <span class="o">=</span> <span class="n">eU</span> <span class="o">=</span> <span class="n">const</span><span class="o">.</span><span class="n">e</span> <span class="o">*</span> <span class="n">acceleration_voltage</span> <span class="c1">#potential</span>
+
+<span class="c1">#relativisitic wavelength</span>
+<span class="n">wave_length</span> <span class="o">=</span> <span class="n">const</span><span class="o">.</span><span class="n">h</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">const</span><span class="o">.</span><span class="n">m_e</span><span class="o">*</span><span class="n">E_kin</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">E_kin</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">const</span><span class="o">.</span><span class="n">m_e</span><span class="o">*</span><span class="n">const</span><span class="o">.</span><span class="n">c</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span> <span class="c1">#in m</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The relativistically corrected wave length is </span><span class="si">{</span><span class="n">wave_length</span><span class="o">*</span><span class="mf">1e12</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> pm for acceleration voltage </span><span class="si">{</span><span class="n">acceleration_voltage</span><span class="o">/</span><span class="mi">1000</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> kV&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The relativistically corrected wave length is 2.51 pm for acceleration voltage 200.0 kV
+</pre></div>
+</div>
+</div>
+</div>
+<p>100kV : <span class="math notranslate nohighlight">\(\lambda\)</span> = 4 pm <span class="math notranslate nohighlight">\(&lt;\)</span> than diameter of an atom</p>
+<p>The relativistic parameters are:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>E (keV)</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\lambda\)</span> (pm)</p></th>
+<th class="head"><p>M/m<span class="math notranslate nohighlight">\(_0\)</span></p></th>
+<th class="head"><p>v/c</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>12.2</p></td>
+<td><p>1.0796</p></td>
+<td><p>0.1950</p></td>
+</tr>
+<tr class="row-odd"><td><p>30</p></td>
+<td><p>6.98</p></td>
+<td><p>1.129</p></td>
+<td><p>0.3284</p></td>
+</tr>
+<tr class="row-even"><td><p>100</p></td>
+<td><p>3.70</p></td>
+<td><p>1.1957</p></td>
+<td><p>0.5482</p></td>
+</tr>
+<tr class="row-odd"><td><p>200</p></td>
+<td><p>2.51</p></td>
+<td><p>1.3914</p></td>
+<td><p>0.6953</p></td>
+</tr>
+<tr class="row-even"><td><p>400</p></td>
+<td><p>1.64</p></td>
+<td><p>1.7828</p></td>
+<td><p>0.8275</p></td>
+</tr>
+<tr class="row-odd"><td><p>1000</p></td>
+<td><p>0.87</p></td>
+<td><p>2.9569</p></td>
+<td><p>0.9411</p></td>
+</tr>
+</tbody>
+</table>
+<p>The same functionality (and code) is used in the kinematic_scattering library and we can test the values of above table.</p>
+<p>Please change the acceleration voltage (<strong>acceleration_voltage</strong>) above.</p>
+<section id="relativistic-velocity">
+<h3><span class="section-number">2.2.4.1. </span>Relativistic velocity<a class="headerlink" href="#relativistic-velocity" title="Permalink to this headline">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\frac{v^2}{c^2} = \frac{E_{kin}(E_{kin}+2m_e c^2)}{(E_{kin}+m_e c^2)^2}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">E_kin</span><span class="o">*</span><span class="p">(</span><span class="n">E_kin</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">const</span><span class="o">.</span><span class="n">m_e</span><span class="o">*</span><span class="n">const</span><span class="o">.</span><span class="n">c</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">E_kin</span><span class="o">+</span><span class="n">const</span><span class="o">.</span><span class="n">m_e</span><span class="o">*</span><span class="n">const</span><span class="o">.</span><span class="n">c</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">const</span><span class="o">.</span><span class="n">c</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The classic velocity of the electron  is </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="n">const</span><span class="o">.</span><span class="n">m_e</span><span class="o">*</span><span class="n">E_kin</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> m/s or </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="n">const</span><span class="o">.</span><span class="n">m_e</span><span class="o">*</span><span class="n">E_kin</span><span class="p">)</span><span class="o">/</span><span class="n">const</span><span class="o">.</span><span class="n">c</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">% of the speed of light&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The relativistic velocity of the electron  is </span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> m/s or </span><span class="si">{</span><span class="n">v</span><span class="o">/</span><span class="n">const</span><span class="o">.</span><span class="n">c</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">% of the speed of light&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The classic velocity of the electron  is 265241023.28 m/s or 88.47% of the speed of light
+The relativistic velocity of the electron  is 208450034.42 m/s or 69.53% of the speed of light
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="that-means-that-the-resolution-is-not-limited-by-the-wavelength">
+<h2><span class="section-number">2.2.5. </span>That means that the resolution is not limited by the wavelength!<a class="headerlink" href="#that-means-that-the-resolution-is-not-limited-by-the-wavelength" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import Kinematic Scattering Library</span>
+<span class="kn">import</span> <span class="nn">pyTEMlib.kinematic_scattering</span> <span class="k">as</span> <span class="nn">ks</span>         <span class="c1"># Kinematic sCattering Library</span>
+
+<span class="n">acceleration_voltage</span><span class="o">=</span> <span class="mi">30</span><span class="o">*</span><span class="mf">1e3</span>
+<span class="n">wave_length</span> <span class="o">=</span> <span class="n">ks</span><span class="o">.</span><span class="n">get_wavelength</span><span class="p">(</span><span class="n">acceleration_voltage</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The relativistically corrected wave length is </span><span class="si">{</span><span class="n">wave_length</span><span class="o">*</span><span class="mf">1e2</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> pm for acceleration voltage </span><span class="si">{</span><span class="n">acceleration_voltage</span><span class="o">/</span><span class="mi">1000</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> kV&#39;</span><span class="p">)</span>
+
+<span class="c1"># Wavelength in Angstrom</span>
+<span class="k">def</span> <span class="nf">get_wavelength</span><span class="p">(</span><span class="n">acceleration_voltage</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the relativistic corrected de Broglie wave length of an electron</span>
+
+<span class="sd">    Input:</span>
+<span class="sd">    ------</span>
+<span class="sd">        acceleration voltage in volt</span>
+<span class="sd">    Output:</span>
+<span class="sd">    -------</span>
+<span class="sd">        wave length in Angstrom</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">eU</span> <span class="o">=</span> <span class="n">const</span><span class="o">.</span><span class="n">e</span> <span class="o">*</span> <span class="n">acceleration_voltage</span> 
+    <span class="k">return</span> <span class="n">const</span><span class="o">.</span><span class="n">h</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">const</span><span class="o">.</span><span class="n">m_e</span><span class="o">*</span><span class="n">eU</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">eU</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">const</span><span class="o">.</span><span class="n">m_e</span><span class="o">*</span><span class="n">const</span><span class="o">.</span><span class="n">c</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="mi">10</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Symmetry functions of spglib enabled
+Using kinematic_scattering library version {_version_ }  by G.Duscher
+The relativistically corrected wave length is 6.98 pm for acceleration voltage 30.0 kV
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">ks</span><span class="o">.</span><span class="n">get_wavelength</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Help on function get_wavelength in module pyTEMlib.kinematic_scattering:
+
+get_wavelength(acceleration_voltage)
+    Calculates the relativistic corrected de Broglie wavelength of an electron in Angstrom
+    
+    Parameter:
+    ---------
+    acceleration_voltage: float
+        acceleration voltage in volt
+    Returns:
+    -------
+    wavelength: float
+        wave length in Angstrom
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">ks</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Help on module pyTEMlib.kinematic_scattering in pyTEMlib:
+
+NAME
+    pyTEMlib.kinematic_scattering
+
+DESCRIPTION
+    kinematic_scattering
+    Copyright by Gerd Duscher
+    
+    The University of Tennessee, Knoxville
+    Department of Materials Science &amp; Engineering
+    
+    Sources:
+       Scattering Theory:
+       Zuo and Spence, &quot;Advanced TEM&quot;, 2017
+    
+       Spence and Zuo, Electron Microdiffraction, Plenum 1992
+    
+       Atomic Form Factor:
+           Kirkland: Advanced Computing in Electron Microscopy 2nd edition
+           Appendix C
+    
+    Units:
+        everything is in SI units, except length which is given in Angstrom.
+    
+    Usage:
+        See the notebooks for examples of these routines
+    
+    All the input and output is done through a ase.Atoms object and the dictionary in the info attribute
+
+FUNCTIONS
+    Zuo_fig_3_18(verbose=True)
+        Input for Figure 3.18 in Zuo and Spence &quot;Advanced TEM&quot;, 2017
+        
+        This input acts as an example as well as a reference
+        
+        Parameters:
+        -----------
+        verbose: boolean:
+            optional to see output
+        Returns:
+        -------
+            atoms: ase.Atoms
+                Silicon crystal structure
+            e
+            dictionary: tags is the dictionary of all input and output parameter needed to reproduce that figure.
+    
+    check_sanity(atoms, verbose_level=0)
+        Check sanity of input parameters
+    
+    example(verbose=True)
+        same as Zuo_fig_3_18
+    
+    feq(element, q)
+        Atomic form factor parametrized in 1/Angstrom but converted to 1/Angstrom
+        
+        The atomic form factor is from Kirkland: Advanced Computing in Electron Microscopy 2nd edition, Appendix C.
+        From Appendix C of Kirkland, &quot;Advanced Computing in Electron Microscopy&quot;, 3Ard ed.
+        Calculation of electron form factor for specific q:
+        Using equation Kirkland C.15
+        
+        Parameters
+        ----------
+        element: string
+            element name
+        q: float
+            magnitude of scattering vector in 1/Angstrom -- (=&gt; exp(-i*g.r), physics negative convention)
+        
+        Returns
+        -------
+        fL+fG: float
+            atomic scattering vector
+    
+    find_angles(zone)
+        Microscope stage coordinates of zone
+    
+    find_nearest_zone_axis(tags)
+        Test all zone axis up to a maximum of hkl_max
+    
+    get_dynamically_allowed(atoms, verbose=False)
+    
+    get_metric_tensor(matrix)
+        The metric tensor of the lattice.
+    
+    get_rotation_matrix(tags)
+        zone axis in global coordinate system
+    
+    get_wavelength(acceleration_voltage)
+        Calculates the relativistic corrected de Broglie wavelength of an electron in Angstrom
+        
+        Parameter:
+        ---------
+        acceleration_voltage: float
+            acceleration voltage in volt
+        Returns:
+        -------
+        wavelength: float
+            wave length in Angstrom
+    
+    kinematic_scattering(atoms, verbose=False)
+        All kinematic scattering calculation
+        
+        Calculates Bragg spots, Kikuchi lines, excess, and deficient HOLZ lines
+        
+        Parameters
+        ----------
+        atoms: ase.Atoms
+            object with crystal structure:
+            and with experimental parameters in info attribute:
+            &#39;acceleration_voltage_V&#39;, &#39;zone_hkl&#39;, &#39;Sg_max&#39;, &#39;hkl_max&#39;
+            Optional parameters are:
+            &#39;mistilt&#39;, convergence_angle_mrad&#39;, and &#39;crystal_name&#39;
+            verbose = True will give extended output of the calculation
+        verbose: boolean
+            default is False
+        
+        Returns
+        -------
+        atoms:
+            There are three sub_dictionaries in info attribute:
+            [&#39;allowed&#39;], [&#39;forbidden&#39;], and [&#39;HOLZ&#39;]
+            [&#39;allowed&#39;] and [&#39;forbidden&#39;] dictionaries contain:
+                [&#39;Sg&#39;], [&#39;hkl&#39;], [&#39;g&#39;], [&#39;structure factor&#39;], [&#39;intensities&#39;],
+                [&#39;ZOLZ&#39;], [&#39;FOLZ&#39;], [&#39;SOLZ&#39;], [&#39;HOLZ&#39;], [&#39;HHOLZ&#39;], [&#39;label&#39;], and [&#39;Laue_zone&#39;]
+            the [&#39;HOLZ&#39;] dictionary contains:
+                [&#39;slope&#39;], [&#39;distance&#39;], [&#39;theta&#39;], [&#39;g_deficient&#39;], [&#39;g_excess&#39;], [&#39;hkl&#39;], [&#39;intensities&#39;],
+                [&#39;ZOLZ&#39;], [&#39;FOLZ&#39;], [&#39;SOLZ&#39;], [&#39;HOLZ&#39;], and  [&#39;HHOLZ&#39;]
+            Please note that the Kikuchi lines are the HOLZ lines of ZOLZ
+        
+            There are also a few parameters stored in the main dictionary:
+                [&#39;wave_length_nm&#39;], [&#39;reciprocal_unit_cell&#39;], [&#39;inner_potential_V&#39;], [&#39;incident_wave_vector&#39;],
+                [&#39;volume&#39;], [&#39;theta&#39;], [&#39;phi&#39;], and [&#39;incident_wave_vector_vacuum&#39;]
+    
+    kinematic_scattering2(atoms, verbose=False)
+        All kinematic scattering calculation
+        
+        Calculates Bragg spots, Kikuchi lines, excess, and deficient HOLZ lines
+        
+        Parameters
+        ----------
+        atoms: ase.Atoms
+            object with crystal structure:
+            and with experimental parameters in info attribute:
+            &#39;acceleration_voltage_V&#39;, &#39;zone_hkl&#39;, &#39;Sg_max&#39;, &#39;hkl_max&#39;
+            Optional parameters are:
+            &#39;mistilt&#39;, convergence_angle_mrad&#39;, and &#39;crystal_name&#39;
+            verbose = True will give extended output of the calculation
+        verbose: boolean
+            default is False
+        
+        Returns
+        -------
+        ato,s:
+            There are three sub_dictionaries in info attribute:
+            [&#39;allowed&#39;], [&#39;forbidden&#39;], and [&#39;HOLZ&#39;]
+            [&#39;allowed&#39;] and [&#39;forbidden&#39;] dictionaries contain:
+                [&#39;Sg&#39;], [&#39;hkl&#39;], [&#39;g&#39;], [&#39;structure factor&#39;], [&#39;intensities&#39;],
+                [&#39;ZOLZ&#39;], [&#39;FOLZ&#39;], [&#39;SOLZ&#39;], [&#39;HOLZ&#39;], [&#39;HHOLZ&#39;], [&#39;label&#39;], and [&#39;Laue_zone&#39;]
+            the [&#39;HOLZ&#39;] dictionary contains:
+                [&#39;slope&#39;], [&#39;distance&#39;], [&#39;theta&#39;], [&#39;g_deficient&#39;], [&#39;g_excess&#39;], [&#39;hkl&#39;], [&#39;intensities&#39;],
+                [&#39;ZOLZ&#39;], [&#39;FOLZ&#39;], [&#39;SOLZ&#39;], [&#39;HOLZ&#39;], and  [&#39;HHOLZ&#39;]
+            Please note that the Kikuchi lines are the HOLZ lines of ZOLZ
+        
+            There are also a few parameters stored in the main dictionary:
+                [&#39;wave_length_nm&#39;], [&#39;reciprocal_unit_cell&#39;], [&#39;inner_potential_V&#39;], [&#39;incident_wave_vector&#39;],
+                [&#39;volume&#39;], [&#39;theta&#39;], [&#39;phi&#39;], and [&#39;incident_wave_vector_vacuum&#39;]
+    
+    make_pretty_labels(hkls, hex_label=False)
+        Make pretty labels
+        
+        Parameters
+        ----------
+        hkls: np.ndarray
+            a numpy array with all the Miller indices to be labeled
+        hex_label: boolean - optional
+            if True this will make for Miller indices.
+        
+        Returns
+        -------
+        hkl_label: list
+            list of labels in Latex format
+    
+    read_poscar(filename)
+    
+    ring_pattern_calculation(atoms, verbose=False)
+        Calculate the ring diffraction pattern of a crystal structure
+        
+        Parameters
+        ----------
+        atoms: Crystal
+            crystal structure
+        verbose: verbose print-outs
+            set to False
+        Returns
+        -------
+        tags: dict
+            dictionary with diffraction information added
+    
+    scattering_matrix(tags, verbose_level=1)
+        Scattering matrix
+    
+    stage_rotation_matrix(alpha, beta)
+        Microscope stage coordinate system
+    
+    vector_norm(g)
+        Length of vector
+        
+        depreciated - use np.linalg.norm
+    
+    zone_mistilt(zone, angles)
+        Rotation of zone axis by mistilt
+        
+        Parameters
+        ----------
+        zone: list or numpy array of int
+            zone axis in Miller indices
+        angles: ist or numpy array of float
+            list of mistilt angles in degree
+        
+        Returns
+        -------
+        new_zone_axis: np.ndarray (3)
+            new tilted zone axis
+
+DATA
+    a_l = 0.3336
+    base_l = [(0.6666666666666666, 0.3333333333333333, 0.5), (0.3333333333...
+    c_l = 0.4754
+    cdb = {&#39;ag&#39;: {&#39;a&#39;: 4.0853, &#39;crystal_name&#39;: &#39;silver&#39;, &#39;elements&#39;: &#39;Ag&#39;,...
+    crystal_data_base = {&#39;ag&#39;: {&#39;a&#39;: 4.0853, &#39;crystal_name&#39;: &#39;silver&#39;, &#39;el...
+    electronFF = {&#39;Ac&#39;: {&#39;Z&#39;: 89, &#39;bond_length&#39;: [2.09, 1.88, 1.7, 0], &#39;ch...
+    inputKeys = [&#39;acceleration_voltage_V&#39;, &#39;zone_hkl&#39;, &#39;Sg_max&#39;, &#39;hkl_max&#39;...
+    jmol_colors = array([[1.   , 0.   , 0.   ],
+           [1.   , 1. ...02, 0...
+    optional_inputKeys = [&#39;crystal&#39;, &#39;lattice_parameter_nm&#39;, &#39;convergence_...
+
+FILE
+    c:\users\gduscher\anaconda3\lib\site-packages\pytemlib\kinematic_scattering.py
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="particle-flux-and-current">
+<h2><span class="section-number">2.2.6. </span>Particle Flux and Current<a class="headerlink" href="#particle-flux-and-current" title="Permalink to this headline">#</a></h2>
+<p>It is important todetermine the order of magitude of how many electrons are hitting the sample.</p>
+<p>The electron sources deliver in the order of <span class="math notranslate nohighlight">\(\mu\)</span>A current, but most of these electrons are not used.</p>
+<p>In a modern electron microscope, we talk about a range of 1pA to 1nA in the electron beam.</p>
+<p>We start with the defition of an Ampere:
+$<span class="math notranslate nohighlight">\(A = \frac{C}{s}\)</span>$</p>
+<p>That definition is enough to calculate the number ofelectron per time unit (flux).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; elementary charge: </span><span class="si">{</span><span class="n">const</span><span class="o">.</span><span class="n">physical_constants</span><span class="p">[</span><span class="s1">&#39;elementary charge&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.5g</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">const</span><span class="o">.</span><span class="n">physical_constants</span><span class="p">[</span><span class="s1">&#39;elementary charge&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> 1pA is </span><span class="si">{</span><span class="mf">1e-12</span><span class="o">/</span><span class="n">const</span><span class="o">.</span><span class="n">e</span><span class="si">:</span><span class="s1">.3</span><span class="si">}</span><span class="s1"> electrons/s&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39; 10pA is </span><span class="si">{</span><span class="mf">10e-12</span><span class="o">/</span><span class="n">const</span><span class="o">.</span><span class="n">e</span> <span class="o">*</span><span class="mf">1e-3</span> <span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> electrons/ms&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;100pA is </span><span class="si">{</span><span class="mf">100e-12</span><span class="o">/</span><span class="n">const</span><span class="o">.</span><span class="n">e</span><span class="o">*</span><span class="mi">1</span> <span class="si">:</span><span class="s1">.3</span><span class="si">}</span><span class="s1"> electrons/s&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> at 10pA an electron will hit the sample every </span><span class="si">{</span><span class="n">const</span><span class="o">.</span><span class="n">e</span><span class="o">/</span><span class="mf">10e-12</span> <span class="o">*</span> <span class="mf">1e9</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> ns &#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> elementary charge: 1.6022e-19 C
+
+ 1pA is 6.24e+06 electrons/s
+ 10pA is 62415 electrons/ms
+100pA is 6.24e+08 electrons/s
+
+ at 10pA an electron will hit the sample every 16.02 ns 
+</pre></div>
+</div>
+</div>
+</div>
+<p>We see that we have much lower fluence in the TEM than in a laser (how could they do femtosecond pulses otherwise).</p>
+</section>
+<section id="navigation">
+<h2><span class="section-number">2.2.7. </span>Navigation<a class="headerlink" href="#navigation" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p><font size = "3">  <strong>Back Chapter 1: <a class="reference internal" href="../Introduction/CH1_00-Introduction.html"><span class="doc std std-doc">Introduction</span></a></strong> </font></p></li>
+<li><p><font size = "3">  <strong>Next: <a class="reference internal" href="CH2_02-Atomic_Form_Factor.html"><span class="doc std std-doc">Atomic Form Factor</span></a></strong> </font></p></li>
+<li><p><font size = "3">  <strong>Chapter 2: <a class="reference internal" href="CH2_00-Diffraction.html"><span class="doc std std-doc">Diffraction</span></a></strong> </font></p></li>
+<li><p><font size = "3">  <strong>List of Content: <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc std std-doc">Front</span></a></strong> </font></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Diffraction"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../diffraction.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">2. </span>Diffraction</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="CH2_02-Atomic_Form_Factor.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">2.3. </span>Atomic Form Factor</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Gerd Duscher UTK/IAMM<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
