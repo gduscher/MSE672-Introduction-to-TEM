@@ -17,10 +17,10 @@ chapters:
     - file: Introduction/CH1_07-Electron-Optics
     - file: Introduction/install_conda
     - file: Introduction/computer_resources
-- file: Diffraction/CH2_00-Diffraction 
+- file: Diffraction/CH2_00-Diffraction
   sections:
-    - file: Diffraction/CH2_01-Electron 
-    - file: Diffraction/CH2_02-Atomic_Form_Factor 
+    - file: Diffraction/CH2_01-Electron
+    - file: Diffraction/CH2_02-Atomic_Form_Factor
     - file: Diffraction/CH2_03-Basic_Crystallography
     - file: Diffraction/CH2_04-Structure_Factors
     - file: Diffraction/CH2_05-Diffraction_Rings

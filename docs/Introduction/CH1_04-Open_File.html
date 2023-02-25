@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>1.7. Open DM3 Images, Spectra, Spectrum-Images and Image-Stacks with pyNSID &#8212; Introduction to Transmisison Electron Microscopy</title>
+    <title>1.4. Open DM3 Images, Spectra, Spectrum-Images and Image-Stacks with pyNSID &#8212; Introduction to Transmisison Electron Microscopy</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -52,8 +52,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="1.8. Course Organization" href="CH1_05-Course_Organization.html" />
-    <link rel="prev" title="1.6. Matplotlib and Numpy for Micrographs" href="CH1_03-Data_Representation.html" />
+    <link rel="next" title="1.5. Course Organization" href="CH1_05-Course_Organization.html" />
+    <link rel="prev" title="1.3. Matplotlib and Numpy for Micrographs" href="CH1_03-Data_Representation.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -116,7 +116,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="CH1_00-Introduction.html">
-   1. Introduction to this Jupyter Lecture Notebook-Book
+   1. Chapter 1: Introduction
   </a>
   <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
@@ -126,59 +126,54 @@ const thebe_selector_output = ".output, .cell_output"
   <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="CH1_01-Introduction_Python.html">
-     1.4. Introduction to Python as it is used in this lecture
+     1.1. Introduction to Python as it is used in this lecture
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="CH1_02-Prerequisites.html">
-     1.5. Prerequisites
+     1.2. Prerequisites
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="CH1_03-Data_Representation.html">
-     1.6. Matplotlib and Numpy for Micrographs
+     1.3. Matplotlib and Numpy for Micrographs
     </a>
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     1.7. Open DM3 Images, Spectra, Spectrum-Images and  Image-Stacks with pyNSID
+     1.4. Open DM3 Images, Spectra, Spectrum-Images and  Image-Stacks with pyNSID
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="CH1_05-Course_Organization.html">
-     1.8. Course Organization
+     1.5. Course Organization
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="CH1_06-Overview.html">
-     1.9. Overview Notebook
+     1.6. Overview Notebook
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="CH1_07-Electron-Optics.html">
-     1.10. Electron Optics
+     1.7. Electron Optics
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="install_conda.html">
-     1.11. Installation on your own computer
+     1.8. Installation on your own computer
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="computer_resources.html">
-     1.12. Setting up computing resources
+     1.9. Setting up computing resources
     </a>
    </li>
   </ul>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="../Diffraction/CH2_00-Diffraction.html">
    2. Chapter 2:  Diffraction
-  </a>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../Imaging/CH3_00-Imaging.html">
-   4. Chapter 3: Imaging
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
   <label for="toctree-checkbox-2">
@@ -187,60 +182,85 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../Imaging/CH3_01-Resolution.html">
-     4.2. Resolution Limit
+    <a class="reference internal" href="../Diffraction/CH2_01-Electron.html">
+     2.2. The Electron
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../Imaging/CH3_03-CTF.html">
-     4.3. Contrast Transfer Function
+    <a class="reference internal" href="../Diffraction/CH2_02-Atomic_Form_Factor.html">
+     2.3. Atomic Form Factor
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../Imaging/CH3_04-Linear_Image_Approximation.html">
-     4.4. Linear Image Approximation: Weak Phase Object
+    <a class="reference internal" href="../Diffraction/CH2_03-Basic_Crystallography.html">
+     2.4. Basic Crystallography
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../Imaging/CH3_05-Defocus_Thickness.html">
-     4.5. Defocus-Thickness Map with Multislice Algorithm
+    <a class="reference internal" href="../Diffraction/CH2_04-Structure_Factors.html">
+     2.5. Structure Factors
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../Imaging/CH3_06-Image_Processing.html">
-     4.6. Image Processing
+    <a class="reference internal" href="../Diffraction/CH2_05-Diffraction_Rings.html">
+     2.6. Analyzing Ring Diffraction Pattern
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../Imaging/CH3_07-Image_Analysis.html">
-     4.7. Image Analysis
+    <a class="reference internal" href="../Diffraction/CH2_06-Kinematic_Scattering_Geometry.html">
+     2.7. Kinematic Scattering Geometry
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../Imaging/CH3_08-Thermal_Diffuse_Scattering.html">
-     4.9. Thermal-Diffuse Scattering
+    <a class="reference internal" href="../Diffraction/CH2_07-Plotting_Diffraction_Pattern.html">
+     2.8. Plotting Diffraction Pattern
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../Imaging/CH3_09-Z_Contrast.html">
-     4.10. Z-Contrast Imaging
+    <a class="reference internal" href="../Diffraction/CH2_08-Spot_Diffraction_Pattern.html">
+     2.9. Analyzing Spot Diffraction Pattern
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../Imaging/CH3_10-Ronchigram.html">
-     4.11. Ronchigram
+    <a class="reference internal" href="../Diffraction/CH2_09-Unit_Cell.html">
+     2.10. Unic Cell Determination and Stereographic Projection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_10-Kikuchi_Lines.html">
+     2.11. Kikuchi Lines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_11-HOLZ_Lines.html">
+     2.12. HOLZ Lines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_12-HOLZ_Example.html">
+     2.13. Lattice Determination with HOLZ
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_D01-Bloch.html">
+     2.16. Bethe Theory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_D02-Multislice.html">
+     2.17. Multislice Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Diffraction/CH2_D03-Multislice_CBED.html">
+     2.18. CBED - Multislice Algorithm
     </a>
    </li>
   </ul>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../Spectroscopy/CH4_00-Spectroscopy.html">
-   5. Electron Energy-Loss Spectrosocpy
-  </a>
- </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../Homework/homework.html">
-   8. Homework
+  <a class="reference internal" href="../Imaging/CH3_00-Imaging.html">
+   3. Chapter 3: Imaging
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
@@ -249,38 +269,190 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_01-Resolution.html">
+     3.2. Resolution Limit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_03-CTF.html">
+     3.3. Contrast Transfer Function
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_04-Linear_Image_Approximation.html">
+     3.4. Linear Image Approximation: Weak Phase Object
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_05-Defocus_Thickness.html">
+     3.5. Defocus-Thickness Map with Multislice Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_06-Image_Processing.html">
+     3.6. Image Processing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_07-Image_Analysis.html">
+     3.7. Image Analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_08-Thermal_Diffuse_Scattering.html">
+     3.9. Thermal-Diffuse Scattering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_09-Z_Contrast.html">
+     3.10. Z-Contrast Imaging
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Imaging/CH3_10-Ronchigram.html">
+     3.11. Ronchigram
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Spectroscopy/CH4_00-Spectroscopy.html">
+   4. Chapter 4: Spectroscopy
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_01-Introduction.html">
+     4.1. Introduction to  Electron Energy-Loss Spectroscopy
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_02-Fit_Zero_Loss.html">
+     4.2. Fit of Zero-Loss Peak
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_03-Drude.html">
+     4.3. Analysing Low-Loss Spectra with Drude Theory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_07-Introduction_Core_Loss.html">
+     4.4. Introduction to Core-Loss Spectroscopy
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_08-Chemical_Composition.html">
+     4.5. Chemical Composition in Core-Loss Spectra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_09-Analyse_Core_Loss.html">
+     4.6. Analysis of Core-Loss Spectra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_10-ELNES.html">
+     4.7. Energy-Loss Near-Edge Structure
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_12-Introduction_X_Rays.html">
+     4.8. Chapter 4
+     <span class="xref myst">
+      Spectroscopy
+     </span>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_13-Bremsstrahlung.html">
+     4.10. Chapter 4
+     <span class="xref myst">
+      Spectroscopy
+     </span>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_14-Characteristic_X_Rays.html">
+     4.12. Chapter 4
+     <span class="xref myst">
+      Spectroscopy
+     </span>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_15-Detector.html">
+     4.14. Chapter 4
+     <span class="xref myst">
+      Spectroscopy
+     </span>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_16-Analyze_EDS_Spectrum.html">
+     4.18. Chapter 4
+     <span class="xref myst">
+      Spectroscopy
+     </span>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Spectroscopy/CH4_17-Quantify_EDS_Spectrum.html">
+     4.21. Chapter 4
+     <span class="xref myst">
+      Spectroscopy
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Homework/homework.html">
+   5. Homework
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
     <a class="reference internal" href="../Homework/Homework01.html">
-     8.1. Homework 1
+     5.1. Homework 1
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Homework/Homework02.html">
-     8.2. Homework 2
+     5.2. Homework 2
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Homework/Homework03.html">
-     8.3. Homework 3
+     5.3. Homework 3
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Homework/Homework04.html">
-     8.4. Homework 4
+     5.4. Homework 4
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Homework/Homework05-CBED.html">
-     8.5. HW5:  Analyzing CBED Pattern
+     5.5. HW5:  Analyzing CBED Pattern
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Homework/Homework06-TwoBeam.html">
-     8.6. HW6:  Analyzing CBED Pattern in Two Beam Condition
+     5.6. HW6:  Analyzing CBED Pattern in Two Beam Condition
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Homework/Homework07-Dynamic_CBED.html">
-     8.7. HW7:  Simulating CBED Pattern
+     5.7. HW7:  Simulating CBED Pattern
     </a>
    </li>
   </ul>
@@ -493,76 +665,76 @@ title="Print to PDF"
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#import-packages-for-figures-and">
-   1.7.1. Import packages for figures and
+   1.4.1. Import packages for figures and
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#check-installed-packages">
-     1.7.1.1. Check Installed Packages
+     1.4.1.1. Check Installed Packages
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#load-the-plotting-and-figure-packages">
-     1.7.1.2. Load the plotting and figure packages
+     1.4.1.2. Load the plotting and figure packages
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#open-a-file">
-   1.7.2. Open a file
+   1.4.2. Open a file
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#data-structure">
-   1.7.3. Data Structure
+   1.4.3. Data Structure
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id1">
-   1.7.4. Data Structure
+   1.4.4. Data Structure
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#adding-data">
-   1.7.5. Adding Data
+   1.4.5. Adding Data
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#adding-additional-information">
-   1.7.6. Adding additional information
+   1.4.6. Adding additional information
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#keeping-track-of-analysis-and-results">
-   1.7.7. Keeping Track of Analysis and Results
+   1.4.7. Keeping Track of Analysis and Results
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#an-example-for-a-log">
-   1.7.8. An example for a log
+   1.4.8. An example for a log
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#save-datasets-to-hf5-file">
-   1.7.9. Save Datasets to  hf5_file
+   1.4.9. Save Datasets to  hf5_file
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#open-h5-file">
-   1.7.10. Open h5_file
+   1.4.10. Open h5_file
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#short-check-if-we-got-the-data-right">
-     1.7.10.1. Short check if we got the data right
+     1.4.10.1. Short check if we got the data right
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#navigation">
-   1.7.11. Navigation
+   1.4.11. Navigation
   </a>
  </li>
 </ul>
@@ -586,76 +758,76 @@ title="Print to PDF"
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#import-packages-for-figures-and">
-   1.7.1. Import packages for figures and
+   1.4.1. Import packages for figures and
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#check-installed-packages">
-     1.7.1.1. Check Installed Packages
+     1.4.1.1. Check Installed Packages
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#load-the-plotting-and-figure-packages">
-     1.7.1.2. Load the plotting and figure packages
+     1.4.1.2. Load the plotting and figure packages
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#open-a-file">
-   1.7.2. Open a file
+   1.4.2. Open a file
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#data-structure">
-   1.7.3. Data Structure
+   1.4.3. Data Structure
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id1">
-   1.7.4. Data Structure
+   1.4.4. Data Structure
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#adding-data">
-   1.7.5. Adding Data
+   1.4.5. Adding Data
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#adding-additional-information">
-   1.7.6. Adding additional information
+   1.4.6. Adding additional information
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#keeping-track-of-analysis-and-results">
-   1.7.7. Keeping Track of Analysis and Results
+   1.4.7. Keeping Track of Analysis and Results
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#an-example-for-a-log">
-   1.7.8. An example for a log
+   1.4.8. An example for a log
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#save-datasets-to-hf5-file">
-   1.7.9. Save Datasets to  hf5_file
+   1.4.9. Save Datasets to  hf5_file
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#open-h5-file">
-   1.7.10. Open h5_file
+   1.4.10. Open h5_file
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#short-check-if-we-got-the-data-right">
-     1.7.10.1. Short check if we got the data right
+     1.4.10.1. Short check if we got the data right
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#navigation">
-   1.7.11. Navigation
+   1.4.11. Navigation
   </a>
  </li>
 </ul>
@@ -671,7 +843,7 @@ title="Print to PDF"
   <p><font size = "5"> <strong>Chapter 1: <a class="reference internal" href="CH1_00-Introduction.html"><span class="doc std std-doc">Introduction</span></a></strong> </font></p>
 <hr style="height:1px;border-top:4px solid #FF8200" />
 <section class="tex2jax_ignore mathjax_ignore" id="open-dm3-images-spectra-spectrum-images-and-image-stacks-with-pynsid">
-<h1><span class="section-number">1.7. </span>Open DM3 Images, Spectra, Spectrum-Images and  Image-Stacks with pyNSID<a class="headerlink" href="#open-dm3-images-spectra-spectrum-images-and-image-stacks-with-pynsid" title="Permalink to this headline">#</a></h1>
+<h1><span class="section-number">1.4. </span>Open DM3 Images, Spectra, Spectrum-Images and  Image-Stacks with pyNSID<a class="headerlink" href="#open-dm3-images-spectra-spectrum-images-and-image-stacks-with-pynsid" title="Permalink to this headline">#</a></h1>
 <p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Introduction/CH1_04-Open_File.ipynb">Download</a></p>
 <p>part of</p>
 <p><font size = "5"> <strong><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc std std-doc">MSE672:  Introduction to Transmission Electron Microscopy</span></a></strong></font></p>
@@ -685,9 +857,9 @@ The University of Tennessee, Knoxville</p>
 <p>Reading a dm file and translating the data in a <strong><a class="reference external" href="https://pycroscopy.github.io/pyNSID/">pyNSID</a></strong> style hf5py file to be compatible with  the <strong><a class="reference external" href="https://pycroscopy.github.io/pycroscopy/">pycroscopy</a></strong> package.</p>
 <p>Because, many other packages and programs for TEM data manipulation are based on the <code class="docutils literal notranslate"><span class="pre">hdf5</span></code> file-formats it is relatively easy to convert back and forward between them.</p>
 <section id="import-packages-for-figures-and">
-<h2><span class="section-number">1.7.1. </span>Import packages for figures and<a class="headerlink" href="#import-packages-for-figures-and" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">1.4.1. </span>Import packages for figures and<a class="headerlink" href="#import-packages-for-figures-and" title="Permalink to this headline">#</a></h2>
 <section id="check-installed-packages">
-<h3><span class="section-number">1.7.1.1. </span>Check Installed Packages<a class="headerlink" href="#check-installed-packages" title="Permalink to this headline">#</a></h3>
+<h3><span class="section-number">1.4.1.1. </span>Check Installed Packages<a class="headerlink" href="#check-installed-packages" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">get_distribution</span><span class="p">,</span> <span class="n">DistributionNotFound</span>
@@ -718,7 +890,7 @@ done
 </div>
 </section>
 <section id="load-the-plotting-and-figure-packages">
-<h3><span class="section-number">1.7.1.2. </span>Load the plotting and figure packages<a class="headerlink" href="#load-the-plotting-and-figure-packages" title="Permalink to this headline">#</a></h3>
+<h3><span class="section-number">1.4.1.2. </span>Load the plotting and figure packages<a class="headerlink" href="#load-the-plotting-and-figure-packages" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> notebook
@@ -751,7 +923,7 @@ pyTEM version:  0.2023.1.0
 </section>
 </section>
 <section id="open-a-file">
-<h2><span class="section-number">1.7.2. </span>Open a file<a class="headerlink" href="#open-a-file" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">1.4.2. </span>Open a file<a class="headerlink" href="#open-a-file" title="Permalink to this headline">#</a></h2>
 <p>This function opens a hfd5 file in the pyNSID style which enables you to keep track of your data analysis.</p>
 <p>Please see the <strong><a class="reference external" href="CH1_02-Prerequisites.ipynb#TEM-Library">Installation</a></strong> notebook for installation.</p>
 <p>We want to consolidate files into one dataset that belongs together.  For example a spectrum image dataset consists of:</p>
@@ -1762,7 +1934,7 @@ if (IPython.notebook.kernel !== null) {
 </div>
 </section>
 <section id="data-structure">
-<h2><span class="section-number">1.7.3. </span>Data Structure<a class="headerlink" href="#data-structure" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">1.4.3. </span>Data Structure<a class="headerlink" href="#data-structure" title="Permalink to this headline">#</a></h2>
 <p>The data themselves reside in a <code class="docutils literal notranslate"><span class="pre">sidpy</span> <span class="pre">dataset</span></code> which we name <code class="docutils literal notranslate"><span class="pre">current_dataset</span></code>.</p>
 <p>The current_dataset has additional information stored as attributes which can be accessed through their name.</p>
 <div class="cell docutils container">
@@ -1888,7 +2060,7 @@ dict_keys([&#39;ImageData&#39;, &#39;ImageTags&#39;, &#39;Name&#39;, &#39;Unique
 </div>
 </section>
 <section id="id1">
-<h2><span class="section-number">1.7.4. </span>Data Structure<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">1.4.4. </span>Data Structure<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h2>
 <p>The datasets variable is a dictionary (like a directory in a file system) which containes contains datasets.</p>
 <p>Below I show how to access one of those datasets with a pull down menu.</p>
 <div class="cell docutils container">
@@ -4976,7 +5148,7 @@ class Dataset(dask.array.core.Array)
 </div>
 </section>
 <section id="adding-data">
-<h2><span class="section-number">1.7.5. </span>Adding Data<a class="headerlink" href="#adding-data" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">1.4.5. </span>Adding Data<a class="headerlink" href="#adding-data" title="Permalink to this headline">#</a></h2>
 <p>To add another dataset that belongs to this measurement we will use the <strong>h5_add_channel</strong> from  <strong>file_tools</strong> in the  pyTEMlib package.</p>
 <p>Here is how we add a channel there.</p>
 <p>We can also add a new measurement group (add_measurement in pyTEMlib) for similar datasets.</p>
@@ -5005,7 +5177,7 @@ class Dataset(dask.array.core.Array)
 </div>
 </section>
 <section id="adding-additional-information">
-<h2><span class="section-number">1.7.6. </span>Adding additional information<a class="headerlink" href="#adding-additional-information" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">1.4.6. </span>Adding additional information<a class="headerlink" href="#adding-additional-information" title="Permalink to this headline">#</a></h2>
 <p>Similarly, we can add a whole new measurement group or a structure group.</p>
 <p>This function will be contained in the KinsCat package of pyTEMlib.</p>
 <p>If you loaded the example image, with graphite and ZnO both are viewed in the [1,1,1] zone axis.</p>
@@ -5040,7 +5212,7 @@ Atoms(symbols=&#39;C4&#39;, pbc=False, cell=[[2.46772414, 0.0, 0.0], [-1.2338620
 </div>
 </section>
 <section id="keeping-track-of-analysis-and-results">
-<h2><span class="section-number">1.7.7. </span>Keeping Track of Analysis and Results<a class="headerlink" href="#keeping-track-of-analysis-and-results" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">1.4.7. </span>Keeping Track of Analysis and Results<a class="headerlink" href="#keeping-track-of-analysis-and-results" title="Permalink to this headline">#</a></h2>
 <p>A notebook is notorious for getting confusing, especially if one uses different notebooks for different task, but store them in the same file.</p>
 <p>If you like a result of your calculation, log it.</p>
 <p>Use the datasets dictionary to add a analysed and/or modified dataset. Make sure the metadata contain all the necessary information, so that you will know later what you did.</p>
@@ -5056,7 +5228,7 @@ Atoms(symbols=&#39;C4&#39;, pbc=False, cell=[[2.46772414, 0.0, 0.0], [-1.2338620
 </div>
 </section>
 <section id="an-example-for-a-log">
-<h2><span class="section-number">1.7.8. </span>An example for a log<a class="headerlink" href="#an-example-for-a-log" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">1.4.8. </span>An example for a log<a class="headerlink" href="#an-example-for-a-log" title="Permalink to this headline">#</a></h2>
 <p>We log the Fourier Transform of the image we loaded</p>
 <p>First we perform the calculation</p>
 <div class="cell docutils container">
@@ -7981,7 +8153,7 @@ if (IPython.notebook.kernel !== null) {
 </div>
 </section>
 <section id="save-datasets-to-hf5-file">
-<h2><span class="section-number">1.7.9. </span>Save Datasets to  hf5_file<a class="headerlink" href="#save-datasets-to-hf5-file" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">1.4.9. </span>Save Datasets to  hf5_file<a class="headerlink" href="#save-datasets-to-hf5-file" title="Permalink to this headline">#</a></h2>
 <p>Write all datasets to one h5_file, which we then close immediatedly</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -8015,7 +8187,7 @@ C:\Users\gduscher\Anaconda3\envs\tem\Lib\site-packages\pyNSID\io\hdf_utils.py:37
 </div>
 </section>
 <section id="open-h5-file">
-<h2><span class="section-number">1.7.10. </span>Open h5_file<a class="headerlink" href="#open-h5-file" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">1.4.10. </span>Open h5_file<a class="headerlink" href="#open-h5-file" title="Permalink to this headline">#</a></h2>
 <p>Open the h5_file that we just created</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -8125,7 +8297,7 @@ Thumbnails
 </script></div>
 </div>
 <section id="short-check-if-we-got-the-data-right">
-<h3><span class="section-number">1.7.10.1. </span>Short check if we got the data right<a class="headerlink" href="#short-check-if-we-got-the-data-right" title="Permalink to this headline">#</a></h3>
+<h3><span class="section-number">1.4.10.1. </span>Short check if we got the data right<a class="headerlink" href="#short-check-if-we-got-the-data-right" title="Permalink to this headline">#</a></h3>
 <p>we print the tree and we plot the data</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -9096,7 +9268,7 @@ if (IPython.notebook.kernel !== null) {
 </section>
 </section>
 <section id="navigation">
-<h2><span class="section-number">1.7.11. </span>Navigation<a class="headerlink" href="#navigation" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">1.4.11. </span>Navigation<a class="headerlink" href="#navigation" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p><font size = "3">  <strong>Back  <a class="reference internal" href="CH1_03-Data_Representation.html"><span class="doc std std-doc">Matplotlib and Numpy for Micrographs</span></a></strong> </font></p></li>
 <li><p><font size = "3">  <strong>Next: <a class="reference internal" href="CH1_06-Overview.html"><span class="doc std std-doc">Overview</span></a></strong> </font></p></li>
@@ -9137,13 +9309,13 @@ if (IPython.notebook.kernel !== null) {
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title"><span class="section-number">1.6. </span>Matplotlib and Numpy for Micrographs</p>
+            <p class="prev-next-title"><span class="section-number">1.3. </span>Matplotlib and Numpy for Micrographs</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="CH1_05-Course_Organization.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">1.8. </span>Course Organization</p>
+        <p class="prev-next-title"><span class="section-number">1.5. </span>Course Organization</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
