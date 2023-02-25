@@ -1,0 +1,75 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+options:
+  numbered: True
+root: index
+chapters:
+- file: Introduction/CH1_00-Introduction
+  sections:
+    - file: Introduction/CH1_01-Introduction_Python 
+    - file: Introduction/CH1_02-Prerequisites 
+    - file: Introduction/CH1_03-Data_Representation
+    - file: Introduction/CH1_04-Open_File
+    - file: Introduction/CH1_05-Course_Organization
+    - file: Introduction/CH1_06-Overview
+    - file: Introduction/CH1_07-Electron-Optics
+    - file: Introduction/install_conda
+    - file: Introduction/computer_resources
+- file: Diffraction/CH2_00-Diffraction 
+  sections:
+    - file: Diffraction/CH2_01-Electron 
+    - file: Diffraction/CH2_02-Atomic_Form_Factor 
+    - file: Diffraction/CH2_03-Basic_Crystallography
+    - file: Diffraction/CH2_04-Structure_Factors
+    - file: Diffraction/CH2_05-Diffraction_Rings
+    - file: Diffraction/CH2_06-Kinematic_Scattering_Geometry
+    - file: Diffraction/CH2_07-Plotting_Diffraction_Pattern
+    - file: Diffraction/CH2_08-Spot_Diffraction_Pattern
+    - file: Diffraction/CH2_09-Unit_Cell
+    - file: Diffraction/CH2_10-Kikuchi_Lines
+    - file: Diffraction/CH2_11-HOLZ_Lines
+    - file: Diffraction/CH2_12-HOLZ_Example
+    - file: Diffraction/CH2_D01-Bloch
+    - file: Diffraction/CH2_D02-Multislice
+    - file: Diffraction/CH2_D03-Multislice_CBED
+- file: Imaging/CH3_00-Imaging
+  sections:
+    - file: Imaging/CH3_01-Resolution 
+    - file: Imaging/CH3_03-CTF
+    - file: Imaging/CH3_04-Linear_Image_Approximation
+    - file: Imaging/CH3_05-Defocus_Thickness
+    - file: Imaging/CH3_06-Image_Processing
+    - file: Imaging/CH3_07-Image_Analysis
+    - file: Imaging/CH3_08-Thermal_Diffuse_Scattering
+    - file: Imaging/CH3_09-Z_Contrast
+    - file: Imaging/CH3_10-Ronchigram
+- file: Spectroscopy/CH4_00-Spectroscopy
+  sections:
+    - file: Spectroscopy/CH4_01-Introduction 
+    - file: Spectroscopy/CH4_02-Fit_Zero_Loss 
+    - file: Spectroscopy/CH4_03-Drude
+    - file: Spectroscopy/CH4_07-Introduction_Core_Loss.ipynb
+    - file: Spectroscopy/CH4_08-Chemical_Composition.ipynb
+    - file: Spectroscopy/CH4_09-Analyse_Core_Loss.ipynb
+    - file: Spectroscopy/CH4_10-ELNES.ipynb
+    - file: Spectroscopy/CH4_12-Introduction_X_Rays.ipynb
+    - file: Spectroscopy/CH4_13-Bremsstrahlung.ipynb
+    - file: Spectroscopy/CH4_14-Characteristic_X_Rays.ipynb
+    - file: Spectroscopy/CH4_15-Detector.ipynb
+    - file: Spectroscopy/CH4_16-Analyze_EDS_Spectrum.ipynb
+    - file: Spectroscopy/CH4_17-Quantify_EDS_Spectrum.ipynb
+- file: Homework/homework
+  sections:
+    - file: Homework/Homework01 
+    - file: Homework/Homework02 
+    - file: Homework/Homework03 
+    - file: Homework/Homework04 
+    - file: Homework/Homework05-CBED
+    - file: Homework/Homework06-TwoBeam
+    - file: Homework/Homework07-Dynamic_CBED
+
+
+
+
