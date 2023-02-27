@@ -18,11 +18,11 @@
 # -- Project information -----------------------------------------------------
 
 project = 'MSE672: Introduction to TEM'
-copyright = '2021, Gerd Duscher'
+copyright = '2023, Gerd Duscher'
 author = 'Gerd Duscher'
 
 # The full version, including alpha/beta/rc tags
-release = 'Spring 2021'
+release = 'Spring 2023'
 
 
 # -- General configuration ---------------------------------------------------
