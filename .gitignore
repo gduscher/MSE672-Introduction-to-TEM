@@ -121,3 +121,11 @@ Introduction/.hf5
 Introduction/nix.hf5
 .ipynb_checkpoints/_MSE672_Intro_TEM-checkpoint.ipynb
 Diffraction/Gold_SAED-1.hf5
+docs/te.csv
+example_data/p1-hr3-ZnOonGraphite.hf5
+Spectroscopy/__pycache__/advanced_eels_tools.cpython-310.pyc
+Spectroscopy/advanced_eels_tools.py
+Spectroscopy/advanced_image_tools.py
+Spectroscopy/data/Bote.txt
+Spectroscopy/data/ffast.pkl
+Spectroscopy/data/lineweight.txt
