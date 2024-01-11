@@ -32,13 +32,13 @@ jobs:
     # Build the book
     - name: Build the book
       run: |
-        sphinx-build -b html -aET docs/source docs/_build/html 
-        touch docs/_build/html/.nojekyll
-        jupyter-book build .
+        cd docs/
+        touch .touch docs/_build/html/.nojekyll
+        jupyter-book build ../ --all --path-output ./docs/
 
     # Push the book's HTML to github-pages
     - name: GitHub Pages action
       uses: peaceiris/actions-gh-pages@v3.6.1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./_build/html
+        publish_dir: ./docs/_build/html
