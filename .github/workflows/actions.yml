@@ -39,11 +39,9 @@ jobs:
 
     # Push the book's HTML to github-pages
     - name: Deploy to GitHub Pages
-        if: ${{ matrix.python-version == env.PYTHON_MAIN_VERSION && github.ref == 'refs/heads/master'}}
-        uses: crazy-max/ghaction-github-pages@v3
-        with:
-          target_branch: gh-pages
-          build_dir: docs/_build/html
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-      
+      uses: crazy-max/ghaction-github-pages@v3
+      with:
+        target_branch: gh-pages
+        build_dir: docs/_build/html
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
