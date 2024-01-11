@@ -33,7 +33,7 @@ jobs:
     - name: Build the book
       run: |
         # jupyter-book build ./ --all --path-output ./docs/
-        mv -f -r ./docs/_build/html/* ./docs/
+        mv -f ./docs/_build/html/* ./docs/
         touch ./docs/.nojekyll
         
 
