@@ -17,11 +17,11 @@ jobs:
   deploy-book:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     # Install dependencies
     - name: Set up Python 3.8
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v3
       with:
         python-version: 3.8
 
@@ -34,15 +34,16 @@ jobs:
       run: |
         jupyter-book build ./ --all --path-output ./docs/
         touch ./docs/_build/html/.nojekyll
+        touch ./docs/.nojekyll
         
 
     # Push the book's HTML to github-pages
     - name: Deploy to GitHub Pages
-    if: ${{ matrix.python-version == env.PYTHON_MAIN_VERSION && github.ref == 'refs/heads/master'}}
-    uses: crazy-max/ghaction-github-pages@v2
-    with:
-      target_branch: gh-pages
-      build_dir: docs/_build/html
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        if: ${{ matrix.python-version == env.PYTHON_MAIN_VERSION && github.ref == 'refs/heads/master'}}
+        uses: crazy-max/ghaction-github-pages@v3
+        with:
+          target_branch: gh-pages
+          build_dir: docs/_build/html
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
       
