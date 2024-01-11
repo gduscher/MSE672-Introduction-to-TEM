@@ -33,8 +33,7 @@ jobs:
     - name: Build the book
       run: |
         jupyter-book build ./ --all --path-output ./docs/
-        mv -f ./docs/_build/html/* ./docs/
-        touch ./docs/.nojekyll
+        touch ./docs/_build/html/.nojekyll
         
 
     # Push the book's HTML to github-pages
@@ -42,6 +41,6 @@ jobs:
       uses: crazy-max/ghaction-github-pages@v3
       with:
         target_branch: gh-pages
-        build_dir: docs/
+        build_dir: ./docs/_build/html/
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
