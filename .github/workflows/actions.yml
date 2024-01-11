@@ -32,9 +32,9 @@ jobs:
     # Build the book
     - name: Build the book
       run: |
-        cd docs/
-        touch .touch docs/_build/html/.nojekyll
         jupyter-book build ../ --all --path-output ./docs/
+        touch .touch docs/_build/html/.nojekyll
+        
 
     # Push the book's HTML to github-pages
     - name: GitHub Pages action
