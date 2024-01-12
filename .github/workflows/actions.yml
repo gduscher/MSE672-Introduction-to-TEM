@@ -1,4 +1,4 @@
-ame: Deploy Jupyter Book
+name: Deploy Jupyter Book
 
 on:
   push:
