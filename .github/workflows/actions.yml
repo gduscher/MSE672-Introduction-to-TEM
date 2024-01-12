@@ -1,47 +1,30 @@
-name: Build Sphinx Documentation
+ame: Deploy Jupyter Book
 
 on:
-  pull_request:
-    branches:
-      - '*'
   push:
     branches:
-      - '*'
+      - main
 
 jobs:
-  build-linux:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 5
-      matrix:
-        python-version: [3.8]
-
     steps:
-    - uses: actions/checkout@v2
-      
-    - name: Set up Python ${{ matrix.python-version }}
-      
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        sudo apt-get update -qq
-        python -m pip install --upgrade pip
-        python -m pip install flake8 pytest coveralls
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-           
-    - name: Documentation build
-      run: |
-        pip install sphinx>=3.1.1 sphinx-gallery sphinx-rtd-theme>=0.5.0 sphinx-autodoc-typehints numpydoc wget pysptools cvxopt scipy nbsphinx
-        sudo apt-get install pandoc
-        sphinx-build -b html -aET ./ docs/_build/html
-        touch docs/_build/html/.nojekyll
-        
-    - name: Deploy to GitHub Pages
-      uses: crazy-max/ghaction-github-pages@v2
-      with:
-        target_branch: gh-pages
-        build_dir: docs/_build/html
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install jupyter-book ghp-import
+      - name: Build Jupyter Book
+        run: |
+          jupyter-book build --all content/
+          touch _build/html/.nojekyll
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_build/html
