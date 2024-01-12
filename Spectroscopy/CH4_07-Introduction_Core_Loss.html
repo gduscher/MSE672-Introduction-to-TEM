@@ -1,0 +1,1359 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>3.4. Introduction to Core-Loss Spectroscopy &#8212; Introduction to Transmisison Electron Microscopy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Spectroscopy/CH4_07-Introduction_Core_Loss';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.5. Chemical Composition in Core-Loss Spectra" href="CH4_08-Chemical_Composition.html" />
+    <link rel="prev" title="3.3. Analysing Low-Loss Spectra with Drude Theory" href="CH4_03-Drude.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <header>
+  
+    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    </div>
+  
+  </header>
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Introduction to Transmisison Electron Microscopy - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Introduction to Transmisison Electron Microscopy - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Foreword (ReadME)
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Introduction/CH1_00-Introduction.html">1. Chapter 1: Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_01-Introduction_Python.html">1.1. Introduction to Python as it is used in this lecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_02-Prerequisites.html">1.2. Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_03-Data_Representation.html">1.3. Matplotlib and Numpy for Micrographs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_04-Open_File.html">1.4. Open DM3 Images, Spectra, Spectrum-Images and  Image-Stacks with pyNSID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_05-Course_Organization.html">1.5. Course Organization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_06-Overview.html">1.6. Overview Notebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/install_conda.html">1.7. Installation on your own computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/computer_resources.html">1.8. Setting up computing resources</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Imaging/CH3_00-Imaging.html">2. Chapter 3: Imaging</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_01-Resolution.html">2.2. Resolution Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_03-CTF.html">2.3. Contrast Transfer Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_04-Linear_Image_Approximation.html">2.4. Linear Image Approximation: Weak Phase Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_05-Defocus_Thickness.html">2.5. Defocus-Thickness Map with Multislice Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_06-Image_Processing.html">2.6. Image Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_07-Image_Analysis.html">2.7. Image Analysis</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_08-Thermal_Diffuse_Scattering.html">2.9. Thermal-Diffuse Scattering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_09-Z_Contrast.html">2.10. Z-Contrast Imaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_10-Ronchigram.html">2.11. Ronchigram</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="CH4_00-Spectroscopy.html">3. Chapter 4: Spectroscopy</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="CH4_01-Introduction.html">3.1. Introduction to  Electron Energy-Loss Spectroscopy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH4_02-Fit_Zero_Loss.html">3.2. Fit of Zero-Loss Peak</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH4_03-Drude.html">3.3. Analysing Low-Loss Spectra with Drude Theory</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.4. Introduction to Core-Loss Spectroscopy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH4_08-Chemical_Composition.html">3.5. Chemical Composition in Core-Loss Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH4_09-Analyse_Core_Loss.html">3.6. Analysis of Core-Loss Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH4_10-ELNES.html">3.7. Energy-Loss Near-Edge Structure</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Homework/homework.html">4. Homework</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework01.html">4.1. Homework 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework02.html">4.2. Homework 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework03.html">4.3. Homework 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework04.html">4.4. Homework 4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework05-CBED.html">4.5. HW5:  Analyzing CBED Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework06-TwoBeam.html">4.6. HW6:  Analyzing CBED Pattern in Two Beam Condition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework07-Dynamic_CBED.html">4.7. HW7:  Simulating CBED Pattern</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/gduscher/MSE672-Introduction-to-TEM/main?urlpath=tree/docs/Spectroscopy/CH4_07-Introduction_Core_Loss.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/gduscher/MSE672-Introduction-to-TEM" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/gduscher/MSE672-Introduction-to-TEM/issues/new?title=Issue%20on%20page%20%2FSpectroscopy/CH4_07-Introduction_Core_Loss.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Spectroscopy/CH4_07-Introduction_Core_Loss.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Introduction to Core-Loss Spectroscopy</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#core-loss-spectroscopy">3.4.1. Core –Loss Spectroscopy</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chemical-composition">3.4.1.1. Chemical Composition</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-important-packages">3.4.2. Load important packages</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-installed-packages">3.4.2.1. Check Installed Packages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-all-relevant-libraries">3.4.2.2. Import all relevant libraries</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-cross-sections">3.4.3. Load Cross-Sections</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-cross-sections">3.4.4. Plot Cross Sections</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#list-all-edges-of-an-element">3.4.4.1. List All Edges of an Element</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-all-edges-of-an-element-in-view">3.4.4.2. Plotting all edges of an element in view</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-edges-listed-in-xsection-dictionary">3.4.4.3. Find Edges Listed in Xsection Dictionary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-edges-depending-on-cursor-postion">3.4.4.4. Find Edges Depending on Cursor Postion</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eels-cross-sections">3.4.5. EELS cross sections</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#determine-effective-collection-angle">3.4.5.1. Determine Effective Collection Angle</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-eels-cross-section">3.4.5.2. Calculating EELS Cross Section</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-of-cross-sections">3.4.5.3. Plotting of Cross Sections</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">3.4.6. Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navigation">3.4.7. Navigation</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><font size = "5"> <strong>Chapter 4: <a class="reference internal" href="CH4_00-Spectroscopy.html"><span class="doc std std-doc">Spectroscopy</span></a></strong> </font></p>
+<hr style="height:1px;border-top:4px solid #FF8200" />
+<section class="tex2jax_ignore mathjax_ignore" id="introduction-to-core-loss-spectroscopy">
+<h1><span class="section-number">3.4. </span>Introduction to Core-Loss Spectroscopy<a class="headerlink" href="#introduction-to-core-loss-spectroscopy" title="Permalink to this heading">#</a></h1>
+<p><font size = "5">Working with X-Sections</font></p>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM/main/Spectroscopy/CH4_07-Introduction_Core_Loss.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/Spectroscopy/CH4_07-Introduction_Core_Loss.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><font size = "5"> <strong><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc std std-doc">MSE672:  Introduction to Transmission Electron Microscopy</span></a></strong></font></p>
+<p>by Gerd Duscher, Spring 2021</p>
+<p>Microscopy Facilities<br>
+Joint Institute of Advanced Materials<br>
+Materials Science &amp; Engineering<br>
+The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<section id="core-loss-spectroscopy">
+<h2><span class="section-number">3.4.1. </span>Core –Loss Spectroscopy<a class="headerlink" href="#core-loss-spectroscopy" title="Permalink to this heading">#</a></h2>
+<p>As we can see in figure below the energies of the core shells are well defined and can be viewed as delta functions, unlike in the low loss region where the broad valence bands are the initial state. In both cases, however, we excite electrons into the conduction band.</p>
+<img title="core-loss" width="50%" alt="core-loss" src="images/core-loss.jpg">
+*Excitation from a core-shell state up into the conduction band above the Fermi level.*
+<p>If we look at the transition between two states <span class="math notranslate nohighlight">\(&lt; \Phi_f | H | \Phi_i &gt;\)</span> the transition should be quite sharp. In the case of the low-loss spectrum, we have many initial (the valence) states and many final (the conduction) states. The spectrum will be a convolution of these states.</p>
+<p>The features of the core–loss edges are, therefore, much sharper than any details in the low–loss region. Because only the final states contribute to the features. These sharp features enable a wide variety of analysis to determine the chemical compositions and chemical bonding, probing the local conduction band of the sample.</p>
+<section id="chemical-composition">
+<h3><span class="section-number">3.4.1.1. </span>Chemical Composition<a class="headerlink" href="#chemical-composition" title="Permalink to this heading">#</a></h3>
+<p>In this chapter we use the area under the ionization edge to determine the chemical composition of a (small) sample volume.
+The equation used to determine the number of atoms per unit volume <span class="math notranslate nohighlight">\(N\)</span> (also called areal density) is:
+\begin{equation}
+I_{edge}(\beta, \Delta E) = N I_{0}(\beta) \sigma_{edge}(\beta, \Delta E)
+\end{equation}</p>
+<p><span class="math notranslate nohighlight">\(I_0\)</span> is the number of electrons hitting the sample, and so directly comparable to the beam current.</p>
+<p>The equation can be approximated assuming that the spectrum has not been corrected for single scattering:
+\begin{equation}
+I_{edge}(\beta, \Delta E) = N I_{low-loss}(\beta,\Delta E) \sigma_{edge}(\beta, \Delta E)
+\end{equation}
+where <span class="math notranslate nohighlight">\(\beta\)</span> is the collection angle and <span class="math notranslate nohighlight">\(\sigma_{edge}\)</span> is the <strong>partial</strong> cross–section (for energy window <span class="math notranslate nohighlight">\(\Delta E\)</span>) for the core–loss excitation.</p>
+<blockquote>
+<div><p>It is this cross-section <span class="math notranslate nohighlight">\( \sigma_{edge}\)</span> that we want to explorein this notebook.</p>
+</div></blockquote>
+<p>We will do the chemical composition in the <a class="reference internal" href="CH4_08-Chemical_Composition.html"><span class="doc std std-doc">next notebook</span></a></p>
+</section>
+</section>
+<section id="load-important-packages">
+<h2><span class="section-number">3.4.2. </span>Load important packages<a class="headerlink" href="#load-important-packages" title="Permalink to this heading">#</a></h2>
+<section id="check-installed-packages">
+<h3><span class="section-number">3.4.2.1. </span>Check Installed Packages<a class="headerlink" href="#check-installed-packages" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">get_distribution</span><span class="p">,</span> <span class="n">DistributionNotFound</span>
+
+<span class="k">def</span> <span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">get_distribution</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span><span class="o">.</span><span class="n">version</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">DistributionNotFound</span><span class="p">,</span> <span class="ne">ImportError</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="c1"># Colab setup ------------------</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>pyTEMlib<span class="w"> </span>-q
+<span class="c1"># pyTEMlib setup ------------------</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2023.4.0&#39;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+        <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w">  </span>--upgrade<span class="w"> </span>pyTEMlib<span class="w"> </span>
+<span class="c1"># ------------------------------</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="import-all-relevant-libraries">
+<h3><span class="section-number">3.4.2.2. </span>Import all relevant libraries<a class="headerlink" href="#import-all-relevant-libraries" title="Permalink to this heading">#</a></h3>
+<p>Please note that the EELS_tools package from pyTEMlib is essential.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> ipympl
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="c1">## We need to import a few important additional function from matplotlib, </span>
+<span class="c1">## because we want to demonstrate a few more hidden functionalities of the EELS_tools of pytTEMlib.</span>
+<span class="kn">from</span> <span class="nn">matplotlib.widgets</span> <span class="kn">import</span> <span class="n">Cursor</span>
+<span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="kn">import</span> <span class="n">Rectangle</span>
+<span class="kn">from</span> <span class="nn">matplotlib.widgets</span> <span class="kn">import</span> <span class="n">SpanSelector</span>
+
+<span class="c1">## import the configuration files of pyTEMlib (we need access to the data folder)</span>
+<span class="kn">import</span> <span class="nn">pyTEMlib</span>
+<span class="kn">import</span> <span class="nn">pyTEMlib.eels_tools</span> <span class="k">as</span> <span class="nn">eels</span>
+<span class="kn">import</span> <span class="nn">pyTEMlib.interactive_eels</span> <span class="k">as</span> <span class="nn">ieels</span>
+
+<span class="c1"># For archiving reasons it is a good idea to print the version numbers out at this point</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pyTEM version: &#39;</span><span class="p">,</span><span class="n">pyTEMlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Symmetry functions of spglib enabled
+pyTEM version:  0.2023.4.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="load-cross-sections">
+<h2><span class="section-number">3.4.3. </span>Load Cross-Sections<a class="headerlink" href="#load-cross-sections" title="Permalink to this heading">#</a></h2>
+<p>The form factors are from:
+X-Ray Form Factor, Attenuation, and Scattering Tables
+NIST Standard Reference Database 66</p>
+<p>DOI: <a class="reference external" href="https://dx.doi.org/10.18434/T4HS32">https://dx.doi.org/10.18434/T4HS32</a></p>
+<p>Detailed Tabulation of Atomic Form Factors, Photoelectric Absorption and Scattering Cross Section, and Mass Attenuation Coefficients for Z = 1-92 from E = 1-10 eV to E = 0.4-1.0 MeV
+C.T. Chantler,1 K. Olsen, R.A. Dragoset, J. Chang, A.R. Kishore, S.A. Kotochigova, and D.S. Zucker
+NIST, Physical Measurement Laboratory</p>
+<p>The cross sections are part of the pyTEMlib package and are stored as a pickled dictionary in the package data directory.</p>
+<p>Below are the lines for accessing the cross sections with eels_tools of pyTEMlib.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Xsections</span> <span class="o">=</span> <span class="n">eels</span><span class="o">.</span><span class="n">get_x_sections</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="plot-cross-sections">
+<h2><span class="section-number">3.4.4. </span>Plot Cross Sections<a class="headerlink" href="#plot-cross-sections" title="Permalink to this heading">#</a></h2>
+<p>Please add your favourite element ot the list of atomic numbers.</p>
+<p>With the code cell above we made the whole database of cross secitons available for this notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># -----Input ------------ #</span>
+<span class="n">atomic_numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">58</span><span class="p">,</span> <span class="mi">28</span><span class="p">]</span>
+<span class="c1"># ----------------------- #</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">Z</span> <span class="ow">in</span> <span class="n">atomic_numbers</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Xsections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)][</span><span class="s1">&#39;ene&#39;</span><span class="p">],</span> <span class="n">Xsections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)][</span><span class="s1">&#39;dat&#39;</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="n">Xsections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)][</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1500</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">2.5e17</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;energy_loss (eV)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;cross section (atoms/nm$^2$)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/1367d45c2549db17c6bac3abebd243b1da19a137b8dc65437c2fa978a36b0be1.png" src="../_images/1367d45c2549db17c6bac3abebd243b1da19a137b8dc65437c2fa978a36b0be1.png" />
+</div>
+</div>
+<section id="list-all-edges-of-an-element">
+<h3><span class="section-number">3.4.4.1. </span>List All Edges of an Element<a class="headerlink" href="#list-all-edges-of-an-element" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">element</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="mi">58</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="n">key</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;onset&#39;</span> <span class="ow">in</span> <span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="n">key</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">8.1f</span><span class="si">}</span><span class="s2"> eV &quot;</span><span class="p">)</span>
+            
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ce-O3:     19.8 eV 
+Ce-O2:     19.8 eV 
+Ce-O1:     37.8 eV 
+Ce-N6:     85.9 eV 
+Ce-N5:    110.0 eV 
+Ce-N4:    110.0 eV 
+Ce-N3:    207.2 eV 
+Ce-N2:    223.3 eV 
+Ce-N1:    289.6 eV 
+Ce-M5:    883.3 eV 
+Ce-M4:    901.3 eV 
+Ce-M3:   1185.4 eV 
+Ce-M2:   1272.8 eV 
+Ce-M1:   1434.6 eV 
+Ce-L3:   5723.4 eV 
+Ce-L2:   6164.2 eV 
+Ce-L1:   6548.8 eV 
+Ce-K1:  40443.0 eV 
+</pre></div>
+</div>
+</div>
+</div>
+<p>Or ordered</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">major_edges</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;K1&#39;</span><span class="p">,</span> <span class="s1">&#39;L3&#39;</span><span class="p">,</span> <span class="s1">&#39;M5&#39;</span><span class="p">,</span> <span class="s1">&#39;N5&#39;</span><span class="p">]</span>
+<span class="n">all_edges</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;K1&#39;</span><span class="p">,</span><span class="s1">&#39;L1&#39;</span><span class="p">,</span><span class="s1">&#39;L2&#39;</span><span class="p">,</span><span class="s1">&#39;L3&#39;</span><span class="p">,</span><span class="s1">&#39;M1&#39;</span><span class="p">,</span><span class="s1">&#39;M2&#39;</span><span class="p">,</span><span class="s1">&#39;M3&#39;</span><span class="p">,</span><span class="s1">&#39;M4&#39;</span><span class="p">,</span><span class="s1">&#39;M5&#39;</span><span class="p">,</span><span class="s1">&#39;N1&#39;</span><span class="p">,</span> <span class="s1">&#39;N2&#39;</span><span class="p">,</span><span class="s1">&#39;N3&#39;</span><span class="p">,</span><span class="s1">&#39;N4&#39;</span><span class="p">,</span><span class="s1">&#39;N5&#39;</span><span class="p">,</span><span class="s1">&#39;N6&#39;</span><span class="p">,</span><span class="s1">&#39;N7&#39;</span><span class="p">,</span><span class="s1">&#39;O1&#39;</span><span class="p">,</span><span class="s1">&#39;O2&#39;</span><span class="p">,</span><span class="s1">&#39;O3&#39;</span><span class="p">,</span><span class="s1">&#39;O4&#39;</span><span class="p">,</span><span class="s1">&#39;O5&#39;</span><span class="p">,</span><span class="s1">&#39;O6&#39;</span><span class="p">,</span><span class="s1">&#39;O7&#39;</span><span class="p">,</span> <span class="s1">&#39;P1&#39;</span><span class="p">,</span> <span class="s1">&#39;P2&#39;</span><span class="p">,</span> <span class="s1">&#39;P3&#39;</span><span class="p">]</span>
+<span class="n">first_close_edges</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;K1&#39;</span><span class="p">,</span> <span class="s1">&#39;L3&#39;</span><span class="p">,</span> <span class="s1">&#39;M5&#39;</span><span class="p">,</span> <span class="s1">&#39;M3&#39;</span><span class="p">,</span> <span class="s1">&#39;N5&#39;</span><span class="p">,</span> <span class="s1">&#39;N3&#39;</span><span class="p">]</span>
+
+<span class="n">element</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="mi">28</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">list_all_edges</span><span class="p">(</span><span class="n">Z</span><span class="p">):</span>
+    <span class="n">element</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;All edges&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">all_edges</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="s1">&#39;onset&#39;</span> <span class="ow">in</span> <span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="n">key</span><span class="p">]:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">8.1f</span><span class="si">}</span><span class="s2"> eV &quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">list_major_edges</span><span class="p">(</span><span class="n">Z</span><span class="p">):</span>
+    <span class="n">element</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Major edges&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">major_edges</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="s1">&#39;onset&#39;</span> <span class="ow">in</span> <span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="n">key</span><span class="p">]:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">8.1f</span><span class="si">}</span><span class="s2"> eV &quot;</span><span class="p">)</span>                      
+<span class="c1">## Here with the function of the EELS_tools package                      </span>
+<span class="n">list_all_edges</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+<span class="n">list_major_edges</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>All edges
+ Ni-K1:   8332.8 eV 
+ Ni-L1:   1008.1 eV 
+ Ni-L2:    871.9 eV 
+ Ni-L3:    854.7 eV 
+ Ni-M1:    111.8 eV 
+ Ni-M2:     68.1 eV 
+ Ni-M3:     68.1 eV 
+ Ni-M4:      3.6 eV 
+ Ni-M5:      3.6 eV 
+Major edges
+ Ni-K1:   8332.8 eV 
+ Ni-L3:    854.7 eV 
+ Ni-M5:      3.6 eV 
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="plotting-all-edges-of-an-element-in-view">
+<h3><span class="section-number">3.4.4.2. </span>Plotting all edges of an element in view<a class="headerlink" href="#plotting-all-edges-of-an-element-in-view" title="Permalink to this heading">#</a></h3>
+<p>Now, let’s do it graphically</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">major_edges</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;K1&#39;</span><span class="p">,</span> <span class="s1">&#39;L3&#39;</span><span class="p">,</span> <span class="s1">&#39;M5&#39;</span><span class="p">,</span> <span class="s1">&#39;N5&#39;</span><span class="p">]</span>
+<span class="n">all_edges</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;K1&#39;</span><span class="p">,</span><span class="s1">&#39;L1&#39;</span><span class="p">,</span><span class="s1">&#39;L2&#39;</span><span class="p">,</span><span class="s1">&#39;L3&#39;</span><span class="p">,</span><span class="s1">&#39;M1&#39;</span><span class="p">,</span><span class="s1">&#39;M2&#39;</span><span class="p">,</span><span class="s1">&#39;M3&#39;</span><span class="p">,</span><span class="s1">&#39;M4&#39;</span><span class="p">,</span><span class="s1">&#39;M5&#39;</span><span class="p">,</span><span class="s1">&#39;N1&#39;</span><span class="p">,</span> <span class="s1">&#39;N2&#39;</span><span class="p">,</span><span class="s1">&#39;N3&#39;</span><span class="p">,</span><span class="s1">&#39;N4&#39;</span><span class="p">,</span><span class="s1">&#39;N5&#39;</span><span class="p">,</span><span class="s1">&#39;N6&#39;</span><span class="p">,</span><span class="s1">&#39;N7&#39;</span><span class="p">,</span><span class="s1">&#39;O1&#39;</span><span class="p">,</span><span class="s1">&#39;O2&#39;</span><span class="p">,</span><span class="s1">&#39;O3&#39;</span><span class="p">,</span><span class="s1">&#39;O4&#39;</span><span class="p">,</span><span class="s1">&#39;O5&#39;</span><span class="p">,</span><span class="s1">&#39;O6&#39;</span><span class="p">,</span><span class="s1">&#39;O7&#39;</span><span class="p">,</span> <span class="s1">&#39;P1&#39;</span><span class="p">,</span> <span class="s1">&#39;P2&#39;</span><span class="p">,</span> <span class="s1">&#39;P3&#39;</span><span class="p">]</span>
+<span class="n">first_close_edges</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;K1&#39;</span><span class="p">,</span> <span class="s1">&#39;L3&#39;</span><span class="p">,</span> <span class="s1">&#39;M5&#39;</span><span class="p">,</span> <span class="s1">&#39;M3&#39;</span><span class="p">,</span> <span class="s1">&#39;N5&#39;</span><span class="p">,</span> <span class="s1">&#39;N3&#39;</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">get_Z</span><span class="p">(</span><span class="n">Z</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    returns the atomic number independent of input as a string or number</span>
+<span class="sd">    </span>
+<span class="sd">    input:</span>
+<span class="sd">    Z: atomic number of chemical symbol (0 if not valid)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Xsections</span> <span class="o">=</span> <span class="n">eels</span><span class="o">.</span><span class="n">get_x_sections</span><span class="p">()</span>
+    
+    <span class="n">Z_out</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span> 
+        <span class="n">Z_out</span> <span class="o">=</span> <span class="n">Z</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">Xsections</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">Xsections</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">Z</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span> <span class="c1">## Well one really should know how to write elemental </span>
+                <span class="n">Z_out</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Z_out</span>
+
+
+<span class="k">class</span> <span class="nc">ElementalEdges</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">Z</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">Z</span> <span class="o">=</span> <span class="n">get_Z</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Xsections</span> <span class="o">=</span> <span class="n">eels</span><span class="o">.</span><span class="n">get_x_sections</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cid</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">mpl_connect</span><span class="p">(</span><span class="s1">&#39;draw_event&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onresize</span><span class="p">)</span>
+        
+        <span class="c1">#self.update()</span>
+    <span class="k">def</span> <span class="nf">set_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Z</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Z</span> <span class="o">=</span> <span class="n">get_Z</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+        
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">onresize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+        
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">:</span>
+                <span class="n">label</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines</span><span class="p">:</span>
+                <span class="n">line</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Z</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span> <span class="p">;</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">=</span><span class="p">[]</span> 
+            <span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
+            <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+            <span class="n">x_bounds</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
+            <span class="n">element</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Z</span><span class="p">)</span>
+            <span class="n">Xsections</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xsections</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">all_edges</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="s1">&#39;onset&#39;</span> <span class="ow">in</span> <span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="n">key</span><span class="p">]:</span>
+                        <span class="n">x</span> <span class="o">=</span> <span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">x_min</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">x_max</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">first_close_edges</span><span class="p">:</span>
+                                <span class="n">label2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                                                      <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">rotation</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">label2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                                                      <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
+                            <span class="n">line2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">ymin</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="n">ymax</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
+
+                            <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label2</span><span class="p">)</span>
+
+                            <span class="bp">self</span><span class="o">.</span><span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line2</span><span class="p">)</span>
+                    
+        
+    <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">:</span>
+                <span class="n">label</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines</span><span class="p">:</span>
+                <span class="n">line</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">mpl_disconnect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cid</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">reconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>    
+        <span class="bp">self</span><span class="o">.</span><span class="n">cid</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">mpl_connect</span><span class="p">(</span><span class="s1">&#39;draw_event&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onresize</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">draw_idle</span><span class="p">()</span>
+        
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax_Xsec</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>                
+<span class="k">for</span> <span class="n">Z</span> <span class="ow">in</span> <span class="n">atomic_numbers</span><span class="p">:</span>
+    <span class="n">ax_Xsec</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Xsections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)][</span><span class="s1">&#39;ene&#39;</span><span class="p">],</span> <span class="n">Xsections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)][</span><span class="s1">&#39;dat&#39;</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="n">Xsections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)][</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+<span class="n">ax_Xsec</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">1450</span><span class="p">)</span>
+<span class="n">ax_Xsec</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">1e17</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>   
+<span class="n">Z</span> <span class="o">=</span> <span class="mi">58</span>
+<span class="n">edges</span> <span class="o">=</span> <span class="n">ieels</span><span class="o">.</span><span class="n">ElementalEdges</span><span class="p">(</span><span class="n">ax_Xsec</span><span class="p">,</span> <span class="s1">&#39;Ce&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/f13ec5407f62b147007f538281f89519337415ebbe1e965367b6e56fe8edc40d.png" src="../_images/f13ec5407f62b147007f538281f89519337415ebbe1e965367b6e56fe8edc40d.png" />
+</div>
+</div>
+<p>Let’s make the lines disappear</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">edges</span><span class="o">.</span><span class="n">disconnect</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>and reappear in the plot above</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">edges</span><span class="o">.</span><span class="n">set_edge</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s set another edge</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">edges</span><span class="o">.</span><span class="n">set_edge</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="find-edges-listed-in-xsection-dictionary">
+<h3><span class="section-number">3.4.4.3. </span>Find Edges Listed in Xsection Dictionary<a class="headerlink" href="#find-edges-listed-in-xsection-dictionary" title="Permalink to this heading">#</a></h3>
+<p>please note that the two functions below are as ususal available in the EELS_tools of pyTEMlib</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">find_major_edges</span><span class="p">(</span><span class="n">edge_onset</span><span class="p">,</span> <span class="n">maximal_chemical_shift</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">Xsections</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">]:</span>
+            
+            <span class="c1">#if isinstance(Xsections[element][key], dict):</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">major_edges</span><span class="p">:</span>
+                
+                <span class="c1">#if &#39;onset&#39; in Xsections[element][key]:</span>
+                <span class="c1">#print(key, Xsections[element][key])</span>
+                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">edge_onset</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">maximal_chemical_shift</span><span class="p">:</span>
+                    <span class="c1">#print(element, Xsections[element][&#39;name&#39;], key, Xsections[element][key][&#39;onset&#39;])</span>
+                    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">2s</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">8.1f</span><span class="si">}</span><span class="s2"> eV &quot;</span>
+                    
+    <span class="k">return</span> <span class="n">text</span>
+<span class="k">def</span> <span class="nf">find_all_edges</span><span class="p">(</span><span class="n">edge_onset</span><span class="p">,</span> <span class="n">maximal_chemical_shift</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">Xsections</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">]:</span>
+            
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="n">key</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+            
+                
+                <span class="k">if</span> <span class="s1">&#39;onset&#39;</span> <span class="ow">in</span> <span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="n">key</span><span class="p">]:</span>
+                
+                    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">edge_onset</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">maximal_chemical_shift</span><span class="p">:</span>
+                        <span class="c1">#print(element, Xsections[element][&#39;name&#39;], key, Xsections[element][key][&#39;onset&#39;])</span>
+                        <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">2s</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">Xsections</span><span class="p">[</span><span class="n">element</span><span class="p">][</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">8.1f</span><span class="si">}</span><span class="s2"> eV &quot;</span>
+                    
+    <span class="k">return</span> <span class="n">text</span>
+
+
+<span class="n">edge_onset</span> <span class="o">=</span> <span class="mi">284</span>
+<span class="n">maximal_chemical_shift</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Major Edges within </span><span class="si">{</span><span class="n">maximal_chemical_shift</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> eV of </span><span class="si">{</span><span class="n">edge_onset</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">eels</span><span class="o">.</span><span class="n">find_major_edges</span><span class="p">(</span><span class="n">edge_onset</span><span class="p">,</span> <span class="n">maximal_chemical_shift</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">All Edges within </span><span class="si">{</span><span class="n">maximal_chemical_shift</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> eV of </span><span class="si">{</span><span class="n">edge_onset</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">eels</span><span class="o">.</span><span class="n">find_all_edges</span><span class="p">(</span><span class="n">edge_onset</span><span class="p">,</span> <span class="n">maximal_chemical_shift</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Major Edges within 7.0 eV of 284.0
+
+ C -K1:    283.8 eV 
+ Ru-M5:    279.4 eV 
+
+All Edges within 7.0 eV of 284.0
+
+ C -K1:    283.8 eV 
+ Kr-M1:    288.3 eV 
+ Sr-M2:    279.8 eV 
+ Ru-M5:    279.4 eV 
+ Ru-M4:    283.6 eV 
+ Ce-N1:    289.6 eV 
+ Eu-N2:    283.9 eV 
+ Gd-N2:    288.5 eV 
+ Tb-N3:    285.0 eV 
+ Os-N4:    289.4 eV 
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="find-edges-depending-on-cursor-postion">
+<h3><span class="section-number">3.4.4.4. </span>Find Edges Depending on Cursor Postion<a class="headerlink" href="#find-edges-depending-on-cursor-postion" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We are using </span>
+<span class="c1"># from matplotlib.widgets import Cursor</span>
+
+
+<span class="n">maximal_chemical_shift</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Click with left for major and right mouse button for all </span><span class="se">\n</span><span class="s1"> ionization edges within </span><span class="si">{</span><span class="n">maximal_chemical_shift</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> eV of cursor&#39;</span><span class="p">)</span>
+<span class="n">maximal_chemical_shift</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">ieels</span><span class="o">.</span><span class="n">EdgesAtCursor</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">Xsections</span><span class="p">[</span><span class="s1">&#39;42&#39;</span><span class="p">][</span><span class="s1">&#39;ene&#39;</span><span class="p">],</span> <span class="n">Xsections</span><span class="p">[</span><span class="s1">&#39;42&#39;</span><span class="p">][</span><span class="s1">&#39;dat&#39;</span><span class="p">],</span><span class="n">maximal_chemical_shift</span><span class="p">)</span>
+<span class="n">cursor</span><span class="o">.</span><span class="n">maximal_chemical_shift</span> <span class="o">=</span><span class="n">maximal_chemical_shift</span>
+<span class="n">cid</span> <span class="o">=</span>  <span class="n">plt</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;motion_notify_event&#39;</span><span class="p">,</span> <span class="n">cursor</span><span class="o">.</span><span class="n">mouse_move</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Xsections</span><span class="p">[</span><span class="s1">&#39;16&#39;</span><span class="p">][</span><span class="s1">&#39;ene&#39;</span><span class="p">],</span> <span class="n">Xsections</span><span class="p">[</span><span class="s1">&#39;16&#39;</span><span class="p">][</span><span class="s1">&#39;dat&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;S&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Xsections</span><span class="p">[</span><span class="s1">&#39;42&#39;</span><span class="p">][</span><span class="s1">&#39;ene&#39;</span><span class="p">],</span> <span class="n">Xsections</span><span class="p">[</span><span class="s1">&#39;42&#39;</span><span class="p">][</span><span class="s1">&#39;dat&#39;</span><span class="p">],</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Mo&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">2.5e17</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/a1eb39c917844252f7efc7154fd660a3dd264fe00d9fd7c4226fa1375b6cd081.png" src="../_images/a1eb39c917844252f7efc7154fd660a3dd264fe00d9fd7c4226fa1375b6cd081.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="eels-cross-sections">
+<h2><span class="section-number">3.4.5. </span>EELS cross sections<a class="headerlink" href="#eels-cross-sections" title="Permalink to this heading">#</a></h2>
+<section id="determine-effective-collection-angle">
+<h3><span class="section-number">3.4.5.1. </span>Determine Effective Collection Angle<a class="headerlink" href="#determine-effective-collection-angle" title="Permalink to this heading">#</a></h3>
+<p>EELS cross sections are dependent on the momentum transfer (angle dependence), while photons cannot transfer any momentum. The angle dependence is given by the experimental set-up and can be calculated by the convolution of collection and convergence angle.</p>
+<p>Here we use the method of <a class="reference external" href="https://doi.org/10.1016/0304-3991(88)90130-1">Pierre Trebbia, Ultramicroscopy <strong>24</strong> (1988) pp.399-408</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">effective_collection_angle</span><span class="p">(</span><span class="n">ene</span><span class="p">,</span>  <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">beamkV</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; effective collection angle for convergent beam setup</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    Original abstract of function y = effbeta(ene,  alpha, beta, beamkV)</span>
+<span class="sd">    # </span>
+<span class="sd">    #       This program computes etha(alpha,beta), that is the collection</span>
+<span class="sd">    #       efficiency associated to the following geometry :</span>
+<span class="sd">    #</span>
+<span class="sd">    #       alpha = half angle of illumination  (0 -&gt; pi/2)</span>
+<span class="sd">    #       beta  = half angle of collection    (0 -&gt; pi/2)</span>
+<span class="sd">    #                                           (pi/2 = 1570.795 mrad)</span>
+<span class="sd">    #</span>
+<span class="sd">    #           A constant angular distribution of incident electrons is assumed</span>
+<span class="sd">    #       for any incident angle (-alpha,alpha). These electrons impige the</span>
+<span class="sd">    #       target and a single energy loss event occurs, with a characteristic</span>
+<span class="sd">    #       angle theta-e (relativistic). The angular distribution of the</span>
+<span class="sd">    #       electrons after the target is analytically derived.</span>
+<span class="sd">    #           This program integrates this distribution from theta=0 up to</span>
+<span class="sd">    #       theta=beta with an adjustable angular step.</span>
+<span class="sd">    #           This program also computes beta* which is the theoretical</span>
+<span class="sd">    #       collection angle which would give the same value of etha(alpha,beta)</span>
+<span class="sd">    #       with a parallel incident beam.</span>
+<span class="sd">    #</span>
+<span class="sd">    #       subroutines and function subprograms required</span>
+<span class="sd">    #       ---------------------------------------------</span>
+<span class="sd">    #       none</span>
+<span class="sd">    #</span>
+<span class="sd">    #       comments</span>
+<span class="sd">    #       --------</span>
+<span class="sd">    #</span>
+<span class="sd">    #       The following parameters are asked as input :</span>
+<span class="sd">    #        accelerating voltage (kV), energy loss range (eV) for the study,</span>
+<span class="sd">    #        energy loss step (eV) in this range, alpha (mrad), beta (mrad).</span>
+<span class="sd">    #       The program returns for each energy loss step :</span>
+<span class="sd">    #        alpha (mrad), beta (mrad), theta-e (relativistic) (mrad),</span>
+<span class="sd">    #        energy loss (eV), etha (#), beta * (mrad)</span>
+<span class="sd">    #</span>
+<span class="sd">    #       author :</span>
+<span class="sd">    #       --------</span>
+<span class="sd">    #       Pierre TREBBIA</span>
+<span class="sd">    #       US 41 : &quot;Microscopie Electronique Analytique Quantitative&quot;</span>
+<span class="sd">    #       Laboratoire de Physique des Solides, Bat. 510</span>
+<span class="sd">    #       Universite Paris-Sud, F91405 ORSAY Cedex</span>
+<span class="sd">    #       Phone : (33-1) 69 41 53 68</span>
+<span class="sd">    #</span>
+<span class="sd">    #       </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+        
+       
+    <span class="n">z1</span> <span class="o">=</span> <span class="n">beamkV</span><span class="o">*</span><span class="mf">1000.</span>  <span class="p">;</span>   <span class="c1"># eV</span>
+    <span class="n">z2</span> <span class="o">=</span> <span class="n">ene</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="n">z3</span> <span class="o">=</span> <span class="n">ene</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">z4</span> <span class="o">=</span> <span class="mf">100.0</span>
+    <span class="n">z5</span> <span class="o">=</span> <span class="n">alpha</span><span class="o">*</span><span class="mf">0.001</span>   <span class="c1"># rad</span>
+    <span class="n">z6</span> <span class="o">=</span> <span class="n">beta</span><span class="o">*</span><span class="mf">0.001</span>    <span class="c1"># rad</span>
+    <span class="n">z7</span> <span class="o">=</span> <span class="mi">500</span>          <span class="c1"># number of integration steps to be modified at will</span>
+
+    <span class="c1"># main loop on energy loss</span>
+    
+    <span class="k">for</span>  <span class="n">zx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">z2</span><span class="p">),</span><span class="nb">int</span><span class="p">(</span><span class="n">z3</span><span class="p">),</span><span class="nb">int</span><span class="p">(</span><span class="n">z4</span><span class="p">)):</span> <span class="c1">#! zx = current energy loss</span>
+        <span class="n">eta</span><span class="o">=</span><span class="mf">0.0</span><span class="p">;</span>
+        <span class="n">x0</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">zx</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">z1</span><span class="o">+</span><span class="mf">511060.</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">z1</span><span class="o">*</span><span class="p">(</span><span class="n">z1</span><span class="o">+</span><span class="mf">1022120.</span><span class="p">));</span>  <span class="c1"># x0 = relativistic theta-e</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">x0</span><span class="p">);</span>
+        <span class="n">x2</span><span class="o">=</span><span class="n">x0</span><span class="o">*</span><span class="n">x0</span><span class="o">+</span><span class="n">z5</span><span class="o">*</span><span class="n">z5</span><span class="p">;</span>
+        <span class="n">x3</span><span class="o">=</span><span class="n">z5</span><span class="o">/</span><span class="n">x0</span><span class="o">*</span><span class="n">z5</span><span class="o">/</span><span class="n">x0</span><span class="p">;</span>
+        <span class="n">x4</span><span class="o">=</span><span class="mf">0.1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x2</span><span class="p">);</span>
+        <span class="n">dtheta</span><span class="o">=</span><span class="p">(</span><span class="n">z6</span><span class="o">-</span><span class="n">x4</span><span class="p">)</span><span class="o">/</span><span class="n">z7</span><span class="p">;</span>
+    <span class="c1">#</span>
+    <span class="c1"># calculation of the analytical expression</span>
+    <span class="c1">#</span>
+    <span class="k">for</span> <span class="n">zi</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">z7</span><span class="p">)):</span>
+        <span class="n">theta</span><span class="o">=</span><span class="n">x4</span><span class="o">+</span><span class="n">dtheta</span><span class="o">*</span><span class="nb">float</span><span class="p">(</span><span class="n">zi</span><span class="p">);</span>
+        <span class="n">x5</span><span class="o">=</span><span class="n">theta</span><span class="o">*</span><span class="n">theta</span><span class="p">;</span>
+        <span class="n">x6</span><span class="o">=</span><span class="mf">4.</span><span class="o">*</span><span class="n">x5</span><span class="o">*</span><span class="n">x0</span><span class="o">*</span><span class="n">x0</span><span class="p">;</span>
+        <span class="n">x7</span><span class="o">=</span><span class="n">x2</span><span class="o">-</span><span class="n">x5</span><span class="p">;</span>
+        <span class="n">x8</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x7</span><span class="o">*</span><span class="n">x7</span><span class="o">+</span><span class="n">x6</span><span class="p">);</span>
+        <span class="n">x9</span><span class="o">=</span><span class="p">(</span><span class="n">x8</span><span class="o">+</span><span class="n">x7</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">x0</span><span class="o">*</span><span class="n">x0</span><span class="p">);</span>
+        <span class="n">x10</span><span class="o">=</span><span class="mf">2.</span><span class="o">*</span><span class="n">theta</span><span class="o">*</span><span class="n">dtheta</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x9</span><span class="p">);</span>
+        <span class="n">eta</span><span class="o">=</span><span class="n">eta</span><span class="o">+</span><span class="n">x10</span><span class="p">;</span>
+
+          
+
+    <span class="n">eta</span><span class="o">=</span><span class="n">eta</span><span class="o">+</span><span class="n">x2</span><span class="o">/</span><span class="mf">100.</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">1.</span><span class="o">+</span><span class="n">x3</span><span class="p">)</span>   <span class="p">;</span>  <span class="c1"># addition of the central contribution</span>
+    <span class="n">x4</span><span class="o">=</span><span class="n">z5</span><span class="o">*</span><span class="n">z5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">1.</span><span class="o">+</span><span class="n">x1</span><span class="o">*</span><span class="n">x1</span><span class="p">);</span>         <span class="c1"># normalisation</span>
+    <span class="n">eta</span><span class="o">=</span><span class="n">eta</span><span class="o">/</span><span class="n">x4</span><span class="p">;</span>
+    <span class="c1">#</span>
+    <span class="c1">#        correction by geometrical factor (beta/alpha)**2</span>
+    <span class="c1">#</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">z6</span><span class="o">&lt;</span><span class="n">z5</span><span class="p">):</span>
+        <span class="n">x5</span><span class="o">=</span><span class="n">z5</span><span class="o">/</span><span class="n">z6</span><span class="p">;</span>
+        <span class="n">eta</span><span class="o">=</span><span class="n">eta</span><span class="o">*</span><span class="n">x5</span><span class="o">*</span><span class="n">x5</span><span class="p">;</span>
+
+    <span class="n">etha2</span><span class="o">=</span><span class="n">eta</span><span class="o">*</span><span class="mf">100.</span><span class="p">;</span>
+    <span class="c1">#</span>
+    <span class="c1">#        calculation of beta *</span>
+    <span class="c1">#</span>
+    <span class="n">x6</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">((</span><span class="mf">1.</span><span class="o">+</span><span class="n">x1</span><span class="o">*</span><span class="n">x1</span><span class="p">),</span><span class="n">eta</span><span class="p">);</span>
+    <span class="n">x7</span><span class="o">=</span><span class="n">x0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x6</span><span class="o">-</span><span class="mf">1.</span><span class="p">);</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">x7</span><span class="o">*</span><span class="mf">1000.</span><span class="p">;</span>
+
+    
+    <span class="k">return</span> <span class="n">y</span>
+
+    
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">energy_scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">alpha</span><span class="o">=</span><span class="mi">30</span> 
+<span class="n">beta</span><span class="o">=</span><span class="mi">60</span>
+<span class="n">eff_beta</span> <span class="o">=</span> <span class="n">eels</span><span class="o">.</span><span class="n">effective_collection_angle</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span>  <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">beam_kv</span><span class="o">=</span><span class="mi">200000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Convergence angle  </span><span class="si">{</span><span class="n">alpha</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> mrad and collection angle </span><span class="si">{</span><span class="n">beta</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> mrad </span><span class="se">\n</span><span class="s1"> &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;results in effective collection angle of is </span><span class="si">{</span><span class="n">eff_beta</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> mrad&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Convergence angle  30.00 mrad and collection angle 60.00 mrad 
+ results in effective collection angle of is 55.90 mrad
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="calculating-eels-cross-section">
+<h3><span class="section-number">3.4.5.2. </span>Calculating EELS Cross Section<a class="headerlink" href="#calculating-eels-cross-section" title="Permalink to this heading">#</a></h3>
+<p>EELS cross sections are dependent on the momentum transfer (angle dependence), while photons cannot transfer any momentum. The angle dependence of the cross-section is aproximated by the equation 4 in:
+<a class="reference external" href="https://doi.org/10.1016/0304-3991(93)90087-E">Egerton Ultramicroscopy 50 (1993) 13-28</a></p>
+<p>The units of atom density in  electron microscopy is atoms per nm<span class="math notranslate nohighlight">\(^2\)</span>.
+Cross sections are normally given in barns (a neutron scattering joke).</p>
+<p>A barn is 10<span class="math notranslate nohighlight">\(^{-28}\)</span> m<span class="math notranslate nohighlight">\(^2\)</span> which is then 1 barn = 10<span class="math notranslate nohighlight">\(^{-10}\)</span> nm<span class="math notranslate nohighlight">\(^2\)</span></p>
+<p>Therefore, to get a probability per nm<span class="math notranslate nohighlight">\(^2\)</span> we have to divide the cross-section in barns by 10<span class="math notranslate nohighlight">\(^{10}\)</span></p>
+<p>𝐼𝑒𝑑𝑔𝑒(𝛽,Δ𝐸)=𝑁𝐼𝑙𝑜𝑤−𝑙𝑜𝑠𝑠(𝛽,Δ𝐸)𝜎𝑒𝑑𝑔𝑒(𝛽,Δ𝐸)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">splev</span><span class="p">,</span><span class="n">splrep</span><span class="p">,</span><span class="n">splint</span>
+<span class="c1">#from scipy.integrate import quad</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">interp1d</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">leastsq</span>
+
+<span class="k">def</span> <span class="nf">xsec_xrpa</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">E0</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="mi">0</span> <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate momentum-integrated cross-section for EELS from X-ray photoaborption  cross-sections.</span>
+<span class="sd">    </span>
+<span class="sd">    Input:</span>
+<span class="sd">    ------</span>
+<span class="sd">    energy_scale: energyscale of spectrum to be analyzed</span>
+<span class="sd">    E0: acceleration voltage in keV</span>
+<span class="sd">    Z: atomic number of element</span>
+<span class="sd">    beta: effective collection angle in mrad</span>
+<span class="sd">    shift: chemical shift of edge in eV</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+ 
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span> <span class="o">*</span> <span class="mf">0.001</span><span class="p">;</span>     <span class="c1">#% collection half angle theta [rad]</span>
+    <span class="c1">#thetamax = self.parent.spec[0].convAngle * 0.001;  #% collection half angle theta [rad]</span>
+    <span class="n">dispersion</span> <span class="o">=</span> <span class="n">energy_scale</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">energy_scale</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="n">Xsections</span> <span class="o">=</span> <span class="n">eels</span><span class="o">.</span><span class="n">get_Xsections</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+    <span class="n">enexs</span> <span class="o">=</span> <span class="n">Xsections</span><span class="p">[</span><span class="s1">&#39;ene&#39;</span><span class="p">]</span>
+    <span class="n">datxs</span> <span class="o">=</span> <span class="n">Xsections</span><span class="p">[</span><span class="s1">&#39;dat&#39;</span><span class="p">]</span>
+        
+    <span class="c1">#####</span>
+    <span class="c1">## Cross Section according to Egerton Ultramicroscopy 50 (1993) 13-28 equation (4)</span>
+    <span class="c1">#####</span>
+
+    <span class="c1"># Relativistic correction factors</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="mf">511060.0</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mf">1.0</span><span class="o">+</span><span class="n">E0</span><span class="o">/</span><span class="p">(</span><span class="mf">511.06</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span><span class="p">;</span>
+    <span class="n">gamma</span><span class="o">=</span><span class="mi">1</span><span class="o">+</span><span class="n">E0</span><span class="o">/</span><span class="mf">511.06</span><span class="p">;</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="mf">6.5</span><span class="c1">#e-14 *10**14</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">beta</span>
+
+    <span class="n">thetaE</span> <span class="o">=</span> <span class="n">enexs</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">gamma</span><span class="o">*</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="n">G</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">gamma</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">((</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">thetaE</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">thetaE</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">gamma</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">-</span><span class="p">(</span><span class="n">gamma</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">thetaE</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">gamma</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">datxs</span> <span class="o">=</span> <span class="n">datxs</span><span class="o">*</span><span class="p">(</span><span class="n">A</span><span class="o">/</span><span class="n">enexs</span><span class="o">/</span><span class="n">T</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">thetaE</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="n">G</span><span class="p">)</span><span class="o">/</span><span class="mf">1e8</span>
+
+    <span class="n">datxs</span> <span class="o">=</span> <span class="n">datxs</span> <span class="o">*</span> <span class="n">dispersion</span> <span class="c1"># from per eV to per dispersion</span>
+    <span class="n">coeff</span> <span class="o">=</span> <span class="n">splrep</span><span class="p">(</span><span class="n">enexs</span><span class="p">,</span><span class="n">datxs</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># now in areal density atoms / m^2</span>
+    <span class="n">xsec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">energy_scale</span> <span class="p">))</span>
+    <span class="c1">#shift = 0# int(ek -onsetXRPS)#/dispersion</span>
+    <span class="n">lin</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">enexs</span><span class="p">,</span><span class="n">datxs</span><span class="p">,</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span> <span class="c1"># Linear instead of spline interpolation to avoid oscillations.</span>
+    <span class="n">xsec</span> <span class="o">=</span> <span class="n">lin</span><span class="p">(</span><span class="n">energy_scale</span><span class="o">-</span><span class="n">shift</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">xsec</span>
+<span class="n">energy_scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">600</span><span class="p">)</span>
+<span class="n">B_Xsection</span> <span class="o">=</span> <span class="n">eels</span><span class="o">.</span><span class="n">xsec_xrpa</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span>  <span class="mf">10.</span> <span class="p">)</span><span class="o">/</span><span class="mf">1e10</span>  
+<span class="n">N_Xsection</span> <span class="o">=</span> <span class="n">eels</span><span class="o">.</span><span class="n">xsec_xrpa</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span>  <span class="mf">10.</span> <span class="p">)</span><span class="o">/</span><span class="mf">1e10</span>       <span class="c1">#  xsec  is in barns = 10^28 m2 = 10^10 nm2</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="plotting-of-cross-sections">
+<h3><span class="section-number">3.4.5.3. </span>Plotting of Cross Sections<a class="headerlink" href="#plotting-of-cross-sections" title="Permalink to this heading">#</a></h3>
+<p>please note that spectrum and cross sections are not on the same scale</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">S_Xsection</span>  <span class="o">=</span> <span class="n">eels</span><span class="o">.</span><span class="n">xsec_xrpa</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mf">10.</span> <span class="p">)</span><span class="o">/</span><span class="mf">1e10</span>  
+<span class="n">Mo_Xsection</span> <span class="o">=</span> <span class="n">eels</span><span class="o">.</span><span class="n">xsec_xrpa</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mf">10.</span> <span class="p">,</span><span class="n">shift</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="mf">1e10</span>       <span class="c1">#  xsec  is in barns = 10^28 m2 = 10^10 nm2</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">S_Xsection</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;S X-section&#39;</span> <span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">Mo_Xsection</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Mo X-section&#39;</span> <span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;energy_loss [eV]&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;probability [atoms/nm$^</span><span class="si">{2}</span><span class="s1">$]&#39;</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/24f818898ce9b317d2108723dcf04176004e01f8897a5c73b97ea6ed56d81e4f.png" src="../_images/24f818898ce9b317d2108723dcf04176004e01f8897a5c73b97ea6ed56d81e4f.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="summary">
+<h2><span class="section-number">3.4.6. </span>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
+<p>The cross section is key to determine the chemical composition of an EELS spectrum.
+These cross sections are dependent on:</p>
+<ul class="simple">
+<li><p>acceleration voltage</p></li>
+<li><p>effective collection angle</p></li>
+<li><p>element</p></li>
+</ul>
+<p>So these experimental parameters have to be provided for a calculations of cross sections.</p>
+<p>We will use these cross sections in the <a class="reference internal" href="CH4_08-Chemical_Composition.html"><span class="doc std std-doc">chemical compostions notebook</span></a></p>
+</section>
+<section id="navigation">
+<h2><span class="section-number">3.4.7. </span>Navigation<a class="headerlink" href="#navigation" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><font size = "3">  <strong>Up Chapter 4: <a class="reference internal" href="CH4_00-Spectroscopy.html"><span class="doc std std-doc">Imaging</span></a></strong> </font></p></li>
+<li><p><font size = "3">  <strong>Back: <a class="reference internal" href="CH4_03-Drude.html"><span class="doc std std-doc">Dielectric Function</span></a></strong> </font></p></li>
+<li><p><font size = "3">  <strong>Next: <a class="reference internal" href="CH4_08-Chemical_Composition.html"><span class="doc std std-doc">Chemical Composition</span></a></strong> </font></p></li>
+<li><p><font size = "3">  <strong>List of Content: <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc std std-doc">Front</span></a></strong> </font></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "tem"
+        },
+        kernelOptions: {
+            name: "tem",
+            path: "./Spectroscopy"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'tem'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="CH4_03-Drude.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3.3. </span>Analysing Low-Loss Spectra with Drude Theory</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="CH4_08-Chemical_Composition.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3.5. </span>Chemical Composition in Core-Loss Spectra</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#core-loss-spectroscopy">3.4.1. Core –Loss Spectroscopy</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chemical-composition">3.4.1.1. Chemical Composition</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-important-packages">3.4.2. Load important packages</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-installed-packages">3.4.2.1. Check Installed Packages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-all-relevant-libraries">3.4.2.2. Import all relevant libraries</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-cross-sections">3.4.3. Load Cross-Sections</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-cross-sections">3.4.4. Plot Cross Sections</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#list-all-edges-of-an-element">3.4.4.1. List All Edges of an Element</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-all-edges-of-an-element-in-view">3.4.4.2. Plotting all edges of an element in view</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-edges-listed-in-xsection-dictionary">3.4.4.3. Find Edges Listed in Xsection Dictionary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-edges-depending-on-cursor-postion">3.4.4.4. Find Edges Depending on Cursor Postion</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eels-cross-sections">3.4.5. EELS cross sections</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#determine-effective-collection-angle">3.4.5.1. Determine Effective Collection Angle</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-eels-cross-section">3.4.5.2. Calculating EELS Cross Section</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-of-cross-sections">3.4.5.3. Plotting of Cross Sections</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">3.4.6. Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navigation">3.4.7. Navigation</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Gerd Duscher UTK/IAMM
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1882 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Basic Crystallography &#8212; Introduction to Transmisison Electron Microscopy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Diffraction/CH2_03-Basic_Crystallography';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <header>
+  
+    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    </div>
+  
+  </header>
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Introduction to Transmisison Electron Microscopy - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Introduction to Transmisison Electron Microscopy - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Foreword (ReadME)
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Introduction/CH1_00-Introduction.html">1. Chapter 1: Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_01-Introduction_Python.html">1.1. Introduction to Python as it is used in this lecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_02-Prerequisites.html">1.2. Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_03-Data_Representation.html">1.3. Matplotlib and Numpy for Micrographs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_04-Open_File.html">1.4. Open DM3 Images, Spectra, Spectrum-Images and  Image-Stacks with pyNSID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_05-Course_Organization.html">1.5. Course Organization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_06-Overview.html">1.6. Overview Notebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/install_conda.html">1.7. Installation on your own computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/computer_resources.html">1.8. Setting up computing resources</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Imaging/CH3_00-Imaging.html">2. Chapter 3: Imaging</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_01-Resolution.html">2.2. Resolution Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_03-CTF.html">2.3. Contrast Transfer Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_04-Linear_Image_Approximation.html">2.4. Linear Image Approximation: Weak Phase Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_05-Defocus_Thickness.html">2.5. Defocus-Thickness Map with Multislice Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_06-Image_Processing.html">2.6. Image Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_07-Image_Analysis.html">2.7. Image Analysis</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_08-Thermal_Diffuse_Scattering.html">2.9. Thermal-Diffuse Scattering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_09-Z_Contrast.html">2.10. Z-Contrast Imaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_10-Ronchigram.html">2.11. Ronchigram</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Spectroscopy/CH4_00-Spectroscopy.html">3. Chapter 4: Spectroscopy</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_01-Introduction.html">3.1. Introduction to  Electron Energy-Loss Spectroscopy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_02-Fit_Zero_Loss.html">3.2. Fit of Zero-Loss Peak</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_03-Drude.html">3.3. Analysing Low-Loss Spectra with Drude Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_07-Introduction_Core_Loss.html">3.4. Introduction to Core-Loss Spectroscopy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_08-Chemical_Composition.html">3.5. Chemical Composition in Core-Loss Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_09-Analyse_Core_Loss.html">3.6. Analysis of Core-Loss Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_10-ELNES.html">3.7. Energy-Loss Near-Edge Structure</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Homework/homework.html">4. Homework</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework01.html">4.1. Homework 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework02.html">4.2. Homework 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework03.html">4.3. Homework 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework04.html">4.4. Homework 4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework05-CBED.html">4.5. HW5:  Analyzing CBED Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework06-TwoBeam.html">4.6. HW6:  Analyzing CBED Pattern in Two Beam Condition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework07-Dynamic_CBED.html">4.7. HW7:  Simulating CBED Pattern</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/gduscher/MSE672-Introduction-to-TEM/main?urlpath=tree/docs/Diffraction/CH2_03-Basic_Crystallography.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/gduscher/MSE672-Introduction-to-TEM" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/gduscher/MSE672-Introduction-to-TEM/issues/new?title=Issue%20on%20page%20%2FDiffraction/CH2_03-Basic_Crystallography.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Diffraction/CH2_03-Basic_Crystallography.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Basic Crystallography</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-relevant-python-packages">Load relevant python packages</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-installed-packages">Check Installed Packages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-plotting-and-figure-packages">Load the plotting and figure packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-crystal">Define  Crystal</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#structure-matrix">Structure Matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#store-information-in-ase-atomic-simulation-environment-format">Store Information in ASE (atomic simulation environment) format</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-of-unit-cell">Volume of Unit Cell</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-algebra-in-unit-cell">Vector Algebra in Unit Cell</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-unit-cell">Plot the unit cell</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reciprocal-lattice">Reciprocal Lattice</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reciprocal-lattice-vectors">Reciprocal Lattice Vectors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navigation">Navigation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-read-poscar">Appendix: Read POSCAR</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-function">The function</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><font size = "5"> <strong>Chapter 2: <span class="xref myst">Diffraction</span></strong> </font></p>
+<hr style="height:1px;border-top:4px solid #FF8200" />
+<section class="tex2jax_ignore mathjax_ignore" id="basic-crystallography">
+<h1>Basic Crystallography<a class="headerlink" href="#basic-crystallography" title="Permalink to this heading">#</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Diffraction/CH2_03-Basic_Crystallography.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main//Diffraction/CH2_03-Basic_Crystallography.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><font size = "5"> <strong><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc std std-doc">MSE672:  Introduction to Transmission Electron Microscopy</span></a></strong></font></p>
+<p>by Gerd Duscher and Khalid Hattar, Spring 2024</p>
+<p>Microscopy Facilities and Ion Beam Facility<br>
+Institute of Advanced Materials &amp; Manufacturing<br>
+Materials Science &amp; Engineering and Nuclear Engineering<br>
+The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<section id="load-relevant-python-packages">
+<h2>Load relevant python packages<a class="headerlink" href="#load-relevant-python-packages" title="Permalink to this heading">#</a></h2>
+<section id="check-installed-packages">
+<h3>Check Installed Packages<a class="headerlink" href="#check-installed-packages" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">importlib.metadata</span>
+<span class="k">def</span> <span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2024.1.0&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w">  </span>--upgrade<span class="w"> </span>pyTEMlib<span class="w"> </span>-q
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">numpy</span><span class="o">==</span><span class="m">1</span>.24.4
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>done
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="load-the-plotting-and-figure-packages">
+<h3>Load the plotting and figure packages<a class="headerlink" href="#load-the-plotting-and-figure-packages" title="Permalink to this heading">#</a></h3>
+<p>Import the python packages that we will use:</p>
+<p>Beside the basic numerical (numpy) and plotting (pylab of matplotlib) libraries,</p>
+<ul class="simple">
+<li><p>three dimensional plotting
+and some libraries from the book</p></li>
+<li><p>kinematic scattering library.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> widget
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">output</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+    
+<span class="c1"># 3D plotting package </span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span> <span class="c1"># 3D plotting</span>
+
+<span class="kn">import</span> <span class="nn">ase</span>
+
+<span class="c1"># Import libraries from the pyTEMlib</span>
+<span class="kn">import</span> <span class="nn">pyTEMlib</span>
+<span class="kn">import</span> <span class="nn">pyTEMlib.kinematic_scattering</span> <span class="k">as</span> <span class="nn">ks</span>         <span class="c1"># kinematic scattering Library</span>
+                             <span class="c1"># with atomic form factors from Kirkland&#39;s book</span>
+<span class="c1"># it is a good idea to show the version numbers at this point for archiving reasons.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pyTEM version: &#39;</span><span class="p">,</span><span class="n">pyTEMlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>You don&#39;t have igor2 installed.     If you wish to open igor files, you will need to install it     (pip install igor2) before attempting.
+You don&#39;t have gwyfile installed.     If you wish to open .gwy files, you will need to      install it (pip install gwyfile) before attempting.
+Symmetry functions of spglib enabled
+Qt dialogs are not available
+Using kinematic_scattering library version {_version_ }  by G.Duscher
+pyTEM version:  0.2023.8.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="define-crystal">
+<h2>Define  Crystal<a class="headerlink" href="#define-crystal" title="Permalink to this heading">#</a></h2>
+<p>A crystal is well defined by its unit cell and the atom positions within, the so called base.
+The base consists of which element sits where within the unit cell</p>
+<p>The unit cell fills the volume completely when translated in all three directions. Placing the unit cell in a global carthesian coordination system, we need the length of the sides and their angles for a complete description. This is depicted in the graph below.
+<img alt="unitcell_angles" src="../_images/unit_cell_angles.png" /></p>
+<p>Figure taken from the wikipedia page on lattice constants.</p>
+<p>Mathematically it is more advantageous to describe the unit cell as matrix, the</p>
+<section id="structure-matrix">
+<h3>Structure Matrix<a class="headerlink" href="#structure-matrix" title="Permalink to this heading">#</a></h3>
+<p>This matrix consists of rows of vectors that span the unit cell:
+<span class="math notranslate nohighlight">\(\begin{bmatrix}
+  a_1 &amp; a_2 &amp; a_3 \\
+  b_1 &amp; b_2 &amp; b_3 \\
+  c_1 &amp; c_2 &amp; c_3 \\
+\end{bmatrix} =\left[\vec{a},\vec{b},\vec{c}\right]\)</span>.</p>
+<p>This structure matrix is also used to describe the super cells in materials simulations for example density functional theory.</p>
+<p>The representation of unit cells as structure matrices allows also for easy conversions as we will see in the following.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create graphite unit cell (or structure matrix)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">b</span> <span class="o">=</span> <span class="mf">2.46</span>  <span class="c1"># Angstrom</span>
+<span class="n">c</span> <span class="o">=</span> <span class="mf">6.71</span>  <span class="c1"># Angstrom</span>
+<span class="n">gamma</span> <span class="o">=</span> <span class="mi">120</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="n">beta</span> <span class="o">=</span> <span class="mi">90</span>
+
+<span class="c1">## Create the structure matrix for a hexagonal system explicitly:</span>
+<span class="n">structure_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">a</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],</span>  <span class="c1">## also called the structure matrix</span>
+                    <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">gamma</span><span class="p">))</span><span class="o">*</span><span class="n">a</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">gamma</span><span class="p">))</span><span class="o">*</span><span class="n">a</span><span class="p">,</span><span class="mf">0.</span> <span class="p">],</span>
+                     <span class="p">[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="n">c</span><span class="p">]</span>
+                    <span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;structure matrix </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">structure_matrix</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+
+<span class="n">elements</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">4</span>
+<span class="n">base</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">]]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;elements:&#39;</span><span class="p">,</span> <span class="n">elements</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;base </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">base</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>structure matrix 
+ [[ 2.46  0.    0.  ]
+ [-1.23  2.13  0.  ]
+ [ 0.    0.    6.71]]
+elements: [&#39;C&#39;, &#39;C&#39;, &#39;C&#39;, &#39;C&#39;]
+base 
+ [[0.    0.    0.   ]
+ [0.    0.    0.5  ]
+ [0.333 0.667 0.   ]
+ [0.667 0.333 0.5  ]]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="store-information-in-ase-atomic-simulation-environment-format">
+<h3>Store Information in ASE (atomic simulation environment) format<a class="headerlink" href="#store-information-in-ase-atomic-simulation-environment-format" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">atoms</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">Atoms</span><span class="p">(</span><span class="n">elements</span><span class="p">,</span> <span class="n">cell</span><span class="o">=</span><span class="n">structure_matrix</span><span class="p">,</span> <span class="n">scaled_positions</span><span class="o">=</span><span class="n">base</span><span class="p">)</span>
+<span class="n">atoms</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Atoms(symbols=&#39;C4&#39;, pbc=False, cell=[[2.46, 0.0, 0.0], [-1.2299999999999995, 2.130422493309719, 0.0], [0.0, 0.0, 6.71]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can retrieve the information stored</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;structure matrix [nm]</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="o">.</span><span class="n">array</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;elements </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_chemical_formula</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;base </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_scaled_positions</span><span class="p">(),</span> <span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>structure matrix [nm]
+ [[ 2.46  0.    0.  ]
+ [-1.23  2.13  0.  ]
+ [ 0.    0.    6.71]]
+elements 
+ C4
+base 
+ [[0.    0.    0.   ]
+ [0.    0.    0.5  ]
+ [0.333 0.667 0.   ]
+ [0.667 0.333 0.5  ]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>A convenient function is provided by the kinematic_scttering library (loaded with name ks)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">atoms</span> <span class="o">=</span> <span class="n">ks</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">(</span><span class="s1">&#39;Graphite&#39;</span><span class="p">)</span>
+<span class="n">atoms</span><span class="o">.</span><span class="n">positions</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.00000000e+00, 0.00000000e+00, 0.00000000e+00],
+       [0.00000000e+00, 0.00000000e+00, 3.35550000e+00],
+       [1.23386207e+00, 7.12370598e-01, 0.00000000e+00],
+       [3.04714108e-16, 1.42474120e+00, 3.35550000e+00]])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="volume-of-unit-cell">
+<h3>Volume of Unit Cell<a class="headerlink" href="#volume-of-unit-cell" title="Permalink to this heading">#</a></h3>
+<p>We will need the volume of the unit cell  for unit conversions later.</p>
+<p>Volume of the parallelepiped (<a class="reference external" href="https://en.wikipedia.org/wiki/Triple_product">https://en.wikipedia.org/wiki/Triple_product</a>) :
+<span class="math notranslate nohighlight">\(\vec{a} \cdot \vec{b} \times \vec{c} =  \det \begin{bmatrix}
+  a_1 &amp; a_2 &amp; a_3 \\
+  b_1 &amp; b_2 &amp; b_3 \\
+  c_1 &amp; c_2 &amp; c_3 \\
+\end{bmatrix} ={\rm det}\left(\vec{a},\vec{b},\vec{c}\right)\)</span></p>
+<p>We see that the structure matrix comes in handy for that calculation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">volume</span> <span class="o">=</span> <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">structure_matrix</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;volume of unit cell: </span><span class="si">{</span><span class="n">volume</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> Ang^3&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>volume of unit cell: 35.1660 Ang^3
+</pre></div>
+</div>
+</div>
+</div>
+<p>The same procedure is provided by ase</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;volume of unit cell: </span><span class="si">{</span><span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="o">.</span><span class="n">volume</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> Ang^3&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>volume of unit cell: 35.3925 Ang^3
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="vector-algebra-in-unit-cell">
+<h3>Vector Algebra in Unit Cell<a class="headerlink" href="#vector-algebra-in-unit-cell" title="Permalink to this heading">#</a></h3>
+<p>We will use the linear algebra package of numpy (np.linalg) for our vector calculations.</p>
+<p>The length of a vector is called its norm.</p>
+<p>And the angle between two vectors is calculated by the dot product: <span class="math notranslate nohighlight">\(\vec{a} \cdot \vec{b} = \left\| \vec{a} \right\| \left\| \vec{b} \right\| \cos (\theta) \)</span></p>
+<blockquote>
+<div><p>Note that python starts couting at 0 and so the second vector has index 1</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">length_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">structure_matrix</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;length of second unit cell vector is </span><span class="si">{</span><span class="n">length_b</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> Ang&#39;</span> <span class="p">)</span> 
+
+<span class="n">gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">structure_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">length_b</span><span class="p">,</span> <span class="n">structure_matrix</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">length_b</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;angle between a and b is </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">gamma</span><span class="p">)</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> degree&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>length of second unit cell vector is 2.460 Ang
+angle between a and b is 120.0 degree
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="plot-the-unit-cell">
+<h3>Plot the unit cell<a class="headerlink" href="#plot-the-unit-cell" title="Permalink to this heading">#</a></h3>
+<p>We use the visualization library of ase to plot structures.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ase.visualize.plot</span> <span class="kn">import</span> <span class="n">plot_atoms</span>
+
+<span class="n">plot_atoms</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">radii</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;0x,1y,0z&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: &gt;
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "3bb8d4659607475ab6ca5f3ddab8ecc4", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This does not work in Google Colab</span>
+
+<span class="kn">from</span> <span class="nn">ase.visualize</span> <span class="kn">import</span> <span class="n">view</span>
+<span class="n">view</span><span class="p">(</span><span class="n">atoms</span><span class="o">*</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Popen: returncode: None args: [&#39;C:\\Users\\gduscher\\AppData\\Local\\anacon...&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ase.visualize</span> <span class="kn">import</span> <span class="n">view</span>
+<span class="n">view</span><span class="p">(</span><span class="n">atoms</span><span class="o">*</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">viewer</span> <span class="o">=</span> <span class="s1">&#39;x3d&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><html>
+
+ <head>
+
+  <title>ASE atomic visualization</title>
+
+  <link rel="stylesheet" type="text/css"
+
+   href="https://www.x3dom.org/x3dom/release/x3dom.css">
+
+  </link>
+
+  <script type="text/javascript"
+
+   src="https://www.x3dom.org/x3dom/release/x3dom.js">
+
+  </script>
+
+ </head>
+
+ <body>
+
+  <X3D>
+
+   <Scene>
+
+    <Transform translation="0.00 0.00 0.00">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="0.00 0.00 3.36">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="1.23 0.71 0.00">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="0.00 1.42 3.36">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="-1.23 2.14 0.00">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="-1.23 2.14 3.36">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="0.00 2.85 0.00">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="-1.23 3.56 3.36">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="-2.47 4.27 0.00">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="-2.47 4.27 3.36">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="-1.23 4.99 0.00">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="-2.47 5.70 3.36">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="2.47 0.00 0.00">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="2.47 0.00 3.36">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="3.70 0.71 0.00">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="2.47 1.42 3.36">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="1.23 2.14 0.00">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="1.23 2.14 3.36">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="2.47 2.85 0.00">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="1.23 3.56 3.36">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="0.00 4.27 0.00">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="0.00 4.27 3.36">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="1.23 4.99 0.00">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="0.00 5.70 3.36">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="4.94 0.00 0.00">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="4.94 0.00 3.36">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="6.17 0.71 0.00">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="4.94 1.42 3.36">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="3.70 2.14 0.00">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="3.70 2.14 3.36">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="4.94 2.85 0.00">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="3.70 3.56 3.36">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="2.47 4.27 0.00">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="2.47 4.27 3.36">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="3.70 4.99 0.00">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+    <Transform translation="2.47 5.70 3.36">
+
+     <Shape>
+
+      <Appearance>
+
+       <Material diffuseColor="0.565 0.565 0.565" specularColor="0.5 0.5 0.5">
+
+       </Material>
+
+      </Appearance>
+
+      <Sphere radius="0.76">
+
+      </Sphere>
+
+     </Shape>
+
+    </Transform>
+
+   </Scene>
+
+  </X3D>
+
+ </body>
+
+</html>
+
+</div></div>
+</div>
+</section>
+</section>
+<section id="reciprocal-lattice">
+<h2>Reciprocal Lattice<a class="headerlink" href="#reciprocal-lattice" title="Permalink to this heading">#</a></h2>
+<p>The unit cell in reciprocal space</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">reciprocal_lattice</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="o">.</span><span class="n">array</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="c1"># transposed of inverted unit_cell</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;reciprocal lattice [1/Ang.]:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">reciprocal_lattice</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>reciprocal lattice [1/Ang.]:
+[[0.4052 0.234  0.    ]
+ [0.     0.4679 0.    ]
+ [0.     0.     0.149 ]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The same function is provided in ase package of Cell.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;reciprocal lattice [1/Ang.]:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="o">.</span><span class="n">reciprocal</span><span class="p">(),</span><span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>reciprocal lattice [1/Ang.]:
+[[ 0.4052  0.234   0.    ]
+ [-0.      0.4679  0.    ]
+ [ 0.      0.      0.149 ]]
+</pre></div>
+</div>
+</div>
+</div>
+<section id="reciprocal-lattice-vectors">
+<h3>Reciprocal Lattice Vectors<a class="headerlink" href="#reciprocal-lattice-vectors" title="Permalink to this heading">#</a></h3>
+<p>From your crystallography book and lecture you are probably used to the following expression for the reciprocal lattice vectors (<span class="math notranslate nohighlight">\(\vec{a}^*, \vec{b}^*, \vec{c}^*\)</span>)</p>
+<p>$ \begin{align}
+\vec{a}^* &amp;=  \frac{\vec{b} \times \vec{c}}{\vec{a} \cdot \left(\vec{b} \times \vec{c}\right)} \
+\vec{b}^* &amp;=  \frac{\vec{c} \times \vec{a}}{\vec{b} \cdot \left(\vec{c} \times \vec{a}\right)} \
+\vec{c}^* &amp;=  \frac{\vec{a} \times \vec{b}}{\vec{c} \cdot \left(\vec{a} \times \vec{b}\right)}
+\end{align}$\</p>
+<p>Where we see that the denominators of the above vector equations are the volume of the unit cell.</p>
+<p>In physics book, you will see an additional factor of 2<span class="math notranslate nohighlight">\(\pi\)</span>, which is generally omitted in materials science and microscopy.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Now let&#39;s test whether this is really equivalent to the matrix expression above.</span>
+<span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span> <span class="o">=</span> <span class="n">atoms</span><span class="o">.</span><span class="n">cell</span>
+
+<span class="n">a_recip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">a_recip</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">b_recip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">b_recip</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">c_recip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">c_recip</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Compare to:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">reciprocal_lattice</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0.405  0.234 -0.   ]
+[0.    0.468 0.   ]
+[ 0.    -0.     0.149]
+Compare to:
+[[0.405 0.234 0.   ]
+ [0.    0.468 0.   ]
+ [0.    0.    0.149]]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">#</a></h2>
+<p>With these definitions we have everything to define a crystal and to analyse diffraction and imaging data of crystalline specimens.</p>
+<p>Crystallography deals with the application of symmetry and group theory of symmetry to crystal structures.
+If you want to play around with symmetry and space groups, you can install the <a class="reference external" href="http://atztogo.github.io/spglib/python-spglib.html#python-spglib">spglib</a>. The spglib is especially helpfull for determination of reduced unit cells (the smallest possible ones, instead of the ones with the full symmetry).</p>
+<p>A number of common crystal structures are defined in the kinematic_scattering libary of the pyTEMlib package under the function ‘’structure_by_name’’. Try them out in this notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># As ususal the help function will show you the usage of a function:</span>
+<span class="n">help</span><span class="p">(</span><span class="n">ks</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Help on function structure_by_name in module pyTEMlib.crystal_tools:
+
+structure_by_name(crystal_name)
+    Provides crystal structure in ase.Atoms format.
+    Additional information is stored in the info attribute as a dictionary
+
+
+    Parameter
+    ---------
+    crystal_name: str
+        Please note that the chemical expressions are not case-sensitive.
+
+    Returns
+    -------
+    atoms: ase.Atoms
+        structure
+
+    Example
+    -------
+    &gt;&gt; #  for a list of pre-defined crystal structures
+    &gt;&gt; import pyTEMlib.crystal_tools
+    &gt;&gt; print(pyTEMlib.crystal_tools.crystal_data_base.keys())
+    &gt;&gt;
+    &gt;&gt; atoms = pyTEMlib.crystal_tools.structure_by_name(&#39;Silicon&#39;)
+    &gt;&gt; print(atoms)
+    &gt;&gt; print(atoms.info)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here are all the predifined crystal structures.</p>
+<blockquote>
+<div><p>Check out the <a class="reference external" href="https://wiki.fysik.dtu.dk/ase/ase/build/build.html">building tutorial of ase</a> for more fun structures like nanotubes</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">ks</span><span class="o">.</span><span class="n">crystal_data_base</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;aluminum&#39;, &#39;al&#39;, &#39;aluminium&#39;, &#39;gold&#39;, &#39;au&#39;, &#39;silver&#39;, &#39;ag&#39;, &#39;copper&#39;, &#39;cu&#39;, &#39;diamond&#39;, &#39;germanium&#39;, &#39;ge&#39;, &#39;silicon&#39;, &#39;si&#39;, &#39;gaas&#39;, &#39;fcc fe&#39;, &#39;iron&#39;, &#39;bcc fe&#39;, &#39;alpha iron&#39;, &#39;srtio3&#39;, &#39;strontium titanate&#39;, &#39;graphite&#39;, &#39;cscl&#39;, &#39;cesium chlorid&#39;, &#39;mgo&#39;, &#39;titanium nitride&#39;, &#39;zno wurzite&#39;, &#39;zno&#39;, &#39;wzno&#39;, &#39;gan&#39;, &#39;gan wurzite&#39;, &#39;wgan&#39;, &#39;gallium nitride&#39;, &#39;tio2&#39;, &#39;mos2&#39;, &#39;ws2&#39;, &#39;wse2&#39;, &#39;mose2&#39;, &#39;zno hexagonal&#39;, &#39;pdse2&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now use one name of above structures and redo this notebook</p>
+</section>
+<section id="navigation">
+<h2>Navigation<a class="headerlink" href="#navigation" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><font size = "3">  <strong>Back: <a class="reference internal" href="#"><span class="doc std std-doc">Basic Crystallography</span></a></strong> </font></p></li>
+<li><p><font size = "3">  <strong>Next: <a class="reference internal" href="CH2_04-Structure_Factors.html"><span class="doc std std-doc">Structure Factors</span></a></strong> </font></p></li>
+<li><p><font size = "3">  <strong>Chapter 2: <span class="xref myst">Diffraction</span></strong> </font></p></li>
+<li><p><font size = "3">  <strong>List of Content: <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc std std-doc">Front</span></a></strong> </font></p></li>
+</ul>
+</section>
+<section id="appendix-read-poscar">
+<h2>Appendix: Read POSCAR<a class="headerlink" href="#appendix-read-poscar" title="Permalink to this heading">#</a></h2>
+<p>Load and draw a  crystal structure  from a POSCAR file</p>
+<section id="the-function">
+<h3>The function<a class="headerlink" href="#the-function" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ase.io</span> <span class="kn">import</span> <span class="n">read</span><span class="p">,</span> <span class="n">write</span>
+<span class="kn">import</span> <span class="nn">pyTEMlib.file_tools</span> <span class="k">as</span> <span class="nn">ft</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">def</span> <span class="nf">read_poscar</span><span class="p">():</span> <span class="c1"># open file dialog to select poscar file</span>
+    <span class="n">file_name</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">open_file_dialog_qt</span><span class="p">(</span><span class="s1">&#39;POSCAR (POSCAR*.txt);;All files (*)&#39;</span><span class="p">)</span>
+    <span class="c1">#use ase package to read file</span>
+    
+    <span class="n">base</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+    <span class="n">base_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">base</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">crystal</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;vasp&#39;</span><span class="p">,</span> <span class="n">parallel</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">crystal</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">atoms</span> <span class="o">=</span> <span class="n">read_poscar</span><span class="p">()</span>
+<span class="n">atoms</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">22</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">atoms</span> <span class="o">=</span> <span class="n">read_poscar</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">atoms</span>
+
+<span class="nn">Cell In[21], line 9,</span> in <span class="ni">read_poscar</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">file_name</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">open_file_dialog_qt</span><span class="p">(</span><span class="s1">&#39;POSCAR (POSCAR*.txt);;All files (*)&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="c1">#use ase package to read file</span>
+<span class="ne">----&gt; </span><span class="mi">9</span> <span class="n">base</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="n">base_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">base</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">crystal</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;vasp&#39;</span><span class="p">,</span> <span class="n">parallel</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nn">File &lt;frozen ntpath&gt;:270,</span> in <span class="ni">basename</span><span class="nt">(p)</span>
+
+<span class="nn">File &lt;frozen ntpath&gt;:241,</span> in <span class="ni">split</span><span class="nt">(p)</span>
+
+<span class="ne">TypeError</span>: expected str, bytes or os.PathLike object, not NoneType
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Diffraction"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-relevant-python-packages">Load relevant python packages</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-installed-packages">Check Installed Packages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-plotting-and-figure-packages">Load the plotting and figure packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-crystal">Define  Crystal</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#structure-matrix">Structure Matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#store-information-in-ase-atomic-simulation-environment-format">Store Information in ASE (atomic simulation environment) format</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-of-unit-cell">Volume of Unit Cell</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-algebra-in-unit-cell">Vector Algebra in Unit Cell</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-unit-cell">Plot the unit cell</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reciprocal-lattice">Reciprocal Lattice</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reciprocal-lattice-vectors">Reciprocal Lattice Vectors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navigation">Navigation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-read-poscar">Appendix: Read POSCAR</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-function">The function</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Gerd Duscher UTK/IAMM
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

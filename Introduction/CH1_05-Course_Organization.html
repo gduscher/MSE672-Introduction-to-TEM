@@ -1,0 +1,817 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>1.5. Course Organization &#8212; Introduction to Transmisison Electron Microscopy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Introduction/CH1_05-Course_Organization';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="1.6. Overview Notebook" href="CH1_06-Overview.html" />
+    <link rel="prev" title="1.4. Open DM3 Images, Spectra, Spectrum-Images and Image-Stacks with pyNSID" href="CH1_04-Open_File.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <header>
+  
+    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    </div>
+  
+  </header>
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Introduction to Transmisison Electron Microscopy - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Introduction to Transmisison Electron Microscopy - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Foreword (ReadME)
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="CH1_00-Introduction.html">1. Chapter 1: Introduction</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="CH1_01-Introduction_Python.html">1.1. Introduction to Python as it is used in this lecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH1_02-Prerequisites.html">1.2. Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH1_03-Data_Representation.html">1.3. Matplotlib and Numpy for Micrographs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH1_04-Open_File.html">1.4. Open DM3 Images, Spectra, Spectrum-Images and  Image-Stacks with pyNSID</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">1.5. Course Organization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH1_06-Overview.html">1.6. Overview Notebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install_conda.html">1.7. Installation on your own computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="computer_resources.html">1.8. Setting up computing resources</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Imaging/CH3_00-Imaging.html">2. Chapter 3: Imaging</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_01-Resolution.html">2.2. Resolution Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_03-CTF.html">2.3. Contrast Transfer Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_04-Linear_Image_Approximation.html">2.4. Linear Image Approximation: Weak Phase Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_05-Defocus_Thickness.html">2.5. Defocus-Thickness Map with Multislice Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_06-Image_Processing.html">2.6. Image Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_07-Image_Analysis.html">2.7. Image Analysis</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_08-Thermal_Diffuse_Scattering.html">2.9. Thermal-Diffuse Scattering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_09-Z_Contrast.html">2.10. Z-Contrast Imaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_10-Ronchigram.html">2.11. Ronchigram</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Spectroscopy/CH4_00-Spectroscopy.html">3. Chapter 4: Spectroscopy</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_01-Introduction.html">3.1. Introduction to  Electron Energy-Loss Spectroscopy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_02-Fit_Zero_Loss.html">3.2. Fit of Zero-Loss Peak</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_03-Drude.html">3.3. Analysing Low-Loss Spectra with Drude Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_07-Introduction_Core_Loss.html">3.4. Introduction to Core-Loss Spectroscopy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_08-Chemical_Composition.html">3.5. Chemical Composition in Core-Loss Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_09-Analyse_Core_Loss.html">3.6. Analysis of Core-Loss Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_10-ELNES.html">3.7. Energy-Loss Near-Edge Structure</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Homework/homework.html">4. Homework</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework01.html">4.1. Homework 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework02.html">4.2. Homework 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework03.html">4.3. Homework 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework04.html">4.4. Homework 4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework05-CBED.html">4.5. HW5:  Analyzing CBED Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework06-TwoBeam.html">4.6. HW6:  Analyzing CBED Pattern in Two Beam Condition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework07-Dynamic_CBED.html">4.7. HW7:  Simulating CBED Pattern</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/gduscher/MSE672-Introduction-to-TEM/main?urlpath=tree/docs/Introduction/CH1_05-Course_Organization.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/gduscher/MSE672-Introduction-to-TEM" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/gduscher/MSE672-Introduction-to-TEM/issues/new?title=Issue%20on%20page%20%2FIntroduction/CH1_05-Course_Organization.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Introduction/CH1_05-Course_Organization.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Course Organization</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#books">1.5.1. Books</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#williams-and-carter">1.5.1.1. Williams and Carter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reimer-and-kohl">1.5.1.2. Reimer and Kohl</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zuo-and-spence">1.5.1.3. Zuo and Spence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kirkland">1.5.1.4. Kirkland</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#r-f-egerton">1.5.1.5. R.F. Egerton</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#software">1.5.2. Software</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#image-analysis-software-for-sem-and-tem">1.5.2.1. Image Analysis software for SEM and TEM</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#digital-micrograph">1.5.2.1.1. Digital Micrograph</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#imagej">1.5.2.1.2. ImageJ</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-notebooks">1.5.2.1.3. jupyter notebooks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#syllabus">1.5.3. Syllabus</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#office-hours">1.5.4. Office Hours</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#class-and-lab">1.5.5. Class and Lab</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#homework-and-quizzes">1.5.6. Homework and Quizzes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final">1.5.7. Final</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grades">1.5.8. Grades</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><font size = "5"> <strong><a class="reference external" href="https://gduscher.github.io/MSE672-Introduction-to-TEM/">MSE672: Introduction to TEM</a></strong> </font></p>
+<hr style="height:1px;border-top:4px solid #FF8200" />
+<section class="tex2jax_ignore mathjax_ignore" id="course-organization">
+<h1><span class="section-number">1.5. </span>Course Organization<a class="headerlink" href="#course-organization" title="Permalink to this heading">#</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Introduction/CH1_05-Course_Organization.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/Introduction/CH1_05-Course_Organization.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><font size = "5"> <strong><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc std std-doc">MSE672:  Introduction to Transmission Electron Microscopy</span></a></strong></font></p>
+<p>by Gerd Duscher and Khalid Hattar, Spring 2024</p>
+<p>Microscopy Facilities<br>
+Institute of Advanced Materials &amp; Manufacturing<br>
+Materials Science &amp; Engineering<br>
+The University of Tennessee, Knoxville</p>
+<section id="books">
+<h2><span class="section-number">1.5.1. </span>Books<a class="headerlink" href="#books" title="Permalink to this heading">#</a></h2>
+<section id="williams-and-carter">
+<h3><span class="section-number">1.5.1.1. </span>Williams and Carter<a class="headerlink" href="#williams-and-carter" title="Permalink to this heading">#</a></h3>
+<p><strong>Transmission Electron Microscopy</strong></p>
+<p>Plenum Press, 2009 (2nd Edition).</p>
+<p><a class="reference external" href="https://link-springer-com.utk.idm.oclc.org/book/10.1007%2F978-0-387-76501-3">available  online at the library</a></p>
+</section>
+<section id="reimer-and-kohl">
+<h3><span class="section-number">1.5.1.2. </span>Reimer and Kohl<a class="headerlink" href="#reimer-and-kohl" title="Permalink to this heading">#</a></h3>
+<p><strong>Transmission Electron Microscopy</strong></p>
+<p>Springer, Berlin, 2007 (5th Edition).<br></p>
+<p><a class="reference external" href="https://link-springer-com.utk.idm.oclc.org/book/10.1007%2F978-0-387-40093-8">available  online at the library</a></p>
+</section>
+<section id="zuo-and-spence">
+<h3><span class="section-number">1.5.1.3. </span>Zuo and Spence<a class="headerlink" href="#zuo-and-spence" title="Permalink to this heading">#</a></h3>
+<p><strong>Advanced Transmission Electron Microscopy: Imaging and Diffraction</strong></p>
+<p>Springer, NewYork, 2017 <br></p>
+<p><a class="reference external" href="https://link-springer-com.utk.idm.oclc.org/book/10.1007%2F978-1-4899-2353-0">available online at the library</a></p>
+</section>
+<section id="kirkland">
+<h3><span class="section-number">1.5.1.4. </span>Kirkland<a class="headerlink" href="#kirkland" title="Permalink to this heading">#</a></h3>
+<p><strong>Advanced Computing in Electron Microscopy</strong></p>
+<p>Springer, NewYork, 2010 (2nd Edition)<br></p>
+<p><a class="reference external" href="https://link-springer-com.utk.idm.oclc.org/book/10.1007%2F978-1-4419-6533-2">available online at the library</a></p>
+</section>
+<section id="r-f-egerton">
+<h3><span class="section-number">1.5.1.5. </span>R.F. Egerton<a class="headerlink" href="#r-f-egerton" title="Permalink to this heading">#</a></h3>
+<p><strong>Electron Energy-Loss Spectroscopy in the Electron Microscope</strong></p>
+<p>Plenum Press, 2011 (3rd Edition)<br></p>
+<p><a class="reference external" href="https://link-springer-com.utk.idm.oclc.org/book/10.1007%2F978-1-4419-9583-4">available online at the library</a></p>
+</section>
+</section>
+<section id="software">
+<h2><span class="section-number">1.5.2. </span>Software<a class="headerlink" href="#software" title="Permalink to this heading">#</a></h2>
+<section id="image-analysis-software-for-sem-and-tem">
+<h3><span class="section-number">1.5.2.1. </span>Image Analysis software for SEM and TEM<a class="headerlink" href="#image-analysis-software-for-sem-and-tem" title="Permalink to this heading">#</a></h3>
+<section id="digital-micrograph">
+<h4><span class="section-number">1.5.2.1.1. </span>Digital Micrograph<a class="headerlink" href="#digital-micrograph" title="Permalink to this heading">#</a></h4>
+<p>You can get a free offline license from <a class="reference external" href="https://www.gatan.com/resources/scripting/demo/">Gatan</a></p>
+</section>
+<section id="imagej">
+<h4><span class="section-number">1.5.2.1.2. </span>ImageJ<a class="headerlink" href="#imagej" title="Permalink to this heading">#</a></h4>
+<p>a free imaging software with a lot of plugins: download from <a class="reference external" href="https://rsbweb.nih.gov/ij/">NIH</a></p>
+</section>
+<section id="jupyter-notebooks">
+<h4><span class="section-number">1.5.2.1.3. </span>jupyter notebooks<a class="headerlink" href="#jupyter-notebooks" title="Permalink to this heading">#</a></h4>
+<p>use provided <a class="reference external" href="https://github.com/gduscher/MSE672-Introduction-to-TEM">notebooks</a></p>
+</section>
+</section>
+</section>
+<section id="syllabus">
+<h2><span class="section-number">1.5.3. </span>Syllabus<a class="headerlink" href="#syllabus" title="Permalink to this heading">#</a></h2>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Week</p></th>
+<th class="head"><p>Lecture</p></th>
+<th class="head"><p>Chp.</p></th>
+<th class="head"><p>Lab</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>01/22 - 01/28</p></td>
+<td><p>1,2:Introduction, Geometric Ray Optics</p></td>
+<td><p>1</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>01/29 - 02/04</p></td>
+<td><p>3,4: Kinematic Diffraction</p></td>
+<td><p>2,11</p></td>
+<td><p>Lab1: Basic Imaging</p></td>
+</tr>
+<tr class="row-even"><td><p>02/05 - 02/11</p></td>
+<td><p>5,6:Kinematic Diffraction -parallel</p></td>
+<td><p>12</p></td>
+<td><p>Lab2: Basic Diffraction</p></td>
+</tr>
+<tr class="row-odd"><td><p>02/12 - 02/18</p></td>
+<td><p>7,8:Kinematic Diffraction -convergent</p></td>
+<td><p>19,20</p></td>
+<td><p>Lab3: SAED</p></td>
+</tr>
+<tr class="row-even"><td><p>02/19 - 02/25</p></td>
+<td><p>9,10:Dynamic Diffraction</p></td>
+<td><p>14,15</p></td>
+<td><p>Lab4: CBED</p></td>
+</tr>
+<tr class="row-odd"><td><p>02/26 - 03/03</p></td>
+<td><p>11,12:Imaging Overview</p></td>
+<td><p>22</p></td>
+<td><p>Lab5: Two Beams</p></td>
+</tr>
+<tr class="row-even"><td><p>03/04 - 03/10</p></td>
+<td><p>13,14:Imaging Conventional</p></td>
+<td><p>24-27</p></td>
+<td><p>Lab7: Phase Contrast</p></td>
+</tr>
+<tr class="row-odd"><td><p>03/18 - 03/24</p></td>
+<td><p>15,16:Imaging Phase Contrast</p></td>
+<td><p>28,30</p></td>
+<td><p>Lab6: Exam Preparation</p></td>
+</tr>
+<tr class="row-even"><td><p>03/25 - 03/31</p></td>
+<td><p>17,18:Imaging and Lens Aberrations</p></td>
+<td><p>31</p></td>
+<td><p>Exam</p></td>
+</tr>
+<tr class="row-odd"><td><p>04/01 - 04/07</p></td>
+<td><p>19 :Imaging Z-contrast</p></td>
+<td><p>-</p></td>
+<td><p>Lab8: CTF</p></td>
+</tr>
+<tr class="row-even"><td><p>04/08 - 04/14</p></td>
+<td><p>20,21:Spectroscopy EELS</p></td>
+<td><p>36-40</p></td>
+<td><p>Lab9: Z-contrast</p></td>
+</tr>
+<tr class="row-odd"><td><p>04/15 - 04/21</p></td>
+<td><p>22,23:Spectroscopy EDS</p></td>
+<td><p>33-35</p></td>
+<td><p>Lab10: EELS, ESI</p></td>
+</tr>
+<tr class="row-even"><td><p>04/22 - 04/28</p></td>
+<td><p>24:Other Techniques</p></td>
+<td><p>29</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>04/29 - 05/05</p></td>
+<td><p>25,26: TEM parts and vacuum</p></td>
+<td><p>5-9</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>05/06 -</p></td>
+<td><p>28:Project discussion</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="office-hours">
+<h2><span class="section-number">1.5.4. </span>Office Hours<a class="headerlink" href="#office-hours" title="Permalink to this heading">#</a></h2>
+<p>Office hours are Thursday  from 2 – 4pm
+online with the class zoom link.</p>
+<p>I will answer email questions in the same time slots.</p>
+</section>
+<section id="class-and-lab">
+<h2><span class="section-number">1.5.5. </span>Class and Lab<a class="headerlink" href="#class-and-lab" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Parallel to the class there is a Lab (MSE676) course.</p></li>
+<li><p>We will analyze the data of the lab course, independent of whether you are participating or not,</p></li>
+<li><p>For the analysis of the data we will need a labtop in class.</p></li>
+<li><p>Everyone needs a laptop in class</p></li>
+<li><p>I need real feedback on what you guys want to do and need to learn.</p></li>
+</ul>
+</section>
+<section id="homework-and-quizzes">
+<h2><span class="section-number">1.5.6. </span>Homework and Quizzes<a class="headerlink" href="#homework-and-quizzes" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Homeworks and Quizzes are the main way to determine your grade in this course.</p></li>
+<li><p>Homeworks have to be submitted electronically through Canvas and generally are about analyzing on your own data which are similar to those in the practice sessions.</p></li>
+<li><p>Think of these homeworks as small take-home exams.</p></li>
+<li><p>Additionally, there will be reading assignments every week.</p></li>
+<li><p>Each week before the lecture, there will be a short quiz about the content of the reading assignments.</p></li>
+<li><p>Neither the TA nor the instructor will answer questions about your homework after the deadline.</p></li>
+<li><p>If you are more than two homeworks behind, you failed the class.</p></li>
+</ul>
+</section>
+<section id="final">
+<h2><span class="section-number">1.5.7. </span>Final<a class="headerlink" href="#final" title="Permalink to this heading">#</a></h2>
+<p>The final is a report of how TEM will/can be used in your research.
+This should include a critical review of  data from journal articles which did TEM similar to what  you propose.</p>
+</section>
+<section id="grades">
+<h2><span class="section-number">1.5.8. </span>Grades<a class="headerlink" href="#grades" title="Permalink to this heading">#</a></h2>
+<p>The grade is a determined by 1/3 each: final, homework, and quizzes.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Introduction"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="CH1_04-Open_File.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1.4. </span>Open DM3 Images, Spectra, Spectrum-Images and  Image-Stacks with pyNSID</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="CH1_06-Overview.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">1.6. </span>Overview Notebook</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#books">1.5.1. Books</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#williams-and-carter">1.5.1.1. Williams and Carter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reimer-and-kohl">1.5.1.2. Reimer and Kohl</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zuo-and-spence">1.5.1.3. Zuo and Spence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kirkland">1.5.1.4. Kirkland</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#r-f-egerton">1.5.1.5. R.F. Egerton</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#software">1.5.2. Software</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#image-analysis-software-for-sem-and-tem">1.5.2.1. Image Analysis software for SEM and TEM</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#digital-micrograph">1.5.2.1.1. Digital Micrograph</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#imagej">1.5.2.1.2. ImageJ</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-notebooks">1.5.2.1.3. jupyter notebooks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#syllabus">1.5.3. Syllabus</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#office-hours">1.5.4. Office Hours</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#class-and-lab">1.5.5. Class and Lab</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#homework-and-quizzes">1.5.6. Homework and Quizzes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final">1.5.7. Final</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grades">1.5.8. Grades</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Gerd Duscher UTK/IAMM
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
