@@ -21,7 +21,6 @@ jobs:
           pip install jupyter-book ghp-import
       - name: Build Jupyter Book
         run: |
-          cd docs/
           jupyter-book build --all .
           touch _build/html/.nojekyll
       - name: Deploy to GitHub Pages
