@@ -1,0 +1,947 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>2.3. Atomic Form Factor &#8212; Introduction to Transmisison Electron Microscopy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Diffraction/CH2_02-Atomic_Form_Factor';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.4. Basic Crystallography" href="CH2_03-Basic_Crystallography.html" />
+    <link rel="prev" title="2.2. The Electron" href="CH2_01-Electron.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <header>
+  
+    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    </div>
+  
+  </header>
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Introduction to Transmisison Electron Microscopy - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Introduction to Transmisison Electron Microscopy - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Foreword (ReadME)
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Introduction/CH1_00-Introduction.html">1. Chapter 1: Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_01-Introduction_Python.html">1.1. Introduction to Python as it is used in this lecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_02-Prerequisites.html">1.2. Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_03-Data_Representation.html">1.3. Matplotlib and Numpy for Micrographs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_04-Open_File.html">1.4. Open DM3 Images, Spectra, Spectrum-Images and  Image-Stacks with pyNSID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_05-Course_Organization.html">1.5. Course Organization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_06-Overview.html">1.6. Overview Notebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/install_conda.html">1.7. Installation on your own computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/computer_resources.html">1.8. Setting up computing resources</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="CH2_00-Diffraction.html">2. Chapter 2:  Diffraction</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="CH2_01-Electron.html">2.2. The Electron</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2.3. Atomic Form Factor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH2_03-Basic_Crystallography.html">2.4. Basic Crystallography</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH2_04-Structure_Factors.html">2.5. Structure Factors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH2_05-Diffraction_Rings.html">2.6. Analyzing Ring Diffraction Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH2_06-Kinematic_Scattering_Geometry.html">2.7. Kinematic Scattering Geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH2_07-Plotting_Diffraction_Pattern.html">2.8. Plotting Diffraction Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH2_08-Spot_Diffraction_Pattern.html">2.9. Analyzing Spot Diffraction Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH2_09-Unit_Cell.html">2.10. Unic Cell Determination and Stereographic Projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH2_10-Kikuchi_Lines.html">2.11. Kikuchi Lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH2_11-HOLZ_Lines.html">2.12. HOLZ Lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH2_12-HOLZ_Example.html">2.13. Lattice Determination with HOLZ</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="CH2_D01-Bloch.html">2.16. Bethe Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH2_D02-Multislice.html">2.17. Multislice Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH2_D03-Multislice_CBED.html">2.18. CBED - Multislice Algorithm</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Imaging/CH3_00-Imaging.html">3. Chapter 3: Imaging</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_01-Resolution.html">3.2. Resolution Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_03-CTF.html">3.3. Contrast Transfer Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_04-Linear_Image_Approximation.html">3.4. Linear Image Approximation: Weak Phase Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_05-Defocus_Thickness.html">3.5. Defocus-Thickness Map with Multislice Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_06-Image_Processing.html">3.6. Image Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_07-Image_Analysis.html">3.7. Image Analysis</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_08-Thermal_Diffuse_Scattering.html">3.9. Thermal-Diffuse Scattering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_09-Z_Contrast.html">3.10. Z-Contrast Imaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_10-Ronchigram.html">3.11. Ronchigram</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Spectroscopy/CH4_00-Spectroscopy.html">4. Chapter 4: Spectroscopy</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_01-Introduction.html">4.1. Introduction to  Electron Energy-Loss Spectroscopy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_02-Fit_Zero_Loss.html">4.2. Fit of Zero-Loss Peak</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_03-Drude.html">4.3. Analysing Low-Loss Spectra with Drude Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_07-Introduction_Core_Loss.html">4.4. Introduction to Core-Loss Spectroscopy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_08-Chemical_Composition.html">4.5. Chemical Composition in Core-Loss Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_09-Analyse_Core_Loss.html">4.6. Analysis of Core-Loss Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_10-ELNES.html">4.7. Energy-Loss Near-Edge Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_12-Introduction_X_Rays.html">4.8. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_13-Bremsstrahlung.html">4.10. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_14-Characteristic_X_Rays.html">4.12. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_15-Detector.html">4.14. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_16-Analyze_EDS_Spectrum.html">4.18. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_17-Quantify_EDS_Spectrum.html">4.21. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+
+
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Homework/homework.html">5. Homework</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework01.html">5.1. Homework 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework02.html">5.2. Homework 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework03.html">5.3. Homework 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework04.html">5.4. Homework 4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework05-CBED.html">5.5. HW5:  Analyzing CBED Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework06-TwoBeam.html">5.6. HW6:  Analyzing CBED Pattern in Two Beam Condition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework07-Dynamic_CBED.html">5.7. HW7:  Simulating CBED Pattern</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/gduscher/MSE672-Introduction-to-TEM/main?urlpath=tree/docs/Diffraction/CH2_02-Atomic_Form_Factor.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/gduscher/MSE672-Introduction-to-TEM" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/gduscher/MSE672-Introduction-to-TEM/issues/new?title=Issue%20on%20page%20%2FDiffraction/CH2_02-Atomic_Form_Factor.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Diffraction/CH2_02-Atomic_Form_Factor.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Atomic Form Factor</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-numerical-and-plotting-python-packages">2.3.1. Import numerical and plotting python packages</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-installed-packages">2.3.1.1. Check Installed Packages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-plotting-and-figure-packages">2.3.1.2. Load the plotting and figure packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coulomb-force">2.3.2. Coulomb Force</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.3.3. Atomic Form Factor</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabulated-atomic-form-factors">2.3.4. Tabulated Atomic Form Factors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">2.3.5. Conclusion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navigation">2.3.6. Navigation</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><font size = "5"> <strong>Chapter 2: <a class="reference internal" href="CH2_00-Diffraction.html"><span class="doc std std-doc">Diffraction</span></a></strong> </font></p>
+<hr style="height:1px;border-top:4px solid #FF8200" />
+<section class="tex2jax_ignore mathjax_ignore" id="atomic-form-factor">
+<h1><span class="section-number">2.3. </span>Atomic Form Factor<a class="headerlink" href="#atomic-form-factor" title="Permalink to this heading">#</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Diffraction/CH2_02-Atomic_Form_Factor.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main//Diffraction/CH2_02-Atomic_Form_Factor.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><font size = "5"> <strong><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc std std-doc">MSE672:  Introduction to Transmission Electron Microscopy</span></a></strong></font></p>
+<p>by Gerd Duscher and Khalid Hattar, Spring 2024</p>
+<p>Microscopy Facilities and Ion Beam Facility<br>
+Institute of Advanced Materials &amp; Manufacturing<br>
+Materials Science &amp; Engineering and Nuclear Engineering<br>
+The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<section id="import-numerical-and-plotting-python-packages">
+<h2><span class="section-number">2.3.1. </span>Import numerical and plotting python packages<a class="headerlink" href="#import-numerical-and-plotting-python-packages" title="Permalink to this heading">#</a></h2>
+<section id="check-installed-packages">
+<h3><span class="section-number">2.3.1.1. </span>Check Installed Packages<a class="headerlink" href="#check-installed-packages" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">importlib.metadata</span>
+<span class="k">def</span> <span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2024.1.0&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w">  </span>--upgrade<span class="w"> </span>pyTEMlib<span class="w"> </span>-q
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">numpy</span><span class="o">==</span><span class="m">1</span>.24.4
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>installing pyTEMlib
+done
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="load-the-plotting-and-figure-packages">
+<h3><span class="section-number">2.3.1.2. </span>Load the plotting and figure packages<a class="headerlink" href="#load-the-plotting-and-figure-packages" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span>  widget
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># additional package </span>
+<span class="kn">import</span> <span class="nn">scipy</span>  <span class="c1"># we use the constants part again.</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">output</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+    
+<span class="c1"># Import libraries from the pyTEMlib</span>
+<span class="kn">import</span> <span class="nn">pyTEMlib.kinematic_scattering</span> <span class="k">as</span> <span class="nn">ks</span>         <span class="c1"># Kinematic scattering Library</span>
+                             <span class="c1"># with Atomic form factors from Kirklands book</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>You don&#39;t have igor2 installed.     If you wish to open igor files, you will need to install it     (pip install igor2) before attempting.
+You don&#39;t have gwyfile installed.     If you wish to open .gwy files, you will need to      install it (pip install gwyfile) before attempting.
+Symmetry functions of spglib enabled
+Qt dialogs are not available
+Using kinematic_scattering library version {_version_ }  by G.Duscher
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="coulomb-force">
+<h2><span class="section-number">2.3.2. </span>Coulomb Force<a class="headerlink" href="#coulomb-force" title="Permalink to this heading">#</a></h2>
+<p>The electron scatters at the Coulomb force of the screened nucleus of an atom. This force is:</p>
+<p><span class="math notranslate nohighlight">\(\mathbf{F} = \frac{1}{4\pi\varepsilon_0}\frac{Qq}{r^2}\mathbf{\hat{e}}_r 
+=  k_\text{e}\frac{Qq}{r^2}\mathbf{\hat{e}}_r \)</span></p>
+<p><span class="math notranslate nohighlight">\(k_\text{e} = \frac{1}{4\pi\varepsilon_0}= 8.987\,551\,787\,368\,1764\times 10^9~\mathrm{N\ m^2\ C^{-2}}\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Z</span> <span class="o">=</span> <span class="mi">79</span> <span class="c1"># gold</span>
+
+<span class="n">k_e</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">epsilon_0</span><span class="p">)</span>
+<span class="n">F_r_m</span> <span class="o">=</span> <span class="n">k_e</span> <span class="o">*</span> <span class="n">Z</span><span class="o">*</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">elementary_charge</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">electron_mass</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; k_e   = </span><span class="si">{</span><span class="n">k_e</span><span class="si">:</span><span class="s2">.5</span><span class="si">}</span><span class="s2"> N m</span><span class="se">\u00b2</span><span class="s2">C</span><span class="se">\u207B\u00b2</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; F_r_m = </span><span class="si">{</span><span class="n">F_r_m</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> N m</span><span class="se">\u00b2</span><span class="s2"> kg</span><span class="se">\u207B\u00B9</span><span class="s2"> = </span><span class="si">{</span><span class="n">F_r_m</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> m</span><span class="se">\u00b3</span><span class="s2">s</span><span class="se">\u207B\u00B2</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> k_e   = 8.9876e+09 N m²C⁻²
+ F_r_m = 20007.8 N m² kg⁻¹ = 20007.8 m³s⁻²
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">coulomb_plot</span><span class="p">(</span><span class="n">impact_param</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="mi">79</span><span class="p">,</span> <span class="n">v_c</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">):</span>
+    <span class="c1"># all length are in m</span>
+    <span class="c1">#time interval for each iteration. Should be chosen small enough so that</span>
+    <span class="c1">#the velocity change and position change in this interval is relatively</span>
+    <span class="c1">#small. If too small this calculation will take a while</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="mf">1e-20</span> <span class="c1"># s</span>
+    
+    <span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mf">50.0</span><span class="o">*</span><span class="mf">1e-9</span> <span class="c1"># starting x in m</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">impact_param</span><span class="o">*</span><span class="mf">1e-9</span>  <span class="c1">#in m</span>
+    <span class="c1">#starting y</span>
+    <span class="n">x_coords</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="c1">#array for the x coordinates of the plot</span>
+    <span class="n">y_coords</span><span class="o">=</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="c1">#array for the y coordinates of the plot</span>
+    <span class="n">vx</span> <span class="o">=</span> <span class="n">v_c</span> <span class="o">*</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">c</span> <span class="c1">#initial x velocity in m/s</span>
+    <span class="n">vy</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="c1">#initial y velocity</span>
+    
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">*</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">rold</span> <span class="o">=</span> <span class="n">r</span><span class="o">*</span><span class="mi">2</span> <span class="c1"># an arbitrary value more than r</span>
+
+    <span class="n">k_e</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">epsilon_0</span><span class="p">)</span> <span class="c1">#[N m^2 C^-2]</span>
+    <span class="n">F_r_m</span> <span class="o">=</span> <span class="o">-</span><span class="n">k_e</span> <span class="o">*</span> <span class="n">Z</span><span class="o">*</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">elementary_charge</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">electron_mass</span> <span class="c1"># [ N m^2 / kg]</span>
+    
+    <span class="c1"># The plot coordinates are generated as long as the incident particle</span>
+    <span class="c1"># is going towards the origin( which means that r &lt; rold )</span>
+    <span class="c1"># or</span>
+    <span class="c1"># if it is coming out, as long as r &lt; 50.0 nm. You can choose this to be</span>
+    <span class="c1"># something else.</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="n">rold</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="mf">50.0</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span> <span class="p">:</span>
+        <span class="n">rold</span> <span class="o">=</span> <span class="n">r</span> <span class="c1"># old r is changed to the current r</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">vx</span><span class="o">*</span><span class="n">dt</span><span class="c1"># calculate new x</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">vy</span><span class="o">*</span><span class="n">dt</span><span class="c1"># calculate new y</span>
+        <span class="c1"># add x and y to the plotting coordinates for x and y</span>
+        <span class="n">x_coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">y_coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">*</span><span class="n">y</span><span class="p">)</span>
+        
+        <span class="c1">#vx = vx + x-acceleration*dt = vx + Fx/m*dt </span>
+        <span class="c1">#Fx = x component of Coulomb force = (magnitude of F)*cos(theta) =</span>
+        <span class="c1">#(magnitude of F)*x/r = </span>
+        <span class="c1">#vx = vx + (F_r/m/r^2)*x/r = F_r_m * x/r^3,</span>
+        <span class="n">vx</span> <span class="o">=</span> <span class="n">vx</span> <span class="o">+</span> <span class="n">F_r_m</span><span class="o">*</span><span class="n">x</span><span class="o">/</span><span class="n">r</span><span class="o">**</span><span class="mi">3</span><span class="o">*</span><span class="n">dt</span>
+        <span class="c1">#as for vx</span>
+        <span class="n">vy</span> <span class="o">=</span> <span class="n">vy</span> <span class="o">+</span> <span class="n">F_r_m</span><span class="o">*</span><span class="n">y</span><span class="o">/</span><span class="n">r</span><span class="o">**</span><span class="mi">3</span><span class="o">*</span><span class="n">dt</span>
+        
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_coords</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y_coords</span><span class="p">)</span>
+
+
+<span class="c1">#plotting trajectories for 4 impact parameters</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="mf">1e-5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.001</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.0</span><span class="p">]:</span>
+    <span class="n">xc</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">coulomb_plot</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span> <span class="mi">29</span><span class="p">,</span> <span class="n">v_c</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xc</span><span class="o">*</span><span class="mf">1e9</span><span class="p">,</span><span class="n">yc</span><span class="o">*</span><span class="mf">1e9</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;distance [nm]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;impact parameter [nm]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "2c57110383554ea1a539c35ca8cd3243", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>Above graph was calulated for 200keV electrons.
+What changes if you change the v_c = v/c parameter to higher or lower speeds?</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>E (keV)</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\lambda\)</span> (pm)</p></th>
+<th class="head"><p>M/m<span class="math notranslate nohighlight">\(_0\)</span></p></th>
+<th class="head"><p>v/c</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>12.2</p></td>
+<td><p>1.0796</p></td>
+<td><p>0.1950</p></td>
+</tr>
+<tr class="row-odd"><td><p>30</p></td>
+<td><p>6.02</p></td>
+<td><p>1.129</p></td>
+<td><p>0.3284</p></td>
+</tr>
+<tr class="row-even"><td><p>100</p></td>
+<td><p>3.70</p></td>
+<td><p>1.1957</p></td>
+<td><p>0.5482</p></td>
+</tr>
+<tr class="row-odd"><td><p>200</p></td>
+<td><p>2.51</p></td>
+<td><p>1.3914</p></td>
+<td><p>0.6953</p></td>
+</tr>
+<tr class="row-even"><td><p>400</p></td>
+<td><p>1.64</p></td>
+<td><p>1.7828</p></td>
+<td><p>0.8275</p></td>
+</tr>
+<tr class="row-odd"><td><p>1000</p></td>
+<td><p>0.87</p></td>
+<td><p>2.9569</p></td>
+<td><p>0.9411</p></td>
+</tr>
+</tbody>
+</table>
+<p>You can also change the atom number.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#plotting trajectories for 7 impact parameters</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="mf">1e-5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.001</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.0</span><span class="p">]:</span>
+    <span class="n">xc</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">coulomb_plot</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">v_c</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xc</span><span class="o">*</span><span class="mf">1e9</span><span class="p">,</span><span class="n">yc</span><span class="o">*</span><span class="mf">1e9</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;distance [nm]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;impact parameter [nm]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "ab456820e8894f06865d57a1732c35ba", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>If we look at the scattering power of a single atom that deflects an electron:</p>
+<p><img alt="Single Electron Scattering" src="../_images/scattering_single_atom.jpg" /></p>
+<p>The scattering power is dependent on the so-called atomic form factor <span class="math notranslate nohighlight">\(f_e\)</span> ( the subscript <span class="math notranslate nohighlight">\(_e\)</span> means this is for electrons).</p>
+<p>All form factors (X-ray, electrons, ions, neutrons, …) are based on a Fourier transform of a density distribution of the scattering object from real space to momentum (or reciprocal) space.</p>
+<p>Since an electron scatters through the coulomb force of the (screend) nucleus, the form factor is the inner potential.</p>
+</section>
+<section id="id1">
+<h2><span class="section-number">2.3.3. </span>Atomic Form Factor<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<div class="math notranslate nohighlight">
+\[ |f(\theta)|^2 = \frac{d\sigma(\theta)}{d\Omega} \]</div>
+<p>What does that mean for us:</p>
+<ul class="simple">
+<li><p>The atomic structure factor gives the amplitude of an electron wave
+scattered from an isolated atom.</p></li>
+<li><p><span class="math notranslate nohighlight">\(|f(\theta)|^2\)</span> is proportional to the scattered intensity.</p></li>
+<li><p>The atomic scattering factor depends on atomic number <span class="math notranslate nohighlight">\(Z\)</span>, wavelength <span class="math notranslate nohighlight">\(\lambda\)</span> and scattering angle <span class="math notranslate nohighlight">\(\theta\)</span>.</p></li>
+<li><p>The atomic structure factors for each element are tabulated.</p></li>
+</ul>
+<p>The atomic form factor gives us the probability of an electron scattering in a certain angle.</p>
+</section>
+<section id="tabulated-atomic-form-factors">
+<h2><span class="section-number">2.3.4. </span>Tabulated Atomic Form Factors<a class="headerlink" href="#tabulated-atomic-form-factors" title="Permalink to this heading">#</a></h2>
+<p>The calculated form factors are tabulated and can be plotted according to the momentum transfer.</p>
+<p>Here we use the values from Appendix C of Kirkland, “Advanced Computing in Electron Microscopy”, 3rd ed.</p>
+<p>The calculation of electron form factor for specific <span class="math notranslate nohighlight">\(q\)</span> perfommed by the function <em>feq</em> in the kinematic_scattering  of pyTEMlib using equation Kirkland C.17</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># recreating figure 5.8 (p.110) of Kirkland, &quot;Advanced Computing in Electron Microscopy&quot; 3rd ed.   </span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">ySi</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">yC</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">yCu</span> <span class="o">=</span><span class="p">[]</span>
+<span class="n">yAu</span> <span class="o">=</span><span class="p">[]</span>
+<span class="n">yU</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">ySi</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ks</span><span class="o">.</span><span class="n">feq</span><span class="p">(</span><span class="s1">&#39;Si&#39;</span><span class="p">,</span> <span class="n">i</span><span class="o">/</span><span class="mi">5</span><span class="p">))</span>
+    <span class="n">yC</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ks</span><span class="o">.</span><span class="n">feq</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">i</span><span class="o">/</span><span class="mi">5</span><span class="p">))</span>
+    <span class="n">yCu</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ks</span><span class="o">.</span><span class="n">feq</span><span class="p">(</span><span class="s1">&#39;Cu&#39;</span><span class="p">,</span> <span class="n">i</span><span class="o">/</span><span class="mi">5</span><span class="p">))</span>
+    <span class="n">yAu</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ks</span><span class="o">.</span><span class="n">feq</span><span class="p">(</span><span class="s1">&#39;Au&#39;</span><span class="p">,</span> <span class="n">i</span><span class="o">/</span><span class="mi">5</span><span class="p">))</span>
+    <span class="n">yU</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ks</span><span class="o">.</span><span class="n">feq</span><span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="n">i</span><span class="o">/</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">ySi</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Si&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">yC</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">yCu</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Cu&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">yAu</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Au&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">yU</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;U&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;scattering factor (Å)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;scattering angle q (1/Å)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "105192ddb3314e7b82a32cc3ad14d638", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>Adding atoms in a row makes the atom just look heavier:</p>
+<p><img alt="Structure Factor" src="../_images/form_factor.jpg" /></p>
+<p>Similar effects appear if atoms are periodically arranged. That is discussed in more detail in the
+<a class="reference internal" href="CH2_04-Structure_Factors.html"><span class="doc std std-doc">Structure Factors</span></a> notebook.</p>
+</section>
+<section id="conclusion">
+<h2><span class="section-number">2.3.5. </span>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">#</a></h2>
+<p>The scattering power of an atom is given by the tabulated scattering factors. As long as there are no dynamic effects the scattering factors can be combined linearly.</p>
+<p>Next we need to transfer our knowledge into a  diffraction pattern.</p>
+</section>
+<section id="navigation">
+<h2><span class="section-number">2.3.6. </span>Navigation<a class="headerlink" href="#navigation" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><font size = "3">  <strong>Back <a class="reference internal" href="CH2_01-Electron.html"><span class="doc std std-doc">The Electron</span></a></strong> </font></p></li>
+<li><p><font size = "3">  <strong>Next: <a class="reference internal" href="CH2_03-Basic_Crystallography.html"><span class="doc std std-doc">Basic Crystallography</span></a></strong> </font></p></li>
+<li><p><font size = "3">  <strong>Chapter 2: <a class="reference internal" href="CH2_00-Diffraction.html"><span class="doc std std-doc">Diffraction</span></a></strong> </font></p></li>
+<li><p><font size = "3">  <strong>List of Content: <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc std std-doc">Front</span></a></strong> </font></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Diffraction"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="CH2_01-Electron.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">2.2. </span>The Electron</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="CH2_03-Basic_Crystallography.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">2.4. </span>Basic Crystallography</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-numerical-and-plotting-python-packages">2.3.1. Import numerical and plotting python packages</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-installed-packages">2.3.1.1. Check Installed Packages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-plotting-and-figure-packages">2.3.1.2. Load the plotting and figure packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coulomb-force">2.3.2. Coulomb Force</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.3.3. Atomic Form Factor</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabulated-atomic-form-factors">2.3.4. Tabulated Atomic Form Factors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">2.3.5. Conclusion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navigation">2.3.6. Navigation</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Gerd Duscher UTK/IAMM
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

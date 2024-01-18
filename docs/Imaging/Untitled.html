@@ -1,0 +1,1005 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>&lt;no title&gt; &#8212; Introduction to Transmisison Electron Microscopy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Imaging/Untitled';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <header>
+  
+    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    </div>
+  
+  </header>
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Introduction to Transmisison Electron Microscopy - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Introduction to Transmisison Electron Microscopy - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Foreword (ReadME)
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Introduction/CH1_00-Introduction.html">1. Chapter 1: Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_01-Introduction_Python.html">1.1. Introduction to Python as it is used in this lecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_02-Prerequisites.html">1.2. Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_03-Data_Representation.html">1.3. Matplotlib and Numpy for Micrographs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_04-Open_File.html">1.4. Open DM3 Images, Spectra, Spectrum-Images and  Image-Stacks with pyNSID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_05-Course_Organization.html">1.5. Course Organization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/CH1_06-Overview.html">1.6. Overview Notebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/install_conda.html">1.7. Installation on your own computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Introduction/computer_resources.html">1.8. Setting up computing resources</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Diffraction/CH2_00-Diffraction.html">2. Chapter 2:  Diffraction</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_01-Electron.html">2.2. The Electron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_02-Atomic_Form_Factor.html">2.3. Atomic Form Factor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_03-Basic_Crystallography.html">2.4. Basic Crystallography</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_04-Structure_Factors.html">2.5. Structure Factors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_05-Diffraction_Rings.html">2.6. Analyzing Ring Diffraction Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_06-Kinematic_Scattering_Geometry.html">2.7. Kinematic Scattering Geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_07-Plotting_Diffraction_Pattern.html">2.8. Plotting Diffraction Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_08-Spot_Diffraction_Pattern.html">2.9. Analyzing Spot Diffraction Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_09-Unit_Cell.html">2.10. Unic Cell Determination and Stereographic Projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_10-Kikuchi_Lines.html">2.11. Kikuchi Lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_11-HOLZ_Lines.html">2.12. HOLZ Lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_12-HOLZ_Example.html">2.13. Lattice Determination with HOLZ</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_D01-Bloch.html">2.16. Bethe Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_D02-Multislice.html">2.17. Multislice Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_D03-Multislice_CBED.html">2.18. CBED - Multislice Algorithm</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="CH3_00-Imaging.html">3. Chapter 3: Imaging</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="CH3_01-Resolution.html">3.2. Resolution Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH3_03-CTF.html">3.3. Contrast Transfer Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH3_04-Linear_Image_Approximation.html">3.4. Linear Image Approximation: Weak Phase Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH3_05-Defocus_Thickness.html">3.5. Defocus-Thickness Map with Multislice Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH3_06-Image_Processing.html">3.6. Image Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH3_07-Image_Analysis.html">3.7. Image Analysis</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="CH3_08-Thermal_Diffuse_Scattering.html">3.9. Thermal-Diffuse Scattering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH3_09-Z_Contrast.html">3.10. Z-Contrast Imaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH3_10-Ronchigram.html">3.11. Ronchigram</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Spectroscopy/CH4_00-Spectroscopy.html">4. Chapter 4: Spectroscopy</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_01-Introduction.html">4.1. Introduction to  Electron Energy-Loss Spectroscopy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_02-Fit_Zero_Loss.html">4.2. Fit of Zero-Loss Peak</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_03-Drude.html">4.3. Analysing Low-Loss Spectra with Drude Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_07-Introduction_Core_Loss.html">4.4. Introduction to Core-Loss Spectroscopy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_08-Chemical_Composition.html">4.5. Chemical Composition in Core-Loss Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_09-Analyse_Core_Loss.html">4.6. Analysis of Core-Loss Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_10-ELNES.html">4.7. Energy-Loss Near-Edge Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_12-Introduction_X_Rays.html">4.8. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_13-Bremsstrahlung.html">4.10. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_14-Characteristic_X_Rays.html">4.12. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_15-Detector.html">4.14. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_16-Analyze_EDS_Spectrum.html">4.18. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_17-Quantify_EDS_Spectrum.html">4.21. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+
+
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Homework/homework.html">5. Homework</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework01.html">5.1. Homework 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework02.html">5.2. Homework 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework03.html">5.3. Homework 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework04.html">5.4. Homework 4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework05-CBED.html">5.5. HW5:  Analyzing CBED Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework06-TwoBeam.html">5.6. HW6:  Analyzing CBED Pattern in Two Beam Condition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework07-Dynamic_CBED.html">5.7. HW7:  Simulating CBED Pattern</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/gduscher/MSE672-Introduction-to-TEM/main?urlpath=tree/docs/Imaging/Untitled.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/gduscher/MSE672-Introduction-to-TEM" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/gduscher/MSE672-Introduction-to-TEM/issues/new?title=Issue%20on%20page%20%2FImaging/Untitled.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Imaging/Untitled.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1><no title></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="simple visible nav section-nav flex-column">
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Demonstrates common image analysis tools.</span>
+
+<span class="sd">Many of the features demonstrated here are already provided by the ImageView</span>
+<span class="sd">widget, but here we present a lower-level approach that provides finer control</span>
+<span class="sd">over the user interface.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">pyqtgraph.jupyter</span> <span class="kn">import</span> <span class="n">GraphicsLayoutWidget</span>
+<span class="kn">import</span> <span class="nn">ipywidgets</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+
+<span class="kn">import</span> <span class="nn">pyqtgraph</span> <span class="k">as</span> <span class="nn">pg</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="n">pg</span><span class="o">.</span><span class="n">mkQApp</span><span class="p">()</span>
+<span class="n">widget</span> <span class="o">=</span> <span class="n">GraphicsLayoutWidget</span><span class="p">(</span><span class="n">css_width</span><span class="o">=</span><span class="s2">&quot;800px&quot;</span><span class="p">,</span> <span class="n">css_height</span><span class="o">=</span><span class="s2">&quot;480px&quot;</span><span class="p">)</span>
+
+<span class="c1"># A plot area (ViewBox + axes) for displaying the image</span>
+<span class="n">win</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="n">addPlot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># Item for displaying image data</span>
+<span class="n">spectrum</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">PlotCurveItem</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)),</span> <span class="n">pen</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">clickable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">win</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">spectrum</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
+
+ 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "d63a2a87c7c144c1b92d1c7d4eedcde3", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "69c3101c1a3c4e7488e667ecabd04028", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">dir</span> <span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;CacheMode&#39;,
+ &#39;GraphicsItemChange&#39;,
+ &#39;GraphicsItemFlag&#39;,
+ &#39;PanelModality&#39;,
+ &#39;Type&#39;,
+ &#39;UserType&#39;,
+ &#39;_GraphicsObject__inform_view_on_changes&#39;,
+ &#39;__class__&#39;,
+ &#39;__delattr__&#39;,
+ &#39;__dict__&#39;,
+ &#39;__dir__&#39;,
+ &#39;__doc__&#39;,
+ &#39;__eq__&#39;,
+ &#39;__format__&#39;,
+ &#39;__ge__&#39;,
+ &#39;__getattr__&#39;,
+ &#39;__getattribute__&#39;,
+ &#39;__gt__&#39;,
+ &#39;__hash__&#39;,
+ &#39;__init__&#39;,
+ &#39;__init_subclass__&#39;,
+ &#39;__le__&#39;,
+ &#39;__lt__&#39;,
+ &#39;__module__&#39;,
+ &#39;__ne__&#39;,
+ &#39;__new__&#39;,
+ &#39;__reduce__&#39;,
+ &#39;__reduce_ex__&#39;,
+ &#39;__repr__&#39;,
+ &#39;__setattr__&#39;,
+ &#39;__sizeof__&#39;,
+ &#39;__str__&#39;,
+ &#39;__subclasshook__&#39;,
+ &#39;__weakref__&#39;,
+ &#39;_apply_lut_for_uint16_mono&#39;,
+ &#39;_buildQImageBuffer&#39;,
+ &#39;_cachedView&#39;,
+ &#39;_colorMap&#39;,
+ &#39;_computeDownsampleFactors&#39;,
+ &#39;_connectedView&#39;,
+ &#39;_convert_2dlut_to_1dlut&#39;,
+ &#39;_dataTransform&#39;,
+ &#39;_defferedLevels&#39;,
+ &#39;_displayBuffer&#39;,
+ &#39;_effectiveLut&#39;,
+ &#39;_ensure_proper_substrate&#39;,
+ &#39;_exportOpts&#39;,
+ &#39;_inverseDataTransform&#39;,
+ &#39;_lastDownsample&#39;,
+ &#39;_pixelVectorCache&#39;,
+ &#39;_pixelVectorGlobalCache&#39;,
+ &#39;_processingBuffer&#39;,
+ &#39;_qtBaseClass&#39;,
+ &#39;_renderRequired&#39;,
+ &#39;_replaceView&#39;,
+ &#39;_try_combine_lut&#39;,
+ &#39;_try_make_qimage&#39;,
+ &#39;_try_rescale_float&#39;,
+ &#39;_unrenderable&#39;,
+ &#39;_updateView&#39;,
+ &#39;_update_data_transforms&#39;,
+ &#39;_viewBox&#39;,
+ &#39;_viewWidget&#39;,
+ &#39;_xp&#39;,
+ &#39;acceptDrops&#39;,
+ &#39;acceptHoverEvents&#39;,
+ &#39;acceptTouchEvents&#39;,
+ &#39;acceptedMouseButtons&#39;,
+ &#39;advance&#39;,
+ &#39;allChildItems&#39;,
+ &#39;autoDownsample&#39;,
+ &#39;axisOrder&#39;,
+ &#39;blockSignals&#39;,
+ &#39;border&#39;,
+ &#39;boundingRect&#39;,
+ &#39;boundingRegion&#39;,
+ &#39;boundingRegionGranularity&#39;,
+ &#39;cacheMode&#39;,
+ &#39;changeParent&#39;,
+ &#39;channels&#39;,
+ &#39;childEvent&#39;,
+ &#39;childItems&#39;,
+ &#39;children&#39;,
+ &#39;childrenBoundingRect&#39;,
+ &#39;childrenShape&#39;,
+ &#39;clear&#39;,
+ &#39;clearFocus&#39;,
+ &#39;clipPath&#39;,
+ &#39;collidesWithItem&#39;,
+ &#39;collidesWithPath&#39;,
+ &#39;collidingItems&#39;,
+ &#39;commonAncestorItem&#39;,
+ &#39;connectNotify&#39;,
+ &#39;contains&#39;,
+ &#39;contextMenuEvent&#39;,
+ &#39;cursor&#39;,
+ &#39;customEvent&#39;,
+ &#39;data&#39;,
+ &#39;dataTransform&#39;,
+ &#39;deleteLater&#39;,
+ &#39;destroyed&#39;,
+ &#39;deviceTransform&#39;,
+ &#39;disconnect&#39;,
+ &#39;disconnectNotify&#39;,
+ &#39;dragEnterEvent&#39;,
+ &#39;dragLeaveEvent&#39;,
+ &#39;dragMoveEvent&#39;,
+ &#39;drawAt&#39;,
+ &#39;drawKernel&#39;,
+ &#39;dropEvent&#39;,
+ &#39;dumpObjectInfo&#39;,
+ &#39;dumpObjectTree&#39;,
+ &#39;dynamicPropertyNames&#39;,
+ &#39;effectiveOpacity&#39;,
+ &#39;emitRemoveRequested&#39;,
+ &#39;enabledChanged&#39;,
+ &#39;ensureVisible&#39;,
+ &#39;event&#39;,
+ &#39;eventFilter&#39;,
+ &#39;filtersChildEvents&#39;,
+ &#39;findChild&#39;,
+ &#39;findChildren&#39;,
+ &#39;flags&#39;,
+ &#39;focusInEvent&#39;,
+ &#39;focusItem&#39;,
+ &#39;focusOutEvent&#39;,
+ &#39;focusProxy&#39;,
+ &#39;forgetViewBox&#39;,
+ &#39;forgetViewWidget&#39;,
+ &#39;getBoundingParents&#39;,
+ &#39;getColorMap&#39;,
+ &#39;getContextMenus&#39;,
+ &#39;getHistogram&#39;,
+ &#39;getLevels&#39;,
+ &#39;getMenu&#39;,
+ &#39;getPixmap&#39;,
+ &#39;getViewBox&#39;,
+ &#39;getViewWidget&#39;,
+ &#39;grabGesture&#39;,
+ &#39;grabKeyboard&#39;,
+ &#39;grabMouse&#39;,
+ &#39;graphicsEffect&#39;,
+ &#39;group&#39;,
+ &#39;hasCursor&#39;,
+ &#39;hasFocus&#39;,
+ &#39;height&#39;,
+ &#39;hide&#39;,
+ &#39;hoverEnterEvent&#39;,
+ &#39;hoverEvent&#39;,
+ &#39;hoverLeaveEvent&#39;,
+ &#39;hoverMoveEvent&#39;,
+ &#39;image&#39;,
+ &#39;informViewBoundsChanged&#39;,
+ &#39;inherits&#39;,
+ &#39;inputMethodEvent&#39;,
+ &#39;inputMethodHints&#39;,
+ &#39;inputMethodQuery&#39;,
+ &#39;installEventFilter&#39;,
+ &#39;installSceneEventFilter&#39;,
+ &#39;inverseDataTransform&#39;,
+ &#39;isActive&#39;,
+ &#39;isAncestorOf&#39;,
+ &#39;isBlockedByModalPanel&#39;,
+ &#39;isClipped&#39;,
+ &#39;isEnabled&#39;,
+ &#39;isObscured&#39;,
+ &#39;isObscuredBy&#39;,
+ &#39;isPanel&#39;,
+ &#39;isQuickItemType&#39;,
+ &#39;isSelected&#39;,
+ &#39;isSignalConnected&#39;,
+ &#39;isUnderMouse&#39;,
+ &#39;isVisible&#39;,
+ &#39;isVisibleTo&#39;,
+ &#39;isWidget&#39;,
+ &#39;isWidgetType&#39;,
+ &#39;isWindow&#39;,
+ &#39;isWindowType&#39;,
+ &#39;itemChange&#39;,
+ &#39;itemTransform&#39;,
+ &#39;keyPressEvent&#39;,
+ &#39;keyReleaseEvent&#39;,
+ &#39;killTimer&#39;,
+ &#39;levels&#39;,
+ &#39;lut&#39;,
+ &#39;mapFromData&#39;,
+ &#39;mapFromDevice&#39;,
+ &#39;mapFromItem&#39;,
+ &#39;mapFromParent&#39;,
+ &#39;mapFromScene&#39;,
+ &#39;mapFromView&#39;,
+ &#39;mapRectFromDevice&#39;,
+ &#39;mapRectFromItem&#39;,
+ &#39;mapRectFromParent&#39;,
+ &#39;mapRectFromScene&#39;,
+ &#39;mapRectFromView&#39;,
+ &#39;mapRectToDevice&#39;,
+ &#39;mapRectToItem&#39;,
+ &#39;mapRectToParent&#39;,
+ &#39;mapRectToScene&#39;,
+ &#39;mapRectToView&#39;,
+ &#39;mapToData&#39;,
+ &#39;mapToDevice&#39;,
+ &#39;mapToItem&#39;,
+ &#39;mapToParent&#39;,
+ &#39;mapToScene&#39;,
+ &#39;mapToView&#39;,
+ &#39;menu&#39;,
+ &#39;metaObject&#39;,
+ &#39;mouseClickEvent&#39;,
+ &#39;mouseDoubleClickEvent&#39;,
+ &#39;mouseDragEvent&#39;,
+ &#39;mouseMoveEvent&#39;,
+ &#39;mousePressEvent&#39;,
+ &#39;mouseReleaseEvent&#39;,
+ &#39;moveBy&#39;,
+ &#39;moveToThread&#39;,
+ &#39;objectName&#39;,
+ &#39;objectNameChanged&#39;,
+ &#39;opacity&#39;,
+ &#39;opacityChanged&#39;,
+ &#39;opaqueArea&#39;,
+ &#39;paint&#39;,
+ &#39;paintMode&#39;,
+ &#39;panel&#39;,
+ &#39;panelModality&#39;,
+ &#39;parent&#39;,
+ &#39;parentChanged&#39;,
+ &#39;parentItem&#39;,
+ &#39;parentObject&#39;,
+ &#39;parentWidget&#39;,
+ &#39;pixelHeight&#39;,
+ &#39;pixelLength&#39;,
+ &#39;pixelSize&#39;,
+ &#39;pixelVectors&#39;,
+ &#39;pixelWidth&#39;,
+ &#39;pos&#39;,
+ &#39;prepareGeometryChange&#39;,
+ &#39;property&#39;,
+ &#39;pyqtConfigure&#39;,
+ &#39;qimage&#39;,
+ &#39;quickMinMax&#39;,
+ &#39;raiseContextMenu&#39;,
+ &#39;receivers&#39;,
+ &#39;removable&#39;,
+ &#39;removeClicked&#39;,
+ &#39;removeEventFilter&#39;,
+ &#39;removeSceneEventFilter&#39;,
+ &#39;render&#39;,
+ &#39;resetTransform&#39;,
+ &#39;rotation&#39;,
+ &#39;rotationChanged&#39;,
+ &#39;save&#39;,
+ &#39;scale&#39;,
+ &#39;scaleChanged&#39;,
+ &#39;scene&#39;,
+ &#39;sceneBoundingRect&#39;,
+ &#39;sceneEvent&#39;,
+ &#39;sceneEventFilter&#39;,
+ &#39;scenePos&#39;,
+ &#39;sceneTransform&#39;,
+ &#39;scroll&#39;,
+ &#39;sender&#39;,
+ &#39;senderSignalIndex&#39;,
+ &#39;setAcceptDrops&#39;,
+ &#39;setAcceptHoverEvents&#39;,
+ &#39;setAcceptTouchEvents&#39;,
+ &#39;setAcceptedMouseButtons&#39;,
+ &#39;setActive&#39;,
+ &#39;setAutoDownsample&#39;,
+ &#39;setBorder&#39;,
+ &#39;setBoundingRegionGranularity&#39;,
+ &#39;setCacheMode&#39;,
+ &#39;setColorMap&#39;,
+ &#39;setCompositionMode&#39;,
+ &#39;setCursor&#39;,
+ &#39;setData&#39;,
+ &#39;setDrawKernel&#39;,
+ &#39;setEnabled&#39;,
+ &#39;setExportMode&#39;,
+ &#39;setFiltersChildEvents&#39;,
+ &#39;setFlag&#39;,
+ &#39;setFlags&#39;,
+ &#39;setFocus&#39;,
+ &#39;setFocusProxy&#39;,
+ &#39;setGraphicsEffect&#39;,
+ &#39;setGroup&#39;,
+ &#39;setImage&#39;,
+ &#39;setInputMethodHints&#39;,
+ &#39;setLevels&#39;,
+ &#39;setLookupTable&#39;,
+ &#39;setObjectName&#39;,
+ &#39;setOpacity&#39;,
+ &#39;setOpts&#39;,
+ &#39;setPanelModality&#39;,
+ &#39;setParent&#39;,
+ &#39;setParentItem&#39;,
+ &#39;setPos&#39;,
+ &#39;setProperty&#39;,
+ &#39;setPxMode&#39;,
+ &#39;setRect&#39;,
+ &#39;setRotation&#39;,
+ &#39;setScale&#39;,
+ &#39;setScaledMode&#39;,
+ &#39;setSelected&#39;,
+ &#39;setToolTip&#39;,
+ &#39;setTransform&#39;,
+ &#39;setTransformOriginPoint&#39;,
+ &#39;setTransformations&#39;,
+ &#39;setVisible&#39;,
+ &#39;setX&#39;,
+ &#39;setY&#39;,
+ &#39;setZValue&#39;,
+ &#39;shape&#39;,
+ &#39;show&#39;,
+ &#39;sigImageChanged&#39;,
+ &#39;sigRemoveRequested&#39;,
+ &#39;signalsBlocked&#39;,
+ &#39;stackBefore&#39;,
+ &#39;startTimer&#39;,
+ &#39;staticMetaObject&#39;,
+ &#39;tabletEvent&#39;,
+ &#39;thread&#39;,
+ &#39;timerEvent&#39;,
+ &#39;toGraphicsObject&#39;,
+ &#39;toolTip&#39;,
+ &#39;topLevelItem&#39;,
+ &#39;topLevelWidget&#39;,
+ &#39;tr&#39;,
+ &#39;transform&#39;,
+ &#39;transformAngle&#39;,
+ &#39;transformOriginPoint&#39;,
+ &#39;transformations&#39;,
+ &#39;type&#39;,
+ &#39;ungrabGesture&#39;,
+ &#39;ungrabKeyboard&#39;,
+ &#39;ungrabMouse&#39;,
+ &#39;unsetCursor&#39;,
+ &#39;update&#39;,
+ &#39;updateImage&#39;,
+ &#39;updateMicroFocus&#39;,
+ &#39;viewChanged&#39;,
+ &#39;viewPos&#39;,
+ &#39;viewRangeChanged&#39;,
+ &#39;viewRect&#39;,
+ &#39;viewTransform&#39;,
+ &#39;viewTransformChanged&#39;,
+ &#39;visibleChanged&#39;,
+ &#39;wheelEvent&#39;,
+ &#39;width&#39;,
+ &#39;window&#39;,
+ &#39;x&#39;,
+ &#39;xChanged&#39;,
+ &#39;y&#39;,
+ &#39;yChanged&#39;,
+ &#39;zChanged&#39;,
+ &#39;zValue&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Imaging"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="simple visible nav section-nav flex-column">
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Gerd Duscher UTK/IAMM
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

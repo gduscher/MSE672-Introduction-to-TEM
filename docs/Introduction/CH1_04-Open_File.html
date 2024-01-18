@@ -1,0 +1,2999 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>1.4. Open DM3 Images, Spectra, Spectrum-Images and Image-Stacks with pyNSID &#8212; Introduction to Transmisison Electron Microscopy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Introduction/CH1_04-Open_File';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="1.5. Course Organization" href="CH1_05-Course_Organization.html" />
+    <link rel="prev" title="1.3. Matplotlib and Numpy for Micrographs" href="CH1_03-Data_Representation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <header>
+  
+    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    </div>
+  
+  </header>
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Introduction to Transmisison Electron Microscopy - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Introduction to Transmisison Electron Microscopy - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Foreword (ReadME)
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="CH1_00-Introduction.html">1. Chapter 1: Introduction</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="CH1_01-Introduction_Python.html">1.1. Introduction to Python as it is used in this lecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH1_02-Prerequisites.html">1.2. Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH1_03-Data_Representation.html">1.3. Matplotlib and Numpy for Micrographs</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">1.4. Open DM3 Images, Spectra, Spectrum-Images and  Image-Stacks with pyNSID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH1_05-Course_Organization.html">1.5. Course Organization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH1_06-Overview.html">1.6. Overview Notebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install_conda.html">1.7. Installation on your own computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="computer_resources.html">1.8. Setting up computing resources</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Diffraction/CH2_00-Diffraction.html">2. Chapter 2:  Diffraction</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_01-Electron.html">2.2. The Electron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_02-Atomic_Form_Factor.html">2.3. Atomic Form Factor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_03-Basic_Crystallography.html">2.4. Basic Crystallography</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_04-Structure_Factors.html">2.5. Structure Factors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_05-Diffraction_Rings.html">2.6. Analyzing Ring Diffraction Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_06-Kinematic_Scattering_Geometry.html">2.7. Kinematic Scattering Geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_07-Plotting_Diffraction_Pattern.html">2.8. Plotting Diffraction Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_08-Spot_Diffraction_Pattern.html">2.9. Analyzing Spot Diffraction Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_09-Unit_Cell.html">2.10. Unic Cell Determination and Stereographic Projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_10-Kikuchi_Lines.html">2.11. Kikuchi Lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_11-HOLZ_Lines.html">2.12. HOLZ Lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_12-HOLZ_Example.html">2.13. Lattice Determination with HOLZ</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_D01-Bloch.html">2.16. Bethe Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_D02-Multislice.html">2.17. Multislice Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_D03-Multislice_CBED.html">2.18. CBED - Multislice Algorithm</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Imaging/CH3_00-Imaging.html">3. Chapter 3: Imaging</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_01-Resolution.html">3.2. Resolution Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_03-CTF.html">3.3. Contrast Transfer Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_04-Linear_Image_Approximation.html">3.4. Linear Image Approximation: Weak Phase Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_05-Defocus_Thickness.html">3.5. Defocus-Thickness Map with Multislice Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_06-Image_Processing.html">3.6. Image Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_07-Image_Analysis.html">3.7. Image Analysis</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_08-Thermal_Diffuse_Scattering.html">3.9. Thermal-Diffuse Scattering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_09-Z_Contrast.html">3.10. Z-Contrast Imaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_10-Ronchigram.html">3.11. Ronchigram</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Spectroscopy/CH4_00-Spectroscopy.html">4. Chapter 4: Spectroscopy</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_01-Introduction.html">4.1. Introduction to  Electron Energy-Loss Spectroscopy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_02-Fit_Zero_Loss.html">4.2. Fit of Zero-Loss Peak</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_03-Drude.html">4.3. Analysing Low-Loss Spectra with Drude Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_07-Introduction_Core_Loss.html">4.4. Introduction to Core-Loss Spectroscopy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_08-Chemical_Composition.html">4.5. Chemical Composition in Core-Loss Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_09-Analyse_Core_Loss.html">4.6. Analysis of Core-Loss Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_10-ELNES.html">4.7. Energy-Loss Near-Edge Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_12-Introduction_X_Rays.html">4.8. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_13-Bremsstrahlung.html">4.10. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_14-Characteristic_X_Rays.html">4.12. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_15-Detector.html">4.14. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_16-Analyze_EDS_Spectrum.html">4.18. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_17-Quantify_EDS_Spectrum.html">4.21. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+
+
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Homework/homework.html">5. Homework</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework01.html">5.1. Homework 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework02.html">5.2. Homework 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework03.html">5.3. Homework 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework04.html">5.4. Homework 4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework05-CBED.html">5.5. HW5:  Analyzing CBED Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework06-TwoBeam.html">5.6. HW6:  Analyzing CBED Pattern in Two Beam Condition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework07-Dynamic_CBED.html">5.7. HW7:  Simulating CBED Pattern</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/gduscher/MSE672-Introduction-to-TEM/main?urlpath=tree/docs/Introduction/CH1_04-Open_File.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/gduscher/MSE672-Introduction-to-TEM" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/gduscher/MSE672-Introduction-to-TEM/issues/new?title=Issue%20on%20page%20%2FIntroduction/CH1_04-Open_File.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Introduction/CH1_04-Open_File.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Open DM3 Images, Spectra, Spectrum-Images and  Image-Stacks with pyNSID</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-packages-for-figures-and">1.4.1. Import packages for figures and</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-installed-packages">1.4.1.1. Check Installed Packages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-plotting-and-figure-packages">1.4.1.2. Load the plotting and figure packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#open-a-file">1.4.2. Open a file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-structure">1.4.3. Data Structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1.4.4. Data Structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-data">1.4.5. Adding Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-additional-information">1.4.6. Adding additional information</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#keeping-track-of-analysis-and-results">1.4.7. Keeping Track of Analysis and Results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#an-example-for-a-log">1.4.8. An example for a log</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#save-datasets-to-hf5-file">1.4.9. Save Datasets to  hf5_file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#open-h5-file">1.4.10. Open h5_file</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#short-check-if-we-got-the-data-right">1.4.10.1. Short check if we got the data right</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navigation">1.4.11. Navigation</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><font size = "5"> <strong>Chapter 1: <a class="reference internal" href="CH1_00-Introduction.html"><span class="doc std std-doc">Introduction</span></a></strong> </font></p>
+<hr style="height:1px;border-top:4px solid #FF8200" />
+<section class="tex2jax_ignore mathjax_ignore" id="open-dm3-images-spectra-spectrum-images-and-image-stacks-with-pynsid">
+<h1><span class="section-number">1.4. </span>Open DM3 Images, Spectra, Spectrum-Images and  Image-Stacks with pyNSID<a class="headerlink" href="#open-dm3-images-spectra-spectrum-images-and-image-stacks-with-pynsid" title="Permalink to this heading">#</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Introduction/CH1_04-Open_File.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/Introduction/CH1_04-Open_File.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><font size = "5"> <strong><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc std std-doc">MSE672:  Introduction to Transmission Electron Microscopy</span></a></strong></font></p>
+<p>by Gerd Duscher and Khalid Hattar, Spring 2024</p>
+<p>Microscopy Facilities<br>
+Institute of Advanced Materials &amp; Manufacturing<br>
+Materials Science &amp; Engineering<br>
+The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<hr class="docutils" />
+<p>Reading a dm file and translating the data in a <strong><a class="reference external" href="https://pycroscopy.github.io/pyNSID/">pyNSID</a></strong> style hf5py file to be compatible with  the <strong><a class="reference external" href="https://pycroscopy.github.io/pycroscopy/">pycroscopy</a></strong> package.</p>
+<p>Because, many other packages and programs for TEM data manipulation are based on the <code class="docutils literal notranslate"><span class="pre">hdf5</span></code> file-formats it is relatively easy to convert back and forward between them.</p>
+<section id="import-packages-for-figures-and">
+<h2><span class="section-number">1.4.1. </span>Import packages for figures and<a class="headerlink" href="#import-packages-for-figures-and" title="Permalink to this heading">#</a></h2>
+<section id="check-installed-packages">
+<h3><span class="section-number">1.4.1.1. </span>Check Installed Packages<a class="headerlink" href="#check-installed-packages" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">importlib.metadata</span>
+<span class="k">def</span> <span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="c1"># pyTEMlib setup ------------------</span>
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2024.1.0&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>git+https://github.com/pycroscopy/pyTEMlib.git@main<span class="w"> </span>-q<span class="w"> </span>--upgrade
+
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">numpy</span><span class="o">==</span><span class="m">1</span>.24.4
+<span class="c1"># ------------------------------</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>installing pyTEMlib
+/bin/bash: line 1: {sys.executable}: command not found
+done
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="load-the-plotting-and-figure-packages">
+<h3><span class="section-number">1.4.1.2. </span>Load the plotting and figure packages<a class="headerlink" href="#load-the-plotting-and-figure-packages" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> widget
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">import</span> <span class="nn">pyTEMlib</span>
+<span class="kn">import</span> <span class="nn">pyTEMlib.file_tools</span>  <span class="k">as</span> <span class="nn">ft</span>     <span class="c1"># File input/ output library</span>
+
+<span class="kn">import</span> <span class="nn">sidpy</span>
+<span class="kn">import</span> <span class="nn">pyNSID</span>
+<span class="kn">import</span> <span class="nn">h5py</span>
+
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">output</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+    <span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
+
+<span class="c1"># For archiving reasons it is a good idea to print the version numbers out at this point</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pyTEM version: &#39;</span><span class="p">,</span><span class="n">pyTEMlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="n">__notebook__</span><span class="o">=</span><span class="s1">&#39;CH1_04-Reading_File&#39;</span>
+<span class="n">__notebook_version__</span><span class="o">=</span><span class="s1">&#39;2024_01_09&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>You don&#39;t have igor2 installed.     If you wish to open igor files, you will need to install it     (pip install igor2) before attempting.
+You don&#39;t have gwyfile installed.     If you wish to open .gwy files, you will need to      install it (pip install gwyfile) before attempting.
+Symmetry functions of spglib enabled
+pyTEM version:  0.2023.9.1
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="open-a-file">
+<h2><span class="section-number">1.4.2. </span>Open a file<a class="headerlink" href="#open-a-file" title="Permalink to this heading">#</a></h2>
+<p>This function opens a hfd5 file in the pyNSID style which enables you to keep track of your data analysis.</p>
+<p>Please see the <strong><span class="xref myst">Installation</span></strong> notebook for installation.</p>
+<p>We want to consolidate files into one dataset that belongs together.  For example a spectrum image dataset consists of:</p>
+<ul class="simple">
+<li><p>Survey image,</p></li>
+<li><p>EELS spectra</p></li>
+<li><p>Z-contrast image acquired simultaneously with the spectra.</p></li>
+</ul>
+<p>So load the top dataset first in the above example the survey image.</p>
+<p>Please note that the plotting routine of <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> was introduced in <strong><a class="reference internal" href="CH1_03-Data_Representation.html"><span class="doc std std-doc">Matplotlib and Numpy for Micrographs</span></a></strong> notebook.</p>
+<p><strong>Use the file p1-3hr.dm3 from TEM_data directory for a practice run</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------ Input ------- #</span>
+<span class="n">load_example</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="c1"># -------------------- #</span>
+
+<span class="c1"># Open file widget and select file which will be opened in code cell below</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">load_example</span><span class="p">:</span>
+    <span class="n">drive_directory</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">get_last_path</span><span class="p">()</span>
+    <span class="n">file_widget</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">FileWidget</span><span class="p">(</span><span class="n">drive_directory</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">load_example</span><span class="p">:</span>
+    <span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;../example_data/p1-3-hr3.dm3&#39;</span>
+    <span class="n">datasets</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+    <span class="n">main_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">datasets</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">main_dataset</span> <span class="o">=</span> <span class="n">file_widget</span><span class="o">.</span><span class="n">selected_dataset</span>
+
+<span class="n">view</span> <span class="o">=</span> <span class="n">main_dataset</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Please use new SciFiReaders Package for full functionality
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "da1b66dcf962456588f01ec29be814f9", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="data-structure">
+<h2><span class="section-number">1.4.3. </span>Data Structure<a class="headerlink" href="#data-structure" title="Permalink to this heading">#</a></h2>
+<p>The data themselves reside in a <code class="docutils literal notranslate"><span class="pre">sidpy</span> <span class="pre">dataset</span></code> which we name <code class="docutils literal notranslate"><span class="pre">current_dataset</span></code>.</p>
+<p>The current_dataset has additional information stored as attributes which can be accessed through their name.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">main_dataset</span><span class="p">)</span>
+<span class="n">main_dataset</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sidpy.Dataset of type IMAGE with:
+ dask.array&lt;array, shape=(2048, 2048), dtype=int32, chunksize=(2048, 2048), chunktype=numpy.ndarray&gt;
+ data contains: intensity (counts)
+ and Dimensions: 
+x:  distance (nm) of size (2048,)
+y:  distance (nm) of size (2048,)
+ with metadata: [&#39;experiment&#39;, &#39;filename&#39;]
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <td>
+            <table style="border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <td> </td>
+                        <th> Array </th>
+                        <th> Chunk </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr>
+                        <th> Bytes </th>
+                        <td> 16.00 MiB </td>
+                        <td> 16.00 MiB </td>
+                    </tr>
+                    
+                    <tr>
+                        <th> Shape </th>
+                        <td> (2048, 2048) </td>
+                        <td> (2048, 2048) </td>
+                    </tr>
+                    <tr>
+                        <th> Dask graph </th>
+                        <td colspan="2"> 1 chunks in 1 graph layer </td>
+                    </tr>
+                    <tr>
+                        <th> Data type </th>
+                        <td colspan="2"> int32 numpy.ndarray </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td>
+        <svg width="170" height="170" style="stroke:rgb(0,0,0);stroke-width:1" >
+
+  <!-- Horizontal lines -->
+  <line x1="0" y1="0" x2="120" y2="0" style="stroke-width:2" />
+  <line x1="0" y1="120" x2="120" y2="120" style="stroke-width:2" />
+
+  <!-- Vertical lines -->
+  <line x1="0" y1="0" x2="0" y2="120" style="stroke-width:2" />
+  <line x1="120" y1="0" x2="120" y2="120" style="stroke-width:2" />
+
+  <!-- Colored Rectangle -->
+  <polygon points="0.0,0.0 120.0,0.0 120.0,120.0 0.0,120.0" style="fill:#ECB172A0;stroke-width:0"/>
+
+  <!-- Text -->
+  <text x="60.000000" y="140.000000" font-size="1.0rem" font-weight="100" text-anchor="middle" >2048</text>
+  <text x="140.000000" y="60.000000" font-size="1.0rem" font-weight="100" text-anchor="middle" transform="rotate(-90,140.000000,60.000000)">2048</text>
+</svg>
+        </td>
+    </tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;size of current dataset is </span><span class="si">{</span><span class="n">main_dataset</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>size of current dataset is (2048, 2048)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The current_dataset has additional information stored as attributes which can be accessed through their name.</p>
+<p>There are two dictionaries within that attributes:</p>
+<ul class="simple">
+<li><p><strong>metadata</strong></p></li>
+<li><p><strong>original_metadata</strong></p></li>
+</ul>
+<p>which contain additional information about the data</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;title: &#39;</span><span class="p">,</span> <span class="n">main_dataset</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;data type: &#39;</span><span class="p">,</span> <span class="n">main_dataset</span><span class="o">.</span><span class="n">data_type</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">datasets</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">datasets</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">original_metadata</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    
+<span class="n">main_dataset</span><span class="o">.</span><span class="n">metadata</span>  
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>title:  p1-3-hr3
+data type:  DataType.IMAGE
+Channel_000
+dict_keys([&#39;ImageData&#39;, &#39;ImageTags&#39;, &#39;Name&#39;, &#39;UniqueID&#39;, &#39;DM&#39;, &#39;original_filename&#39;, &#39;ApplicationBounds&#39;, &#39;DocumentObjectList&#39;, &#39;DocumentTags&#39;, &#39;HasWindowPosition&#39;, &#39;Image Behavior&#39;, &#39;ImageSourceList&#39;, &#39;InImageMode&#39;, &#39;MinVersionList&#39;, &#39;NextDocumentObjectID&#39;, &#39;Page Behavior&#39;, &#39;SentinelList&#39;, &#39;Thumbnails&#39;, &#39;WindowPosition&#39;, &#39;original_title&#39;])
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;experiment&#39;: {&#39;exposure_time&#39;: 1.0,
+  &#39;microscope&#39;: &#39;Libra 200 MC&#39;,
+  &#39;acceleration_voltage&#39;: 199990.28125},
+ &#39;filename&#39;: &#39;../example_data/p1-3-hr3.dm3&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id1">
+<h2><span class="section-number">1.4.4. </span>Data Structure<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<p>The datasets variable is a dictionary (like a directory in a file system) which containes contains datasets.</p>
+<p>Below I show how to access one of those datasets with a pull down menu.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chooser</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">ChooseDataset</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "a5e91943b8d94dcbaf787f08d463d24c", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">current_dataset</span> <span class="o">=</span> <span class="n">chooser</span><span class="o">.</span><span class="n">dataset</span>
+<span class="n">view</span> <span class="o">=</span> <span class="n">current_dataset</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "b8ed28ab79e940bda244d3d4602eafae", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>An important attribute in <code class="docutils literal notranslate"><span class="pre">current_dataset</span></code> is the <code class="docutils literal notranslate"><span class="pre">original_metadata</span></code> group, where all the original metadata of your file reside in the <code class="docutils literal notranslate"><span class="pre">attributes</span></code>. This is usually a long list for <code class="docutils literal notranslate"><span class="pre">dm3</span></code> files.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">current_dataset</span><span class="o">.</span><span class="n">original_metadata</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;ImageData&#39;, &#39;ImageTags&#39;, &#39;Name&#39;, &#39;UniqueID&#39;, &#39;DM&#39;, &#39;original_filename&#39;, &#39;ApplicationBounds&#39;, &#39;DocumentObjectList&#39;, &#39;DocumentTags&#39;, &#39;HasWindowPosition&#39;, &#39;Image Behavior&#39;, &#39;ImageSourceList&#39;, &#39;InImageMode&#39;, &#39;MinVersionList&#39;, &#39;NextDocumentObjectID&#39;, &#39;Page Behavior&#39;, &#39;SentinelList&#39;, &#39;Thumbnails&#39;, &#39;WindowPosition&#39;, &#39;original_title&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The original_metadata attribute has all information stored from the orginal file.</p>
+<blockquote>
+<div><p>No information will get lost</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="n">current_dataset</span><span class="o">.</span><span class="n">original_metadata</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">current_dataset</span><span class="o">.</span><span class="n">h5_dataset</span><span class="p">)</span>    
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ImageData {&#39;Calibrations&#39;: {&#39;Brightness&#39;: {&#39;Origin&#39;: 0.0, &#39;Scale&#39;: 1.0, &#39;Units&#39;: &#39;&#39;}, &#39;Dimension&#39;: {&#39;0&#39;: {&#39;Origin&#39;: 0.0, &#39;Scale&#39;: 0.03894666209816933, &#39;Units&#39;: &#39;nm&#39;}, &#39;1&#39;: {&#39;Origin&#39;: 0.0, &#39;Scale&#39;: 0.03894666209816933, &#39;Units&#39;: &#39;nm&#39;}}, &#39;DisplayCalibratedUnits&#39;: 1}, &#39;Data&#39;: &#39;read&#39;, &#39;DataType&#39;: 7, &#39;Dimensions&#39;: {&#39;0&#39;: 2048, &#39;1&#39;: 2048}, &#39;PixelDepth&#39;: 4}
+ImageTags {&#39;Acquisition&#39;: {&#39;Device&#39;: {&#39;Active Size (pixels)&#39;: [2048, 2048], &#39;Camera Number&#39;: 0, &#39;CCD&#39;: {&#39;Pixel Size (um)&#39;: [14.0, 14.0]}, &#39;Configuration&#39;: {&#39;Transpose&#39;: {&#39;Diagonal Flip&#39;: 0, &#39;Horizontal Flip&#39;: 1, &#39;Vertical Flip&#39;: 0}}, &#39;Name&#39;: &#39;US1000XP 1&#39;, &#39;Source&#39;: &#39;US1000XP 1&#39;}, &#39;Frame&#39;: {&#39;Area&#39;: {&#39;Transform&#39;: {&#39;Class Name&#39;: &#39;cm_acquisitiontransform_list&#39;, &#39;Transform List&#39;: {&#39;0&#39;: {&#39;Binning&#39;: [1, 1], &#39;Class Name&#39;: &#39;cm_acquisitiontransform&#39;, &#39;Sub Area Adjust&#39;: [0, 0, 0, 0], &#39;Transpose&#39;: {&#39;Diagonal Flip&#39;: 0, &#39;Horizontal Flip&#39;: 1, &#39;Vertical Flip&#39;: 0}}}}}, &#39;CCD&#39;: {&#39;Pixel Size (um)&#39;: [14.0, 14.0]}, &#39;Intensity&#39;: {&#39;Range&#39;: {&#39;Bias (counts)&#39;: 250.0, &#39;Dark Current (counts/s)&#39;: 0.0, &#39;Dark Level (counts)&#39;: 250.0, &#39;Maximum Value (counts)&#39;: 65535.0, &#39;Minimum Value (counts)&#39;: 0.0, &#39;Saturation Level (counts)&#39;: 65785.0}, &#39;Transform&#39;: {&#39;Class Name&#39;: &#39;cm_valuetransform_list&#39;, &#39;Transform List&#39;: {&#39;0&#39;: {&#39;Class Name&#39;: &#39;cm_valuetransform_affine&#39;, &#39;Offset&#39;: 250.0, &#39;Scale&#39;: 1.0}, &#39;1&#39;: {&#39;ADC Max&#39;: 65535.0, &#39;ADC Min&#39;: 0.0, &#39;Class Name&#39;: &#39;cm_valuetransform_adc&#39;}}}}, &#39;Reference Images&#39;: {&#39;Dark&#39;: {&#39;Mean (counts)&#39;: 251.31182837486267, &#39;Standard Deviation (counts)&#39;: 3.28830754005297}}, &#39;Sequence&#39;: {&#39;Acquisition Start Time (epoch)&#39;: 1528991109318.0, &#39;Exposure Start (ns)&#39;: 130828979.37529667, &#39;Exposure Time (ns)&#39;: 1000000000.0, &#39;Frame Index&#39;: 0, &#39;Frame Start (ns)&#39;: 130828979.37529667, &#39;Frame Time (ns)&#39;: 3482273464.1519103, &#39;Readout Time (ns)&#39;: 3482273464.1519103}}, &#39;Parameters&#39;: {&#39;Acquisition Write Flags&#39;: 4294967295, &#39;Base Detector&#39;: {&#39;Class Name&#39;: &#39;cm_namedcameradetectorparameterset&#39;, &#39;Name&#39;: &#39;default&#39;}, &#39;Detector&#39;: {&#39;continuous&#39;: 0, &#39;exposure (s)&#39;: 1.0, &#39;hbin&#39;: 1, &#39;height&#39;: 2048, &#39;left&#39;: 0, &#39;top&#39;: 0, &#39;vbin&#39;: 1, &#39;width&#39;: 2048}, &#39;Environment&#39;: {&#39;Mode Name&#39;: &#39;Imaging&#39;}, &#39;High Level&#39;: {&#39;Acquisition Buffer Size&#39;: 0, &#39;Antiblooming&#39;: 0, &#39;Binning&#39;: [1, 1], &#39;CCD Read Area&#39;: [0, 0, 2048, 2048], &#39;CCD Read Ports&#39;: 1, &#39;Choose Number Of Frame Shutters Automatically&#39;: 1, &#39;Class Name&#39;: &#39;cm_camera_highlevelparameters&#39;, &#39;Continuous Readout&#39;: 0, &#39;Corrections&#39;: 817, &#39;Corrections Mask&#39;: 817, &#39;Exposure (s)&#39;: 1.0, &#39;Number Of Frame Shutters&#39;: 1, &#39;Processing&#39;: &#39;Gain Normalized&#39;, &#39;Quality Level&#39;: 1, &#39;Read Frame Style&#39;: 0, &#39;Read Mode&#39;: 0, &#39;Secondary Shutter Post Exposure Compensation (s)&#39;: 0.0, &#39;Secondary Shutter Pre Exposure Compensation (s)&#39;: 0.0, &#39;Shutter&#39;: {&#39;Primary Shutter States&#39;: 0, &#39;Primary Shutter States Mask&#39;: 0, &#39;Secondary Shutter States&#39;: 0, &#39;Secondary Shutter States Mask&#39;: 0, &#39;Shutter Exposure&#39;: 0, &#39;Shutter Index&#39;: 0}, &#39;Shutter Post Exposure Compensation (s)&#39;: 0.0, &#39;Shutter Pre Exposure Compensation (s)&#39;: 0.0, &#39;Transform&#39;: {&#39;Diagonal Flip&#39;: 0, &#39;Horizontal Flip&#39;: 0, &#39;Vertical Flip&#39;: 0}}, &#39;Objects&#39;: {&#39;0&#39;: {&#39;Class Name&#39;: &#39;cm_autoexpose_acquireimage&#39;, &#39;Do Auto Expose&#39;: 0, &#39;Maximum Exposure (s)&#39;: 5.0, &#39;Minimum Exposure (s)&#39;: 0.1, &#39;Target Intensity (%)&#39;: 50.0, &#39;Test Exposure (s)&#39;: 0.1}, &#39;1&#39;: {&#39;Class Name&#39;: &#39;cm_imgproc_finalcombine&#39;, &#39;Frame Combine Style&#39;: &#39;Copy&#39;, &#39;Parameter 1&#39;: 1.0}, &#39;2&#39;: {&#39;Class Name&#39;: &#39;cm_stdviewerimagedisplayer&#39;, &#39;Do Auto Zoom&#39;: 0, &#39;Screen Relative Position&#39;: [1.0, 0.0], &#39;Version&#39;: 33947648, &#39;View Name&#39;: &#39;Frame&#39;, &#39;Viewer Class&#39;: &#39;acquire&#39;, &#39;Window Relative Position&#39;: [1.0, 0.0], &#39;Zoom&#39;: 1.0}, &#39;3&#39;: {&#39;Class Name&#39;: &#39;cm_imgproc_histogram&#39;}}, &#39;Parameter Set Name&#39;: &#39;Record&#39;, &#39;Parameter Set Tag Path&#39;: &#39;Imaging:Acquire:Record&#39;, &#39;Version&#39;: 33947648}}, &#39;DataBar&#39;: {&#39;Acquisition Date&#39;: &#39;6/14/2018&#39;, &#39;Acquisition Time&#39;: &#39;11:45:13 AM&#39;, &#39;Acquisition Time (OS)&#39;: 1.3173464713128774e+17, &#39;Binning&#39;: 1, &#39;Custom elements&#39;: {}, &#39;Device Name&#39;: &#39;US1000XP 1&#39;, &#39;Exposure Number&#39;: 13083663, &#39;Exposure Time (s)&#39;: 1.0}, &#39;Microscope Info&#39;: {&#39;Actual Magnification&#39;: 359465.9784890286, &#39;Cs(mm)&#39;: 2.2, &#39;Emission Current (A)&#39;: 230.0, &#39;Formatted Indicated Mag&#39;: &#39;315kx&#39;, &#39;Formatted Voltage&#39;: &#39;200.0kV&#39;, &#39;HT Extrapolated&#39;: 0, &#39;Illumination Mode&#39;: &#39;TEM&#39;, &#39;Imaging Mode&#39;: &#39;Image Mag&#39;, &#39;Indicated Magnification&#39;: 315000.0, &#39;Items&#39;: {&#39;0&#39;: {&#39;Data Type&#39;: 20, &#39;Label&#39;: &#39;Specimen&#39;, &#39;Tag path&#39;: &#39;Microscope Info:Specimen&#39;, &#39;Value&#39;: &#39;Fe-9Cr(0.3Y)-3E10(17)-475C&#39;}, &#39;1&#39;: {&#39;Data Type&#39;: 20, &#39;Label&#39;: &#39;Operator&#39;, &#39;Tag path&#39;: &#39;Microscope Info:Operator&#39;, &#39;Value&#39;: &#39;Tengfei Yang&#39;}, &#39;2&#39;: {&#39;Data Type&#39;: 20, &#39;Label&#39;: &#39;Microscope&#39;, &#39;Tag path&#39;: &#39;Microscope Info:Microscope&#39;, &#39;Value&#39;: &#39;Libra 200 MC&#39;}}, &#39;Magnification Interpolated&#39;: 0, &#39;Microscope&#39;: &#39;Libra 200 MC&#39;, &#39;Name&#39;: &#39;Libra COM&#39;, &#39;Operation Mode&#39;: &#39;IMAGING&#39;, &#39;Operator&#39;: &#39;Tengfei Yang&#39;, &#39;Probe Current (nA)&#39;: 0.0, &#39;Probe Size (nm)&#39;: 0.0, &#39;Specimen&#39;: &#39;Fe-9Cr(0.3Y)-3E10(17)-475C&#39;, &#39;STEM Camera Length&#39;: 94.49999779462814, &#39;Voltage&#39;: 199990.28125}}
+Name p1-3-hr3
+UniqueID {&#39;0&#39;: 3677084, &#39;1&#39;: 1068567676, &#39;2&#39;: 1927893732, &#39;3&#39;: 2094808766}
+DM {&#39;dm_version&#39;: 3, &#39;file_size&#39;: 17382688, &#39;full_file_name&#39;: &#39;../example_data/p1-3-hr3.dm3&#39;}
+original_filename ../example_data/p1-3-hr3.dm3
+ApplicationBounds [0, 0, 1465, 2236]
+DocumentObjectList {&#39;0&#39;: {&#39;AnnotationGroupList&#39;: {&#39;0&#39;: {&#39;AnnotationType&#39;: 31, &#39;BackgroundColor&#39;: [0, 0, 0], &#39;BackgroundMode&#39;: 1, &#39;FillMode&#39;: 1, &#39;Font&#39;: {&#39;Attributes&#39;: 7, &#39;FamilyName&#39;: &#39;Arial Narrow&#39;, &#39;Size&#39;: 85}, &#39;ForegroundColor&#39;: [-1, -1, -1], &#39;HasBackground&#39;: 1, &#39;IsMoveable&#39;: 1, &#39;IsResizable&#39;: 1, &#39;IsSelectable&#39;: 1, &#39;IsTranslatable&#39;: 1, &#39;IsVisible&#39;: 1, &#39;ObjectTags&#39;: {}, &#39;Rectangle&#39;: [1768.0, 128.0, 1920.0, 1088.0], &#39;TextOffsetH&#39;: 1.0, &#39;TextOffsetV&#39;: 1.0, &#39;TextWidth&#39;: 195.18429565429688, &#39;UniqueID&#39;: 9}}, &#39;AnnotationType&#39;: 20, &#39;BackgroundColor&#39;: [-1, -1, -1], &#39;BackgroundMode&#39;: 2, &#39;FillMode&#39;: 1, &#39;ForegroundColor&#39;: [-1, 0, -32640], &#39;HasBackground&#39;: 0, &#39;ImageDisplayInfo&#39;: {&#39;BrightColor&#39;: [-1, -1, -1], &#39;Brightness&#39;: 0.5, &#39;CaptionOn&#39;: 0, &#39;CaptionSize&#39;: 10, &#39;CLUT&#39;: [[0, 0, 0], [257, 257, 257], [514, 514, 514], [771, 771, 771], [1028, 1028, 1028], [1285, 1285, 1285], [1542, 1542, 1542], [1799, 1799, 1799], [2056, 2056, 2056], [2313, 2313, 2313], [2570, 2570, 2570], [2827, 2827, 2827], [3084, 3084, 3084], [3341, 3341, 3341], [3598, 3598, 3598], [3855, 3855, 3855], [4112, 4112, 4112], [4369, 4369, 4369], [4626, 4626, 4626], [4883, 4883, 4883], [5140, 5140, 5140], [5397, 5397, 5397], [5654, 5654, 5654], [5911, 5911, 5911], [6168, 6168, 6168], [6425, 6425, 6425], [6682, 6682, 6682], [6939, 6939, 6939], [7196, 7196, 7196], [7453, 7453, 7453], [7710, 7710, 7710], [7967, 7967, 7967], [8224, 8224, 8224], [8481, 8481, 8481], [8738, 8738, 8738], [8995, 8995, 8995], [9252, 9252, 9252], [9509, 9509, 9509], [9766, 9766, 9766], [10023, 10023, 10023], [10280, 10280, 10280], [10537, 10537, 10537], [10794, 10794, 10794], [11051, 11051, 11051], [11308, 11308, 11308], [11565, 11565, 11565], [11822, 11822, 11822], [12079, 12079, 12079], [12336, 12336, 12336], [12593, 12593, 12593], [12850, 12850, 12850], [13107, 13107, 13107], [13364, 13364, 13364], [13621, 13621, 13621], [13878, 13878, 13878], [14135, 14135, 14135], [14392, 14392, 14392], [14649, 14649, 14649], [14906, 14906, 14906], [15163, 15163, 15163], [15420, 15420, 15420], [15677, 15677, 15677], [15934, 15934, 15934], [16191, 16191, 16191], [16448, 16448, 16448], [16705, 16705, 16705], [16962, 16962, 16962], [17219, 17219, 17219], [17476, 17476, 17476], [17733, 17733, 17733], [17990, 17990, 17990], [18247, 18247, 18247], [18504, 18504, 18504], [18761, 18761, 18761], [19018, 19018, 19018], [19275, 19275, 19275], [19532, 19532, 19532], [19789, 19789, 19789], [20046, 20046, 20046], [20303, 20303, 20303], [20560, 20560, 20560], [20817, 20817, 20817], [21074, 21074, 21074], [21331, 21331, 21331], [21588, 21588, 21588], [21845, 21845, 21845], [22102, 22102, 22102], [22359, 22359, 22359], [22616, 22616, 22616], [22873, 22873, 22873], [23130, 23130, 23130], [23387, 23387, 23387], [23644, 23644, 23644], [23901, 23901, 23901], [24158, 24158, 24158], [24415, 24415, 24415], [24672, 24672, 24672], [24929, 24929, 24929], [25186, 25186, 25186], [25443, 25443, 25443], [25700, 25700, 25700], [25957, 25957, 25957], [26214, 26214, 26214], [26471, 26471, 26471], [26728, 26728, 26728], [26985, 26985, 26985], [27242, 27242, 27242], [27499, 27499, 27499], [27756, 27756, 27756], [28013, 28013, 28013], [28270, 28270, 28270], [28527, 28527, 28527], [28784, 28784, 28784], [29041, 29041, 29041], [29298, 29298, 29298], [29555, 29555, 29555], [29812, 29812, 29812], [30069, 30069, 30069], [30326, 30326, 30326], [30583, 30583, 30583], [30840, 30840, 30840], [31097, 31097, 31097], [31354, 31354, 31354], [31611, 31611, 31611], [31868, 31868, 31868], [32125, 32125, 32125], [32382, 32382, 32382], [32639, 32639, 32639], [-32640, -32640, -32640], [-32383, -32383, -32383], [-32126, -32126, -32126], [-31869, -31869, -31869], [-31612, -31612, -31612], [-31355, -31355, -31355], [-31098, -31098, -31098], [-30841, -30841, -30841], [-30584, -30584, -30584], [-30327, -30327, -30327], [-30070, -30070, -30070], [-29813, -29813, -29813], [-29556, -29556, -29556], [-29299, -29299, -29299], [-29042, -29042, -29042], [-28785, -28785, -28785], [-28528, -28528, -28528], [-28271, -28271, -28271], [-28014, -28014, -28014], [-27757, -27757, -27757], [-27500, -27500, -27500], [-27243, -27243, -27243], [-26986, -26986, -26986], [-26729, -26729, -26729], [-26472, -26472, -26472], [-26215, -26215, -26215], [-25958, -25958, -25958], [-25701, -25701, -25701], [-25444, -25444, -25444], [-25187, -25187, -25187], [-24930, -24930, -24930], [-24673, -24673, -24673], [-24416, -24416, -24416], [-24159, -24159, -24159], [-23902, -23902, -23902], [-23645, -23645, -23645], [-23388, -23388, -23388], [-23131, -23131, -23131], [-22874, -22874, -22874], [-22617, -22617, -22617], [-22360, -22360, -22360], [-22103, -22103, -22103], [-21846, -21846, -21846], [-21589, -21589, -21589], [-21332, -21332, -21332], [-21075, -21075, -21075], [-20818, -20818, -20818], [-20561, -20561, -20561], [-20304, -20304, -20304], [-20047, -20047, -20047], [-19790, -19790, -19790], [-19533, -19533, -19533], [-19276, -19276, -19276], [-19019, -19019, -19019], [-18762, -18762, -18762], [-18505, -18505, -18505], [-18248, -18248, -18248], [-17991, -17991, -17991], [-17734, -17734, -17734], [-17477, -17477, -17477], [-17220, -17220, -17220], [-16963, -16963, -16963], [-16706, -16706, -16706], [-16449, -16449, -16449], [-16192, -16192, -16192], [-15935, -15935, -15935], [-15678, -15678, -15678], [-15421, -15421, -15421], [-15164, -15164, -15164], [-14907, -14907, -14907], [-14650, -14650, -14650], [-14393, -14393, -14393], [-14136, -14136, -14136], [-13879, -13879, -13879], [-13622, -13622, -13622], [-13365, -13365, -13365], [-13108, -13108, -13108], [-12851, -12851, -12851], [-12594, -12594, -12594], [-12337, -12337, -12337], [-12080, -12080, -12080], [-11823, -11823, -11823], [-11566, -11566, -11566], [-11309, -11309, -11309], [-11052, -11052, -11052], [-10795, -10795, -10795], [-10538, -10538, -10538], [-10281, -10281, -10281], [-10024, -10024, -10024], [-9767, -9767, -9767], [-9510, -9510, -9510], [-9253, -9253, -9253], [-8996, -8996, -8996], [-8739, -8739, -8739], [-8482, -8482, -8482], [-8225, -8225, -8225], [-7968, -7968, -7968], [-7711, -7711, -7711], [-7454, -7454, -7454], [-7197, -7197, -7197], [-6940, -6940, -6940], [-6683, -6683, -6683], [-6426, -6426, -6426], [-6169, -6169, -6169], [-5912, -5912, -5912], [-5655, -5655, -5655], [-5398, -5398, -5398], [-5141, -5141, -5141], [-4884, -4884, -4884], [-4627, -4627, -4627], [-4370, -4370, -4370], [-4113, -4113, -4113], [-3856, -3856, -3856], [-3599, -3599, -3599], [-3342, -3342, -3342], [-3085, -3085, -3085], [-2828, -2828, -2828], [-2571, -2571, -2571], [-2314, -2314, -2314], [-2057, -2057, -2057], [-1800, -1800, -1800], [-1543, -1543, -1543], [-1286, -1286, -1286], [-1029, -1029, -1029], [-772, -772, -772], [-515, -515, -515], [-258, -258, -258], [-1, -1, -1]], &#39;CLUTName&#39;: &#39;Greyscale&#39;, &#39;ComplexMode&#39;: 4, &#39;ComplexRange&#39;: 1000.0, &#39;Contrast&#39;: 0.5, &#39;ContrastMode&#39;: 1, &#39;DimensionLabels&#39;: {&#39;0&#39;: &#39;&#39;}, &#39;DoAutoSurvey&#39;: 1, &#39;EstimatedMax&#39;: 656.0, &#39;EstimatedMaxTrimPercentage&#39;: 0.0010000000474974513, &#39;EstimatedMin&#39;: 2354.0, &#39;EstimatedMinTrimPercentage&#39;: 0.0010000000474974513, &#39;Gamma&#39;: 0.5, &#39;HighLimit&#39;: 2107.03125, &#39;HiLimitContrastDeltaTriggerPercentage&#39;: 0.0, &#39;IsInverted&#39;: 0, &#39;LowLimit&#39;: 718.9080810546875, &#39;LowLimitContrastDeltaTriggerPercentage&#39;: 0.0, &#39;MainSliceId&#39;: {&#39;0&#39;: 0}, &#39;MinimumContrast&#39;: 0.0, &#39;RangeAdjust&#39;: 1.0, &#39;SparseSurvey_GridSize&#39;: 16, &#39;SparseSurvey_NumberPixels&#39;: 32, &#39;SparseSurvey_UseNumberPixels&#39;: 1, &#39;SurveyTechique&#39;: 2}, &#39;ImageDisplayType&#39;: 1, &#39;ImageSource&#39;: 0, &#39;IsMoveable&#39;: 1, &#39;IsResizable&#39;: 1, &#39;IsSelectable&#39;: 1, &#39;IsTranslatable&#39;: 1, &#39;IsVisible&#39;: 1, &#39;ObjectTags&#39;: {}, &#39;Rectangle&#39;: [0.0, 0.0, 1427.0, 1427.0], &#39;UniqueID&#39;: 8}}
+DocumentTags {}
+HasWindowPosition 1
+Image Behavior {&#39;DoIntegralZoom&#39;: 0, &#39;ImageDisplayBounds&#39;: [0.0, 0.0, 1427.0, 1427.0], &#39;IsZoomedToWindow&#39;: 1, &#39;UnscaledTransform&#39;: {&#39;Offset&#39;: [0.0, 0.0], &#39;Scale&#39;: [1.0, 1.0]}, &#39;ViewDisplayID&#39;: 8, &#39;WindowRect&#39;: [0.0, 0.0, 1427.0, 1427.0], &#39;ZoomAndMoveTransform&#39;: {&#39;Offset&#39;: [0.0, 0.0], &#39;Scale&#39;: [1.0, 1.0]}}
+ImageSourceList {&#39;0&#39;: {&#39;ClassName&#39;: &#39;ImageSource:Simple&#39;, &#39;Id&#39;: {&#39;0&#39;: 0}, &#39;ImageRef&#39;: 1}}
+InImageMode 1
+MinVersionList {&#39;0&#39;: {&#39;RequiredVersion&#39;: 50659328}}
+NextDocumentObjectID 10
+Page Behavior {&#39;DoIntegralZoom&#39;: 0, &#39;DrawMargins&#39;: 1, &#39;DrawPaper&#39;: 1, &#39;IsFixedInPageMode&#39;: 0, &#39;IsZoomedToWindow&#39;: 1, &#39;LayedOut&#39;: 0, &#39;PageTransform&#39;: {&#39;Offset&#39;: [0.0, 0.0], &#39;Scale&#39;: [1.0, 1.0]}, &#39;RestoreImageDisplayBounds&#39;: [0.0, 0.0, 2048.0, 2048.0], &#39;RestoreImageDisplayID&#39;: 8, &#39;TargetDisplayID&#39;: 4294967295}
+SentinelList {}
+Thumbnails {&#39;0&#39;: {&#39;ImageIndex&#39;: 0, &#39;SourceSize_Pixels&#39;: [1427, 1427]}}
+WindowPosition [30, 801, 1457, 2228]
+original_title p1_3_hr3
+None
+</pre></div>
+</div>
+</div>
+</div>
+<p>Any python object will provide a help.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">current_dataset</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Help on Dataset in module sidpy.sid.dataset object:
+
+class Dataset(dask.array.core.Array)
+ |  Dataset(*args, **kwargs)
+ |  
+ |  ..autoclass::Dataset
+ |  
+ |  To instantiate from an existing array-like object,
+ |  use :func:`Dataset.from_array` - requires numpy array, list or tuple
+ |  
+ |  This dask array is extended to have the following attributes:
+ |  -data_type: DataTypes (&#39;image&#39;, &#39;image_stack&#39;,  spectral_image&#39;, ...
+ |  -units: str
+ |  -quantity: str what kind of data (&#39;intensity&#39;, &#39;height&#39;, ..)
+ |  -title: title of the data set
+ |  -modality: character of data such as &#39;STM, &#39;AFM&#39;, &#39;TEM&#39;, &#39;SEM&#39;, &#39;DFT&#39;, &#39;simulation&#39;, ..)
+ |  -source: origin of data such as acquisition instrument (&#39;Nion US100&#39;, &#39;VASP&#39;, ..)
+ |  -_axes: dictionary of Dimensions one for each data dimension
+ |                  (the axes are dimension datasets with name, label, units,
+ |                  and &#39;dimension_type&#39; attributes).
+ |  
+ |  -metadata: dictionary of additional metadata
+ |  -original_metadata: dictionary of original metadata of file,
+ |  
+ |  -labels: returns labels of all dimensions.
+ |  -data_descriptor: returns a label for the colorbar in matplotlib and such
+ |  
+ |  functions:
+ |  -from_array(data, title): constructs the dataset form an array like object (numpy array, dask array, ...)
+ |  -like_data(data,title): constructs the dataset form an array like object and copies attributes and
+ |  metadata from parent dataset
+ |  -copy()
+ |  -plot(): plots dataset dependent on data_type and dimension_types.
+ |  -get_extent(): extent to be used with imshow function of matplotlib
+ |  -set_dimension(axis, dimensions): set a Dimension to a specific axis
+ |  -rename_dimension(dimension, name): renames attribute of dimension
+ |  -view_metadata: pretty plot of metadata dictionary
+ |  -view_original_metadata: pretty plot of original_metadata dictionary
+ |  
+ |  Method resolution order:
+ |      Dataset
+ |      dask.array.core.Array
+ |      dask.base.DaskMethodsMixin
+ |      builtins.object
+ |  
+ |  Methods defined here:
+ |  
+ |  __abs__(self)
+ |  
+ |  __add__(self, other)
+ |  
+ |  __and__(self, other)
+ |  
+ |  __array_ufunc__(self, numpy_ufunc, method, *inputs, **kwargs)
+ |  
+ |  __div__(self, other)
+ |  
+ |  __eq__(self, other)
+ |      Return self==value.
+ |  
+ |  __floordiv__(self, other)
+ |  
+ |  __ge__(self, other)
+ |      Return self&gt;=value.
+ |  
+ |  __getitem__(self, idx)
+ |  
+ |  __gt__(self, other)
+ |      Return self&gt;value.
+ |  
+ |  __init__(self, *args, **kwargs)
+ |      Initializes Dataset object which is essentially a Dask array
+ |      underneath
+ |      
+ |      Attributes
+ |      ----------
+ |      self.quantity : str
+ |          Physical quantity. E.g. - current
+ |      self.units : str
+ |          Physical units. E.g. - amperes
+ |      self.data_type : enum
+ |          Type of data such as Image, Spectrum, Spectral Image etc.
+ |      self.title : str
+ |          Title for Dataset
+ |      self._structures : dict
+ |          dictionary of ase.Atoms objects to represent structures, can be given a name
+ |      self.view : Visualizer
+ |          Instance of class appropriate for visualizing this object
+ |      self.data_descriptor : str
+ |          Description of this dataset
+ |      self.modality : str
+ |          character of data such as &#39;STM&#39;, &#39;TEM&#39;, &#39;DFT&#39;
+ |      self.source : str
+ |          Source of this dataset. Such as instrument, analysis, etc.?
+ |      self.h5_dataset : h5py.Dataset
+ |          Reference to HDF5 Dataset object from which this Dataset was
+ |          created
+ |      self._axes : dict
+ |          Dictionary of Dimension objects per dimension of the Dataset
+ |      self.meta_data : dict
+ |          Metadata to store relevant additional information for the dataset.
+ |      self.original_metadata : dict
+ |          Metadata from the original source of the dataset. This dictionary
+ |          often contains the vendor-specific metadata or internal attributes
+ |          of the analysis algorithm
+ |  
+ |  __invert__(self)
+ |  
+ |  __le__(self, other)
+ |      Return self&lt;=value.
+ |  
+ |  __lshift__(self, other)
+ |  
+ |  __lt__(self, other)
+ |      Return self&lt;value.
+ |  
+ |  __matmul__(self, other)
+ |  
+ |  __mod__(self, other)
+ |  
+ |  __mul__(self, other)
+ |  
+ |  __ne__(self, other)
+ |      Return self!=value.
+ |  
+ |  __neg__(self)
+ |  
+ |  __or__(self, other)
+ |      Return self|value.
+ |  
+ |  __pos__(self)
+ |  
+ |  __pow__(self, other)
+ |  
+ |  __radd__(self, other)
+ |  
+ |  __rand__(self, other)
+ |  
+ |  __rdiv__(self, other)
+ |  
+ |  __repr__(self)
+ |      &gt;&gt;&gt; import dask.array as da
+ |      &gt;&gt;&gt; da.ones((10, 10), chunks=(5, 5), dtype=&#39;i4&#39;)
+ |      dask.array&lt;..., shape=(10, 10), dtype=int32, chunksize=(5, 5), chunktype=numpy.ndarray&gt;
+ |  
+ |  __rfloordiv__(self, other)
+ |  
+ |  __rlshift__(self, other)
+ |  
+ |  __rmatmul__(self, other)
+ |  
+ |  __rmod__(self, other)
+ |  
+ |  __rmul__(self, other)
+ |  
+ |  __ror__(self, other)
+ |      Return value|self.
+ |  
+ |  __rpow__(self, other)
+ |  
+ |  __rrshift__(self, other)
+ |  
+ |  __rshift__(self, other)
+ |  
+ |  __rsub__(self, other)
+ |  
+ |  __rtruediv__(self, other)
+ |  
+ |  __rxor__(self, other)
+ |  
+ |  __setattr__(self, key, value)
+ |      Implement setattr(self, name, value).
+ |  
+ |  __sub__(self, other)
+ |  
+ |  __truediv__(self, other)
+ |  
+ |  __xor__(self, other)
+ |  
+ |  abs(self)
+ |  
+ |  add_structure(self, atoms, title=None)
+ |  
+ |  adjust_axis(self, result, axis, title=&#39;&#39;, keepdims=False)
+ |  
+ |  all(self, axis=None, keepdims=False, split_every=None, out=None)
+ |      Returns True if all elements evaluate to True.
+ |      
+ |      Refer to :func:`dask.array.all` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.all : equivalent function
+ |  
+ |  angle(self, deg=False)
+ |  
+ |  any(self, axis=None, keepdims=False, split_every=None, out=None)
+ |      Returns True if any of the elements evaluate to True.
+ |      
+ |      Refer to :func:`dask.array.any` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.any : equivalent function
+ |  
+ |  argmax(self, axis=None, split_every=None, out=None)
+ |      Return indices of the maximum values along the given axis.
+ |      
+ |      Refer to :func:`dask.array.argmax` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.argmax : equivalent function
+ |  
+ |  argmin(self, axis=None, split_every=None, out=None)
+ |      Return indices of the minimum values along the given axis.
+ |      
+ |      Refer to :func:`dask.array.argmin` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.argmin : equivalent function
+ |  
+ |  astype(self, dtype, **kwargs)
+ |      Copy of the array, cast to a specified type.
+ |      
+ |      Parameters
+ |      ----------
+ |      dtype : str or dtype
+ |          Typecode or data-type to which the array is cast.
+ |      casting : {&#39;no&#39;, &#39;equiv&#39;, &#39;safe&#39;, &#39;same_kind&#39;, &#39;unsafe&#39;}, optional
+ |          Controls what kind of data casting may occur. Defaults to &#39;unsafe&#39;
+ |          for backwards compatibility.
+ |      
+ |          * &#39;no&#39; means the data types should not be cast at all.
+ |          * &#39;equiv&#39; means only byte-order changes are allowed.
+ |          * &#39;safe&#39; means only casts which can preserve values are allowed.
+ |          * &#39;same_kind&#39; means only safe casts or casts within a kind,
+ |              like float64 to float32, are allowed.
+ |          * &#39;unsafe&#39; means any data conversions may be done.
+ |      copy : bool, optional
+ |          By default, astype always returns a newly allocated array. If this
+ |          is set to False and the `dtype` requirement is satisfied, the input
+ |          array is returned instead of a copy.
+ |      
+ |          .. note::
+ |      
+ |              Dask does not respect the contiguous memory layout of the array,
+ |              and will ignore the ``order`` keyword argument.
+ |              The default order is &#39;C&#39; contiguous.
+ |  
+ |  choose(self, choices)
+ |      Use an index array to construct a new array from a set of choices.
+ |      
+ |      Refer to :func:`dask.array.choose` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.choose : equivalent function
+ |  
+ |  clip(self, min=None, max=None)
+ |      Return an array whose values are limited to ``[min, max]``.
+ |      One of max or min must be given.
+ |      
+ |      Refer to :func:`dask.array.clip` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.clip : equivalent function
+ |  
+ |  compute_chunk_sizes(self)
+ |      Compute the chunk sizes for a Dask array. This is especially useful
+ |      when the chunk sizes are unknown (e.g., when indexing one Dask array
+ |      with another).
+ |      
+ |      Notes
+ |      -----
+ |      This function modifies the Dask array in-place.
+ |      
+ |      Examples
+ |      --------
+ |      &gt;&gt;&gt; import dask.array as da
+ |      &gt;&gt;&gt; import numpy as np
+ |      &gt;&gt;&gt; x = da.from_array([-2, -1, 0, 1, 2], chunks=2)
+ |      &gt;&gt;&gt; x.chunks
+ |      ((2, 2, 1),)
+ |      &gt;&gt;&gt; y = x[x &lt;= 0]
+ |      &gt;&gt;&gt; y.chunks
+ |      ((nan, nan, nan),)
+ |      &gt;&gt;&gt; y.compute_chunk_sizes()  # in-place computation
+ |      dask.array&lt;getitem, shape=(3,), dtype=int64, chunksize=(2,), chunktype=numpy.ndarray&gt;
+ |      &gt;&gt;&gt; y.chunks
+ |      ((2, 1, 0),)
+ |  
+ |  conj(self)
+ |      Complex-conjugate all elements.
+ |      
+ |      Refer to :func:`dask.array.conj` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.conj : equivalent function
+ |  
+ |  copy(self)
+ |      Returns a deep copy of this dataset.
+ |      
+ |      Returns
+ |      -------
+ |      sidpy dataset
+ |  
+ |  cumprod(self, axis, dtype=None, out=None, method=&#39;sequential&#39;)
+ |      Return the cumulative product of the elements along the given axis.
+ |      
+ |      Refer to :func:`dask.array.cumprod` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.cumprod : equivalent function
+ |  
+ |  cumsum(self, axis, dtype=None, out=None, method=&#39;sequential&#39;)
+ |      Return the cumulative sum of the elements along the given axis.
+ |      
+ |      Refer to :func:`dask.array.cumsum` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.cumsum : equivalent function
+ |  
+ |  del_dimension(self, ind=None)
+ |      Deletes the dimension attached to axis &#39;ind&#39;.
+ |  
+ |  dot(self, other)
+ |      Dot product of self and other.
+ |      
+ |      Refer to :func:`dask.array.tensordot` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.dot : equivalent function
+ |  
+ |  fft(self, dimension_type=None)
+ |      Gets the FFT of a sidpy.Dataset of any size
+ |      
+ |      The data_type of the sidpy.Dataset determines the dimension_type over which the
+ |      fourier transform is performed over, if the dimension_type is not set explicitly.
+ |      
+ |      The fourier transformed dataset is automatically shifted to center of dataset.
+ |      
+ |      Parameters
+ |      ----------
+ |      dimension_type: None, str, or sidpy.DimensionType - optional
+ |          dimension_type over which fourier transform is performed, if None an educated guess will determine
+ |          that from dimensions of sidpy.Dataset
+ |      
+ |      Returns
+ |      -------
+ |      fft_dset: 2D or 3D complex sidpy.Dataset (not tested for higher dimensions)
+ |          2 or 3 dimensional matrix arranged in the same way as input
+ |      
+ |      Example
+ |      -------
+ |      &gt;&gt; fft_dataset = sidpy_dataset.fft()
+ |      &gt;&gt; fft_dataset.plot()
+ |  
+ |  flatten(self)
+ |      Return a flattened array.
+ |      
+ |      Refer to :func:`dask.array.ravel` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.ravel : equivalent function
+ |  
+ |  flatten_complex(self)
+ |      This function returns a dataset with real and imaginary components that have been flattened
+ |      This is necessary for scenarios such as fitting of complex functions
+ |      Must be a 2D or 1D dataset to begin with
+ |      Output:
+ |      - ouput_arr: sidpy.Dataset object
+ |  
+ |  fold(self, dim_order=None, method=None)
+ |      This method collapses the dimensions of the sidpy dataset
+ |  
+ |  get_dimension_by_number(self, dims_in)
+ |  
+ |  get_dimensions_by_type(self, dims_in)
+ |      get dimension by dimension_type name
+ |      
+ |      Parameters
+ |      ----------
+ |      dims_in: dimension_type/str or list of dimension_types/string
+ |      
+ |      
+ |      Returns
+ |      -------
+ |      dims_out: list of [index, dimension]
+ |          the kind of dimensions specified in input in numerical order of the dataset, not the input!
+ |  
+ |  get_extent(self, dimensions)
+ |      get image extents as needed i.e. in matplotlib&#39;s imshow function.
+ |      This function works for equi- or non-equi spaced axes and is suitable
+ |      for subpixel accuracy of positions
+ |      
+ |      Parameters
+ |      ----------
+ |      dimensions: list of dimensions
+ |      
+ |      Returns
+ |      -------
+ |      list of floats
+ |  
+ |  get_image_dims(self)
+ |      Get all spatial dimensions
+ |  
+ |  get_spectrum_dims(self)
+ |      Get all spectral dimensions
+ |  
+ |  hdf_close(self)
+ |  
+ |  like_data(self, data, title=None, chunks=&#39;auto&#39;, lock=False, **kwargs)
+ |      Returns sidpy.Dataset of new values but with metadata of this dataset
+ |      - if dimension of new dataset is different from this dataset and the scale is linear,
+ |          then this scale will be applied to the new dataset (naming and units will stay the same),
+ |          otherwise the dimension will be generic.
+ |      -Additional functionality to override numeric functions
+ |      Parameters
+ |      ----------
+ |      data: array like
+ |          values of new sidpy dataset
+ |      title: optional string
+ |          title of new sidpy dataset
+ |      chunks: optional list of integers
+ |          size of chunks for dask array
+ |      lock: optional boolean
+ |          for dask array
+ |      
+ |      
+ |      Returns
+ |      -------
+ |      sidpy dataset
+ |  
+ |  max(self, axis=None, keepdims=False, split_every=None, out=None)
+ |      Return the maximum along a given axis.
+ |      
+ |      Refer to :func:`dask.array.max` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.max : equivalent function
+ |  
+ |  mean(self, axis=None, dtype=None, keepdims=False, split_every=None, out=None)
+ |      Returns the average of the array elements along given axis.
+ |      
+ |      Refer to :func:`dask.array.mean` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.mean : equivalent function
+ |  
+ |  min(self, axis=None, keepdims=False, split_every=None, out=None)
+ |      Return the minimum along a given axis.
+ |      
+ |      Refer to :func:`dask.array.min` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.min : equivalent function
+ |  
+ |  moment(self, order, axis=None, dtype=None, keepdims=False, ddof=0, split_every=None, out=None)
+ |      Calculate the nth centralized moment.
+ |      
+ |      Refer to :func:`dask.array.moment` for the full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.moment : equivalent function
+ |  
+ |  persist(self, **kwargs)
+ |      Persist this dask collection into memory
+ |      
+ |      This turns a lazy Dask collection into a Dask collection with the same
+ |      metadata, but now with the results fully computed or actively computing
+ |      in the background.
+ |      
+ |      The action of function differs significantly depending on the active
+ |      task scheduler.  If the task scheduler supports asynchronous computing,
+ |      such as is the case of the dask.distributed scheduler, then persist
+ |      will return *immediately* and the return value&#39;s task graph will
+ |      contain Dask Future objects.  However if the task scheduler only
+ |      supports blocking computation then the call to persist will *block*
+ |      and the return value&#39;s task graph will contain concrete Python results.
+ |      
+ |      This function is particularly useful when using distributed systems,
+ |      because the results will be kept in distributed memory, rather than
+ |      returned to the local process as with compute.
+ |      
+ |      Parameters
+ |      ----------
+ |      scheduler : string, optional
+ |          Which scheduler to use like &quot;threads&quot;, &quot;synchronous&quot; or &quot;processes&quot;.
+ |          If not provided, the default is to check the global settings first,
+ |          and then fall back to the collection defaults.
+ |      optimize_graph : bool, optional
+ |          If True [default], the graph is optimized before computation.
+ |          Otherwise the graph is run as is. This can be useful for debugging.
+ |      **kwargs
+ |          Extra keywords to forward to the scheduler function.
+ |      
+ |      Returns
+ |      -------
+ |      New dask collections backed by in-memory data
+ |      
+ |      See Also
+ |      --------
+ |      dask.persist
+ |  
+ |  plot(self, verbose=False, figure=None, **kwargs)
+ |      Plots the dataset according to the
+ |       - shape of the sidpy Dataset,
+ |       - data_type of the sidpy Dataset and
+ |       - dimension_type of dimensions of sidpy Dataset
+ |          the dimension_type &#39;spatial&#39; or &#39;spectral&#39; determines how a dataset is plotted.
+ |      
+ |      Recognized data_types are:
+ |      1D: any keyword, but &#39;spectrum&#39; or &#39;line_plot&#39; are encouraged
+ |      2D: &#39;image&#39; or one of [&#39;spectrum_family&#39;, &#39;line_family&#39;, &#39;line_plot_family&#39;, &#39;spectra&#39;]
+ |      3D: &#39;image&#39;, &#39;image_map&#39;, &#39;image_stack&#39;, &#39;spectrum_image&#39;
+ |      4D: not implemented yet, but will be similar to spectrum_image.
+ |      
+ |      Parameters
+ |      ----------
+ |      verbose: boolean
+ |      kwargs: dictionary for additional plotting parameters
+ |          additional keywords (besides the matplotlib ones) for plotting are:
+ |          - scale_bar: for images to replace axis with a scale bar inside the image
+ |      
+ |      Returns
+ |      -------
+ |      self.view.fig: matplotlib figure reference
+ |  
+ |  prod(self, axis=None, dtype=None, keepdims=False, split_every=None, out=None)
+ |      Return the product of the array elements over the given axis
+ |      
+ |      Refer to :func:`dask.array.prod` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.prod : equivalent function
+ |  
+ |  ravel(self)
+ |      Return a flattened array.
+ |      
+ |      Refer to :func:`dask.array.ravel` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.ravel : equivalent function
+ |  
+ |  rechunk(self, chunks=&#39;auto&#39;, threshold=None, block_size_limit=None, balance=False)
+ |      Convert blocks in dask array x for new chunks.
+ |      
+ |      Refer to :func:`dask.array.rechunk` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.rechunk : equivalent function
+ |  
+ |  reduce_dims(original_method)
+ |      # This is wrapper method for the methods that reduce dimensions
+ |  
+ |  rename_dimension(self, ind, name)
+ |      Renames Dimension at the specified index
+ |      
+ |      Parameters
+ |      ----------
+ |      ind : int
+ |          Index of the dimension
+ |      name : str
+ |          New name for Dimension
+ |  
+ |  repeat(self, repeats, axis=None)
+ |      Repeat elements of an array.
+ |      
+ |      Refer to :func:`dask.array.repeat` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.repeat : equivalent function
+ |  
+ |  reshape(self, shape, merge_chunks=True, limit=None)
+ |      Reshape array to new shape
+ |      
+ |      Refer to :func:`dask.array.reshape` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.reshape : equivalent function
+ |  
+ |  round(self, decimals=0)
+ |      Return array with each element rounded to the given number of decimals.
+ |      
+ |      Refer to :func:`dask.array.round` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.round : equivalent function
+ |  
+ |  set_dimension(self, ind, dimension)
+ |      sets the dimension for the dataset including new name and updating the axes dictionary
+ |      
+ |      Parameters
+ |      ----------
+ |      ind: int
+ |          Index of dimension
+ |      dimension: sidpy.Dimension
+ |          Dimension object describing this dimension of the Dataset
+ |      
+ |      Returns
+ |      -------
+ |  
+ |  set_thumbnail(self, figure=None, thumbnail_size=128)
+ |      Creates a thumbnail which is stored in thumbnail attribute of sidpy Dataset
+ |      Thumbnail data is saved to Thumbnail group of associated h5_file if it exists
+ |      
+ |      Parameters
+ |      ----------
+ |      thumbnail_size: int
+ |          size of icon in pixels (length of square)
+ |      
+ |      Returns
+ |      -------
+ |      thumbnail: numpy.ndarray
+ |  
+ |  squeeze(self, axis=None)
+ |      Remove axes of length one from array.
+ |      
+ |      Refer to :func:`dask.array.squeeze` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.squeeze : equivalent function
+ |  
+ |  std(self, axis=None, dtype=None, keepdims=False, ddof=0, split_every=None, out=None)
+ |      Returns the standard deviation of the array elements along given axis.
+ |      
+ |      Refer to :func:`dask.array.std` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.std : equivalent function
+ |  
+ |  sum(self, axis=None, dtype=None, keepdims=False, split_every=None, out=None)
+ |      Return the sum of the array elements over the given axis.
+ |      
+ |      Refer to :func:`dask.array.sum` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.sum : equivalent function
+ |  
+ |  swapaxes(self, axis1, axis2)
+ |      Return a view of the array with ``axis1`` and ``axis2`` interchanged.
+ |      
+ |      Refer to :func:`dask.array.swapaxes` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.swapaxes : equivalent function
+ |  
+ |  trace(self, offset=0, axis1=0, axis2=1, dtype=None)
+ |      Return the sum along diagonals of the array.
+ |      
+ |      Refer to :func:`dask.array.trace` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.trace : equivalent function
+ |  
+ |  transpose(self, *axes)
+ |      Reverse or permute the axes of an array. Return the modified array.
+ |      
+ |      Refer to :func:`dask.array.transpose` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.transpose : equivalent function
+ |  
+ |  unfold(self)
+ |  
+ |  var(self, axis=None, dtype=None, keepdims=False, ddof=0, split_every=None, out=None)
+ |      Returns the variance of the array elements, along given axis.
+ |      
+ |      Refer to :func:`dask.array.var` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.var : equivalent function
+ |  
+ |  view_metadata(self)
+ |      Prints the metadata to stdout
+ |      
+ |      Returns
+ |      -------
+ |      None
+ |  
+ |  view_original_metadata(self)
+ |      Prints the original_metadata dictionary to stdout
+ |      
+ |      Returns
+ |      -------
+ |      None
+ |  
+ |  ----------------------------------------------------------------------
+ |  Class methods defined here:
+ |  
+ |  from_array(x, title=&#39;generic&#39;, chunks=&#39;auto&#39;, lock=False, datatype=&#39;UNKNOWN&#39;, units=&#39;generic&#39;, quantity=&#39;generic&#39;, modality=&#39;generic&#39;, source=&#39;generic&#39;, **kwargs) from builtins.type
+ |      Initializes a sidpy dataset from an array-like object (i.e. numpy array)
+ |      All meta-data will be set to be generically.
+ |      
+ |      Parameters
+ |      ----------
+ |      x: array-like object
+ |          the values which will populate this dataset
+ |      chunks: optional integer or list of integers
+ |          the shape of the chunks to be loaded
+ |      title: optional string
+ |          the title of this dataset
+ |      lock: boolean
+ |      datatype: str or sidpy.DataType
+ |          data type of set: i.e.: &#39;image&#39;, spectrum&#39;, ..
+ |      units: str
+ |          units of dataset i.e. counts, A
+ |      quantity: str
+ |          quantity of dataset like intensity
+ |      
+ |      Returns
+ |      -------
+ |      sidpy dataset
+ |  
+ |  ----------------------------------------------------------------------
+ |  Readonly properties defined here:
+ |  
+ |  T
+ |  
+ |  data_descriptor
+ |  
+ |  imag
+ |  
+ |  labels
+ |  
+ |  real
+ |  
+ |  structures
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |  
+ |  __weakref__
+ |      list of weak references to the object
+ |  
+ |  data_type
+ |  
+ |  h5_dataset
+ |  
+ |  metadata
+ |  
+ |  modality
+ |  
+ |  original_metadata
+ |  
+ |  quantity
+ |  
+ |  source
+ |  
+ |  title
+ |  
+ |  units
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data and other attributes defined here:
+ |  
+ |  __hash__ = None
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from dask.array.core.Array:
+ |  
+ |  __array__(self, dtype=None, **kwargs)
+ |  
+ |  __array_function__(self, func, types, args, kwargs)
+ |  
+ |  __bool__(self)
+ |  
+ |  __complex__(self)
+ |  
+ |  __dask_graph__(self) -&gt; &#39;Graph&#39;
+ |  
+ |  __dask_keys__(self) -&gt; &#39;NestedKeys&#39;
+ |  
+ |  __dask_layers__(self) -&gt; &#39;Sequence[str]&#39;
+ |  
+ |  __dask_optimize__ = optimize(dsk, keys, fuse_keys=None, fast_functions=None, inline_functions_fast_functions=(&lt;function getter_inline at 0x000001DC603F0180&gt;,), rename_fused_keys=True, **kwargs)
+ |      Optimize dask for array computation
+ |      
+ |      1.  Cull tasks not necessary to evaluate keys
+ |      2.  Remove full slicing, e.g. x[:]
+ |      3.  Inline fast functions like getitem and np.transpose
+ |  
+ |  __dask_postcompute__(self)
+ |  
+ |  __dask_postpersist__(self)
+ |  
+ |  __dask_tokenize__(self)
+ |  
+ |  __deepcopy__(self, memo)
+ |  
+ |  __divmod__(self, other)
+ |  
+ |  __float__(self)
+ |  
+ |  __index__(self)
+ |  
+ |  __int__(self)
+ |  
+ |  __iter__(self)
+ |  
+ |  __len__(self)
+ |  
+ |  __long__ = __int__(self)
+ |  
+ |  __nonzero__ = __bool__(self)
+ |  
+ |  __rdivmod__(self, other)
+ |  
+ |  __reduce__(self)
+ |      Helper for pickle.
+ |  
+ |  __setitem__(self, key, value)
+ |  
+ |  argtopk(self, k, axis=-1, split_every=None)
+ |      The indices of the top k elements of an array.
+ |      
+ |      Refer to :func:`dask.array.argtopk` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.argtopk : equivalent function
+ |  
+ |  map_blocks(func, *args, name=None, token=None, dtype=None, chunks=None, drop_axis=None, new_axis=None, enforce_ndim=False, meta=None, **kwargs)
+ |      Map a function across all blocks of a dask array.
+ |      
+ |      Note that ``map_blocks`` will attempt to automatically determine the output
+ |      array type by calling ``func`` on 0-d versions of the inputs. Please refer to
+ |      the ``meta`` keyword argument below if you expect that the function will not
+ |      succeed when operating on 0-d arrays.
+ |      
+ |      Parameters
+ |      ----------
+ |      func : callable
+ |          Function to apply to every block in the array.
+ |          If ``func`` accepts ``block_info=`` or ``block_id=``
+ |          as keyword arguments, these will be passed dictionaries
+ |          containing information about input and output chunks/arrays
+ |          during computation. See examples for details.
+ |      args : dask arrays or other objects
+ |      dtype : np.dtype, optional
+ |          The ``dtype`` of the output array. It is recommended to provide this.
+ |          If not provided, will be inferred by applying the function to a small
+ |          set of fake data.
+ |      chunks : tuple, optional
+ |          Chunk shape of resulting blocks if the function does not preserve
+ |          shape. If not provided, the resulting array is assumed to have the same
+ |          block structure as the first input array.
+ |      drop_axis : number or iterable, optional
+ |          Dimensions lost by the function.
+ |      new_axis : number or iterable, optional
+ |          New dimensions created by the function. Note that these are applied
+ |          after ``drop_axis`` (if present).
+ |      enforce_ndim : bool, default False
+ |          Whether to enforce at runtime that the dimensionality of the array
+ |          produced by ``func`` actually matches that of the array returned by
+ |          ``map_blocks``.
+ |          If True, this will raise an error when there is a mismatch.
+ |      token : string, optional
+ |          The key prefix to use for the output array. If not provided, will be
+ |          determined from the function name.
+ |      name : string, optional
+ |          The key name to use for the output array. Note that this fully
+ |          specifies the output key name, and must be unique. If not provided,
+ |          will be determined by a hash of the arguments.
+ |      meta : array-like, optional
+ |          The ``meta`` of the output array, when specified is expected to be an
+ |          array of the same type and dtype of that returned when calling ``.compute()``
+ |          on the array returned by this function. When not provided, ``meta`` will be
+ |          inferred by applying the function to a small set of fake data, usually a
+ |          0-d array. It&#39;s important to ensure that ``func`` can successfully complete
+ |          computation without raising exceptions when 0-d is passed to it, providing
+ |          ``meta`` will be required otherwise. If the output type is known beforehand
+ |          (e.g., ``np.ndarray``, ``cupy.ndarray``), an empty array of such type dtype
+ |          can be passed, for example: ``meta=np.array((), dtype=np.int32)``.
+ |      **kwargs :
+ |          Other keyword arguments to pass to function. Values must be constants
+ |          (not dask.arrays)
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.map_overlap : Generalized operation with overlap between neighbors.
+ |      dask.array.blockwise : Generalized operation with control over block alignment.
+ |      
+ |      Examples
+ |      --------
+ |      &gt;&gt;&gt; import dask.array as da
+ |      &gt;&gt;&gt; x = da.arange(6, chunks=3)
+ |      
+ |      &gt;&gt;&gt; x.map_blocks(lambda x: x * 2).compute()
+ |      array([ 0,  2,  4,  6,  8, 10])
+ |      
+ |      The ``da.map_blocks`` function can also accept multiple arrays.
+ |      
+ |      &gt;&gt;&gt; d = da.arange(5, chunks=2)
+ |      &gt;&gt;&gt; e = da.arange(5, chunks=2)
+ |      
+ |      &gt;&gt;&gt; f = da.map_blocks(lambda a, b: a + b**2, d, e)
+ |      &gt;&gt;&gt; f.compute()
+ |      array([ 0,  2,  6, 12, 20])
+ |      
+ |      If the function changes shape of the blocks then you must provide chunks
+ |      explicitly.
+ |      
+ |      &gt;&gt;&gt; y = x.map_blocks(lambda x: x[::2], chunks=((2, 2),))
+ |      
+ |      You have a bit of freedom in specifying chunks.  If all of the output chunk
+ |      sizes are the same, you can provide just that chunk size as a single tuple.
+ |      
+ |      &gt;&gt;&gt; a = da.arange(18, chunks=(6,))
+ |      &gt;&gt;&gt; b = a.map_blocks(lambda x: x[:3], chunks=(3,))
+ |      
+ |      If the function changes the dimension of the blocks you must specify the
+ |      created or destroyed dimensions.
+ |      
+ |      &gt;&gt;&gt; b = a.map_blocks(lambda x: x[None, :, None], chunks=(1, 6, 1),
+ |      ...                  new_axis=[0, 2])
+ |      
+ |      If ``chunks`` is specified but ``new_axis`` is not, then it is inferred to
+ |      add the necessary number of axes on the left.
+ |      
+ |      Note that ``map_blocks()`` will concatenate chunks along axes specified by
+ |      the keyword parameter ``drop_axis`` prior to applying the function.
+ |      This is illustrated in the figure below:
+ |      
+ |      .. image:: /images/map_blocks_drop_axis.png
+ |      
+ |      Due to memory-size-constraints, it is often not advisable to use ``drop_axis``
+ |      on an axis that is chunked.  In that case, it is better not to use
+ |      ``map_blocks`` but rather
+ |      ``dask.array.reduction(..., axis=dropped_axes, concatenate=False)`` which
+ |      maintains a leaner memory footprint while it drops any axis.
+ |      
+ |      Map_blocks aligns blocks by block positions without regard to shape. In the
+ |      following example we have two arrays with the same number of blocks but
+ |      with different shape and chunk sizes.
+ |      
+ |      &gt;&gt;&gt; x = da.arange(1000, chunks=(100,))
+ |      &gt;&gt;&gt; y = da.arange(100, chunks=(10,))
+ |      
+ |      The relevant attribute to match is numblocks.
+ |      
+ |      &gt;&gt;&gt; x.numblocks
+ |      (10,)
+ |      &gt;&gt;&gt; y.numblocks
+ |      (10,)
+ |      
+ |      If these match (up to broadcasting rules) then we can map arbitrary
+ |      functions across blocks
+ |      
+ |      &gt;&gt;&gt; def func(a, b):
+ |      ...     return np.array([a.max(), b.max()])
+ |      
+ |      &gt;&gt;&gt; da.map_blocks(func, x, y, chunks=(2,), dtype=&#39;i8&#39;)
+ |      dask.array&lt;func, shape=(20,), dtype=int64, chunksize=(2,), chunktype=numpy.ndarray&gt;
+ |      
+ |      &gt;&gt;&gt; _.compute()
+ |      array([ 99,   9, 199,  19, 299,  29, 399,  39, 499,  49, 599,  59, 699,
+ |              69, 799,  79, 899,  89, 999,  99])
+ |      
+ |      Your block function can get information about where it is in the array by
+ |      accepting a special ``block_info`` or ``block_id`` keyword argument.
+ |      During computation, they will contain information about each of the input
+ |      and output chunks (and dask arrays) relevant to each call of ``func``.
+ |      
+ |      &gt;&gt;&gt; def func(block_info=None):
+ |      ...     pass
+ |      
+ |      This will receive the following information:
+ |      
+ |      &gt;&gt;&gt; block_info  # doctest: +SKIP
+ |      {0: {&#39;shape&#39;: (1000,),
+ |           &#39;num-chunks&#39;: (10,),
+ |           &#39;chunk-location&#39;: (4,),
+ |           &#39;array-location&#39;: [(400, 500)]},
+ |       None: {&#39;shape&#39;: (1000,),
+ |              &#39;num-chunks&#39;: (10,),
+ |              &#39;chunk-location&#39;: (4,),
+ |              &#39;array-location&#39;: [(400, 500)],
+ |              &#39;chunk-shape&#39;: (100,),
+ |              &#39;dtype&#39;: dtype(&#39;float64&#39;)}}
+ |      
+ |      The keys to the ``block_info`` dictionary indicate which is the input and
+ |      output Dask array:
+ |      
+ |      - **Input Dask array(s):** ``block_info[0]`` refers to the first input Dask array.
+ |        The dictionary key is ``0`` because that is the argument index corresponding
+ |        to the first input Dask array.
+ |        In cases where multiple Dask arrays have been passed as input to the function,
+ |        you can access them with the number corresponding to the input argument,
+ |        eg: ``block_info[1]``, ``block_info[2]``, etc.
+ |        (Note that if you pass multiple Dask arrays as input to map_blocks,
+ |        the arrays must match each other by having matching numbers of chunks,
+ |        along corresponding dimensions up to broadcasting rules.)
+ |      - **Output Dask array:** ``block_info[None]`` refers to the output Dask array,
+ |        and contains information about the output chunks.
+ |        The output chunk shape and dtype may may be different than the input chunks.
+ |      
+ |      For each dask array, ``block_info`` describes:
+ |      
+ |      - ``shape``: the shape of the full Dask array,
+ |      - ``num-chunks``: the number of chunks of the full array in each dimension,
+ |      - ``chunk-location``: the chunk location (for example the fourth chunk over
+ |        in the first dimension), and
+ |      - ``array-location``: the array location within the full Dask array
+ |        (for example the slice corresponding to ``40:50``).
+ |      
+ |      In addition to these, there are two extra parameters described by
+ |      ``block_info`` for the output array (in ``block_info[None]``):
+ |      
+ |      - ``chunk-shape``: the output chunk shape, and
+ |      - ``dtype``: the output dtype.
+ |      
+ |      These features can be combined to synthesize an array from scratch, for
+ |      example:
+ |      
+ |      &gt;&gt;&gt; def func(block_info=None):
+ |      ...     loc = block_info[None][&#39;array-location&#39;][0]
+ |      ...     return np.arange(loc[0], loc[1])
+ |      
+ |      &gt;&gt;&gt; da.map_blocks(func, chunks=((4, 4),), dtype=np.float64)
+ |      dask.array&lt;func, shape=(8,), dtype=float64, chunksize=(4,), chunktype=numpy.ndarray&gt;
+ |      
+ |      &gt;&gt;&gt; _.compute()
+ |      array([0, 1, 2, 3, 4, 5, 6, 7])
+ |      
+ |      ``block_id`` is similar to ``block_info`` but contains only the ``chunk_location``:
+ |      
+ |      &gt;&gt;&gt; def func(block_id=None):
+ |      ...     pass
+ |      
+ |      This will receive the following information:
+ |      
+ |      &gt;&gt;&gt; block_id  # doctest: +SKIP
+ |      (4, 3)
+ |      
+ |      You may specify the key name prefix of the resulting task in the graph with
+ |      the optional ``token`` keyword argument.
+ |      
+ |      &gt;&gt;&gt; x.map_blocks(lambda x: x + 1, name=&#39;increment&#39;)
+ |      dask.array&lt;increment, shape=(1000,), dtype=int64, chunksize=(100,), chunktype=numpy.ndarray&gt;
+ |      
+ |      For functions that may not handle 0-d arrays, it&#39;s also possible to specify
+ |      ``meta`` with an empty array matching the type of the expected result. In
+ |      the example below, ``func`` will result in an ``IndexError`` when computing
+ |      ``meta``:
+ |      
+ |      &gt;&gt;&gt; rng = da.random.default_rng()
+ |      &gt;&gt;&gt; da.map_blocks(lambda x: x[2], rng.random(5), meta=np.array(()))
+ |      dask.array&lt;lambda, shape=(5,), dtype=float64, chunksize=(5,), chunktype=numpy.ndarray&gt;
+ |      
+ |      Similarly, it&#39;s possible to specify a non-NumPy array to ``meta``, and provide
+ |      a ``dtype``:
+ |      
+ |      &gt;&gt;&gt; import cupy  # doctest: +SKIP
+ |      &gt;&gt;&gt; rng = da.random.default_rng(cupy.random.default_rng())  # doctest: +SKIP
+ |      &gt;&gt;&gt; dt = np.float32
+ |      &gt;&gt;&gt; da.map_blocks(lambda x: x[2], rng.random(5, dtype=dt), meta=cupy.array((), dtype=dt))  # doctest: +SKIP
+ |      dask.array&lt;lambda, shape=(5,), dtype=float32, chunksize=(5,), chunktype=cupy.ndarray&gt;
+ |  
+ |  map_overlap(self, func, depth, boundary=None, trim=True, **kwargs)
+ |      Map a function over blocks of the array with some overlap
+ |      
+ |      Refer to :func:`dask.array.map_overlap` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.map_overlap : equivalent function
+ |  
+ |  nonzero(self)
+ |      Return the indices of the elements that are non-zero.
+ |      
+ |      Refer to :func:`dask.array.nonzero` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.nonzero : equivalent function
+ |  
+ |  store(sources: &#39;Array | Collection[Array]&#39;, targets: &#39;ArrayLike | Delayed | Collection[ArrayLike | Delayed]&#39;, lock: &#39;bool | Lock&#39; = True, regions: &#39;tuple[slice, ...] | Collection[tuple[slice, ...]] | None&#39; = None, compute: &#39;bool&#39; = True, return_stored: &#39;bool&#39; = False, **kwargs)
+ |      Store dask arrays in array-like objects, overwrite data in target
+ |      
+ |      This stores dask arrays into object that supports numpy-style setitem
+ |      indexing.  It stores values chunk by chunk so that it does not have to
+ |      fill up memory.  For best performance you can align the block size of
+ |      the storage target with the block size of your array.
+ |      
+ |      If your data fits in memory then you may prefer calling
+ |      ``np.array(myarray)`` instead.
+ |      
+ |      Parameters
+ |      ----------
+ |      
+ |      sources: Array or collection of Arrays
+ |      targets: array-like or Delayed or collection of array-likes and/or Delayeds
+ |          These should support setitem syntax ``target[10:20] = ...``.
+ |          If sources is a single item, targets must be a single item; if sources is a
+ |          collection of arrays, targets must be a matching collection.
+ |      lock: boolean or threading.Lock, optional
+ |          Whether or not to lock the data stores while storing.
+ |          Pass True (lock each file individually), False (don&#39;t lock) or a
+ |          particular :class:`threading.Lock` object to be shared among all writes.
+ |      regions: tuple of slices or collection of tuples of slices, optional
+ |          Each ``region`` tuple in ``regions`` should be such that
+ |          ``target[region].shape = source.shape``
+ |          for the corresponding source and target in sources and targets,
+ |          respectively. If this is a tuple, the contents will be assumed to be
+ |          slices, so do not provide a tuple of tuples.
+ |      compute: boolean, optional
+ |          If true compute immediately; return :class:`dask.delayed.Delayed` otherwise.
+ |      return_stored: boolean, optional
+ |          Optionally return the stored result (default False).
+ |      kwargs:
+ |          Parameters passed to compute/persist (only used if compute=True)
+ |      
+ |      Returns
+ |      -------
+ |      
+ |      If return_stored=True
+ |          tuple of Arrays
+ |      If return_stored=False and compute=True
+ |          None
+ |      If return_stored=False and compute=False
+ |          Delayed
+ |      
+ |      Examples
+ |      --------
+ |      
+ |      &gt;&gt;&gt; import h5py  # doctest: +SKIP
+ |      &gt;&gt;&gt; f = h5py.File(&#39;myfile.hdf5&#39;, mode=&#39;a&#39;)  # doctest: +SKIP
+ |      &gt;&gt;&gt; dset = f.create_dataset(&#39;/data&#39;, shape=x.shape,
+ |      ...                                  chunks=x.chunks,
+ |      ...                                  dtype=&#39;f8&#39;)  # doctest: +SKIP
+ |      
+ |      &gt;&gt;&gt; store(x, dset)  # doctest: +SKIP
+ |      
+ |      Alternatively store many arrays at the same time
+ |      
+ |      &gt;&gt;&gt; store([x, y, z], [dset1, dset2, dset3])  # doctest: +SKIP
+ |  
+ |  to_backend(self, backend: &#39;str | None&#39; = None, **kwargs)
+ |      Move to a new Array backend
+ |      
+ |      Parameters
+ |      ----------
+ |      backend : str, Optional
+ |          The name of the new backend to move to. The default
+ |          is the current &quot;array.backend&quot; configuration.
+ |      
+ |      Returns
+ |      -------
+ |      Array
+ |  
+ |  to_dask_dataframe(self, columns=None, index=None, meta=None)
+ |      Convert dask Array to dask Dataframe
+ |      
+ |      Parameters
+ |      ----------
+ |      columns: list or string
+ |          list of column names if DataFrame, single string if Series
+ |      index : dask.dataframe.Index, optional
+ |          An optional *dask* Index to use for the output Series or DataFrame.
+ |      
+ |          The default output index depends on whether the array has any unknown
+ |          chunks. If there are any unknown chunks, the output has ``None``
+ |          for all the divisions (one per chunk). If all the chunks are known,
+ |          a default index with known divsions is created.
+ |      
+ |          Specifying ``index`` can be useful if you&#39;re conforming a Dask Array
+ |          to an existing dask Series or DataFrame, and you would like the
+ |          indices to match.
+ |      meta : object, optional
+ |          An optional `meta` parameter can be passed for dask
+ |          to specify the concrete dataframe type to use for partitions of
+ |          the Dask dataframe. By default, pandas DataFrame is used.
+ |      
+ |      See Also
+ |      --------
+ |      dask.dataframe.from_dask_array
+ |  
+ |  to_delayed(self, optimize_graph=True)
+ |      Convert into an array of :class:`dask.delayed.Delayed` objects, one per chunk.
+ |      
+ |      Parameters
+ |      ----------
+ |      optimize_graph : bool, optional
+ |          If True [default], the graph is optimized before converting into
+ |          :class:`dask.delayed.Delayed` objects.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.from_delayed
+ |  
+ |  to_hdf5(self, filename, datapath, **kwargs)
+ |      Store array in HDF5 file
+ |      
+ |      &gt;&gt;&gt; x.to_hdf5(&#39;myfile.hdf5&#39;, &#39;/x&#39;)  # doctest: +SKIP
+ |      
+ |      Optionally provide arguments as though to ``h5py.File.create_dataset``
+ |      
+ |      &gt;&gt;&gt; x.to_hdf5(&#39;myfile.hdf5&#39;, &#39;/x&#39;, compression=&#39;lzf&#39;, shuffle=True)  # doctest: +SKIP
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.store
+ |      h5py.File.create_dataset
+ |  
+ |  to_svg(self, size=500)
+ |      Convert chunks from Dask Array into an SVG Image
+ |      
+ |      Parameters
+ |      ----------
+ |      chunks: tuple
+ |      size: int
+ |          Rough size of the image
+ |      
+ |      Examples
+ |      --------
+ |      &gt;&gt;&gt; x.to_svg(size=500)  # doctest: +SKIP
+ |      
+ |      Returns
+ |      -------
+ |      text: An svg string depicting the array as a grid of chunks
+ |  
+ |  to_tiledb(self, uri, *args, **kwargs)
+ |      Save array to the TileDB storage manager
+ |      
+ |      See https://docs.tiledb.io for details about the format and engine.
+ |      
+ |      See function :func:`dask.array.to_tiledb` for argument documentation.
+ |      
+ |      See also
+ |      --------
+ |      dask.array.to_tiledb : equivalent function
+ |  
+ |  to_zarr(self, *args, **kwargs)
+ |      Save array to the zarr storage format
+ |      
+ |      See https://zarr.readthedocs.io for details about the format.
+ |      
+ |      Refer to :func:`dask.array.to_zarr` for full documentation.
+ |      
+ |      See also
+ |      --------
+ |      dask.array.to_zarr : equivalent function
+ |  
+ |  topk(self, k, axis=-1, split_every=None)
+ |      The top k elements of an array.
+ |      
+ |      Refer to :func:`dask.array.topk` for full documentation.
+ |      
+ |      See Also
+ |      --------
+ |      dask.array.topk : equivalent function
+ |  
+ |  view(self, dtype=None, order=&#39;C&#39;)
+ |      Get a view of the array as a new data type
+ |      
+ |      Parameters
+ |      ----------
+ |      dtype:
+ |          The dtype by which to view the array.
+ |          The default, None, results in the view having the same data-type
+ |          as the original array.
+ |      order: string
+ |          &#39;C&#39; or &#39;F&#39; (Fortran) ordering
+ |      
+ |      This reinterprets the bytes of the array under a new dtype.  If that
+ |      dtype does not have the same size as the original array then the shape
+ |      will change.
+ |      
+ |      Beware that both numpy and dask.array can behave oddly when taking
+ |      shape-changing views of arrays under Fortran ordering.  Under some
+ |      versions of NumPy this function will fail when taking shape-changing
+ |      views of Fortran ordered arrays if the first dimension has chunks of
+ |      size one.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Static methods inherited from dask.array.core.Array:
+ |  
+ |  __dask_scheduler__ = get(dsk: &#39;Mapping&#39;, keys: &#39;Sequence[Key] | Key&#39;, cache=None, num_workers=None, pool=None, **kwargs)
+ |      Threaded cached implementation of dask.get
+ |      
+ |      Parameters
+ |      ----------
+ |      
+ |      dsk: dict
+ |          A dask dictionary specifying a workflow
+ |      keys: key or list of keys
+ |          Keys corresponding to desired data
+ |      num_workers: integer of thread count
+ |          The number of threads to use in the ThreadPool that will actually execute tasks
+ |      cache: dict-like (optional)
+ |          Temporary storage of results
+ |      
+ |      Examples
+ |      --------
+ |      &gt;&gt;&gt; inc = lambda x: x + 1
+ |      &gt;&gt;&gt; add = lambda x, y: x + y
+ |      &gt;&gt;&gt; dsk = {&#39;x&#39;: 1, &#39;y&#39;: 2, &#39;z&#39;: (inc, &#39;x&#39;), &#39;w&#39;: (add, &#39;z&#39;, &#39;y&#39;)}
+ |      &gt;&gt;&gt; get(dsk, &#39;w&#39;)
+ |      4
+ |      &gt;&gt;&gt; get(dsk, [&#39;w&#39;, &#39;y&#39;])
+ |      (4, 2)
+ |  
+ |  __new__(cls, dask, name, chunks, dtype=None, meta=None, shape=None)
+ |      Create and return a new object.  See help(type) for accurate signature.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Readonly properties inherited from dask.array.core.Array:
+ |  
+ |  A
+ |  
+ |  blocks
+ |      An array-like interface to the blocks of an array.
+ |      
+ |      This returns a ``Blockview`` object that provides an array-like interface
+ |      to the blocks of a dask array.  Numpy-style indexing of a ``Blockview`` object
+ |      returns a selection of blocks as a new dask array.
+ |      
+ |      You can index ``array.blocks`` like a numpy array of shape
+ |      equal to the number of blocks in each dimension, (available as
+ |      array.blocks.size).  The dimensionality of the output array matches
+ |      the dimension of this array, even if integer indices are passed.
+ |      Slicing with ``np.newaxis`` or multiple lists is not supported.
+ |      
+ |      Examples
+ |      --------
+ |      &gt;&gt;&gt; import dask.array as da
+ |      &gt;&gt;&gt; x = da.arange(8, chunks=2)
+ |      &gt;&gt;&gt; x.blocks.shape # aliases x.numblocks
+ |      (4,)
+ |      &gt;&gt;&gt; x.blocks[0].compute()
+ |      array([0, 1])
+ |      &gt;&gt;&gt; x.blocks[:3].compute()
+ |      array([0, 1, 2, 3, 4, 5])
+ |      &gt;&gt;&gt; x.blocks[::2].compute()
+ |      array([0, 1, 4, 5])
+ |      &gt;&gt;&gt; x.blocks[[-1, 0]].compute()
+ |      array([6, 7, 0, 1])
+ |      &gt;&gt;&gt; x.blocks.ravel() # doctest: +NORMALIZE_WHITESPACE
+ |      [dask.array&lt;blocks, shape=(2,), dtype=int64, chunksize=(2,), chunktype=numpy.ndarray&gt;,
+ |       dask.array&lt;blocks, shape=(2,), dtype=int64, chunksize=(2,), chunktype=numpy.ndarray&gt;,
+ |       dask.array&lt;blocks, shape=(2,), dtype=int64, chunksize=(2,), chunktype=numpy.ndarray&gt;,
+ |       dask.array&lt;blocks, shape=(2,), dtype=int64, chunksize=(2,), chunktype=numpy.ndarray&gt;]
+ |      
+ |      Returns
+ |      -------
+ |      An instance of ``dask.array.Blockview``
+ |  
+ |  chunksize
+ |  
+ |  dtype
+ |  
+ |  itemsize
+ |      Length of one array element in bytes
+ |  
+ |  nbytes
+ |      Number of bytes in array
+ |  
+ |  partitions
+ |      Slice an array by partitions. Alias of dask array .blocks attribute.
+ |      
+ |      This alias allows you to write agnostic code that works with both
+ |      dask arrays and dask dataframes.
+ |      
+ |      This returns a ``Blockview`` object that provides an array-like interface
+ |      to the blocks of a dask array.  Numpy-style indexing of a ``Blockview`` object
+ |      returns a selection of blocks as a new dask array.
+ |      
+ |      You can index ``array.blocks`` like a numpy array of shape
+ |      equal to the number of blocks in each dimension, (available as
+ |      array.blocks.size).  The dimensionality of the output array matches
+ |      the dimension of this array, even if integer indices are passed.
+ |      Slicing with ``np.newaxis`` or multiple lists is not supported.
+ |      
+ |      Examples
+ |      --------
+ |      &gt;&gt;&gt; import dask.array as da
+ |      &gt;&gt;&gt; x = da.arange(8, chunks=2)
+ |      &gt;&gt;&gt; x.partitions.shape # aliases x.numblocks
+ |      (4,)
+ |      &gt;&gt;&gt; x.partitions[0].compute()
+ |      array([0, 1])
+ |      &gt;&gt;&gt; x.partitions[:3].compute()
+ |      array([0, 1, 2, 3, 4, 5])
+ |      &gt;&gt;&gt; x.partitions[::2].compute()
+ |      array([0, 1, 4, 5])
+ |      &gt;&gt;&gt; x.partitions[[-1, 0]].compute()
+ |      array([6, 7, 0, 1])
+ |      &gt;&gt;&gt; x.partitions.ravel() # doctest: +NORMALIZE_WHITESPACE
+ |      [dask.array&lt;blocks, shape=(2,), dtype=int64, chunksize=(2,), chunktype=numpy.ndarray&gt;,
+ |       dask.array&lt;blocks, shape=(2,), dtype=int64, chunksize=(2,), chunktype=numpy.ndarray&gt;,
+ |       dask.array&lt;blocks, shape=(2,), dtype=int64, chunksize=(2,), chunktype=numpy.ndarray&gt;,
+ |       dask.array&lt;blocks, shape=(2,), dtype=int64, chunksize=(2,), chunktype=numpy.ndarray&gt;]
+ |      
+ |      Returns
+ |      -------
+ |      An instance of ``da.array.Blockview``
+ |  
+ |  vindex
+ |      Vectorized indexing with broadcasting.
+ |      
+ |      This is equivalent to numpy&#39;s advanced indexing, using arrays that are
+ |      broadcast against each other. This allows for pointwise indexing:
+ |      
+ |      &gt;&gt;&gt; import dask.array as da
+ |      &gt;&gt;&gt; x = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+ |      &gt;&gt;&gt; x = da.from_array(x, chunks=2)
+ |      &gt;&gt;&gt; x.vindex[[0, 1, 2], [0, 1, 2]].compute()
+ |      array([1, 5, 9])
+ |      
+ |      Mixed basic/advanced indexing with slices/arrays is also supported. The
+ |      order of dimensions in the result follows those proposed for
+ |      `ndarray.vindex &lt;https://github.com/numpy/numpy/pull/6256&gt;`_:
+ |      the subspace spanned by arrays is followed by all slices.
+ |      
+ |      Note: ``vindex`` provides more general functionality than standard
+ |      indexing, but it also has fewer optimizations and can be significantly
+ |      slower.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors inherited from dask.array.core.Array:
+ |  
+ |  __dict__
+ |      dictionary for instance variables
+ |  
+ |  chunks
+ |      Chunks property.
+ |  
+ |  dask
+ |  
+ |  name
+ |  
+ |  ndim
+ |  
+ |  npartitions
+ |  
+ |  numblocks
+ |  
+ |  shape
+ |  
+ |  size
+ |      Number of elements in array
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data and other attributes inherited from dask.array.core.Array:
+ |  
+ |  __array_priority__ = 11
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from dask.base.DaskMethodsMixin:
+ |  
+ |  __await__(self)
+ |  
+ |  compute(self, **kwargs)
+ |      Compute this dask collection
+ |      
+ |      This turns a lazy Dask collection into its in-memory equivalent.
+ |      For example a Dask array turns into a NumPy array and a Dask dataframe
+ |      turns into a Pandas dataframe.  The entire dataset must fit into memory
+ |      before calling this operation.
+ |      
+ |      Parameters
+ |      ----------
+ |      scheduler : string, optional
+ |          Which scheduler to use like &quot;threads&quot;, &quot;synchronous&quot; or &quot;processes&quot;.
+ |          If not provided, the default is to check the global settings first,
+ |          and then fall back to the collection defaults.
+ |      optimize_graph : bool, optional
+ |          If True [default], the graph is optimized before computation.
+ |          Otherwise the graph is run as is. This can be useful for debugging.
+ |      kwargs
+ |          Extra keywords to forward to the scheduler function.
+ |      
+ |      See Also
+ |      --------
+ |      dask.compute
+ |  
+ |  visualize(self, filename=&#39;mydask&#39;, format=None, optimize_graph=False, **kwargs)
+ |      Render the computation of this object&#39;s task graph using graphviz.
+ |      
+ |      Requires ``graphviz`` to be installed.
+ |      
+ |      Parameters
+ |      ----------
+ |      filename : str or None, optional
+ |          The name of the file to write to disk. If the provided `filename`
+ |          doesn&#39;t include an extension, &#39;.png&#39; will be used by default.
+ |          If `filename` is None, no file will be written, and we communicate
+ |          with dot using only pipes.
+ |      format : {&#39;png&#39;, &#39;pdf&#39;, &#39;dot&#39;, &#39;svg&#39;, &#39;jpeg&#39;, &#39;jpg&#39;}, optional
+ |          Format in which to write output file.  Default is &#39;png&#39;.
+ |      optimize_graph : bool, optional
+ |          If True, the graph is optimized before rendering.  Otherwise,
+ |          the graph is displayed as is. Default is False.
+ |      color: {None, &#39;order&#39;}, optional
+ |          Options to color nodes.  Provide ``cmap=`` keyword for additional
+ |          colormap
+ |      **kwargs
+ |         Additional keyword arguments to forward to ``to_graphviz``.
+ |      
+ |      Examples
+ |      --------
+ |      &gt;&gt;&gt; x.visualize(filename=&#39;dask.pdf&#39;)  # doctest: +SKIP
+ |      &gt;&gt;&gt; x.visualize(filename=&#39;dask.pdf&#39;, color=&#39;order&#39;)  # doctest: +SKIP
+ |      
+ |      Returns
+ |      -------
+ |      result : IPython.diplay.Image, IPython.display.SVG, or None
+ |          See dask.dot.dot_graph for more information.
+ |      
+ |      See Also
+ |      --------
+ |      dask.visualize
+ |      dask.dot.dot_graph
+ |      
+ |      Notes
+ |      -----
+ |      For more information on optimization see here:
+ |      
+ |      https://docs.dask.org/en/latest/optimize.html
+</pre></div>
+</div>
+</div>
+</div>
+<p>All attributes of a python object can be viewed with the * dir* command.</p>
+<blockquote>
+<div><p>As above: too much information for normal use, but it is there if needed.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">dir</span><span class="p">(</span><span class="n">current_dataset</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;A&#39;,
+ &#39;T&#39;,
+ &#39;_Array__chunks&#39;,
+ &#39;_Array__name&#39;,
+ &#39;_Dataset__protected&#39;,
+ &#39;_Dataset__rearrange_axes&#39;,
+ &#39;_Dataset__reduce_dimensions&#39;,
+ &#39;_Dataset__validate_dim&#39;,
+ &#39;__abs__&#39;,
+ &#39;__add__&#39;,
+ &#39;__and__&#39;,
+ &#39;__array__&#39;,
+ &#39;__array_function__&#39;,
+ &#39;__array_priority__&#39;,
+ &#39;__array_ufunc__&#39;,
+ &#39;__await__&#39;,
+ &#39;__bool__&#39;,
+ &#39;__class__&#39;,
+ &#39;__complex__&#39;,
+ &#39;__dask_graph__&#39;,
+ &#39;__dask_keys__&#39;,
+ &#39;__dask_layers__&#39;,
+ &#39;__dask_optimize__&#39;,
+ &#39;__dask_postcompute__&#39;,
+ &#39;__dask_postpersist__&#39;,
+ &#39;__dask_scheduler__&#39;,
+ &#39;__dask_tokenize__&#39;,
+ &#39;__deepcopy__&#39;,
+ &#39;__delattr__&#39;,
+ &#39;__dict__&#39;,
+ &#39;__dir__&#39;,
+ &#39;__div__&#39;,
+ &#39;__divmod__&#39;,
+ &#39;__doc__&#39;,
+ &#39;__eq__&#39;,
+ &#39;__float__&#39;,
+ &#39;__floordiv__&#39;,
+ &#39;__format__&#39;,
+ &#39;__ge__&#39;,
+ &#39;__getattribute__&#39;,
+ &#39;__getitem__&#39;,
+ &#39;__getstate__&#39;,
+ &#39;__gt__&#39;,
+ &#39;__hash__&#39;,
+ &#39;__index__&#39;,
+ &#39;__init__&#39;,
+ &#39;__init_subclass__&#39;,
+ &#39;__int__&#39;,
+ &#39;__invert__&#39;,
+ &#39;__iter__&#39;,
+ &#39;__le__&#39;,
+ &#39;__len__&#39;,
+ &#39;__long__&#39;,
+ &#39;__lshift__&#39;,
+ &#39;__lt__&#39;,
+ &#39;__matmul__&#39;,
+ &#39;__mod__&#39;,
+ &#39;__module__&#39;,
+ &#39;__mul__&#39;,
+ &#39;__ne__&#39;,
+ &#39;__neg__&#39;,
+ &#39;__new__&#39;,
+ &#39;__nonzero__&#39;,
+ &#39;__or__&#39;,
+ &#39;__pos__&#39;,
+ &#39;__pow__&#39;,
+ &#39;__radd__&#39;,
+ &#39;__rand__&#39;,
+ &#39;__rdiv__&#39;,
+ &#39;__rdivmod__&#39;,
+ &#39;__reduce__&#39;,
+ &#39;__reduce_ex__&#39;,
+ &#39;__repr__&#39;,
+ &#39;__rfloordiv__&#39;,
+ &#39;__rlshift__&#39;,
+ &#39;__rmatmul__&#39;,
+ &#39;__rmod__&#39;,
+ &#39;__rmul__&#39;,
+ &#39;__ror__&#39;,
+ &#39;__rpow__&#39;,
+ &#39;__rrshift__&#39;,
+ &#39;__rshift__&#39;,
+ &#39;__rsub__&#39;,
+ &#39;__rtruediv__&#39;,
+ &#39;__rxor__&#39;,
+ &#39;__setattr__&#39;,
+ &#39;__setitem__&#39;,
+ &#39;__sizeof__&#39;,
+ &#39;__slots__&#39;,
+ &#39;__str__&#39;,
+ &#39;__sub__&#39;,
+ &#39;__subclasshook__&#39;,
+ &#39;__truediv__&#39;,
+ &#39;__weakref__&#39;,
+ &#39;__xor__&#39;,
+ &#39;_axes&#39;,
+ &#39;_cached_keys&#39;,
+ &#39;_chunks&#39;,
+ &#39;_data_type&#39;,
+ &#39;_elemwise&#39;,
+ &#39;_griddata_transform&#39;,
+ &#39;_h5_dataset&#39;,
+ &#39;_key_array&#39;,
+ &#39;_meta&#39;,
+ &#39;_metadata&#39;,
+ &#39;_min_dist&#39;,
+ &#39;_modality&#39;,
+ &#39;_name&#39;,
+ &#39;_original_metadata&#39;,
+ &#39;_quantity&#39;,
+ &#39;_rebuild&#39;,
+ &#39;_repr_html_&#39;,
+ &#39;_reset_cache&#39;,
+ &#39;_scalarfunc&#39;,
+ &#39;_source&#39;,
+ &#39;_structures&#39;,
+ &#39;_title&#39;,
+ &#39;_units&#39;,
+ &#39;_vindex&#39;,
+ &#39;abs&#39;,
+ &#39;add_structure&#39;,
+ &#39;adjust_axis&#39;,
+ &#39;all&#39;,
+ &#39;angle&#39;,
+ &#39;any&#39;,
+ &#39;argmax&#39;,
+ &#39;argmin&#39;,
+ &#39;argtopk&#39;,
+ &#39;astype&#39;,
+ &#39;blocks&#39;,
+ &#39;choose&#39;,
+ &#39;chunks&#39;,
+ &#39;chunksize&#39;,
+ &#39;clip&#39;,
+ &#39;compute&#39;,
+ &#39;compute_chunk_sizes&#39;,
+ &#39;conj&#39;,
+ &#39;copy&#39;,
+ &#39;cumprod&#39;,
+ &#39;cumsum&#39;,
+ &#39;dask&#39;,
+ &#39;data_descriptor&#39;,
+ &#39;data_type&#39;,
+ &#39;del_dimension&#39;,
+ &#39;dim_0&#39;,
+ &#39;dim_1&#39;,
+ &#39;dot&#39;,
+ &#39;dtype&#39;,
+ &#39;fft&#39;,
+ &#39;filename&#39;,
+ &#39;flatten&#39;,
+ &#39;flatten_complex&#39;,
+ &#39;fold&#39;,
+ &#39;from_array&#39;,
+ &#39;get_dimension_by_number&#39;,
+ &#39;get_dimensions_by_type&#39;,
+ &#39;get_extent&#39;,
+ &#39;get_image_dims&#39;,
+ &#39;get_spectrum_dims&#39;,
+ &#39;h5_dataset&#39;,
+ &#39;hdf_close&#39;,
+ &#39;imag&#39;,
+ &#39;itemsize&#39;,
+ &#39;labels&#39;,
+ &#39;like_data&#39;,
+ &#39;map_blocks&#39;,
+ &#39;map_overlap&#39;,
+ &#39;max&#39;,
+ &#39;mean&#39;,
+ &#39;metadata&#39;,
+ &#39;min&#39;,
+ &#39;modality&#39;,
+ &#39;moment&#39;,
+ &#39;name&#39;,
+ &#39;nbytes&#39;,
+ &#39;ndim&#39;,
+ &#39;nonzero&#39;,
+ &#39;npartitions&#39;,
+ &#39;numblocks&#39;,
+ &#39;original_metadata&#39;,
+ &#39;partitions&#39;,
+ &#39;persist&#39;,
+ &#39;plot&#39;,
+ &#39;prod&#39;,
+ &#39;quantity&#39;,
+ &#39;ravel&#39;,
+ &#39;real&#39;,
+ &#39;rechunk&#39;,
+ &#39;reduce_dims&#39;,
+ &#39;rename_dimension&#39;,
+ &#39;repeat&#39;,
+ &#39;reshape&#39;,
+ &#39;round&#39;,
+ &#39;set_dimension&#39;,
+ &#39;set_thumbnail&#39;,
+ &#39;shape&#39;,
+ &#39;size&#39;,
+ &#39;source&#39;,
+ &#39;squeeze&#39;,
+ &#39;std&#39;,
+ &#39;store&#39;,
+ &#39;structures&#39;,
+ &#39;sum&#39;,
+ &#39;swapaxes&#39;,
+ &#39;title&#39;,
+ &#39;to_backend&#39;,
+ &#39;to_dask_dataframe&#39;,
+ &#39;to_delayed&#39;,
+ &#39;to_hdf5&#39;,
+ &#39;to_svg&#39;,
+ &#39;to_tiledb&#39;,
+ &#39;to_zarr&#39;,
+ &#39;topk&#39;,
+ &#39;trace&#39;,
+ &#39;transpose&#39;,
+ &#39;unfold&#39;,
+ &#39;units&#39;,
+ &#39;var&#39;,
+ &#39;view&#39;,
+ &#39;view_metadata&#39;,
+ &#39;view_original_metadata&#39;,
+ &#39;vindex&#39;,
+ &#39;visualize&#39;,
+ &#39;x&#39;,
+ &#39;y&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="adding-data">
+<h2><span class="section-number">1.4.5. </span>Adding Data<a class="headerlink" href="#adding-data" title="Permalink to this heading">#</a></h2>
+<p>To add another dataset that belongs to this measurement we will use the <strong>h5_add_channel</strong> from  <strong>file_tools</strong> in the  pyTEMlib package.</p>
+<p>Here is how we add a channel there.</p>
+<p>We can also add a new measurement group (add_measurement in pyTEMlib) for similar datasets.</p>
+<p>This is equivalent to making a new directory in a file structure on your computer.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datasets</span><span class="p">[</span><span class="s1">&#39;Copied_of_Channel_000&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_dataset</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We use above functions to add the content of a (random) data-file to the current file.</p>
+<p>This is important if you for example want to add a Z-contrast or survey-image to a spectrum image.</p>
+<p>Therefore, these functions enable you to collect the data from different files that belong together.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datasets</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;Channel_000&#39;, &#39;Copied_of_Channel_000&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="adding-additional-information">
+<h2><span class="section-number">1.4.6. </span>Adding additional information<a class="headerlink" href="#adding-additional-information" title="Permalink to this heading">#</a></h2>
+<p>Similarly, we can add a whole new measurement group or a structure group.</p>
+<p>This function will be contained in the KinsCat package of pyTEMlib.</p>
+<p>If you loaded the example image, with graphite and ZnO both are viewed in the [1,1,1] zone axis.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyTEMlib.kinematic_scattering</span> <span class="k">as</span> <span class="nn">ks</span>         <span class="c1"># kinematic scattering Library</span>
+                             <span class="c1"># with Atomic form factors from Kirkland&#39;s book</span>
+<span class="kn">import</span> <span class="nn">ase</span>
+
+                                                                                 
+<span class="n">graphite</span> <span class="o">=</span> <span class="n">ks</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">(</span><span class="s1">&#39;Graphite&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">graphite</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Using kinematic_scattering library version {_version_ }  by G.Duscher
+Atoms(symbols=&#39;C4&#39;, pbc=False, cell=[[2.46772414, 0.0, 0.0], [-1.2338620699999996, 2.1371117947721068, 0.0], [0.0, 0.0, 6.711]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">current_dataset</span><span class="o">.</span><span class="n">structures</span><span class="p">[</span><span class="s1">&#39;Crystal_000&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">graphite</span>
+                                                            
+<span class="n">zinc_oxide</span> <span class="o">=</span> <span class="n">ks</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">(</span><span class="s1">&#39;ZnO&#39;</span><span class="p">)</span>
+<span class="n">current_dataset</span><span class="o">.</span><span class="n">structures</span><span class="p">[</span><span class="s1">&#39;ZnO&#39;</span><span class="p">]</span> <span class="o">=</span><span class="n">zinc_oxide</span>               
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="keeping-track-of-analysis-and-results">
+<h2><span class="section-number">1.4.7. </span>Keeping Track of Analysis and Results<a class="headerlink" href="#keeping-track-of-analysis-and-results" title="Permalink to this heading">#</a></h2>
+<p>A notebook is notorious for getting confusing, especially if one uses different notebooks for different task, but store them in the same file.</p>
+<p>If you like a result of your calculation, log it.</p>
+<p>Use the datasets dictionary to add a analysed and/or modified dataset. Make sure the metadata contain all the necessary information, so that you will know later what you did.</p>
+<p>The convention in this class will be to call the dataset <strong>Log_000</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_dataset</span> <span class="o">=</span> <span class="n">current_dataset</span><span class="o">.</span><span class="n">T</span>
+<span class="n">new_dataset</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;analysis&#39;</span><span class="p">:</span> <span class="s1">&#39;Nothing&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Nothing&#39;</span><span class="p">}</span>
+<span class="n">datasets</span><span class="p">[</span><span class="s1">&#39;Log_000&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_dataset</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="an-example-for-a-log">
+<h2><span class="section-number">1.4.8. </span>An example for a log<a class="headerlink" href="#an-example-for-a-log" title="Permalink to this heading">#</a></h2>
+<p>We log the Fourier Transform of the image we loaded</p>
+<p>First we perform the calculation</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fft_image</span> <span class="o">=</span> <span class="n">current_dataset</span><span class="o">.</span><span class="n">fft</span><span class="p">()</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span>
+<span class="n">fft_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">60</span><span class="o">+</span><span class="n">fft_image</span><span class="p">)</span>
+
+<span class="n">view</span> <span class="o">=</span> <span class="n">fft_image</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "7af5cad56b7b4dd7992e25620db0cb50", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>Now that we like this we log it.</p>
+<p>Please note that just saving the fourier transform would not be good as we also need the scale and such.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fft_image</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;FFT Gamma corrected&#39;</span>
+<span class="n">fft_image</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;analysis&#39;</span><span class="p">:</span> <span class="s1">&#39;fft&#39;</span><span class="p">}</span>
+<span class="n">datasets</span><span class="p">[</span><span class="s1">&#39;Log_001&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fft_image</span>
+
+<span class="n">view</span> <span class="o">=</span> <span class="n">fft_image</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "be9cb98972914f979264f56ee1f102e5", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>We added quite a few datasets to our dictionary.</p>
+<p>Let’s have a look</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chooser</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">ChooseDataset</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "d10b60df08104155a7c7a07b4635a423", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">view</span> <span class="o">=</span> <span class="n">chooser</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "1ed14f50eaaf49838a79bb7f0b2e90e5", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="save-datasets-to-hf5-file">
+<h2><span class="section-number">1.4.9. </span>Save Datasets to  hf5_file<a class="headerlink" href="#save-datasets-to-hf5-file" title="Permalink to this heading">#</a></h2>
+<p>Write all datasets to one h5_file, which we then close immediatedly</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">h5_group</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">save_dataset</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;./nix.hf5&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\gduscher\AppData\Local\anaconda3\envs\pyTEMlib\Lib\site-packages\pyNSID\io\hdf_io.py:111: UserWarning: main_data_name should not contain the &quot;-&quot; character. Reformatted name from:p1-3-hr3 to p1_3_hr3
+  warn(&#39;main_data_name should not contain the &quot;-&quot; character. Reformatted&#39;
+C:\Users\gduscher\AppData\Local\anaconda3\envs\pyTEMlib\Lib\site-packages\pyNSID\io\hdf_utils.py:376: FutureWarning: validate_h5_dimension may be removed in a future version
+  warn(&#39;validate_h5_dimension may be removed in a future version&#39;,
+C:\Users\gduscher\AppData\Local\anaconda3\envs\pyTEMlib\Lib\site-packages\pyNSID\io\hdf_io.py:111: UserWarning: main_data_name should not contain the &quot;-&quot; character. Reformatted name from:p1-3-hr3 to p1_3_hr3
+  warn(&#39;main_data_name should not contain the &quot;-&quot; character. Reformatted&#39;
+C:\Users\gduscher\AppData\Local\anaconda3\envs\pyTEMlib\Lib\site-packages\pyNSID\io\hdf_utils.py:376: FutureWarning: validate_h5_dimension may be removed in a future version
+  warn(&#39;validate_h5_dimension may be removed in a future version&#39;,
+C:\Users\gduscher\AppData\Local\anaconda3\envs\pyTEMlib\Lib\site-packages\pyNSID\io\hdf_io.py:111: UserWarning: main_data_name should not contain the &quot;-&quot; character. Reformatted name from:Transposed_p1-3-hr3 to Transposed_p1_3_hr3
+  warn(&#39;main_data_name should not contain the &quot;-&quot; character. Reformatted&#39;
+C:\Users\gduscher\AppData\Local\anaconda3\envs\pyTEMlib\Lib\site-packages\pyNSID\io\hdf_utils.py:376: FutureWarning: validate_h5_dimension may be removed in a future version
+  warn(&#39;validate_h5_dimension may be removed in a future version&#39;,
+C:\Users\gduscher\AppData\Local\anaconda3\envs\pyTEMlib\Lib\site-packages\pyNSID\io\hdf_utils.py:376: FutureWarning: validate_h5_dimension may be removed in a future version
+  warn(&#39;validate_h5_dimension may be removed in a future version&#39;,
+</pre></div>
+</div>
+</div>
+</div>
+<p>Close the file</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">h5_group</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="open-h5-file">
+<h2><span class="section-number">1.4.10. </span>Open h5_file<a class="headerlink" href="#open-h5-file" title="Permalink to this heading">#</a></h2>
+<p>Open the h5_file that we just created</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datasets2</span><span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;./nix.hf5&#39;</span><span class="p">)</span>
+
+<span class="n">chooser</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">ChooseDataset</span><span class="p">(</span><span class="n">datasets2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "20fa4128111a471f881f44bd8709d465", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<section id="short-check-if-we-got-the-data-right">
+<h3><span class="section-number">1.4.10.1. </span>Short check if we got the data right<a class="headerlink" href="#short-check-if-we-got-the-data-right" title="Permalink to this heading">#</a></h3>
+<p>we print the tree and we plot the data</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">view</span> <span class="o">=</span> <span class="n">chooser</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "0aebd201caa64d078ae9644185b2a40e", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="navigation">
+<h2><span class="section-number">1.4.11. </span>Navigation<a class="headerlink" href="#navigation" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><font size = "3">  <strong>Back  <a class="reference internal" href="CH1_03-Data_Representation.html"><span class="doc std std-doc">Matplotlib and Numpy for Micrographs</span></a></strong> </font></p></li>
+<li><p><font size = "3">  <strong>Next: <a class="reference internal" href="CH1_06-Overview.html"><span class="doc std std-doc">Overview</span></a></strong> </font></p></li>
+<li><p><font size = "3">  <strong>Chapter 1: <a class="reference internal" href="CH1_00-Introduction.html"><span class="doc std std-doc">Introduction</span></a></strong> </font></p></li>
+<li><p><font size = "3">  <strong>List of Content: <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc std std-doc">Front</span></a></strong> </font></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "pytemlib"
+        },
+        kernelOptions: {
+            name: "pytemlib",
+            path: "./Introduction"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'pytemlib'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="CH1_03-Data_Representation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1.3. </span>Matplotlib and Numpy for Micrographs</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="CH1_05-Course_Organization.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">1.5. </span>Course Organization</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-packages-for-figures-and">1.4.1. Import packages for figures and</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-installed-packages">1.4.1.1. Check Installed Packages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-plotting-and-figure-packages">1.4.1.2. Load the plotting and figure packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#open-a-file">1.4.2. Open a file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-structure">1.4.3. Data Structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1.4.4. Data Structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-data">1.4.5. Adding Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-additional-information">1.4.6. Adding additional information</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#keeping-track-of-analysis-and-results">1.4.7. Keeping Track of Analysis and Results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#an-example-for-a-log">1.4.8. An example for a log</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#save-datasets-to-hf5-file">1.4.9. Save Datasets to  hf5_file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#open-h5-file">1.4.10. Open h5_file</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#short-check-if-we-got-the-data-right">1.4.10.1. Short check if we got the data right</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navigation">1.4.11. Navigation</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Gerd Duscher UTK/IAMM
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
