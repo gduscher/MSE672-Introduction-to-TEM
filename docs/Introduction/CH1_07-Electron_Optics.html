@@ -1,0 +1,1049 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Electron Optics &#8212; Introduction to Transmisison Electron Microscopy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Introduction/CH1_07-Electron_Optics';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <header>
+  
+    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    </div>
+  
+  </header>
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Introduction to Transmisison Electron Microscopy - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Introduction to Transmisison Electron Microscopy - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Foreword (ReadME)
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="CH1_00-Introduction.html">1. Chapter 1: Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="CH1_01-Introduction_Python.html">1.1. Introduction to Python as it is used in this lecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH1_02-Prerequisites.html">1.2. Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH1_03-Data_Representation.html">1.3. Matplotlib and Numpy for Micrographs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH1_04-Open_File.html">1.4. Open DM3 Images, Spectra, Spectrum-Images and  Image-Stacks with pyNSID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH1_05-Course_Organization.html">1.5. Course Organization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CH1_06-Overview.html">1.6. Overview Notebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install_conda.html">1.7. Installation on your own computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="computer_resources.html">1.8. Setting up computing resources</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Diffraction/CH2_00-Diffraction.html">2. Chapter 2:  Diffraction</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_01-Electron.html">2.2. The Electron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_02-Atomic_Form_Factor.html">2.3. Atomic Form Factor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_03-Basic_Crystallography.html">2.4. Basic Crystallography</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_04-Structure_Factors.html">2.5. Structure Factors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_05-Diffraction_Rings.html">2.6. Analyzing Ring Diffraction Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_06-Kinematic_Scattering_Geometry.html">2.7. Kinematic Scattering Geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_07-Plotting_Diffraction_Pattern.html">2.8. Plotting Diffraction Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_08-Spot_Diffraction_Pattern.html">2.9. Analyzing Spot Diffraction Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_09-Unit_Cell.html">2.10. Unic Cell Determination and Stereographic Projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_10-Kikuchi_Lines.html">2.11. Kikuchi Lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_11-HOLZ_Lines.html">2.12. HOLZ Lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_12-HOLZ_Example.html">2.13. Lattice Determination with HOLZ</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_D01-Bloch.html">2.16. Bethe Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_D02-Multislice.html">2.17. Multislice Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffraction/CH2_D03-Multislice_CBED.html">2.18. CBED - Multislice Algorithm</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Imaging/CH3_00-Imaging.html">3. Chapter 3: Imaging</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_01-Resolution.html">3.2. Resolution Limit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_03-CTF.html">3.3. Contrast Transfer Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_04-Linear_Image_Approximation.html">3.4. Linear Image Approximation: Weak Phase Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_05-Defocus_Thickness.html">3.5. Defocus-Thickness Map with Multislice Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_06-Image_Processing.html">3.6. Image Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_07-Image_Analysis.html">3.7. Image Analysis</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_08-Thermal_Diffuse_Scattering.html">3.9. Thermal-Diffuse Scattering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_09-Z_Contrast.html">3.10. Z-Contrast Imaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Imaging/CH3_10-Ronchigram.html">3.11. Ronchigram</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Spectroscopy/CH4_00-Spectroscopy.html">4. Chapter 4: Spectroscopy</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_01-Introduction.html">4.1. Introduction to  Electron Energy-Loss Spectroscopy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_02-Fit_Zero_Loss.html">4.2. Fit of Zero-Loss Peak</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_03-Drude.html">4.3. Analysing Low-Loss Spectra with Drude Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_07-Introduction_Core_Loss.html">4.4. Introduction to Core-Loss Spectroscopy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_08-Chemical_Composition.html">4.5. Chemical Composition in Core-Loss Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_09-Analyse_Core_Loss.html">4.6. Analysis of Core-Loss Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_10-ELNES.html">4.7. Energy-Loss Near-Edge Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_12-Introduction_X_Rays.html">4.8. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_13-Bremsstrahlung.html">4.10. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_14-Characteristic_X_Rays.html">4.12. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_15-Detector.html">4.14. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_16-Analyze_EDS_Spectrum.html">4.18. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../Spectroscopy/CH4_17-Quantify_EDS_Spectrum.html">4.21. Chapter 4 <span class="xref myst">Spectroscopy</span></a></li>
+
+
+
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Homework/homework.html">5. Homework</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework01.html">5.1. Homework 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework02.html">5.2. Homework 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework03.html">5.3. Homework 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework04.html">5.4. Homework 4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework05-CBED.html">5.5. HW5:  Analyzing CBED Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework06-TwoBeam.html">5.6. HW6:  Analyzing CBED Pattern in Two Beam Condition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Homework/Homework07-Dynamic_CBED.html">5.7. HW7:  Simulating CBED Pattern</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/gduscher/MSE672-Introduction-to-TEM/main?urlpath=tree/docs/Introduction/CH1_07-Electron_Optics.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/gduscher/MSE672-Introduction-to-TEM" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/gduscher/MSE672-Introduction-to-TEM/issues/new?title=Issue%20on%20page%20%2FIntroduction/CH1_07-Electron_Optics.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Introduction/CH1_07-Electron_Optics.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Electron Optics</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-packages-for-figures-and">Import packages for figures and</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-installed-packages">Check Installed Packages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-plotting-and-figure-packages">Load the plotting and figure packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transmission-electron-microscope">Transmission Electron Microscope</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#start-screen-on-the-computer-of-our-tem">Start screen on the computer of our TEM</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#electron-optics-overview-of-the-whole-system">Electron Optics - Overview of the Whole System</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-electron-gun">The Electron Gun</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-condenser">The Condenser</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-objective-lens">The Objective Lens</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-intermediate-lens">The Intermediate Lens</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-projector-lens">The Projector Lens</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#electron-optics-condenser">Electron Optics - Condenser</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#electron-optics-projective">Electron Optics - Projective</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#electron-optics-ray-diagrams">Electron Optics - Ray Diagrams</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-ray-diagram">Basic Ray Diagram</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#magnification">Magnification</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#focus">Focus</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#condenser-ray-diagram">Condenser Ray Diagram</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-angle">Convergence Angle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-ray-optics-of-tem">Summary Ray Optics of TEM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navigation">Navigation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix">Appendix:</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code-for-condenser-stack-ray-diagram">Code for condenser stack ray diagram</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><font size = "5"> <strong><a class="reference external" href="https://gduscher.github.io/MSE672-Introduction-to-TEM/">MSE672: Introduction to TEM</a></strong> </font></p>
+<hr style="height:1px;border-top:4px solid #FF8200" />
+<section class="tex2jax_ignore mathjax_ignore" id="electron-optics">
+<h1>Electron Optics<a class="headerlink" href="#electron-optics" title="Permalink to this heading">#</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Introduction/CH1_07-Electron_Optics.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/Introduction/CH1_07-Electron_Optics.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><font size = "5"> <strong><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc std std-doc">MSE672:  Introduction to Transmission Electron Microscopy</span></a></strong></font></p>
+<p><strong>Spring 2024</strong></p>
+<table style="margin-right:auto;margin-left:0px">
+  <tr>
+    <td>Gerd Duscher </td>
+    <td>Khalid Hattar</td>
+  </tr>
+  <tr>
+    <td>Microscopy Facilities</td> 
+    <td> Tennessee Ion Beam Materials Laboratory </td>
+  </tr>
+  <tr>
+    <td>Materials Science & Engineering</td>
+    <td> Nuclear Engineering</td>
+  </tr>
+  <tr>
+    <td>Institute of Advanced Materials & Manufacturing</td>
+    <td> </td>
+  </tr>
+  <tr>
+    <td colspan="2"><center> The University of Tennessee, Knoxville</center> </td>
+  </tr>
+</table>
+<section id="import-packages-for-figures-and">
+<h2>Import packages for figures and<a class="headerlink" href="#import-packages-for-figures-and" title="Permalink to this heading">#</a></h2>
+<section id="check-installed-packages">
+<h3>Check Installed Packages<a class="headerlink" href="#check-installed-packages" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">importlib.metadata</span>
+<span class="k">def</span> <span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2024.1.0&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w">  </span>--upgrade<span class="w"> </span>pyTEMlib<span class="w"> </span>-q
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>installing pyTEMlib
+done
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="load-the-plotting-and-figure-packages">
+<h3>Load the plotting and figure packages<a class="headerlink" href="#load-the-plotting-and-figure-packages" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> widget
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">output</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+    
+<span class="kn">import</span> <span class="nn">pyTEMlib.animation</span> <span class="k">as</span> <span class="nn">animate</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>You don&#39;t have igor2 installed.     If you wish to open igor files, you will need to install it     (pip install igor2) before attempting.
+You don&#39;t have gwyfile installed.     If you wish to open .gwy files, you will need to      install it (pip install gwyfile) before attempting.
+Symmetry functions of spglib enabled
+Using kinematic_scattering library version {_version_ }  by G.Duscher
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="transmission-electron-microscope">
+<h2>Transmission Electron Microscope<a class="headerlink" href="#transmission-electron-microscope" title="Permalink to this heading">#</a></h2>
+<p>A TEM is a stack of electro-optical elements:
+<img alt="TEM" src="../_images/Zeiss.png" /></p>
+<ul class="simple">
+<li><p>electron source</p></li>
+<li><p>electrostatic lens</p></li>
+<li><p>accelerator</p></li>
+<li><p>magnetic lens</p></li>
+<li><p>magnetic and electrostatic deflectors</p></li>
+<li><p>magnetic multipoles</p></li>
+<li><p>apertures</p></li>
+<li><p>detectors (viewing screen,CCD)</p></li>
+<li><p>sample holder</p></li>
+</ul>
+<section id="start-screen-on-the-computer-of-our-tem">
+<h3>Start screen on the computer of our TEM<a class="headerlink" href="#start-screen-on-the-computer-of-our-tem" title="Permalink to this heading">#</a></h3>
+<p><img alt="start_screen" src="../_images/start_screen.png" /></p>
+<p>The big buttons on upper left, we saw already in the last notebook.</p>
+<p>You select the different modes of the TEM with those.</p>
+<p><img alt="TEMmodes.png" src="../_images/TEMmodes.png" /></p>
+</section>
+</section>
+<section id="electron-optics-overview-of-the-whole-system">
+<h2>Electron Optics - Overview of the Whole System<a class="headerlink" href="#electron-optics-overview-of-the-whole-system" title="Permalink to this heading">#</a></h2>
+<p>We start on the top.</p>
+<section id="the-electron-gun">
+<h3>The Electron Gun<a class="headerlink" href="#the-electron-gun" title="Permalink to this heading">#</a></h3>
+<p>The electron gun produces the electrons, focuses them and accelerates
+them.</p>
+</section>
+<section id="the-condenser">
+<h3>The Condenser<a class="headerlink" href="#the-condenser" title="Permalink to this heading">#</a></h3>
+<p>The condenser lens system varies the beam size, the illumination area and the convergence angle.</p>
+</section>
+<section id="the-objective-lens">
+<h3>The Objective Lens<a class="headerlink" href="#the-objective-lens" title="Permalink to this heading">#</a></h3>
+<p>The objective lens does the maximum magnification in imaging mode.</p>
+</section>
+<section id="the-intermediate-lens">
+<h3>The Intermediate Lens<a class="headerlink" href="#the-intermediate-lens" title="Permalink to this heading">#</a></h3>
+<p>The Intermediate lens system switches between imaging and
+diffraction mode. The objective lens does not magnify anything in diffraction mode, because the back focal plane of the objective lens is object plane of the intermediate plane. The intermediate lens does the maximum magnification.</p>
+</section>
+<section id="the-projector-lens">
+<h3>The Projector Lens<a class="headerlink" href="#the-projector-lens" title="Permalink to this heading">#</a></h3>
+<p>The projector lens system magnifies everything roughly to the
+magnification indicated on the display/chosen on the console.</p>
+</section>
+<section id="electron-optics-condenser">
+<h3>Electron Optics - Condenser<a class="headerlink" href="#electron-optics-condenser" title="Permalink to this heading">#</a></h3>
+<p>The electron optics starts at the cross over which the gun produces in the
+differential pumping aperture.
+Then we have a condenser lens system with three lenses, three pairs of deflectors, a pair of stigmators and an aperture.</p>
+<p>This allows a very  flexible illumination of the specimen.</p>
+</section>
+<section id="electron-optics-projective">
+<h3>Electron Optics - Projective<a class="headerlink" href="#electron-optics-projective" title="Permalink to this heading">#</a></h3>
+<p>The projector lens system in our TEM (Zeiss Libra 200MC) is divided by the electron energy-loss filter into two parts.</p>
+<p>The first part switches from imaging to diffraction and does all the magnification. This part has three
+lenses, two pairs of deflectors, a stigmator, and an aperture.</p>
+<p>The second part switches from spectroscopy to imaging or diffraction and does only magnification in spectroscopy mode. This part has three lenses, two pairs
+of deflectors, a stigmator, and an aperture.</p>
+</section>
+</section>
+<section id="electron-optics-ray-diagrams">
+<h2>Electron Optics - Ray Diagrams<a class="headerlink" href="#electron-optics-ray-diagrams" title="Permalink to this heading">#</a></h2>
+<p>To do the optical ray diagram we only have to concern ourselves with the lenses and the apertures.</p>
+<p>Deflectors and stigmators (correcting multipoles) are only used to correct for mechanical misalignment of the optical axis.
+The correcting multipoles will be discussed in the phase contrast part of this lecture.
+The deflectors will be discussed in the STEM part in detail.</p>
+<section id="basic-ray-diagram">
+<h3>Basic Ray Diagram<a class="headerlink" href="#basic-ray-diagram" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---INPUT------ #</span>
+<span class="n">focal_length</span> <span class="o">=</span> <span class="mf">1.</span>
+<span class="c1"># -------------- #</span>
+
+<span class="n">animate</span><span class="o">.</span><span class="n">geometric_ray_diagram</span><span class="p">(</span><span class="n">focal_length</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "f9521614ec3446f78e0ace996c0b7c34", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>A lens is determined by:</p>
+<ul class="simple">
+<li><p>focal plane</p></li>
+<li><p>object plane</p></li>
+<li><p>image plane</p></li>
+</ul>
+</section>
+<section id="magnification">
+<h3>Magnification<a class="headerlink" href="#magnification" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---INPUT------ #</span>
+<span class="n">focal_length</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="c1"># -------------- #</span>
+
+<span class="n">animate</span><span class="o">.</span><span class="n">geometric_ray_diagram</span><span class="p">(</span><span class="n">focal_length</span><span class="p">,</span> <span class="n">magnification</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "aebbca9ea8a74ceeb941f7cc1fa04bf2", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>The magnification of a
+lens is given by
+Newton’s law:
+$<span class="math notranslate nohighlight">\(
+\frac{1}{u}+\frac{1}{v} =\frac{1}{f}
+\)</span>$</p>
+<p>The magnification M is defined as
+$<span class="math notranslate nohighlight">\( 
+M = \frac{v}{u}
+\)</span>$</p>
+</section>
+<section id="focus">
+<h3>Focus<a class="headerlink" href="#focus" title="Permalink to this heading">#</a></h3>
+<p>The microscope consists of a
+stack of lenses in which the
+image plane of one lens is the
+object plane of the next one.</p>
+<p>The focal length <span class="math notranslate nohighlight">\(f\)</span> of a
+magnetic lens can be changed
+by its electric current.</p>
+<p>If the field is too weak, we call
+it underfocus, is it too strong
+we speak of overfocus.</p>
+<p><img alt="focus" src="../_images/focus.png" /></p>
+</section>
+<section id="condenser-ray-diagram">
+<h3>Condenser Ray Diagram<a class="headerlink" href="#condenser-ray-diagram" title="Permalink to this heading">#</a></h3>
+<p>Below is a stack of lenses that is equivalent to the condenser lens system on the Libra 200.</p>
+<p>The objective lens focal length is usually not changed (at least not much), and the sample is in the middle of the objective lens system.</p>
+<p>Change the <code class="docutils literal notranslate"><span class="pre">focal</span> <span class="pre">lengths</span></code> parameters so that there the illumination changes from parallel to convergent.</p>
+<p>Tip: do not change the gun (first value), and the objective (last two values) values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------ INPUT ------#</span>
+<span class="n">focal_lengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">60.0</span><span class="p">,</span> <span class="mf">70.0</span><span class="p">,</span>  <span class="mf">90.0</span><span class="p">,</span>  <span class="mf">200.0</span> <span class="p">,</span>  <span class="mi">50</span><span class="p">,</span>  <span class="mi">50</span><span class="p">])</span> <span class="c1"># Köhler Illumination</span>
+<span class="c1">#--------------------#</span>
+
+<span class="c1"># Define lenses here</span>
+<span class="n">lens_labels</span> <span class="o">=</span>             <span class="p">[</span><span class="s1">&#39;Gun&#39;</span><span class="p">,</span> <span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="s1">&#39;C2&#39;</span><span class="p">,</span> <span class="s1">&#39;C3&#39;</span> <span class="p">,</span> <span class="s1">&#39;Objective&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]</span>
+<span class="n">lens_positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">200.0</span><span class="p">,</span> <span class="mf">400.0</span><span class="p">,</span> <span class="mf">600.0</span><span class="p">,</span> <span class="mf">800.0</span><span class="p">,</span> <span class="mi">1100</span><span class="p">,</span><span class="mi">1200</span>    <span class="p">])</span> <span class="c1"># lens positions</span>
+<span class="n">focal_lengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">60.0</span><span class="p">,</span> <span class="mf">70.0</span><span class="p">,</span>  <span class="mf">90.0</span><span class="p">,</span>  <span class="mf">200.0</span> <span class="p">,</span>  <span class="mi">50</span><span class="p">,</span>  <span class="mi">50</span><span class="p">])</span> <span class="c1"># lens focal lengths for Spot Mode in TEM# focal_lengths = np.array([50.0, 70.0,  90.0,  142.0 ,  50,  50]) # Köhler Illumination</span>
+<span class="c1">#focal_lengths = np.array([50.0, 70.0,  378.0,  125.0 ,  50,  50]) # Slightly convergent</span>
+
+
+<span class="n">animate</span><span class="o">.</span><span class="n">propagate_beam</span><span class="p">([</span><span class="mi">0</span><span class="p">,],</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">3</span><span class="p">,</span> <span class="n">lens_positions</span><span class="p">,</span> <span class="n">focal_lengths</span><span class="p">,</span> <span class="n">lens_labels</span><span class="p">,</span>   <span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9fa9c232b562415bbf16b24dd31208a7", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>If you select any mode, magnification or brightness, the computer looks up a dataset and provides the stored values of currents to the respective lenses and other optical elements.</p>
+<p>An engineering alignment determines those values and users only have to deal with the fine-tuning of the electron optical system.</p>
+</section>
+</section>
+<section id="convergence-angle">
+<h2>Convergence Angle<a class="headerlink" href="#convergence-angle" title="Permalink to this heading">#</a></h2>
+<p>The condensor lens system defines the illumination of the sample and with it the convergence angle (even parallel illumination has ususally a convergence angle of a few <span class="math notranslate nohighlight">\(\mu\)</span>rad).</p>
+<p>The convergence angle is set by the condenser lens system  and  can be measured with a convergent beam electron diffraction (CBED) pattern.</p>
+<p>Under plane wave illumination the diffraction pattern consists of points. If you imagine a second incident plane wave
+with some angle to the first one, there will be two slightly shifted diffraction patterns made out of points.</p>
+<p>A lot of plane waves with a conical angle distribution will result in small circles instead of a point. The radius of the circle corresponds to the convergence angle. One can easily calculate the convergence angle from a CBED pattern of a known sample.</p>
+</section>
+<section id="summary-ray-optics-of-tem">
+<h2>Summary Ray Optics of TEM<a class="headerlink" href="#summary-ray-optics-of-tem" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Lenses provide illumination and magnification</p></li>
+<li><p>Lenses switch modes in a TEM</p></li>
+<li><p>Lenses allow to select the angles within a TEM</p></li>
+<li><p>Apertures help to select the information projected in a TEM</p></li>
+</ul>
+<p>A detailed understanding of the angles within the TEM allows for a
+project oriented experimental setup.</p>
+</section>
+<section id="navigation">
+<h2>Navigation<a class="headerlink" href="#navigation" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><font size = "3">  <strong>Back  <a class="reference internal" href="CH1_06-Overview.html"><span class="doc std std-doc">Overview</span></a></strong> </font></p></li>
+<li><p><font size = "3">  <strong>Next: <a class="reference internal" href="../Diffraction/CH2_00-Diffraction.html"><span class="doc std std-doc">Diffraction</span></a></strong> </font></p></li>
+<li><p><font size = "3">  <strong>Chapter 1: <a class="reference internal" href="CH1_00-Introduction.html"><span class="doc std std-doc">Introduction</span></a></strong> </font></p></li>
+<li><p><font size = "3">  <strong>List of Content: <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc std std-doc">Front</span></a></strong> </font></p></li>
+</ul>
+</section>
+<section id="appendix">
+<h2>Appendix:<a class="headerlink" href="#appendix" title="Permalink to this heading">#</a></h2>
+<section id="code-for-condenser-stack-ray-diagram">
+<h3>Code for condenser stack ray diagram<a class="headerlink" href="#code-for-condenser-stack-ray-diagram" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ----------------------------------------------------------------</span>
+<span class="c1"># Modified from Michael Fairchild :simply draws a thin-lens at the provided location parameters:</span>
+<span class="c1">#     - z:    location along the optical axis (in mm)</span>
+<span class="c1">#     - f:    focal length (in mm, can be negative if div. lens)</span>
+<span class="c1">#     - diam: lens diameter in mm</span>
+<span class="c1">#     - lens_labels:  label to identify the lens on the drawing</span>
+<span class="c1"># ----------------------------------------------------------------</span>
+<span class="k">def</span> <span class="nf">add_lens</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">diam</span><span class="p">,</span> <span class="n">lens_labels</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;add lens to propagate beam plot&quot;&quot;&quot;</span>
+    <span class="n">ww</span><span class="p">,</span> <span class="n">tw</span><span class="p">,</span> <span class="n">rad</span> <span class="o">=</span> <span class="n">diam</span> <span class="o">/</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">diam</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">,</span> <span class="n">diam</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">z</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">rad</span><span class="p">,</span> <span class="n">rad</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">tw</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">rad</span><span class="p">,</span> <span class="o">-</span><span class="n">rad</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">*</span> <span class="n">ww</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">tw</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">rad</span><span class="p">,</span> <span class="o">-</span><span class="n">rad</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">*</span> <span class="n">ww</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">tw</span><span class="p">],</span> <span class="p">[</span><span class="n">rad</span><span class="p">,</span> <span class="n">rad</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">*</span> <span class="n">ww</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">tw</span><span class="p">],</span> <span class="p">[</span><span class="n">rad</span><span class="p">,</span> <span class="n">rad</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">*</span> <span class="n">ww</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">z</span> <span class="o">+</span> <span class="n">f</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">f</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">ww</span><span class="p">,</span> <span class="n">ww</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">z</span> <span class="o">-</span> <span class="n">f</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">f</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">ww</span><span class="p">,</span> <span class="n">ww</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">rad</span> <span class="o">+</span> <span class="mf">5.0</span><span class="p">,</span> <span class="n">lens_labels</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">rad</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s1">&#39;f=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">add_aperture</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">diam</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">lens_labels</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;add aperture to propagate beam plot&quot;&quot;&quot;</span>
+
+    <span class="n">ww</span><span class="p">,</span> <span class="n">tw</span><span class="p">,</span> <span class="n">rad</span> <span class="o">=</span> <span class="n">diam</span> <span class="o">/</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">diam</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">,</span> <span class="n">diam</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">radius</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">z</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">rad</span><span class="p">,</span> <span class="o">-</span><span class="n">radius</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">z</span><span class="p">],</span> <span class="p">[</span><span class="n">rad</span><span class="p">,</span> <span class="n">radius</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="o">-</span><span class="n">rad</span> <span class="o">-</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">lens_labels</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">propagate_beam</span><span class="p">(</span><span class="n">source_position</span><span class="p">,</span> <span class="n">numerical_aperture</span><span class="p">,</span> <span class="n">number_of_rays</span><span class="p">,</span> <span class="n">lens_positions</span><span class="p">,</span> <span class="n">focal_lengths</span><span class="p">,</span>
+                   <span class="n">lens_labels</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;geometrical propagation of light rays from given source</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    source_position:  list</span>
+<span class="sd">        location of the source (z0, x0) along and off axis (in mm)</span>
+<span class="sd">    numerical_aperture:  float</span>
+<span class="sd">        numerical aperture of the beam (in degrees)</span>
+<span class="sd">    number_of_rays:  int</span>
+<span class="sd">        number of rays to trace</span>
+<span class="sd">    lens_positions:  numpy array</span>
+<span class="sd">        array with the location of the lenses</span>
+<span class="sd">    focal_lengths:  numpy array</span>
+<span class="sd">        array with the focal length of lenses</span>
+<span class="sd">    lens_labels: list of string</span>
+<span class="sd">        label for the nature of lenses</span>
+<span class="sd">    color: str</span>
+<span class="sd">        color of the rays on plot</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">z_max</span> <span class="o">=</span> <span class="mf">1600.</span>
+
+    <span class="c1"># aperture (maximum angle) in radians</span>
+    <span class="n">apa</span> <span class="o">=</span> <span class="n">numerical_aperture</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">lens_positions</span><span class="p">)):</span>
+        <span class="n">add_lens</span><span class="p">(</span><span class="n">lens_positions</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">focal_lengths</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">25</span><span class="p">,</span> <span class="n">lens_labels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="n">add_aperture</span><span class="p">(</span><span class="mi">840</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;CA&#39;</span><span class="p">)</span>
+
+    <span class="c1"># position of source is z0,x0</span>
+    <span class="n">z0</span> <span class="o">=</span> <span class="n">source_position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">source_position</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">x0</span> <span class="o">=</span> <span class="n">source_position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x0</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="c1"># list of lens positions</span>
+    <span class="n">zl1</span><span class="p">,</span> <span class="n">ff1</span> <span class="o">=</span> <span class="n">lens_positions</span><span class="p">[(</span><span class="n">z0</span> <span class="o">&lt;</span> <span class="n">lens_positions</span><span class="p">)],</span> <span class="n">focal_lengths</span><span class="p">[(</span><span class="n">z0</span> <span class="o">&lt;</span> <span class="n">lens_positions</span><span class="p">)]</span>
+    <span class="n">nl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">zl1</span><span class="p">)</span>  <span class="c1"># number of lenses</span>
+
+    <span class="n">zz</span><span class="p">,</span> <span class="n">xx</span><span class="p">,</span> <span class="n">tani</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nl</span> <span class="o">+</span> <span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nl</span> <span class="o">+</span> <span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nl</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">tan0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">apa</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">apa</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">number_of_rays</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">number_of_rays</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_rays</span><span class="p">):</span>
+        <span class="n">tani</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">tan0</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>  <span class="c1"># initial incidence angle</span>
+        <span class="n">zz</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">z0</span><span class="p">,</span> <span class="n">x0</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nl</span><span class="p">):</span>
+            <span class="n">zz</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">zl1</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">xx</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">xx</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">zz</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">zz</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">*</span> <span class="n">tani</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">tani</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tani</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">xx</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">ff1</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+        <span class="n">zz</span><span class="p">[</span><span class="n">nl</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">z_max</span>
+        <span class="n">xx</span><span class="p">[</span><span class="n">nl</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">xx</span><span class="p">[</span><span class="n">nl</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">zz</span><span class="p">[</span><span class="n">nl</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">zz</span><span class="p">[</span><span class="n">nl</span><span class="p">])</span> <span class="o">*</span> <span class="n">tani</span><span class="p">[</span><span class="n">nl</span><span class="p">]</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">zz</span><span class="p">,</span> <span class="n">xx</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="n">z_max</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Introduction"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-packages-for-figures-and">Import packages for figures and</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-installed-packages">Check Installed Packages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-plotting-and-figure-packages">Load the plotting and figure packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transmission-electron-microscope">Transmission Electron Microscope</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#start-screen-on-the-computer-of-our-tem">Start screen on the computer of our TEM</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#electron-optics-overview-of-the-whole-system">Electron Optics - Overview of the Whole System</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-electron-gun">The Electron Gun</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-condenser">The Condenser</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-objective-lens">The Objective Lens</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-intermediate-lens">The Intermediate Lens</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-projector-lens">The Projector Lens</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#electron-optics-condenser">Electron Optics - Condenser</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#electron-optics-projective">Electron Optics - Projective</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#electron-optics-ray-diagrams">Electron Optics - Ray Diagrams</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-ray-diagram">Basic Ray Diagram</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#magnification">Magnification</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#focus">Focus</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#condenser-ray-diagram">Condenser Ray Diagram</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-angle">Convergence Angle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-ray-optics-of-tem">Summary Ray Optics of TEM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navigation">Navigation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix">Appendix:</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code-for-condenser-stack-ray-diagram">Code for condenser stack ray diagram</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Gerd Duscher UTK/IAMM
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
