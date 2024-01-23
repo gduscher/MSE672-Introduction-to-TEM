@@ -538,11 +538,28 @@ document.write(`
 <p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main//Diffraction/CH2_08-Spot_Diffraction_Pattern.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
 <p>part of</p>
 <p><font size = "5"> <strong><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc std std-doc">MSE672:  Introduction to Transmission Electron Microscopy</span></a></strong></font></p>
-<p>by Gerd Duscher and Khalid Hattar, Spring 2024</p>
-<p>Microscopy Facilities and Ion Beam Facility<br>
-Institute of Advanced Materials &amp; Manufacturing<br>
-Materials Science &amp; Engineering and Nuclear Engineering<br>
-The University of Tennessee, Knoxville</p>
+<p><strong>Spring 2024</strong></p>
+<table style="margin-right:auto;margin-left:0px">
+  <tr>
+    <td>Gerd Duscher </td>
+    <td>Khalid Hattar</td>
+  </tr>
+  <tr>
+    <td>Microscopy Facilities</td> 
+    <td> Tennessee Ion Beam Materials Laboratory </td>
+  </tr>
+  <tr>
+    <td>Materials Science & Engineering</td>
+    <td> Nuclear Engineering</td>
+  </tr>
+  <tr>
+    <td>Institute of Advanced Materials & Manufacturing</td>
+    <td> </td>
+  </tr>
+  <tr>
+    <td colspan="2"><center> The University of Tennessee, Knoxville</center> </td>
+  </tr>
+</table>
 <p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
 <section id="load-relevant-python-packages">
 <h2><span class="section-number">2.9.1. </span>Load relevant python packages<a class="headerlink" href="#load-relevant-python-packages" title="Permalink to this heading">#</a></h2>
@@ -618,9 +635,8 @@ done
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>You don&#39;t have igor2 installed.     If you wish to open igor files, you will need to install it     (pip install igor2) before attempting.
 You don&#39;t have gwyfile installed.     If you wish to open .gwy files, you will need to      install it (pip install gwyfile) before attempting.
 Symmetry functions of spglib enabled
-Qt dialogs are not available
 Using kinematic_scattering library version {_version_ }  by G.Duscher
-0.2023.11.1
+0.2023.9.1
 </pre></div>
 </div>
 </div>
@@ -664,19 +680,18 @@ Using kinematic_scattering library version {_version_ }  by G.Duscher
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 1
-1 1
-Channel_000 sidpy.Dataset of type IMAGE with:
- dask.array&lt;array, shape=(2048, 2048), dtype=int32, chunksize=(2048, 2048), chunktype=numpy.ndarray&gt;
- data contains: intensity (counts)
- and Dimensions: 
-x:  distance (nm) of size (2048,)
-y:  distance (nm) of size (2048,)
- with metadata: [&#39;experiment&#39;]
-Channel_000
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;..</span><span class="se">\\</span><span class="s1">example_data</span><span class="se">\\</span><span class="s1">Si001_300mm_alpha0.1_beta9.4_diff.dm3&#39;</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">sidpy_datasets</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">sidpy_dataset</span> <span class="o">=</span> <span class="n">sidpy_datasets</span><span class="p">[</span><span class="s1">&#39;Channel_000&#39;</span><span class="p">]</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">view</span> <span class="o">=</span> <span class="n">sidpy_dataset</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+<span class="ne">NameError</span>: name &#39;ft&#39; is not defined
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "a08ce18a0a8e45dc9511aef4decdac96", "version_major": 2, "version_minor": 0}</script></div>
+</div>
 </div>
 <section id="plotting-on-a-logarithmic-scale">
 <h3><span class="section-number">2.9.4.1. </span>Plotting on a logarithmic scale<a class="headerlink" href="#plotting-on-a-logarithmic-scale" title="Permalink to this heading">#</a></h3>
@@ -1062,16 +1077,16 @@ pyTEMlib&#39;s  &quot;kinematic_scattering&quot; finished
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "python"
+            mode: "pytemlib"
         },
         kernelOptions: {
-            name: "python3",
+            name: "pytemlib",
             path: "./Diffraction"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'pytemlib'</script>
 
                 </article>
               
