@@ -14,7 +14,7 @@ chapters:
     - file: Introduction/CH1_04-Open_File
     - file: Introduction/CH1_05-Course_Organization
     - file: Introduction/CH1_06-Overview
-    - file: Introduction/CH1_07-Electron-Optics
+    - file: Introduction/CH1_07-Electron_Optics
     - file: Introduction/install_conda
     - file: Introduction/computer_resources
 - file: Diffraction/CH2_00-Diffraction
