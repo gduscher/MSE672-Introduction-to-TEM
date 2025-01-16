@@ -2,11 +2,11 @@
 <hr style="height:1px;border-top:4px solid #FF8200" />
 
 
-by Gerd Duscher and Khalid Hattar, Spring 2024
+by Gerd Duscher, Spring 2025
 
-Microscopy Facilities and Ion Beam Facility<br>
+Microscopy Core Facility<br>
 Institute of Advanced Materials & Manufacturing<br>
-Materials Science & Engineering and Nuclear Engineering<br>
+Materials Science & Engineering<br>
 The University of Tennessee, Knoxville
 
 
