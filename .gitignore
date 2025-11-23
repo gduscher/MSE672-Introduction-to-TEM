@@ -151,3 +151,6 @@ Spectroscopy/__pycache__/advanced_eels_tools.cpython-312.pyc
 Spectroscopy/Bote.json
 Spectroscopy/Bote2.json
 .vscode/settings.json
+
+# MyST build outputs
+_build
