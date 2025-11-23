@@ -154,3 +154,4 @@ Spectroscopy/Bote2.json
 
 # MyST build outputs
 _build
+.github/workflows/deploy-old.yml
