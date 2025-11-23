@@ -9,6 +9,10 @@ project:
   github: https://github.com/gduscher/MSE672-Introduction-to-TEM
   # To autogenerate a Table of Contents, run "jupyter book init --write-toc"
 site:
+site:
+  options:
+    logo: logo.png
+    folders: true
   template: book-theme
   # options:
   #   favicon: favicon.ico
