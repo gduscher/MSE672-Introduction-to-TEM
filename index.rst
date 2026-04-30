@@ -63,6 +63,8 @@ from github as a zip file.
 
    Lab Course <./Lab_Course/index>
    
+   Homework <./Homework/index>
+   
 
 Indices and tables
 ==================
