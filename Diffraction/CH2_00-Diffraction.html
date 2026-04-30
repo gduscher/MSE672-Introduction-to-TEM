@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 2: Diffraction &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The Electron" href="CH2_01-Electron.html" />
+    <link rel="prev" title="Diffraction" href="index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 2:</strong> <a class="reference internal" href="#"><span class="doc">Diffraction</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="Chapter-2:-Diffraction">
+<h1>Chapter 2: Diffraction<a class="headerlink" href="#Chapter-2:-Diffraction" title="Link to this heading">¶</a></h1>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p><strong>Spring 2026</strong> by Gerd Duscher</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<p><strong>Content</strong></p>
+<p>The Diffraction chapter has the following sections:</p>
+<p><strong>Kinematic Scattering</strong></p>
+<ul class="simple">
+<li><p><a class="reference internal" href="CH2_01-Electron.html"><span class="doc">The Electron</span></a></p></li>
+<li><p><a class="reference internal" href="CH2_02-Atomic_Form_Factor.html"><span class="doc">Atomic Form Factor</span></a></p></li>
+<li><p><a class="reference internal" href="CH2_03-Basic_Crystallography.html"><span class="doc">Basic Crystallography</span></a></p></li>
+<li><p><a class="reference internal" href="CH2_04-Structure_Factors.html"><span class="doc">Structure Factors</span></a></p></li>
+<li><p><a class="reference internal" href="CH2_05-Diffraction_Rings.html"><span class="doc">Analyzing Ring Diffraction Pattern</span></a></p></li>
+<li><p><a class="reference internal" href="CH2_06-Kinematic_Scattering_Geometry.html"><span class="doc">Kinematic Scattering Geometry</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="CH2_06b-FFT.html"><span class="doc">Fourier Transform Laboratory</span></a></p></li>
+<li><p><a class="reference internal" href="CH2_06c-Relrod.html"><span class="doc">Relrod - Sample Geometry and Excitation Error</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="CH2_07-Plotting_Diffraction_Pattern.html"><span class="doc">Plotting of Diffraction Pattern</span></a></p></li>
+<li><p><a class="reference internal" href="CH2_08-Spot_Diffraction_Pattern.html"><span class="doc">Analyzing Spot Diffraction Pattern</span></a></p></li>
+<li><p><a class="reference internal" href="CH2_09-Unit_Cell.html"><span class="doc">Unic Cell Determination and Stereographic Projection</span></a></p></li>
+<li><p><a class="reference internal" href="CH2_10-Kikuchi_Lines.html"><span class="doc">Kikuchi Lines</span></a></p></li>
+<li><p><a class="reference internal" href="CH2_11-HOLZ_Lines.html"><span class="doc">HOLZ Lines</span></a></p></li>
+<li><p><a class="reference internal" href="CH2_12-HOLZ_Example.html"><span class="doc">Lattice Determination with HOLZ</span></a></p></li>
+</ul>
+<p><strong>Dynamic Scattering</strong></p>
+<ul class="simple">
+<li><p><a class="reference internal" href="CH2_D01-Bloch.html"><span class="doc">Bloch Waves</span></a></p></li>
+<li><p><a class="reference internal" href="CH2_D02-Multislice.html"><span class="doc">Multislice Algorithm</span></a></p></li>
+<li><p><a class="reference internal" href="CH2_D03-Multislice_CBED.html"><span class="doc">CBED with Multisice</span></a></p></li>
+</ul>
+<section id="Basics">
+<h2>Basics<a class="headerlink" href="#Basics" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Diffraction is the direct result of the interaction (with or without energy transfer) of electrons and matter.</p></li>
+<li><p>Kinematic diffraction theory describes only the Bragg angles (the position of the Bragg reflections) but not the intensity in a real diffraction pattern.</p></li>
+<li><p>Dynamic theory is responsible for the intensity variation of the Bragg reflections</p></li>
+</ul>
+<section id="Diffraction-and-Imaging">
+<h3>Diffraction and Imaging<a class="headerlink" href="#Diffraction-and-Imaging" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>To achieve an image from a diffraction pattern only a <strong>Fourier Transformation</strong> of parts of the diffraction pattern is needed.</p></li>
+<li><p>Any image in a TEM can be described as <strong>Fourier Filtering</strong>, because we select the beams which form the images. The knowledge of which and how many diffracted beams contribute to the image formation is crucial.</p></li>
+<li><p>Because the intensity of selected diffracted beams is necessary to calculate image intensities, dynamic diffraction theory is necessary.</p></li>
+<li><p>Understanding difraction theory of electrons is at the core of the analysis of TEM data.</p></li>
+</ul>
+<blockquote>
+<div><p>According to <em>Fourier-Optical</em> view of the TEM, we first form a diffraction pattern (in Fourier space) and after another (inverse) Fourier Transformation of parts of this diffraction pattern we are back in real space and can observe an image.</p>
+</div></blockquote>
+</section>
+<section id="Dynamic-and-Kinematic-Theory">
+<h3>Dynamic and Kinematic Theory<a class="headerlink" href="#Dynamic-and-Kinematic-Theory" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Kinematic Theory is based on a single scattering event per electron</p></li>
+<li><p>Kinematic theory is used in neutron and X-ray diffraction almost exclusively.</p></li>
+<li><p>Dynamic theory incorporates multiple scattering events.</p></li>
+<li><p>Dynamic theory results in <em>Rocking Curves</em> (oscillations) of intensities of diffracted beams with sample thickness.</p></li>
+<li><p>Dynamic theory can analytically be solved only for the two beam case, strangely the basis for conventional TEM.</p></li>
+</ul>
+</section>
+<section id="Diffraction-and-Scattering">
+<h3>Diffraction and Scattering<a class="headerlink" href="#Diffraction-and-Scattering" title="Link to this heading">¶</a></h3>
+<p>Electrons can be viewed as particles and/or as waves.</p>
+</section>
+<section id="Particle-wave-dualism:">
+<h3>Particle-wave dualism:<a class="headerlink" href="#Particle-wave-dualism:" title="Link to this heading">¶</a></h3>
+<table style="width:80%"><tr><th><p>Scattering</p>
+</th><th><p><span class="math notranslate nohighlight">\(\leftrightarrow\)</span></p>
+</th><th><p>Diffraction</p>
+</th></tr><tr><td><p>Particle picture</p>
+</td><td><p><span class="math notranslate nohighlight">\(\leftrightarrow\)</span></p>
+</td><td><p>Wave picture</p>
+</td></tr></table><p>We will switch back and forth between these two pictures, depending on which is mathematically easier to express.</p>
+</section>
+<section id="Kinematic-Diffraction-Theory-Buzz-Words">
+<h3>Kinematic Diffraction Theory Buzz Words<a class="headerlink" href="#Kinematic-Diffraction-Theory-Buzz-Words" title="Link to this heading">¶</a></h3>
+<p>The following terms will be important in Kinematic Theory:</p>
+<table style="width:80%"><tr><td><p>f</p>
+</td><td><p>atomic scattering factor</p>
+</td><td><p>scattering strength of an atom</p>
+</td></tr><tr><td><p>F</p>
+</td><td><p>form factor</p>
+</td><td><p>combination of symmetrry and atomic scattering factor</p>
+</td></tr><tr><td></td><td><p>forbidden reflection</p>
+</td><td><p>a direct result of the form factor</p>
+</td></tr><tr><td><p><span class="math notranslate nohighlight">\(\sigma\)</span></p>
+</td><td><p>cross-section</p>
+</td><td><p>scattering probability expressed as an effective area</p>
+</td></tr><tr><td><p><span class="math notranslate nohighlight">\(\frac{\partial \sigma}{\partial \Omega}\)</span></p>
+</td><td><p>differential cross-section</p>
+</td><td><p>scattering probability in a solid angle</p>
+</td></tr><tr><td><p><span class="math notranslate nohighlight">\(\lambda\)</span></p>
+</td><td><p>mean free path</p>
+</td><td><p>scattering probability expressed as a path-length between two scattering events</p>
+</td></tr></table><p>We will start discussing these terms in the <a class="reference internal" href="CH2_02-Atomic_Form_Factor.html"><span class="doc">Atomic Form Factor</span></a> and following notebooks</p>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/index.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Spectroscopy/index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Diffraction</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Diffraction</a></li>
+      <li>Next: <a href="CH2_01-Electron.html" title="next chapter">The Electron</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Diffraction/CH2_00-Diffraction.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

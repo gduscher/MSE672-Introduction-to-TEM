@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Setting up computing resources &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="setting-up-computing-resources">
+<h1>Setting up computing resources<a class="headerlink" href="#setting-up-computing-resources" title="Link to this heading">¶</a></h1>
+<p>This lecture is based on jupyter notebooks. These jupyter notebooks are class notes, grahic program,
+simulation and analysis tools in one.</p>
+<p>In this lecture you have the choice to run these notebooks on your computer
+or in the cloud with Google colab. In any case no programming is necessary but encouraged.
+At the minimum you will have to change some input parameters.</p>
+<p>I expect you to install anaconda and let the notebooks run on your computer.</p>
+<p>However, we will need a linux environment for dynamic simulations and we will use Google colab then.</p>
+<section id="google-colab">
+<h2>Google Colab<a class="headerlink" href="#google-colab" title="Link to this heading">¶</a></h2>
+<p>In order to use Google Colab, you must have a Google account.
+UTK students and employees have an account and can log in with their vol id.
+Many of you may have a personal Google account, usually set up for things like GMail, YouTube, etc.
+For your work in this class, it advantageous to use your UTK account.
+This will facilitate collaboration with your
+teammates in the course, as well as with course staff.</p>
+<p>Google Colab are most tested for Chrome, Firefox, and Safari</p>
+<p>You can launch a Colab notebook by
+simply navigating to <a class="reference external" href="https://colab.research.google.com/">https://colab.research.google.com/</a>.
+Alternatively, you can click a “notebook link” on this webpage
+and you will launch that notebook in Colab.</p>
+</section>
+<section id="watchouts-when-using-colab">
+<h2>Watchouts when using Colab<a class="headerlink" href="#watchouts-when-using-colab" title="Link to this heading">¶</a></h2>
+<p>If you do run a notebook in Colab, you are doing your computing on one
+of Google’s computers via a virtual machine. You get two CPU cores and
+12 GB of RAM. You can also get GPUs and TPUs (Google’s tensor processing
+units).
+The computing resources should be enough for all of our calculations
+in this course.
+However, there are some limitations you should be aware of.</p>
+<blockquote>
+<div><p>The interactivity of graphs is very limited. For example, no selection
+of datacan be done interactively. With the <code class="docutils literal notranslate"><span class="pre">bokeh</span></code> plotting packages
+you can at least zoom in and out of images and line plots.</p>
+<p>If your notebook is idle for too long, you will get disconnected
+from your notebook. “Idle” means that cells are not being edited
+or executed. The idle timeout varies depending on the load on
+Google’s computers.</p>
+<p>Your virtual machine will disconnect if it is being used for too long.
+It typically will only available for 12 hours before disconnecting,
+though times can vary, again based on load.</p>
+</div></blockquote>
+<p>These limitations are in place so that Google can offer Colab for free.
+If you want more cores, longer timeouts, etc., you might want to check
+out Colab Pro. However, the free tier should work well for you in the
+course. You of course can always run on your own machine, and in fact
+are encouraged to do so except where collaboration is necessary.</p>
+<p>There are additional software-specific watchouts when using Colab.</p>
+<blockquote>
+<div><p>Colab does not allow for full functionality Bokeh apps and some
+Panel functionality will therefore not be used in this course.</p>
+<p>Colab instances have specific software installed, so you will need
+to install anything else you need in your notebook.
+This is not a major burden, and is discussed in the next section.</p>
+</div></blockquote>
+<p>I recommend reading the Colab FAQs for more information about Colab.
+Software in Colab</p>
+<p>When you launch a Google Colab notebook, much of the software we will
+use in class is already installed. It is not always the latest version
+of the software, however. In fact, as of early January 2021, Colab
+is running Python 3.6, whereas you will run Python 3.8 on your machine
+through your Anaconda installation. Nonetheless, all of
+the analyses we do for this class will work just fine in Colab.</p>
+</section>
+<section id="colab-setup">
+<h2>Colab setup<a class="headerlink" href="#colab-setup" title="Link to this heading">¶</a></h2>
+<p>Because the notebooks in Colab have software preinstalled,
+and no more, you will often need to install software before you can
+run the rest of the code in a notebook. To enable this, when necessary,
+in the first code cell of each notebook in this class, we will have the
+following code (or a variant thereof depending on what is needed or if
+the default installations of Colab change). Running this code will not
+affect running your notebook on your local machine;
+the same notebook will work on your local machine or on Colab.</p>
+<p># Colab setup ——————
+%%capture
+import os, sys
+if “google.colab” in sys.modules:
+!pip install pyTEMlib
+# ——————————</p>
+</section>
+<section id="google-drive-setup">
+<h2>Google Drive Setup<a class="headerlink" href="#google-drive-setup" title="Link to this heading">¶</a></h2>
+<p>In addition to installing the necessary software on a Colab instance,
+we also have to have access to the data we want to analyse. We expect these
+data to be on your google drive. You will have to follow the directions to
+give permission to the notebook to access these data.</p>
+<p># Google Drive setup ———–
+if “google.colab” in sys.modules:
+from google.colab import drive
+drive.mount(“/content/drive”)
+# ——————————</p>
+<p>When running on your local machine, the path to the data can be chosen without restrictions.</p>
+</section>
+<section id="collaborating-with-colab">
+<h2>Collaborating with Colab<a class="headerlink" href="#collaborating-with-colab" title="Link to this heading">¶</a></h2>
+<p>If you want to collaborate with another student or with the course staff
+on a notebook, you can click “Share” on the top right corner of the
+Colab window and choose with whom and how (the defaults are fine)
+you want to share.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Diffraction/index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Spectroscopy/index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Introduction/computer_resources.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

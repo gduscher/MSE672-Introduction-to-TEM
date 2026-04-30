@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Multislice Algorithm &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 2:</strong> <a class="reference internal" href="CH2_00-Diffraction.html"><span class="doc">Diffraction</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="Multislice-Algorithm">
+<h1>Multislice Algorithm<a class="headerlink" href="#Multislice-Algorithm" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Diffraction/CH2_D02-Multislice.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main//Diffraction/CH2_D02-Multislice.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p><strong>Spring 2026</strong> by Gerd Duscher</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes</p>
+<section id="Introduction">
+<h2>Introduction<a class="headerlink" href="#Introduction" title="Link to this heading">¶</a></h2>
+<p>In this notebook, we will make a dynamic simulation of the scattering process.</p>
+<p>The core of this algorithm is used in many different libraries.</p>
+<p>I follow in my description mostly the book of Kirkland, from where we also use the scattering parameters. The code has been completely rewritten so that the mechnaism of the algorithm can be understood on a basic level.</p>
+<p>All commercial and open-source codes use the same base algorithm but are highly tuned for usability, variabilty, features and speed. This was not the goal here.</p>
+<p>Here are a few of the more common open-source programs</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/jacobjma/abTEM">abTEM</a></p></li>
+<li><p><a class="reference external" href="https://github.com/JJPPeters/clTEM">clTEM</a></p></li>
+<li><p><a class="reference external" href="https://github.com/ningustc/MuSTEM">MuSTEM</a></p></li>
+<li><p><a class="reference external" href="https://er-c.org/barthel/drprobe/">Dr. Probe</a></p></li>
+</ul>
+</section>
+<section id="Load-relevant-python-packages">
+<h2>Load relevant python packages<a class="headerlink" href="#Load-relevant-python-packages" title="Link to this heading">¶</a></h2>
+<section id="Check-Installed-Packages">
+<h3>Check Installed Packages<a class="headerlink" href="#Check-Installed-Packages" title="Link to this heading">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2024.1.0&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/pycroscopy/pyTEMlib.git@main<span class="w"> </span>-q<span class="w"> </span>--upgrade
+
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">numpy</span><span class="o">==</span><span class="m">1</span>.24.4
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Import-numerical-and-plotting-python-packages">
+<h3>Import numerical and plotting python packages<a class="headerlink" href="#Import-numerical-and-plotting-python-packages" title="Link to this heading">¶</a></h3>
+<p>Import the python packages that we will use:</p>
+<p>Beside the basic numerical (numpy) and plotting (pylab of matplotlib) libraries, we need 3D plotting library and some scipy libraries</p>
+<p>and a library from pyTEMlib:</p>
+<ul class="simple">
+<li><p>kinematic scattering library.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span>  widget
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">output</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+
+<span class="c1"># additional package</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
+
+<span class="c1"># Import libraries from pyTEMlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyTEMlib</span>
+<span class="c1"># For archiving reasons it is a good idea to print the version numbers out at this point</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pyTEM version: &#39;</span><span class="p">,</span><span class="n">pyTEMlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+
+<span class="n">__notebook__</span> <span class="o">=</span> <span class="s1">&#39;CH2_D02-Multislice&#39;</span>
+<span class="n">__notebook_version__</span> <span class="o">=</span> <span class="s1">&#39;2022_02_25&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+pyTEM version:  0.2026.1.3
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Overview-of-Multislice-Algorithm">
+<h2>Overview of Multislice Algorithm<a class="headerlink" href="#Overview-of-Multislice-Algorithm" title="Link to this heading">¶</a></h2>
+<p>The multislice solution is formally equivalent to a solution of the <code class="docutils literal notranslate"><span class="pre">`Howie-Whelan</span> <span class="pre">equation</span></code> &lt;<a class="reference external" href="https://doi-org.proxy.lib.utk.edu/10.1098/rspa.1961.0157">https://doi-org.proxy.lib.utk.edu/10.1098/rspa.1961.0157</a>&gt;`__ (which is the differential form of the Bloch wave solution), if the slice thickness <span class="math notranslate nohighlight">\(\Delta\)</span>z is small enough.</p>
+<p>The idea is to slice the sample into thin slices that can be handled well in electron diffraction.</p>
+<p>And then we step through these slices one by one and keep track of the incoming and exiting wave.</p>
+<p>We seperate (serialize) the problem to conquer it iteratively.</p>
+<p>The algorithm can be divided in several steps.</p>
+<ol class="arabic simple">
+<li><p>So first we need the projected atomic potentials for each element.</p></li>
+<li><p>Then we need to build the slices. The slices are one layer of atoms which are all at the top. And then we have vacuum for the rest.</p></li>
+<li><p>The transmission function will deal with the distortion of the wave by the atom potentials.</p></li>
+<li><p>The Fresnel propagator takes care of the vacuum between the atomic layers.</p></li>
+<li><p>We need to define the incident wave.</p></li>
+<li><p>We let this wave travel through the different layers, iteratively.</p></li>
+</ol>
+<p>Step 3 is done in real space and step 4 in Fourier Space and so a lot of Fourier transfom is going on. This lends itself to speed-up through parallel fast Fourier transform algorithms, which you can see at the increasing codes with gpu usage.</p>
+</section>
+<section id="Step1:-Projected-Potential">
+<h2>Step1: Projected Potential<a class="headerlink" href="#Step1:-Projected-Potential" title="Link to this heading">¶</a></h2>
+<p>Providing the potentials and placing the atoms is a surprisingly computer intensive task for initialization of the simulation. This notebook gives up flexibility for speed in placing the atoms (no sub-pixel movement).</p>
+<section id="Projected-Potential-from-Parametrization-of-Atomic-Form-Factor">
+<h3>Projected Potential from Parametrization of Atomic Form Factor<a class="headerlink" href="#Projected-Potential-from-Parametrization-of-Atomic-Form-Factor" title="Link to this heading">¶</a></h3>
+<p>Following Kirkland (2<span class="math notranslate nohighlight">\(^nd\)</span> edition Appendix C page 252), the atom potential is with <span class="math notranslate nohighlight">\(r^2 = x^2+z^2+z^2\)</span> and <span class="math notranslate nohighlight">\(V(x,y,z) =V(\vec{r})\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}v(x, y, z) =  2 \pi a_0 e_0 \int f_e(q) \exp \left( -2 \pi i \vec{q} \vec{r}  \right)  d^3r \\
+= 2 \pi^2 a_0 e_0 \sum_i \frac{a_i}{r} \exp \left( -2 \pi r  \sqrt{b_i} \right) + 2\pi^{5/2} a_0 e_0 \sum_i c_i d_i^{-3/2} \exp \left(\frac{-\pi^2 r^2}{d_i} \right)\end{split}\]</div>
+<p>with <span class="math notranslate nohighlight">\(r^2 = x^2+z^2+z^2\)</span></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">projected</span> <span class="pre">potential</span></code> is then:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+v_z(x,y) =&amp; \int_{-\inf}^{\inf} V(x,y,z) dz \\
+=&amp; 4 \pi^2 a_0 e_0 \sum_i a_i K_0 \left( 2 \pi r \sqrt{b_i} \right)
++ 2 \pi^2 a_0 e_0 \sum_i \frac{c_i}{d_i} \exp \left( \frac{-\pi^2 r^2}{d_i} \right)\\
+=&amp; 2 \pi^2 a_0 e_0 \left[2 \sum_i a_i K_0 \left( 2 \pi r \sqrt{b_i} \right)
++\sum_i \frac{c_i}{d_i} \exp \left( \frac{-\pi^2 r^2}{d_i} \right) \right]
+\end{align}\end{split}\]</div>
+<p>with $ r^2 = x^2 + y^2$, we need to calculate the 1D potential only, dueto the radial symmetry of atoms.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">spherical</span> <span class="pre">Bessel</span> <span class="pre">function</span></code> <span class="math notranslate nohighlight">\(\bf K_0\)</span> is providedby the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> special package.</p>
+<p>We will use the last of the equations in our calculation.</p>
+<p>The setting up of the potential can take quite some computer power, so there are a few constricts in this notebook on where to put the atoms, these constricts can easily be overcome</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">potential_1D</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;calculates the projected potential of an atom of element</span>
+
+<span class="sd">    The projected potential will be in units of V nm^2,</span>
+<span class="sd">    however, internally we will use Angstrom instead of nm!</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># get lementary constants</span>
+    <span class="n">a0</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s1">&#39;Bohr radius&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e10</span>  <span class="c1">#in Angstrom</span>
+    <span class="n">Ry_div_e</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s1">&#39;Rydberg constant times hc in eV&#39;</span><span class="p">)</span> <span class="c1"># in V</span>
+    <span class="n">e0</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span> <span class="n">Ry_div_e</span> <span class="o">*</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s1">&#39;Bohr radius&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e10</span>
+
+    <span class="n">pre_factor</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">a0</span> <span class="o">*</span> <span class="n">e0</span>
+
+    <span class="n">param</span> <span class="o">=</span>  <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">form_factor</span><span class="p">[</span><span class="n">element</span><span class="p">]</span>  <span class="c1"># parametrized form factors</span>
+    <span class="n">fL</span> <span class="o">=</span> <span class="n">r</span><span class="o">*</span><span class="mi">0</span>  <span class="c1"># Lorentzian term</span>
+    <span class="n">fG</span> <span class="o">=</span> <span class="n">r</span><span class="o">*</span><span class="mi">0</span>  <span class="c1"># Gaussian term</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">fL</span> <span class="o">+=</span> <span class="n">param</span><span class="p">[</span><span class="s1">&#39;fa&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">k0</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">param</span><span class="p">[</span><span class="s1">&#39;fb&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]))</span>
+        <span class="n">fG</span> <span class="o">+=</span> <span class="n">param</span><span class="p">[</span><span class="s1">&#39;fc&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">param</span><span class="p">[</span><span class="s1">&#39;fd&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">param</span><span class="p">[</span><span class="s1">&#39;fd&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">fL</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">fL</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">pre_factor</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">fL</span> <span class="o">+</span> <span class="n">fG</span><span class="p">)</span> <span class="o">/</span><span class="mi">100</span> <span class="c1"># V Angstrom^2</span>
+<br/></pre></div>
+</div>
+</div>
+<p>To retrieve the atomic projected potential, the function above uses a rather unconventional unit for the elementary charge <span class="math notranslate nohighlight">\(e\)</span>.</p>
+<p>Starting from the relationship for the Rydberg energy:</p>
+<div class="math notranslate nohighlight">
+\[Ry = 0.5 e^2/ a_0\]</div>
+<p>and using the value for <span class="math notranslate nohighlight">\(Ry\)</span> as 13.6 eV so that <span class="math notranslate nohighlight">\(Ry/e = 13.6\)</span> V; we get:</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}e_0 = 2* a_0 Ry/e\\The elementary charge :math:`e_0` is then 1.44 V nm\end{aligned}\end{align} \]</div>
+<p>for <span class="math notranslate nohighlight">\(a_0 = 0.0529\)</span> nm</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Ry</span>  <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s1">&#39;Rydberg constant times hc in eV&#39;</span><span class="p">)</span> <span class="c1"># in V</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Ry = </span><span class="si">{</span><span class="n">Ry</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> eV and Ry/e = </span><span class="si">{</span><span class="n">Ry</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> V&#39;</span><span class="p">)</span>
+<span class="n">e</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span>  <span class="n">Ry</span> <span class="o">*</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s1">&#39;Bohr radius&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e9</span>  <span class="c1"># conversion to nm</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;elemntary charge e = </span><span class="si">{</span><span class="n">e</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> V nm&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Ry = 13.6057 eV and Ry/e = 13.6057 V
+elemntary charge e = 1.4400 V nm
+</pre></div></div>
+</div>
+</section>
+<section id="Plot-quarter-of-projected-atom-potential">
+<h3>Plot quarter of projected atom potential<a class="headerlink" href="#Plot-quarter-of-projected-atom-potential" title="Link to this heading">¶</a></h3>
+<p>We now use this function to plot a projected atom potential up in a 1nm by 1nm image.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">potential_1D</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;calculates the projected potential of an atom of element</span>
+
+<span class="sd">    The projected potential will be in units of V nm^2,</span>
+<span class="sd">    however, internally we will use Angstrom instead of nm!</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># get lementary constants</span>
+    <span class="n">a0</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s1">&#39;Bohr radius&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e10</span>  <span class="c1">#in Angstrom</span>
+    <span class="n">Ry_div_e</span>  <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s1">&#39;Rydberg constant times hc in eV&#39;</span><span class="p">)</span> <span class="c1"># in V</span>
+    <span class="n">e0</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span>  <span class="n">Ry_div_e</span> <span class="o">*</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s1">&#39;Bohr radius&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e10</span>
+
+    <span class="n">pre_factor</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a0</span> <span class="o">*</span> <span class="n">e0</span>
+
+    <span class="n">param</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">crystal_tools</span><span class="o">.</span><span class="n">electronFF</span><span class="p">[</span><span class="n">element</span><span class="p">]</span>  <span class="c1"># parametrized form factors</span>
+    <span class="n">fL</span> <span class="o">=</span> <span class="n">r</span><span class="o">*</span><span class="mi">0</span>  <span class="c1"># Lorentzian term</span>
+    <span class="n">fG</span> <span class="o">=</span> <span class="n">r</span><span class="o">*</span><span class="mi">0</span>  <span class="c1"># Gaussian term</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">fL</span> <span class="o">+=</span> <span class="n">param</span><span class="p">[</span><span class="s1">&#39;fa&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">k0</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">param</span><span class="p">[</span><span class="s1">&#39;fb&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]))</span>
+        <span class="n">fG</span> <span class="o">+=</span> <span class="n">param</span><span class="p">[</span><span class="s1">&#39;fc&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">param</span><span class="p">[</span><span class="s1">&#39;fd&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">param</span><span class="p">[</span><span class="s1">&#39;fd&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">fL</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">fL</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">pre_factor</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">fL</span> <span class="o">+</span> <span class="n">fG</span><span class="p">)</span>  <span class="c1"># V Angstrom^2</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------ Input ----- #</span>
+<span class="n">element_name</span> <span class="o">=</span> <span class="s1">&#39;Si&#39;</span>
+<span class="c1"># ------------------ #</span>
+
+<span class="n">pixel_size</span> <span class="o">=</span> <span class="mf">0.01</span>
+
+<span class="n">a_nx</span> <span class="o">=</span> <span class="n">a_ny</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">pixel_size</span><span class="p">)</span>
+<span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">a_nx</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">a_ny</span><span class="p">]</span> <span class="o">*</span> <span class="n">pixel_size</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span>
+<span class="c1">#r[r&lt;pixel_size] = pixel_size/4</span>
+<span class="n">atom_potential</span> <span class="o">=</span> <span class="n">potential_1D</span><span class="p">(</span><span class="s1">&#39;Si&#39;</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Overlay of direct and log plot of atomic potential of </span><span class="si">{</span><span class="n">element_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">atom_potential</span><span class="p">),</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">a_nx</span><span class="o">*</span><span class="n">pixel_size</span><span class="p">,</span><span class="n">a_ny</span><span class="o">*</span><span class="n">pixel_size</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">atom_potential</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">a_nx</span><span class="o">*</span><span class="n">pixel_size</span><span class="p">,</span><span class="n">a_ny</span><span class="o">*</span><span class="n">pixel_size</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">alpha</span> <span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;distance ($\AA$)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 0, &#39;distance ($\\AA$)&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "e20258e83e5a47b1ad3b8147e3fca198", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Plot-full-projected-atom-potential">
+<h3>Plot full projected atom potential<a class="headerlink" href="#Plot-full-projected-atom-potential" title="Link to this heading">¶</a></h3>
+<p>Now, that we have a quarter of the atom potential, we make the round one, by flipping our dataset around.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">atom_potential_round</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">2</span><span class="o">*</span><span class="n">a_nx</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">a_ny</span><span class="p">])</span>
+<span class="n">atom_potential_round</span><span class="p">[</span><span class="n">a_nx</span><span class="p">:,</span><span class="n">a_ny</span><span class="p">:]</span> <span class="o">=</span> <span class="n">atom_potential</span>
+<span class="n">atom_potential_round</span><span class="p">[</span><span class="n">a_nx</span><span class="p">:,:</span><span class="n">a_ny</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">atom_potential</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">atom_potential_round</span><span class="p">[:</span><span class="n">a_nx</span><span class="p">,</span><span class="n">a_ny</span><span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">atom_potential</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">atom_potential_round</span><span class="p">[:</span><span class="n">a_nx</span><span class="p">,:</span><span class="n">a_ny</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">atom_potential</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Log plot of atomic potential of </span><span class="si">{</span><span class="n">element_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">atom_potential_round</span><span class="p">),</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">a_nx</span><span class="o">*</span><span class="n">pixel_size</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">a_ny</span><span class="o">*</span><span class="n">pixel_size</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;distance ($\AA$)&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "187645ad6ed84db79d88058e3ea824d4", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Embedd-atoms-in-projected-crystals">
+<h3>Embedd atoms in projected crystals<a class="headerlink" href="#Embedd-atoms-in-projected-crystals" title="Link to this heading">¶</a></h3>
+<p>We place the atom in the corner of a matrix with the same size as the image to be simulated.</p>
+<p>With the numpy roll function we now can move this atom wherever we want, but only with pixel precision.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">size_in_pixel</span> <span class="o">=</span> <span class="n">nx</span> <span class="o">=</span> <span class="n">ny</span> <span class="o">=</span>  <span class="mi">512</span>
+
+<span class="n">atom_potential_corner</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">nx</span><span class="p">,</span><span class="n">ny</span><span class="p">])</span>
+
+<span class="n">atom_potential_corner</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">a_nx</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">a_ny</span><span class="p">]</span> <span class="o">=</span> <span class="n">atom_potential</span>
+<span class="n">atom_potential_corner</span><span class="p">[</span><span class="n">nx</span><span class="o">-</span><span class="n">a_nx</span><span class="p">:,</span><span class="mi">0</span><span class="p">:</span><span class="n">a_ny</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">atom_potential</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">atom_potential_corner</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">a_nx</span><span class="p">,</span><span class="n">ny</span><span class="o">-</span><span class="n">a_ny</span><span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">atom_potential</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">atom_potential_corner</span><span class="p">[</span><span class="n">nx</span><span class="o">-</span><span class="n">a_nx</span><span class="p">:,</span><span class="n">ny</span><span class="o">-</span><span class="n">a_ny</span><span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">atom_potential</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">atom_potential_corner</span><span class="p">,</span> <span class="n">shift</span> <span class="o">=</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.image.AxesImage at 0x25eb03bca50&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "d353a8aba9ab44fcb777e1ddb4438482", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Projected-Potential-of-Supercell">
+<h3>Projected Potential of Supercell<a class="headerlink" href="#Projected-Potential-of-Supercell" title="Link to this heading">¶</a></h3>
+<p>With a projected base and unit cell we know where to place the projected potentials (in pixels). We use the translational symmetery of a crystal here to multiply the portentails in the projected unitcell to make a supercell.</p>
+<p>A more sophisticated program will allow you to place atoms potentials precisly and conveniently for each slice</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">number_of_unit_cells_x</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">unit_cell_base</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span> <span class="p">,</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">]</span> <span class="p">])</span>
+
+<span class="n">potential_unit_cell</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">nx</span><span class="p">,</span><span class="n">ny</span><span class="p">])</span>
+<span class="n">atom_potential_corner</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">nx</span><span class="p">,</span><span class="n">ny</span><span class="p">])</span>
+
+<span class="n">potential</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">nx</span><span class="p">,</span><span class="n">ny</span><span class="p">])</span>
+
+<span class="n">atom_potential_corner</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">a_nx</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">a_ny</span><span class="p">]</span> <span class="o">=</span> <span class="n">atom_potential</span>
+<span class="n">atom_potential_corner</span><span class="p">[</span><span class="n">nx</span><span class="o">-</span><span class="n">a_nx</span><span class="p">:,</span><span class="mi">0</span><span class="p">:</span><span class="n">a_ny</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">atom_potential</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">atom_potential_corner</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">a_nx</span><span class="p">,</span><span class="n">ny</span><span class="o">-</span><span class="n">a_ny</span><span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">atom_potential</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">atom_potential_corner</span><span class="p">[</span><span class="n">nx</span><span class="o">-</span><span class="n">a_nx</span><span class="p">:,</span><span class="n">ny</span><span class="o">-</span><span class="n">a_ny</span><span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">atom_potential</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">unit_cell_base</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">unit_cell_base</span><span class="o">*</span><span class="n">nx</span><span class="o">/</span><span class="mi">8</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">unit_cell_base</span><span class="p">:</span>
+    <span class="n">potential_unit_cell</span> <span class="o">=</span> <span class="n">potential_unit_cell</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">atom_potential_corner</span><span class="p">,</span> <span class="n">shift</span> <span class="o">=</span> <span class="n">pos</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_unit_cells_x</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_unit_cells_x</span><span class="p">):</span>
+        <span class="n">potential</span> <span class="o">=</span> <span class="n">potential</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">potential_unit_cell</span><span class="p">,</span> <span class="n">shift</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">64</span><span class="p">,</span><span class="n">j</span><span class="o">*</span><span class="mi">64</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">((</span><span class="n">potential</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.image.AxesImage at 0x25eb0432850&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "40cfcbc9727745c6bd464d72ec6f309d", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="All-together-in-a-function">
+<h3>All together in a function<a class="headerlink" href="#All-together-in-a-function" title="Link to this heading">¶</a></h3>
+<p>All the code from above we now collect in a single function</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">potential_2D</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">n_cell_x</span><span class="p">,</span> <span class="n">n_cell_y</span><span class="p">,</span> <span class="n">lattice_parameter</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
+    <span class="n">n_cell_x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">n_cell_x</span><span class="p">))</span>
+    <span class="n">n_cell_y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">n_cell_y</span><span class="p">))</span>
+
+    <span class="n">pixel_size</span> <span class="o">=</span> <span class="n">lattice_parameter</span><span class="o">/</span><span class="p">(</span><span class="n">nx</span><span class="o">/</span><span class="n">n_cell_x</span><span class="p">)</span>
+
+    <span class="n">a_nx</span> <span class="o">=</span> <span class="n">a_ny</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">pixel_size</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">a_nx</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">a_ny</span><span class="p">]</span> <span class="o">*</span> <span class="n">pixel_size</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">nx</span><span class="o">/</span><span class="n">n_cell_x</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">atom_potential</span> <span class="o">=</span> <span class="n">potential_1D</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+
+    <span class="n">potential</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">nx</span><span class="p">,</span><span class="n">ny</span><span class="p">])</span>
+
+    <span class="n">unit_cell_base</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">base</span><span class="p">)</span><span class="o">*</span><span class="n">a</span>
+    <span class="n">unit_cell_base</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">unit_cell_base</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+
+
+    <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">unit_cell_base</span><span class="p">:</span>
+        <span class="n">potential</span> <span class="o">=</span> <span class="n">potential</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">atom_potential_corner</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pos</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">n_cell_x</span><span class="p">))):</span>
+        <span class="n">potential</span> <span class="o">=</span> <span class="n">potential</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="n">shift</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">column</span> <span class="o">*</span> <span class="n">a</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">n_cell_y</span><span class="p">))):</span>
+        <span class="n">potential</span> <span class="o">=</span> <span class="n">potential</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="n">shift</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">row</span> <span class="o">*</span> <span class="n">a</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">potential</span>
+
+<span class="n">size_in_pixel</span> <span class="o">=</span> <span class="mi">512</span>
+<span class="n">number_layers</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">n_cell_x</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mf">0.28</span>
+
+<span class="n">potential</span> <span class="o">=</span> <span class="n">potential_2D</span><span class="p">(</span><span class="s1">&#39;Si&#39;</span><span class="p">,</span> <span class="n">size_in_pixel</span><span class="p">,</span> <span class="n">size_in_pixel</span><span class="p">,</span> <span class="n">n_cell_x</span><span class="p">,</span> <span class="n">n_cell_x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">]])</span>
+<span class="n">pixel_size</span> <span class="o">=</span> <span class="n">a</span><span class="o">/</span><span class="p">(</span><span class="n">nx</span><span class="o">/</span><span class="n">n_cell_x</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">((</span><span class="n">potential</span><span class="p">),</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">nx</span><span class="o">*</span><span class="n">pixel_size</span><span class="p">,</span> <span class="n">ny</span><span class="o">*</span><span class="n">pixel_size</span><span class="p">,</span> <span class="mi">0</span> <span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.image.AxesImage at 0x25e9eb4c690&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "81c2176874454e4e9325f6525db9c3c8", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="Step-2:-Slice-Crystal.">
+<h2>Step 2: Slice Crystal.<a class="headerlink" href="#Step-2:-Slice-Crystal." title="Link to this heading">¶</a></h2>
+<p>The above crystal is an artificial construct.</p>
+<p>Now we make a real crystal.</p>
+<blockquote>
+<div><p>For the multislice alogrithm we need to make the slices.</p>
+</div></blockquote>
+<p>We do this here on the based on the unit cell</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">atoms</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">crystal_tools</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">(</span><span class="s1">&#39;SrTiO3&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">atoms</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">atoms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">symbol</span><span class="p">,</span> <span class="n">atoms</span><span class="o">.</span><span class="n">get_scaled_positions</span><span class="p">()[</span><span class="n">i</span><span class="p">])</span>
+
+<span class="n">super_cell</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">crystal_tools</span><span class="o">.</span><span class="n">ball_and_stick</span><span class="p">(</span><span class="n">atoms</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+<span class="c1"># Corners and Outline of unit cell</span>
+<span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">corner_vectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">h</span><span class="p">))),</span> <span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="p">)</span>
+<span class="n">trace</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">]]</span>
+<span class="n">corners</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">trace</span><span class="p">:</span>
+    <span class="n">corners</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="o">*</span><span class="nb">zip</span><span class="p">(</span><span class="n">corner_vectors</span><span class="p">[</span><span class="n">s</span><span class="p">],</span> <span class="n">corner_vectors</span><span class="p">[</span><span class="n">e</span><span class="p">])])</span>
+
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">corners</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot3D</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">atom</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">super_cell</span><span class="o">.</span><span class="n">positions</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">atom</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">atom</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">atom</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+               <span class="n">color</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">pyTEMlib</span><span class="o">.</span><span class="n">crystal_tools</span><span class="o">.</span><span class="n">jmol_colors</span><span class="p">[</span><span class="n">super_cell</span><span class="o">.</span><span class="n">get_atomic_numbers</span><span class="p">()[</span><span class="n">i</span><span class="p">]]),</span>
+               <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">xx</span><span class="o">*</span><span class="mi">0</span><span class="o">+</span><span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">z</span><span class="o">-</span><span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="mf">.7</span><span class="p">,</span> <span class="s2">&quot;$\Delta z$&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="n">zs</span><span class="o">=</span><span class="p">[</span><span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">]],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0 Sr [0. 0. 0.]
+1 Ti [0.5 0.5 0.5]
+2 O [0.5 0.5 0. ]
+3 O [0.  0.5 0.5]
+4 O [0.5 0.  0.5]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "d8d08beba8e7495da9eb5965265b49c7", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>Here we have two equidistant layers that we can read off the z-component of the base</p>
+<ul class="simple">
+<li><p>one layer with z = 0.0 and</p></li>
+<li><p>one layer with z = 0.5</p></li>
+</ul>
+<p>Let’s order atoms in a python dictionary <em>{ }</em> according to those layers</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[68]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">atoms</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">crystal_tools</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">(</span><span class="s1">&#39;SrTiO3&#39;</span><span class="p">)</span>
+<span class="n">lattice_parameter</span> <span class="o">=</span> <span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">pixel_size</span> <span class="o">=</span> <span class="n">lattice_parameter</span><span class="o">/</span><span class="p">(</span><span class="n">nx</span><span class="o">/</span><span class="n">n_cell_x</span><span class="p">)</span>
+
+<span class="n">positions</span> <span class="o">=</span> <span class="n">atoms</span><span class="o">.</span><span class="n">positions</span> <span class="c1"># in pixel</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">atoms</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">atoms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">symbol</span><span class="p">,</span> <span class="n">atoms</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">pixel_size</span><span class="p">)</span>
+<span class="n">layers</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:{</span><span class="s1">&#39;element&#39;</span><span class="p">:</span> <span class="s1">&#39;Sr&#39;</span><span class="p">,</span> <span class="s1">&#39;base&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">atoms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scaled_position</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]]},</span>
+            <span class="mi">1</span><span class="p">:{</span><span class="s1">&#39;element&#39;</span><span class="p">:</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span>  <span class="s1">&#39;base&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">atoms</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">scaled_position</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]]}}</span>
+<span class="n">layers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:{</span><span class="s1">&#39;element&#39;</span><span class="p">:</span> <span class="s1">&#39;Ti&#39;</span><span class="p">,</span> <span class="s1">&#39;base&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">atoms</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scaled_position</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]]},</span>
+            <span class="mi">1</span><span class="p">:{</span><span class="s1">&#39;element&#39;</span><span class="p">:</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span>  <span class="s1">&#39;base&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">atoms</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">scaled_position</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">],</span> <span class="n">atoms</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">scaled_position</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]]}}</span>
+
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">layers</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0 Sr [0. 0. 0.]
+1 Ti [32. 32. 32.]
+2 O [32. 32.  0.]
+3 O [ 0. 32. 32.]
+4 O [32.  0. 32.]
+
+{0: {0: {&#39;element&#39;: &#39;Sr&#39;, &#39;base&#39;: [array([0., 0.])]}, 1: {&#39;element&#39;: &#39;O&#39;, &#39;base&#39;: [array([0.5, 0.5])]}}, 1: {0: {&#39;element&#39;: &#39;Ti&#39;, &#39;base&#39;: [array([0.5, 0.5])]}, 1: {&#39;element&#39;: &#39;O&#39;, &#39;base&#39;: [array([0. , 0.5]), array([0.5, 0. ])]}}}
+</pre></div></div>
+</div>
+<p>Make slice</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">size_in_pixel</span> <span class="o">=</span> <span class="n">nx</span> <span class="o">=</span> <span class="n">ny</span> <span class="o">=</span> <span class="mi">512</span>
+<span class="n">n_cell_x</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">pixel_size</span> <span class="o">=</span> <span class="n">a</span><span class="o">/</span><span class="p">(</span><span class="n">nx</span><span class="o">/</span><span class="n">n_cell_x</span><span class="p">)</span>
+
+<span class="n">image_extent</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">size_in_pixel</span><span class="o">*</span><span class="n">pixel_size</span><span class="p">,</span> <span class="n">size_in_pixel</span><span class="o">*</span><span class="n">pixel_size</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">slice_potentials</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">512</span><span class="p">,</span><span class="mi">512</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">layers</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">layers</span><span class="p">[</span><span class="n">layer</span><span class="p">]:</span>
+        <span class="n">elem</span> <span class="o">=</span> <span class="n">layers</span><span class="p">[</span><span class="n">layer</span><span class="p">][</span><span class="n">atom</span><span class="p">][</span><span class="s1">&#39;element&#39;</span><span class="p">]</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="n">layers</span><span class="p">[</span><span class="n">layer</span><span class="p">][</span><span class="n">atom</span><span class="p">][</span><span class="s1">&#39;base&#39;</span><span class="p">]</span>
+        <span class="n">slice_potentials</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span> <span class="o">+=</span> <span class="n">potential_2D</span><span class="p">(</span><span class="n">elem</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">n_cell_x</span><span class="p">,</span> <span class="n">n_cell_x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39; Potentials for SrTiO$_3$ Slices&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">slice_potentials</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">extent</span> <span class="o">=</span> <span class="n">image_extent</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;distance ($\AA$)&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Slice 0&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">slice_potentials</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">extent</span> <span class="o">=</span> <span class="n">image_extent</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Slice 1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.0, &#39;Slice 1&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "ba89d83a1d4446608e4f0505cb35c0af", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Step-3:-Transmission-Function-for-Each-Slice">
+<h2>Step 3: Transmission Function for Each Slice<a class="headerlink" href="#Step-3:-Transmission-Function-for-Each-Slice" title="Link to this heading">¶</a></h2>
+<p>The slice acts like a <strong>Very Thin Specimen</strong> in the <code class="docutils literal notranslate"><span class="pre">weak</span> <span class="pre">phase</span> <span class="pre">approximation</span></code>. In that approximation, the sample causes only a phase change to the incident plane wave.</p>
+<p>To retrieve the exit wave of that slice we just multiply the transmission function <span class="math notranslate nohighlight">\(t(\vec{x})\)</span> with the plane wave <span class="math notranslate nohighlight">\(\exp (2\pi i k_z z)\)</span></p>
+<div class="math notranslate nohighlight">
+\[\Psi_t(\vec{x}) = t(\vec{x}) \exp \left(2 \pi i k_z z \right) \approx t(\vec{x})\]</div>
+<p>The specimen transmission function depends on the projected potential <span class="math notranslate nohighlight">\(v_z(\vec{x})\)</span> and the interaction parameter <span class="math notranslate nohighlight">\(\sigma\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[t(\vec{x}) =  \exp \left( i \sigma v_z(\vec{x})\right)\]</div>
+<p>with the interaction parameter <span class="math notranslate nohighlight">\(\sigma\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\sigma = \frac{2 \pi}{\lambda V} \left(  \frac{m_0 c^2 + eV}{2m_0c^2+eV} \right) = \frac{2 \pi m  e_0 \lambda}{h^2}\]</div>
+<p>with $ m = <span class="math">\gamma `m_0$ and :math:`eV</span> the incident electron energy.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">interaction_parameter</span><span class="p">(</span><span class="n">acceleration_voltage</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates interaction parameter sigma</span>
+
+<span class="sd">    Parameter</span>
+<span class="sd">    ---------</span>
+<span class="sd">    acceleration_voltage: float</span>
+<span class="sd">        acceleration voltage in volt</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    interaction parameter: float</span>
+<span class="sd">        interaction parameter (dimensionless)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">acceleration_voltage</span> <span class="c1"># in eV</span>
+    <span class="n">E0</span> <span class="o">=</span> <span class="mf">510998.95</span> <span class="c1">#  m_0 c^2 in eV</span>
+
+    <span class="n">wavelength</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">utilities</span><span class="o">.</span><span class="n">get_wavelength</span><span class="p">(</span><span class="n">acceleration_voltage</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">acceleration_voltage</span>
+
+    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span> <span class="p">(</span><span class="n">wavelength</span> <span class="o">*</span> <span class="n">E</span><span class="p">)</span>  <span class="o">*</span><span class="p">(</span><span class="n">E0</span> <span class="o">+</span> <span class="n">E</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">E0</span><span class="o">+</span><span class="n">E</span><span class="p">)</span>
+
+
+<span class="n">potential</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">slice_potentials</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_transmission</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="n">potential</span><span class="p">):</span>
+
+    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">sigma</span><span class="o">*</span> <span class="n">potential</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">t</span>
+
+<span class="n">acceleration_voltage</span> <span class="o">=</span> <span class="mi">60000</span>
+
+<span class="n">sigma</span> <span class="o">=</span> <span class="n">interaction_parameter</span><span class="p">(</span><span class="n">acceleration_voltage</span><span class="p">)</span>
+<span class="n">transmission</span> <span class="o">=</span> <span class="n">get_transmission</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="n">potential</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39; Transmission Functions for SrTiO$_3$ Slices&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">transmission</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">extent</span> <span class="o">=</span> <span class="n">image_extent</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;distance ($\AA$)&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Slice 0&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">transmission</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">extent</span> <span class="o">=</span> <span class="n">image_extent</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Slice 1&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.0, &#39;Slice 1&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "0650e67749e3435995c26dbdb7994604", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Step-4:-Propagator">
+<h2>Step 4: Propagator<a class="headerlink" href="#Step-4:-Propagator" title="Link to this heading">¶</a></h2>
+<p>The Fresnel propagator <span class="math notranslate nohighlight">\(p\)</span> propagates the wave through the vacuum of the layers between the (flat) atom potentials.</p>
+<div class="math notranslate nohighlight">
+\[p(x,y, \Delta z) = \mathcal{F} P(k_x, k_y, \Delta z)\]</div>
+<p>Mathematically, this propagator function has to be convoluted with the wave, which is a multiplication in Fourier space <span class="math notranslate nohighlight">\(\mathcal{F}\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[P(k,\Delta z) = \exp(-i\pi \lambda k^2 \Delta z)\]</div>
+<p>The Fourier space is limited in reciprocal vector to avoid aliasing. We realize that with an aperture function.</p>
+<p>Here we assume a cubic crystal and equidistant layers, but that of course is not always true.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[72]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lattice_parameter</span> <span class="o">=</span> <span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">field_of_view</span> <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">lattice_parameter</span>
+<span class="n">size_in_pixel</span> <span class="o">=</span> <span class="mi">512</span>
+<span class="n">number_layers</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">delta_z</span> <span class="o">=</span> <span class="p">[</span><span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="n">number_layers</span><span class="p">,</span> <span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="n">number_layers</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">delta_z</span><span class="p">)</span>
+<span class="n">wavelength</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">utilities</span><span class="o">.</span><span class="n">get_wavelength</span><span class="p">(</span><span class="mi">400000</span><span class="p">,</span><span class="n">unit</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
+<span class="n">bandwidth_factor</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span>   <span class="c1"># Antialiasing bandwidth limit factor</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_propagator</span><span class="p">(</span><span class="n">size_in_pixel</span><span class="p">,</span> <span class="n">delta_z</span><span class="p">,</span> <span class="n">number_layers</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">field_of_view</span><span class="p">,</span> <span class="n">bandwidth_factor</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+    <span class="n">k2max</span> <span class="o">=</span> <span class="n">size_in_pixel</span><span class="o">/</span><span class="n">field_of_view</span><span class="o">/</span><span class="mf">2.</span> <span class="o">*</span> <span class="n">bandwidth_factor</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">k2max</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bandwidth limited to a real space resolution of </span><span class="si">{</span><span class="mf">1.0</span><span class="o">/</span><span class="n">k2max</span><span class="o">*</span><span class="mi">1000</span><span class="si">}</span><span class="s2"> pm&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   (= </span><span class="si">{</span><span class="n">wavelength</span><span class="o">*</span><span class="n">k2max</span><span class="o">*</span><span class="mf">1000.0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> mrad)  for symmetrical anti-aliasing.&quot;</span><span class="p">)</span>
+    <span class="n">k2max</span> <span class="o">=</span> <span class="n">k2max</span><span class="o">*</span><span class="n">k2max</span><span class="p">;</span>
+
+    <span class="n">kx</span><span class="p">,</span><span class="n">ky</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="o">-</span><span class="n">size_in_pixel</span><span class="o">/</span><span class="mi">2</span><span class="p">:</span><span class="n">size_in_pixel</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">size_in_pixel</span><span class="o">/</span><span class="mi">2</span><span class="p">:</span><span class="n">size_in_pixel</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="n">field_of_view</span>
+    <span class="n">k_square</span> <span class="o">=</span> <span class="n">kx</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">ky</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">k_square</span><span class="p">[</span><span class="n">k_square</span><span class="o">&gt;</span><span class="n">k2max</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span> <span class="c1"># bandwidth limiting</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">size_in_pixel</span><span class="p">,</span><span class="n">size_in_pixel</span><span class="p">])</span>
+        <span class="n">temp</span><span class="p">[</span><span class="n">k_square</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of symmetrical non-aliasing beams = </span><span class="si">{</span><span class="n">temp</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">propagator</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">number_layers</span><span class="p">,</span> <span class="n">size_in_pixel</span><span class="p">,</span> <span class="n">size_in_pixel</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_layers</span><span class="p">):</span>
+        <span class="n">propagator</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">wavelength</span><span class="o">*</span><span class="n">k_square</span><span class="o">*</span><span class="n">delta_z</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">propagator</span>
+
+<span class="n">propagator</span> <span class="o">=</span> <span class="n">get_propagator</span><span class="p">(</span><span class="n">size_in_pixel</span><span class="p">,</span> <span class="n">delta_z</span><span class="p">,</span> <span class="n">number_layers</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">field_of_view</span><span class="p">,</span>
+                             <span class="n">bandwidth_factor</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">recip_FOV</span> <span class="o">=</span> <span class="n">size_in_pixel</span><span class="o">/</span><span class="n">field_of_view</span><span class="o">/</span><span class="mf">2.</span>
+<span class="n">reciprocal_extent</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">recip_FOV</span><span class="p">,</span><span class="n">recip_FOV</span><span class="p">,</span><span class="n">recip_FOV</span><span class="p">,</span><span class="o">-</span><span class="n">recip_FOV</span><span class="p">]</span>
+<span class="n">layer</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;propagator of delta z = </span><span class="si">{</span><span class="n">delta_z</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> $\AA$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;real part&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">propagator</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="p">,</span><span class="n">extent</span><span class="o">=</span><span class="n">reciprocal_extent</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;frequency (1/$\AA$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;imaginary part&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;frequency (1/$\AA$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">propagator</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span><span class="n">extent</span><span class="o">=</span><span class="n">reciprocal_extent</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[np.float64(1.952634), np.float64(1.952634)]
+5.462706614074458
+Bandwidth limited to a real space resolution of 183.05943750000003 pm
+   (= 89.80 mrad)  for symmetrical anti-aliasing.
+Number of symmetrical non-aliasing beams = 91528
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[72]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.image.AxesImage at 0x25e9d8f0910&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "63906c0ba4c1486b9c63f2a29688234e", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Step-5:-Incident-Wave">
+<h2>Step 5: Incident Wave<a class="headerlink" href="#Step-5:-Incident-Wave" title="Link to this heading">¶</a></h2>
+<p>That will be easy, in plane wave illumination all points have the same amplitude (here: 1) and phase (here: 0). We express that plane wave as a complex array.</p>
+<p>A tilted plane would be a little more complicated.</p>
+<blockquote>
+<div><p>What would we need to do for a tilted beam?</p>
+</div></blockquote>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Tilt not implemented yet</span>
+<span class="n">plane_wave</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="n">nx</span><span class="p">,</span><span class="n">ny</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Step-6:-Multislice-Loop">
+<h2>Step 6: Multislice Loop<a class="headerlink" href="#Step-6:-Multislice-Loop" title="Link to this heading">¶</a></h2>
+<p>Combining the transmission function <span class="math notranslate nohighlight">\(t\)</span> and the Frensel propagator <span class="math notranslate nohighlight">\(p\)</span> we get for each slice:</p>
+<div class="math notranslate nohighlight">
+\[\Psi(x,y,z+\Delta z) = p(x,y,\Delta z) \otimes \left[t(x,y,z)\Psi(x,y,z) \right] + \mathcal{O}(\Delta z^2)\]</div>
+<p>or an expression that bettere relfects the iterative nature of this equation for starting layer n :</p>
+<div class="math notranslate nohighlight">
+\[\Psi_{n+1}(x,y,) = p_n(x,y,\Delta z) \otimes \left[t_n(x,y,z)\Psi_n(x,y,z) \right] + \mathcal{O}(\Delta z^2)\]</div>
+<p>Again the convolution <span class="math notranslate nohighlight">\(\otimes\)</span> will be done as a multiplication in Fourier space.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------Input------------- #</span>
+<span class="n">number_of_unit_cell_z</span> <span class="o">=</span> <span class="mi">5</span> <span class="c1"># this will give us the thickness</span>
+<span class="c1"># ----------------------- #</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">multi_slice</span><span class="p">(</span><span class="n">wave</span><span class="p">,</span> <span class="n">number_of_unit_cell_z</span><span class="p">,</span> <span class="n">acceleration_voltage</span><span class="p">,</span> <span class="n">transmission</span><span class="p">,</span> <span class="n">propagator</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Multislice Calculation</span>
+
+<span class="sd">    One the array wave will be changed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">interaction_parameter</span><span class="p">(</span><span class="n">acceleration_voltage</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_unit_cell_z</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_layers</span><span class="p">):</span>
+            <span class="n">wave</span> <span class="o">=</span> <span class="n">wave</span> <span class="o">*</span> <span class="n">transmission</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span> <span class="c1"># transmission  - real space</span>
+            <span class="n">wave</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft2</span><span class="p">(</span><span class="n">wave</span><span class="p">)</span>
+            <span class="n">wave</span> <span class="o">=</span> <span class="n">wave</span> <span class="o">*</span> <span class="n">propagator</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span>  <span class="c1"># propagation; propagator is defined in reciprocal space</span>
+            <span class="n">wave</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft2</span><span class="p">(</span><span class="n">wave</span><span class="p">)</span> <span class="c1">#back to real space</span>
+    <span class="k">return</span> <span class="n">wave</span>
+
+<span class="n">plane_wave</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="n">size_in_pixel</span><span class="p">,</span><span class="n">size_in_pixel</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+<span class="n">exit_wave</span> <span class="o">=</span> <span class="n">multi_slice</span><span class="p">(</span><span class="n">plane_wave</span><span class="p">,</span> <span class="n">number_of_unit_cell_z</span><span class="p">,</span> <span class="n">acceleration_voltage</span><span class="p">,</span> <span class="n">transmission</span><span class="p">,</span> <span class="n">propagator</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;simulated </span><span class="si">{</span><span class="n">atoms</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> for thickness </span><span class="si">{</span><span class="n">number_of_unit_cell_z</span><span class="o">*</span><span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> Angstrom&quot;</span><span class="p">)</span>
+
+<span class="n">wave</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft2</span><span class="p">(</span><span class="n">exit_wave</span><span class="p">)</span>
+<span class="n">intensity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft2</span><span class="p">(</span><span class="n">wave</span><span class="o">*</span><span class="n">wave</span><span class="p">)))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;intensity of exit wave&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">intensity</span><span class="p">,</span> <span class="n">extent</span> <span class="o">=</span> <span class="n">image_extent</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;distance ($\AA$)&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+simulated SrTiO3 for thickness 19.526 Angstrom
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "a9a53b9fab9f4cc5afb20e17e7042e86", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Diffraction-Pattern">
+<h2>Diffraction Pattern<a class="headerlink" href="#Diffraction-Pattern" title="Link to this heading">¶</a></h2>
+<p>according to <a class="reference external" href="https://doi.org/10.1107/S0365110X57002194">J. M. Cowley and A. F. Moodie</a>, the diffraction pattern <span class="math notranslate nohighlight">\(U(u,v)\)</span> is the Fourier transform of the exit wave function in the far-field (diffraction plane):</p>
+<div class="math notranslate nohighlight">
+\[U(u,v) = \mathcal{F} \left( \exp(i*\varphi(x,y)) \right)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\varphi\)</span> is the exit wave of the crystal.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">additional_layers</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">diffraction_pattern</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">exit_wave</span><span class="p">)))</span>
+<span class="n">diffraction_pattern</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span><span class="mi">256</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># adding a multislice calculation</span>
+<span class="n">exit_wave2</span> <span class="o">=</span> <span class="n">multi_slice</span><span class="p">(</span><span class="n">exit_wave</span><span class="p">,</span> <span class="n">additional_layers</span><span class="p">,</span> <span class="n">acceleration_voltage</span><span class="p">,</span> <span class="n">transmission</span><span class="p">,</span> <span class="n">propagator</span><span class="p">)</span>
+<span class="n">diffraction_pattern2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">exit_wave2</span><span class="p">)))</span>
+<span class="n">diffraction_pattern2</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span><span class="mi">256</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;simulated diffraction patterns of </span><span class="si">{</span><span class="n">atoms</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;thickness </span><span class="si">{</span><span class="n">number_of_unit_cell_z</span><span class="o">*</span><span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> nm&quot;</span><span class="p">)</span>
+<span class="n">im1</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">diffraction_pattern</span><span class="p">),</span> <span class="n">extent</span><span class="o">=</span><span class="n">reciprocal_extent</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;spatial frequency (1/$\AA$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;thickness </span><span class="si">{</span><span class="p">(</span><span class="n">number_of_unit_cell_z</span><span class="o">+</span><span class="n">additional_layers</span><span class="p">)</span><span class="o">*</span><span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> $\AA$&quot;</span><span class="p">)</span>
+<span class="n">im2</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">diffraction_pattern2</span><span class="p">),</span> <span class="n">extent</span><span class="o">=</span><span class="n">reciprocal_extent</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;spatial frequency (1/$\AA$)&#39;</span><span class="p">)</span>
+<span class="c1"># ax[0].scatter(0,0, color=&#39;white&#39;)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.colorbar.Colorbar at 0x25e9f8f9090&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "25f4c339e0da451a8c25e8db6b308382", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Summary">
+<h2>Summary<a class="headerlink" href="#Summary" title="Link to this heading">¶</a></h2>
+<p>The multislice algrithm allows to calculate all the dynamic diffraction effects we need.</p>
+<p>More sophisticated program allow more flexibility and include frozen phonon calculations. Of course those programs are also faster and allow to select a variety of outputs.</p>
+</section>
+<section id="Navigation">
+<h2>Navigation<a class="headerlink" href="#Navigation" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Back:</strong> <a class="reference internal" href="CH2_D01-Bloch.html"><span class="doc">Mutli-Slice Theory</span></a></p></li>
+<li><p><strong>Next:</strong> <a class="reference internal" href="CH2_D03-Multislice_CBED.html"><span class="doc">CBED Mutli-Slice Theory</span></a></p></li>
+<li><p><strong>Chapter 2:</strong> <a class="reference internal" href="CH2_00-Diffraction.html"><span class="doc">Diffraction</span></a></p></li>
+<li><p><strong>List of Content:</strong> <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">Front</span></a></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Spectroscopy/index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Diffraction/CH2_D02-Multislice.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

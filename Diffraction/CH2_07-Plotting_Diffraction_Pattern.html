@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Plotting Diffraction Pattern &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Analyzing Spot Diffraction Pattern" href="CH2_08-Spot_Diffraction_Pattern.html" />
+    <link rel="prev" title="Relrod - Sample Geometry and Excitation Error" href="CH2_06c-Relrod.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 2:</strong> <a class="reference internal" href="CH2_00-Diffraction.html"><span class="doc">Diffraction</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="Plotting-Diffraction-Pattern">
+<h1>Plotting Diffraction Pattern<a class="headerlink" href="#Plotting-Diffraction-Pattern" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Diffraction/CH2_07-Plotting_Diffraction_Pattern.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main//Diffraction/CH2_07-Plotting_Diffraction_Pattern.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p><strong>Spring 2026</strong> by Gerd Duscher</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<section id="Load-relevant-python-packages">
+<h2>Load relevant python packages<a class="headerlink" href="#Load-relevant-python-packages" title="Link to this heading">¶</a></h2>
+<section id="Check-Installed-Packages">
+<h3>Check Installed Packages<a class="headerlink" href="#Check-Installed-Packages" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2026.1.2&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pyTEMlib<span class="w"> </span>-q<span class="w"> </span>--upgrade
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+done
+</pre></div></div>
+</div>
+</section>
+<section id="Load-the-plotting-and-figure-packages">
+<h3>Load the plotting and figure packages<a class="headerlink" href="#Load-the-plotting-and-figure-packages" title="Link to this heading">¶</a></h3>
+<p>Import the python packages that we will use:</p>
+<p>Beside the basic numerical (numpy) and plotting (pylab of matplotlib) libraries,</p>
+<ul class="simple">
+<li><p>three dimensional plotting</p></li>
+</ul>
+<p>and some libraries from the pyTEMlib</p>
+<ul>
+<li><p>diffraction_tools</p></li>
+<li><p>crystal_tools</p></li>
+<li><p>Note for Google Colab</p>
+<blockquote>
+<div><p><strong>Restart Session</strong> in the <strong>Runtime Menu</strong></p>
+</div></blockquote>
+</li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span>  widget
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">output</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+
+<span class="c1"># additional package</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
+
+<span class="c1"># Import libraries from the pyTEMlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyTEMlib</span>
+
+<span class="n">__notebook_version__</span> <span class="o">=</span> <span class="s1">&#39;2026.01.08&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pyTEM version: &#39;</span><span class="p">,</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;notebook version: &#39;</span><span class="p">,</span> <span class="n">__notebook_version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+pyTEM version:  0.2026.1.3
+notebook version:  2026.01.08
+</pre></div></div>
+</div>
+</section>
+<section id="Define-Silicon-crystal">
+<h3>Define Silicon crystal<a class="headerlink" href="#Define-Silicon-crystal" title="Link to this heading">¶</a></h3>
+<p>the crystal structure is defined in an <em>ase.Atoms</em> format</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">atoms</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">crystal_tools</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">(</span><span class="s1">&#39;Silicon&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">atoms</span><span class="p">)</span>
+
+<span class="c1">#Reciprocal Lattice</span>
+<span class="c1"># We use the linear algebra package of numpy to invert the unit_cell &quot;matrix&quot;</span>
+<span class="n">reciprocal_unit_cell</span> <span class="o">=</span> <span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="o">.</span><span class="n">reciprocal</span><span class="p">()</span>  <span class="c1"># np.linalg.inv(atoms.cell).T # transposed of inverted unit_cell</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Lattice(symbols=&#39;Si8&#39;, pbc=True, cell=[5.43088, 5.43088, 5.43088])
+</pre></div></div>
+</div>
+</section>
+<section id="All-Possible-and-Allowed-Reflections">
+<h3>All Possible and Allowed Reflections<a class="headerlink" href="#All-Possible-and-Allowed-Reflections" title="Link to this heading">¶</a></h3>
+<p>see</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="CH2_04-Structure_Factors.html"><span class="doc">Structure Factors</span></a></p></li>
+<li><p><a class="reference internal" href="CH2_06-Kinematic_Scattering_Geometry.html"><span class="doc">Kinematic Scattering Geometry</span></a> for details</p></li>
+</ul>
+<p>Because the nuclei of the atoms in a material are positive, there is a small acceleration of the electron within the material.</p>
+<p>We add this to the contribution to the magnitude of the incident wave-vector. The acceleration potential is called <em>inner potential</em> and is calculated from the scattering factors <span class="math notranslate nohighlight">\(f_e\)</span> according to (Kirkland Eq 6.10:</p>
+<div class="math notranslate nohighlight">
+\[U_{\vec{G}} =  \frac{h^2}{2 \pi m_e e} \frac{1}{V_{unit-cell}} \sum_j f_{e_j} (|\vec{G}|) \exp(-2\pi i \vec{G} \cdot \vec{r_j})\]</div>
+<p>which reduces for <span class="math notranslate nohighlight">\(|\vec{G}| = 0\)</span> to:</p>
+<div class="math notranslate nohighlight">
+\[U_{0} =  \frac{h^2}{2 \pi m_e e} \frac{1}{V_{unit-cell}} \sum_j f_{e_j} (0)\]</div>
+<p>which forms an uniform potential inside the material</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --------------- INPUT ------------------------</span>
+<span class="n">zone_hkl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">hkl_max</span> <span class="o">=</span> <span class="mi">25</span>  <span class="c1">#  maximum allowed Miller index</span>
+<span class="n">Sg_max</span> <span class="o">=</span> <span class="mf">0.03</span>   <span class="c1"># 1/Ang  maximum allowed excitation error</span>
+
+<span class="n">acceleration_voltage_V</span> <span class="o">=</span> <span class="mf">200.0</span> <span class="o">*</span> <span class="mf">1000.0</span> <span class="c1">#V</span>
+<span class="c1"># -------------------------------------------</span>
+
+<span class="c1"># ##############################</span>
+<span class="c1"># ## Get incident wavevetor</span>
+<span class="c1"># ##############################</span>
+<span class="n">wave_length_A</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_wavelength</span><span class="p">(</span><span class="n">acceleration_voltage_V</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
+
+<span class="n">U_0</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># in (Ang)</span>
+<span class="c1"># atom form factor of zero reflection angle is the inner potential in 1/A</span>
+<span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">atoms</span><span class="p">:</span>
+    <span class="n">U_0</span> <span class="o">+=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_form_factor</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">symbol</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">scattering_factor_to_volts</span> <span class="o">=</span> <span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">h</span><span class="o">*</span><span class="mf">1e10</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">m_e</span> <span class="o">*</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">e</span><span class="p">)</span> <span class="o">/</span> <span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="o">.</span><span class="n">volume</span>
+
+<span class="c1"># Conversion of inner potential to Volts</span>
+<span class="n">U_0</span> <span class="o">=</span>  <span class="n">U_0</span> <span class="o">*</span> <span class="n">scattering_factor_to_volts</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The inner potential is </span><span class="si">{0:.2f}</span><span class="s1">V&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">U_0</span><span class="p">))</span>
+
+<span class="n">incident_wave_vector_vacuum</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">wave_length_A</span>
+<span class="n">K0_magnitude</span> <span class="o">=</span> <span class="n">incident_wave_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">wave_length_A</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">U_0</span> <span class="p">)</span><span class="c1">#1/Ang</span>
+
+<span class="n">cent</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">zone_hkl</span><span class="p">,</span><span class="n">reciprocal_unit_cell</span><span class="p">)</span>
+<span class="n">cent</span> <span class="o">=</span> <span class="n">cent</span> <span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">cent</span><span class="p">)</span><span class="o">*</span> <span class="n">incident_wave_vector</span>
+
+<span class="c1"># zone axis in global coordinate system</span>
+<span class="n">zone_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">zone_hkl</span><span class="p">,</span><span class="n">reciprocal_unit_cell</span><span class="p">)</span>
+
+
+<span class="c1"># ##############################</span>
+<span class="c1"># ## Recioprocal Lattice</span>
+<span class="c1"># ##############################</span>
+
+<span class="n">h</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">hkl_max</span><span class="p">,</span><span class="n">hkl_max</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">hkl_max</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>    <span class="c1"># all evaluated single Miller Indices</span>
+<span class="n">hkl</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="p">))</span> <span class="c1"># all evaluated Miller indices</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">hkl</span><span class="p">,</span> <span class="n">reciprocal_unit_cell</span><span class="p">)</span>              <span class="c1"># all evaluated reciprocal lattice points</span>
+
+<span class="c1"># Calculate excitation errors for all reciprocal lattice points</span>
+<span class="c1">## Zuo and Spence, &#39;Adv TEM&#39;, 2017 -- Eq 3:14</span>
+<span class="n">S</span> <span class="o">=</span> <span class="p">(</span><span class="n">K0_magnitude</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">g</span> <span class="o">-</span> <span class="n">cent</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">K0_magnitude</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cent</span><span class="p">)</span>
+<span class="c1"># Determine reciprocal lattice points with excitation error less than the maximum allowed one: Sg_max</span>
+<span class="n">reflections</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="o">&lt;</span> <span class="n">Sg_max</span>
+
+<span class="n">Sg</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="n">reflections</span><span class="p">]</span>
+<span class="n">g_hkl</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="n">reflections</span><span class="p">]</span>
+<span class="n">hkl</span> <span class="o">=</span> <span class="n">hkl</span><span class="p">[</span><span class="n">reflections</span><span class="p">]</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Of the </span><span class="si">{0}</span><span class="s1"> tested reciprocal lattice points, </span><span class="si">{1}</span><span class="s1"> have an excitation error less than </span><span class="si">{2:.2f}</span><span class="s1"> 1/nm&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">g_hkl</span><span class="p">),</span> <span class="n">Sg_max</span><span class="o">*</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># #################################</span>
+<span class="c1"># ## Calculate Structure Factors</span>
+<span class="c1"># ################################</span>
+<span class="n">structure_factors</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">base</span> <span class="o">=</span> <span class="n">atoms</span><span class="o">.</span><span class="n">positions</span>
+<span class="k">for</span> <span class="n">j</span>  <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">g_hkl</span><span class="p">)):</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">atoms</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_form_factor</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">symbol</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">g_hkl</span><span class="p">[</span><span class="n">j</span><span class="p">]))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">F</span> <span class="o">+=</span> <span class="n">f</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="p">(</span><span class="n">g_hkl</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">atom</span><span class="o">.</span><span class="n">position</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+    <span class="n">structure_factors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">structure_factors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">structure_factors</span><span class="p">)</span>
+
+<span class="n">allowed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">structure_factors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.000001</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Of the </span><span class="si">{0}</span><span class="s1"> possible reflection </span><span class="si">{1}</span><span class="s1"> are allowed.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hkl</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">allowed</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="p">)</span> <span class="p">)</span>
+
+<span class="c1"># information of allowed reflections</span>
+<span class="n">Sg_allowed</span> <span class="o">=</span> <span class="n">Sg</span><span class="p">[</span><span class="n">allowed</span><span class="p">]</span>
+<span class="n">hkl_allowed</span> <span class="o">=</span> <span class="n">hkl</span><span class="p">[</span><span class="n">allowed</span><span class="p">][:]</span>
+<span class="n">g_allowed</span> <span class="o">=</span> <span class="n">g_hkl</span><span class="p">[</span><span class="n">allowed</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">F_allowed</span> <span class="o">=</span> <span class="n">F</span><span class="p">[</span><span class="n">allowed</span><span class="p">]</span>
+<span class="n">intensities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">F_allowed</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="c1"># forbidden reflections:</span>
+<span class="n">forbidden</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">allowed</span><span class="p">)</span>
+<span class="n">g_forbidden</span> <span class="o">=</span> <span class="n">g_hkl</span><span class="p">[</span><span class="n">forbidden</span><span class="p">,</span> <span class="p">:]</span>
+
+<span class="c1"># Determine Laue Zone for reflections</span>
+<span class="n">zone_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">zone_hkl</span><span class="p">,</span> <span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="o">.</span><span class="n">array</span><span class="p">)</span>
+<span class="n">Laue_Zone</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">hkl_allowed</span><span class="p">,</span> <span class="n">zone_hkl</span><span class="p">)))</span>  <span class="c1"># Weiss zone law: works only for all crystal systems</span>
+
+<span class="n">ZOLZ</span> <span class="o">=</span> <span class="n">Laue_Zone</span> <span class="o">==</span><span class="mi">0</span>
+<span class="n">HOLZ</span> <span class="o">=</span> <span class="n">Laue_Zone</span> <span class="o">&gt;</span> <span class="mi">1</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Of those, there are </span><span class="si">{0}</span><span class="s1"> in ZOLZ and </span><span class="si">{1}</span><span class="s1"> in HOLZ&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ZOLZ</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span><span class="n">HOLZ</span><span class="o">.</span><span class="n">sum</span><span class="p">()))</span>
+
+<span class="n">intensities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">F_allowed</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The inner potential is 13.90V
+[28.31779972 28.31779972  0.        ]
+Of the 132651 tested reciprocal lattice points, 1119 have an excitation error less than 0.30 1/nm
+Of the 1119 possible reflection 219 are allowed.
+Of those, there are 57 in ZOLZ and 162 in HOLZ
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Plotting-of-Ewald-Sphere">
+<h2>Plotting of Ewald Sphere<a class="headerlink" href="#Plotting-of-Ewald-Sphere" title="Link to this heading">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tags</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;acceleration_voltage&#39;</span><span class="p">:</span> <span class="n">acceleration_voltage_V</span><span class="p">,</span>
+        <span class="s1">&#39;zone_hkl&#39;</span><span class="p">:</span> <span class="n">zone_hkl</span><span class="p">,</span>
+        <span class="s1">&#39;hkl_max&#39;</span><span class="p">:</span> <span class="n">hkl_max</span><span class="p">,</span>
+        <span class="s1">&#39;Sg_max&#39;</span><span class="p">:</span> <span class="n">Sg_max</span><span class="p">}</span>
+<span class="n">diff_dict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">diff_dict</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_bragg_reflections</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Of the 1098 possible reflection 218 are allowed.
+Of those, there are 56 in ZOLZ  and 162 in HOLZ
+Of the 98 forbidden reflection in ZOLZ  20 can be dynamically activated.
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">cent</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cent</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cent</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">cent</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">cent</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">cent</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">0</span><span class="p">))</span>
+
+<span class="c1"># draw sphere</span>
+<span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span><span class="mi">80</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span><span class="mi">40</span><span class="n">j</span><span class="p">]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">u</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">*</span><span class="n">K0_magnitude</span><span class="o">+</span><span class="n">cent</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">u</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">*</span><span class="n">K0_magnitude</span><span class="o">+</span><span class="n">cent</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">*</span><span class="n">K0_magnitude</span><span class="o">+</span><span class="n">cent</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g_allowed</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g_allowed</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">g_allowed</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g_allowed</span><span class="p">[</span><span class="n">HOLZ</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g_allowed</span><span class="p">[</span><span class="n">HOLZ</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">g_allowed</span><span class="p">[</span><span class="n">HOLZ</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span>  <span class="n">rstride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cstride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlim</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;scattering angle in (1/$\AA$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;scattering angle in (1/$\AA$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "0bca665ffa4e497d88d6d064ec731480", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>without sphere</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g_allowed</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g_allowed</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">g_allowed</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g_allowed</span><span class="p">[</span><span class="n">HOLZ</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g_allowed</span><span class="p">[</span><span class="n">HOLZ</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">g_allowed</span><span class="p">[</span><span class="n">HOLZ</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">cent</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cent</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cent</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">cent</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">cent</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">cent</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="mi">0</span><span class="p">))</span>
+<span class="mi">33</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlim</span><span class="p">([</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;scattering angle in (1/$\AA$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;scattering angle in (1/$\AA$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;scattering angle in (1/$\AA$)&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "7194ff267d144a20b4a030224de9890a", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Projection">
+<h2>Projection<a class="headerlink" href="#Projection" title="Link to this heading">¶</a></h2>
+<p>We need to project the active reciprocal points onto the plane perpendicular to the zone axis.</p>
+<p>For that we tilt the zone axis onto the z-axis</p>
+<p>We use the spherical coordinates to determine the rotation matrix</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_rotation_matrix</span><span class="p">(</span><span class="n">zone</span><span class="p">):</span>
+
+    <span class="c1">#spherical coordinates of zone</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">zone</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">zone</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="n">r</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">zone</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="o">-</span><span class="n">theta</span>
+    <span class="k">if</span> <span class="n">zone</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">phi</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">zone</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">zone</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Rotation theta &#39;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span><span class="s1">&#39; phi &#39;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">phi</span><span class="p">))</span>
+
+    <span class="c1">#first we rotate phi about z-axis</span>
+    <span class="n">c</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+    <span class="n">rotz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">c</span><span class="p">,</span> <span class="o">-</span><span class="n">s</span> <span class="p">,</span> <span class="mi">0</span><span class="p">],[</span><span class="n">s</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+
+    <span class="c1"># second we rotate theta about y-axis</span>
+    <span class="n">c</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">roty</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">c</span><span class="p">,</span> <span class="mi">0</span> <span class="p">,</span><span class="n">s</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="n">s</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">c</span><span class="p">]])</span>
+
+    <span class="c1"># the rotation now makes z-axis coincide with plane normal</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rotz</span><span class="p">,</span><span class="n">roty</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+<span class="c1"># zone axis in global coordinate system</span>
+
+<span class="n">zone_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">zone_hkl</span><span class="p">,</span><span class="n">reciprocal_unit_cell</span><span class="p">)</span>
+<span class="n">rotation_matrix</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span> <span class="o">=</span> <span class="n">get_rotation_matrix</span><span class="p">(</span><span class="n">zone_vector</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">rotation_matrix</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> Zone axis can now be rotated parallel to z axis&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">zone_vector</span><span class="p">,</span><span class="n">rotation_matrix</span><span class="p">),</span> <span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Rotation theta  90.0  phi  45.0
+[[ 0.    -0.707  0.707]
+ [ 0.     0.707  0.707]
+ [-1.     0.     0.   ]]
+
+ Zone axis can now be rotated parallel to z axis
+[0.     0.     0.2604]
+</pre></div></div>
+</div>
+<section id="Rotation">
+<h3>Rotation<a class="headerlink" href="#Rotation" title="Link to this heading">¶</a></h3>
+<p>We use the rotation matrix to rotate all lattice vectors</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">K0_vector_rotated</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">cent</span><span class="p">,</span> <span class="n">rotation_matrix</span><span class="p">)</span>
+<span class="n">cent_rotated</span> <span class="o">=</span> <span class="n">K0_vector_rotated</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">cent_rotated</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="n">g_hkl_rotated</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">g_allowed</span><span class="p">,</span> <span class="n">rotation_matrix</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[ 0.     0.    40.047]
+</pre></div></div>
+</div>
+<p>Now we can plot these diffraction spots in 2D by just setting the z-coordinate to zero. That is our projection procedure.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="mi">10</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">HOLZ</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">HOLZ</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">HOLZ</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="mi">10</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">HOLZ</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">HOLZ</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">12</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;scattering angle in (1/$\AA$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;scattering angle in (1/$\AA$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;scattering angle in (1/$\AA$)&#39;</span><span class="p">)</span>
+
+<span class="c1">#ax.set_aspect(&quot;equal&quot;);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "e6982b1f9b76418692cff914a8aa35a4", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>In the above graph the z-axis is much smaller than the x-, y-axis.</p>
+<p>In perspective to the incident beam wave vector the ewald sphere appears almost flat.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="mi">10</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">HOLZ</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">HOLZ</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">HOLZ</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="mi">10</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">cent_rotated</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cent_rotated</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cent_rotated</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">cent_rotated</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">cent_rotated</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">cent_rotated</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="mi">0</span><span class="p">))</span>
+<span class="c1">#ax.set_aspect(&quot;equal&quot;);</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;scattering angle in (1/$\AA$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;scattering angle in (1/$\AA$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;scattering angle in (1/$\AA$)&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "3a6a860b7b4847b5a97f887635bba451", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="2D-projection">
+<h3>2D projection<a class="headerlink" href="#2D-projection" title="Link to this heading">¶</a></h3>
+<p>To compare this simulation with an experimental diffraction pattern, we only need the 2D projection.</p>
+<p>Please note that all calculations were done without rotation. Only the plotting requires that. So rotation and setting the z-coordinate to zero is our projection procedure.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">HOLZ</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">HOLZ</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="c1">## Add indices</span>
+<span class="c1">#for i in range (ZOLZ_plot.sum()):</span>
+<span class="c1">#    ax.text(g_hk_rotated[ZOLZ_plot][i,0]-2.5, g_hk_rotated[ZOLZ_plot][i,1]+1.2,hkl[ZOLZ_plot][i], fontsize=10)</span>
+<span class="c1">#for i in range (HOLZ_plot.sum()):</span>
+<span class="c1">#    ax.text(g_hk_rotated[HOLZ_plot][i,0]-2.5, g_hk_rotated[HOLZ_plot][i,1]+1.2,hkl[HOLZ_plot][i], fontsize=10)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;scattering angle in (1/$\AA$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;scattering angle in (1/$\AA$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "8e9c4d53e71c4cfe9d5f8767b4d1da2f", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Error-in-2D-projection">
+<h3>Error in 2D projection<a class="headerlink" href="#Error-in-2D-projection" title="Link to this heading">¶</a></h3>
+<p>For this projection, there is only a small error for high acceleration volatges because the Ewald sphere is very flat. But really we need to calculate where the rays from the center of the Ewald sphere cross the detector plane.</p>
+<p>A easy way to accomplish this more accurate and universal projection is using <strong>spherical coordinates</strong>. The distance from center is related to</p>
+<ul class="simple">
+<li><p>the polar angle <span class="math notranslate nohighlight">\(\theta\)</span> and</p></li>
+<li><p>the azimutal angle <span class="math notranslate nohighlight">\(\phi\)</span> is directly related to the in plane distribution.</p></li>
+</ul>
+<p>For the calculation, we need to put the origin in the center of the Ewald sphere, which is an addition to the z-variable for the rotated reciprocal lattice points.</p>
+<p>And then with <span class="math notranslate nohighlight">\(r = \sqrt{x^2 + y^2 + z^2}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\theta = \arccos(\frac{z}{r})\]</div>
+<div class="math notranslate nohighlight">
+\[\phi = \arctan (y/x) = atan2(y,x)\]</div>
+<p>The angles with respect to the different quandrants are take care with the numpy function <strong>np.arctan2</strong>, which gives the angle to the positive x axis.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">g_hkl_rotated</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">g_spherical</span> <span class="o">=</span> <span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">r</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">r_spherical</span> <span class="o">=</span>  <span class="n">r</span><span class="p">[</span><span class="n">r</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span>  <span class="n">r_spherical</span><span class="o">/</span> <span class="n">K0_magnitude</span><span class="p">)</span>
+
+<span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">g_spherical</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">g_spherical</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<p>So now we can plot the diffraction pattern in mrad</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">theta</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span><span class="o">*</span><span class="mi">1000</span> <span class="c1"># in mrad</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">theta</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span><span class="o">*</span><span class="mi">1000</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">[</span><span class="n">r</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">y</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">[</span><span class="n">r</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">HOLZ</span><span class="p">[</span><span class="n">r</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">y</span><span class="p">[</span><span class="n">HOLZ</span><span class="p">[</span><span class="n">r</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;angle (mrad)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 0, &#39;angle (mrad)&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "403da9e0277740a98f681cb95a0fbb90", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>or in 1/nm with the trigonometeric determination of the radial distance with the magnitude of the incident wavevector <span class="math notranslate nohighlight">\(|\vec{K_0}|\)</span></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- Input -----</span>
+<span class="n">rotation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+<span class="c1"># ----------------</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">r_spherical</span> <span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span>  <span class="c1"># 1/A*10 = 1/nm</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">r_spherical</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">[</span><span class="n">r</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]],</span> <span class="n">y</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">[</span><span class="n">r</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;reciprocal distance (1/nm)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 0, &#39;reciprocal distance (1/nm)&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "1a75058867974fcc8929ce22ab4acdac", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>As we will see later on, there are many advantages to keep the reciprocal reflections in polar coordinates.</p>
+<p>One advantage is that to rotate the diffraction pattern we only need to add a value to the the azimutal angle <span class="math notranslate nohighlight">\(\phi\)</span></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- Input -----</span>
+<span class="n">rotation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+<span class="c1"># ----------------</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">r_spherical</span> <span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="o">+</span><span class="n">rotation</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">r_spherical</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="o">+</span><span class="n">rotation</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">[</span><span class="n">r</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]],</span> <span class="n">y</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">[</span><span class="n">r</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;reciprocal distance (1/nm)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 0, &#39;reciprocal distance (1/nm)&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "e37ee556defa4871a8e76f1ae543f69b", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Forbidden-Reflections">
+<h3>Forbidden Reflections<a class="headerlink" href="#Forbidden-Reflections" title="Link to this heading">¶</a></h3>
+<p>We can now pot the forbidden reflections into this diffraction pattern.</p>
+<p>As can be seen the first order Laue Zone (SOLZ) is completely forbidden as are all the other odd Laue Zones.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">forbidden</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">g_forbidden</span><span class="p">,</span> <span class="n">rotation_matrix</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">forbidden</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">forbidden</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;forbidden&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;ZOLZ&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">HOLZ</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g_hkl_rotated</span><span class="p">[</span><span class="n">HOLZ</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;HOLZ&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;scattering angle in (1/$\AA$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;scattering angle in (1/$\AA$)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "07cf2574791b491d8933de4f6a44fa26", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="Kinematic-Scattering-with-pyTEMlib">
+<h2>Kinematic Scattering with pyTEMlib<a class="headerlink" href="#Kinematic-Scattering-with-pyTEMlib" title="Link to this heading">¶</a></h2>
+<p>the kinematic scattering plots can be calculated with the provided kinematic_scattering module of pyTEMlib. All data are gathered in a python dictionary named atoms.info .</p>
+<p>All <em>experimental</em> parameter are stored in <em>atoms.info[‘experimental’]</em> dictionary and serve as an input to the kinematic scattering calculations.</p>
+<p>All results from the kinematic scattering library are stored in the <em>diff_dict</em> dictionary</p>
+<p>Any additional parameter for the output is stored in the <em>diff_dict[‘output’]</em> dictionary</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># copy experimental conditions into the tags directory</span>
+<span class="n">atoms</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;experimental&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">atoms</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;experimental&#39;</span><span class="p">][</span><span class="s1">&#39;acceleration_voltage_V&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">acceleration_voltage_V</span>
+
+<span class="n">atoms</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;experimental&#39;</span><span class="p">][</span><span class="s1">&#39;convergence_angle_mrad&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">atoms</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;experimental&#39;</span><span class="p">][</span><span class="s1">&#39;zone_hkl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>  <span class="c1"># incident nearest zone axis: defines Laue Zones!!!!</span>
+<span class="n">atoms</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;experimental&#39;</span><span class="p">][</span><span class="s1">&#39;mistilt&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>  <span class="c1"># mistilt in degrees</span>
+
+<span class="n">atoms</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;experimental&#39;</span><span class="p">][</span><span class="s1">&#39;Sg_max&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Sg_max</span>      <span class="c1"># 1/Ang  maximum allowed excitation error ; This parameter is related to the thickness</span>
+<span class="n">atoms</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;experimental&#39;</span><span class="p">][</span><span class="s1">&#39;hkl_max&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hkl_max</span>    <span class="c1"># Highest evaluated Miller indices</span>
+<span class="c1"># calculate kinematic scattering data</span>
+<span class="n">diff_dict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">diff_dict</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_bragg_reflections</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">atoms</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;experimental&#39;</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">atoms</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;experimental&#39;</span><span class="p">][</span><span class="s1">&#39;plot_FOV&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+
+<span class="c1"># plot diffraction pattern</span>
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plot_saed_parameter</span><span class="p">()</span>
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">][</span><span class="s1">&#39;color_reflections&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">][</span><span class="s1">&#39;plot_labels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">][</span><span class="s1">&#39;plot_Kikuchi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">][</span><span class="s1">&#39;plot_dynamically_allowed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plot_diffraction_pattern</span><span class="p">(</span><span class="n">diff_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Of the 1035 possible reflection 202 are allowed.
+Of those, there are 2 in ZOLZ  and 198 in HOLZ
+Of the 8 forbidden reflection in ZOLZ  0 can be dynamically activated.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "22ee2f5202314609aee1b1c67c3d2490", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Generating-Spot-Pattern">
+<h2>Generating Spot Pattern<a class="headerlink" href="#Generating-Spot-Pattern" title="Link to this heading">¶</a></h2>
+<p>What needs to be done for a spot pattern</p>
+<ol class="arabic simple">
+<li><p>Generate the reciprocal lattice</p></li>
+<li><p>Rotate zone axis to coincide with z-axis; Rotate reciprocal lattice the same way.</p></li>
+<li><p>Select all reciprocal lattice points that have an excitation error smaller than S<span class="math notranslate nohighlight">\(_{max}\)</span>.</p></li>
+<li><p>Determine the allowed reflections of those reciprocal lattice points.</p></li>
+<li><p>Plot these spots (projection is done by ignoring z-axis value, which is the Laue zone).</p></li>
+</ol>
+</section>
+<section id="Dynamically-Activated-Reflections">
+<h2>Dynamically Activated Reflections<a class="headerlink" href="#Dynamically-Activated-Reflections" title="Link to this heading">¶</a></h2>
+<p>Forbidden Reflection that are a linear combination of two scattering events are called dynamically activated.</p>
+<p>For example, the combination of <span class="math notranslate nohighlight">\([111] + [1\bar{1}\bar{1}]\)</span> reflection gives the in silicon forbidden <span class="math notranslate nohighlight">\([200]\)</span> reflection, visible in any <span class="math notranslate nohighlight">\(\{110\}\)</span> diffraction pattern of silicon.</p>
+<blockquote>
+<div><p>Here we test all combinations of any pair of allowed reflections to see whether they are a forbidden one, in which case they are dynamically activated or dynamically allowed</p>
+</div></blockquote>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hkl_allowed</span> <span class="o">=</span> <span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;hkl&#39;</span><span class="p">]</span>
+<span class="n">hkl_forbidden</span> <span class="o">=</span> <span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;forbidden&#39;</span><span class="p">][</span><span class="s1">&#39;hkl&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">indices</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hkl_allowed</span><span class="p">))</span>
+<span class="n">combinations</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">permutations</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
+
+<span class="n">dynamically_allowed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hkl_forbidden</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+<span class="k">for</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">:</span>
+    <span class="n">possible</span> <span class="o">=</span> <span class="p">(</span><span class="n">hkl_allowed</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">hkl_allowed</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">possible</span> <span class="ow">in</span> <span class="n">hkl_forbidden</span><span class="p">:</span>
+        <span class="n">dynamically_allowed</span><span class="p">[</span><span class="n">hkl_forbidden</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">possible</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+
+<span class="n">points</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plotting_coordinates</span><span class="p">(</span><span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">points</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;allowed&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="c1">#plt.scatter(points[:,0], points[:,1])</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plotting_coordinates</span><span class="p">(</span><span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;forbidden&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">dynamically_allowed</span><span class="p">),</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">dynamically_allowed</span><span class="p">),</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;forbidden&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">dynamically_allowed</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">dynamically_allowed</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;dynamically allowed&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "aed43b836c0545fcb6636645da5645a7", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<section id="With-kinematic_scattering-library-of-pyTEMlib">
+<h3>With kinematic_scattering library of pyTEMlib<a class="headerlink" href="#With-kinematic_scattering-library-of-pyTEMlib" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diff_dict</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_bragg_reflections</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">atoms</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;experimental&#39;</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># plot diffraction pattern</span>
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plot_saed_parameter</span><span class="p">()</span>
+<span class="c1"># diff_dict[&#39;output&#39;][&#39;color_reflections&#39;] = None</span>
+
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">][</span><span class="s1">&#39;plot_labels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">][</span><span class="s1">&#39;plot_Kikuchi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">][</span><span class="s1">&#39;plot_dynamically_allowed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">][</span><span class="s1">&#39;plot_forbidden&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plot_diffraction_pattern</span><span class="p">(</span><span class="n">diff_dict</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Of the 1070 possible reflection 202 are allowed.
+Of those, there are 34 in ZOLZ  and 168 in HOLZ
+Of the 66 forbidden reflection in ZOLZ  16 can be dynamically activated.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "592f4f91e8084e5dbd29ebb335425ece", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>with forbidden reflections, that are dynamicall allowed</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plot_saed_parameter</span><span class="p">()</span>
+<span class="c1"># diff_dict[&#39;output&#39;][&#39;color_reflections&#39;] = None</span>
+
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">][</span><span class="s1">&#39;plot_labels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">][</span><span class="s1">&#39;plot_Kikuchi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">][</span><span class="s1">&#39;plot_dynamically_allowed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">][</span><span class="s1">&#39;plot_forbidden&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plot_diffraction_pattern</span><span class="p">(</span><span class="n">diff_dict</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "96d10df699904001b379bdeb70b79307", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading">¶</a></h2>
+<p>The scattering geometry provides all the tools to determine which reciprocal lattice points are possible and which of them are allowed.</p>
+<p>The diffraction pattern is a projection onto the plane perpendicular to the zone axis. For an easy projection we tilt everything so that the x,y plane is our projection plane.</p>
+</section>
+<section id="Navigation">
+<h2>Navigation<a class="headerlink" href="#Navigation" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Back:</strong> <a class="reference internal" href="CH2_06-Kinematic_Scattering_Geometry.html"><span class="doc">Kinematic Scattering Geometry</span></a></p></li>
+<li><p><strong>Next:</strong> <a class="reference internal" href="CH2_08-Spot_Diffraction_Pattern.html"><span class="doc">Analyzing Spot Diffraction Pattern</span></a></p></li>
+<li><p><strong>Chapter 2:</strong> <a class="reference internal" href="CH2_00-Diffraction.html"><span class="doc">Diffraction</span></a></p></li>
+<li><p><strong>List of Content:</strong> <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">Front</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/index.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Spectroscopy/index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Diffraction</a><ul>
+      <li>Previous: <a href="CH2_06c-Relrod.html" title="previous chapter">Relrod - Sample Geometry and Excitation Error</a></li>
+      <li>Next: <a href="CH2_08-Spot_Diffraction_Pattern.html" title="next chapter">Analyzing Spot Diffraction Pattern</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Diffraction/CH2_07-Plotting_Diffraction_Pattern.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

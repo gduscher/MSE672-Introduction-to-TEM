@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Matplotlib and Numpy for Micrographs &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Course Organization" href="CH1_05-Course_Organization.html" />
+    <link rel="prev" title="Prerequisites" href="CH1_02-Prerequisites.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 1:</strong> <a class="reference internal" href="CH1_00-Introduction.html"><span class="doc">Introduction</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="Matplotlib-and-Numpy-for-Micrographs">
+<h1>Matplotlib and Numpy for Micrographs<a class="headerlink" href="#Matplotlib-and-Numpy-for-Micrographs" title="Link to this heading">¶</a></h1>
+<p>Image-Data Representations in the Computer for Microscopists</p>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Introduction/CH1_03-Data_Representation.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/Introduction/CH1_03-Data_Representation.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p><strong>Spring 2026</strong> by Gerd Duscher</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<hr class="docutils" />
+<section id="Topic">
+<h2>Topic<a class="headerlink" href="#Topic" title="Link to this heading">¶</a></h2>
+<p>All notebooks of this notebook series rely on two core python-packages: <a class="reference external" href="https://numpy.org/">numpy</a> and <a class="reference external" href="https://matplotlib.org/">matplotlib</a></p>
+<p>However, <code class="docutils literal notranslate"><span class="pre">numpy</span></code> and <code class="docutils literal notranslate"><span class="pre">matplot</span></code> are a bit confusing of how they are dealing with images from microscopes.</p>
+<p>The reason for these problems is that matplotlib is an image <strong>and</strong> a line plotting routine, and those routines are using different conventions of the plotting axis.</p>
+<p>The behaviour of these two packages will be explored in this notebook, and the differences of between <a class="reference external" href="https://numpy.org/">numpy</a> and <a class="reference external" href="https://matplotlib.org/">matplotlib</a> have direct impact on how we deal with data, how we store them, and how easily we can use other packages for data analysis.</p>
+<hr class="docutils" />
+<div class="line-block">
+<div class="line">Here, we load two packages(numpy and matplotlib) which is done in the code cell below. Every notebook in this series will start with those lines.</div>
+</div>
+<blockquote>
+<div><p>Note for Google Colab</p>
+<p>The runtime has to be restarted and the code cell below again to enable interactive plotting</p>
+<p>in the Menu <strong>Runtime</strong> choose <strong>Restart Runtime</strong> (<strong>Ctrl-M</strong>)</p>
+</div></blockquote>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w">  </span>ipympl<span class="w"> </span>-q
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">output</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> widget
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pylab</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="The-Problem">
+<h2>The Problem<a class="headerlink" href="#The-Problem" title="Link to this heading">¶</a></h2>
+<p>An image is stored as a matrix where each element of the matrix is the intensity level of the pixel.</p>
+<p>An empty image can easily be made with numpy (<code class="docutils literal notranslate"><span class="pre">np.zeros</span></code> function)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="c1">#make checkerboard (you can ignore how this is done exactly, the result is important)</span>
+<span class="n">image</span><span class="p">[::</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">image</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">,</span> <span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[0. 1. 0. 1.]
+ [1. 0. 1. 0.]
+ [0. 1. 0. 1.]
+ [1. 0. 1. 0.]
+ [0. 1. 0. 1.]
+ [1. 0. 1. 0.]
+ [0. 1. 0. 1.]
+ [1. 0. 1. 0.]]
+</pre></div></div>
+</div>
+<p>Looks ok.</p>
+<p>Let’s plot this boring image.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9f7ca024c1d94369be3913779feb27e7", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>While you probably did not have a problem with the matrix representation of our boring image, you should have one now, because the x-axis was the longer one.</p>
+<p>The problem comes from the different way data can be stored.</p>
+</section>
+<section id="Data-Storage-Conventions">
+<h2>Data Storage Conventions<a class="headerlink" href="#Data-Storage-Conventions" title="Link to this heading">¶</a></h2>
+<p>In microscopy, we are used to first go right and then down, like you read a text in English. This may originate in the fact that images from scanning microscopes start at top left, go horizontally first and then down line by line.</p>
+<p>So our perception requires the first index to be horizontally (the column index to be first) and the row index to be the second.</p>
+<p>In mathematics, a matrix index starts with a row index and column indices are second. Exactly opposite to what we are used in microscopy.</p>
+<p>$</p>
+<p>$</p>
+<p>So we now have to choose, what kind of internal representation we use. And we need to consider what kind of internal representation the used python-packages choose. You will notice that most examples on the internet get around this problem by using square matrices and images, which leads sometimes to errors in non-square data, and leads often to subtle problems in image analysis.</p>
+<p>As we see numpy uses the mathematical convention and most popular packages are compatible with numpy and use the same convention. If we chose to internally stay with the fast direction as row in the numpy array, it gets confusing with switching x and y directions constantly. Therefore, <code class="docutils literal notranslate"><span class="pre">pyTEMlib</span></code>, <code class="docutils literal notranslate"><span class="pre">pycroscopy</span></code>, and <code class="docutils literal notranslate"><span class="pre">pyNSID</span></code> are using the storage method of slow axis first storage convention.</p>
+<p>In other words, in the notebooks of this course, we will rotate output and stay with mathematics indexing internally. This makes the computation consistent with all numpy based packages and there are many. The <a class="reference external" href="https://www.scipy.org/">scipy</a>, <a class="reference external" href="https://scikit-image.org/">scikit-image</a>, and <a class="reference external" href="https://scikit-learn.org/stable/">scikit-learn</a> are the most used (collection of) packages used in this notebook-lecture series. We stay very <code class="docutils literal notranslate"><span class="pre">pythonic</span></code> with this convention.</p>
+<p><em>Turning</em> the image can be accomplished by a <code class="docutils literal notranslate"><span class="pre">.T</span></code> command of numpy arrays, which is the transposed of a matrix <span class="math notranslate nohighlight">\(M^T\)</span>. Please note, that numpy is smart enough to leave the stored data alone and just change the way the data are read (look up strides and numpy for more information).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(8, 4)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "ec1458f445a14e24ba94213021561f3f", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Using-the-Pythonic-Convention">
+<h2>Using the <code class="docutils literal notranslate"><span class="pre">Pythonic</span></code> Convention<a class="headerlink" href="#Using-the-Pythonic-Convention" title="Link to this heading">¶</a></h2>
+<p>This convention chosen allows us to address the image content naturally, here we select the pixel at x-axis 4 and y-axis 1</p>
+<p>In the example below, also a line is plotted which needs the <code class="docutils literal notranslate"><span class="pre">x</span></code> coordinates first and the <code class="docutils literal notranslate"><span class="pre">y</span></code> coordinates (as a list <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">...</span> <span class="pre">]</span></code> or numpy <code class="docutils literal notranslate"><span class="pre">array</span></code>).</p>
+<p>The same coordinates are used to put markers in the image.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "629f0d82c4b940d69940e64cb53600da", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Adding-a-Scale">
+<h2>Adding a Scale<a class="headerlink" href="#Adding-a-Scale" title="Link to this heading">¶</a></h2>
+<p>Adding a scale to the image is accomplished by setting the extent parameters in matplotlib.</p>
+<section id="Relative-Scale">
+<h3>Relative Scale<a class="headerlink" href="#Relative-Scale" title="Link to this heading">¶</a></h3>
+<p>Generally, it is recommended to use the field of view (length of axis times pixel-size in that direction) as the extent and the starting point is zero.</p>
+<p>The difference to most online code is that we set the field of view (FOV) of the y-axis first, to start the top left at 0 as it is custom in microscopy.</p>
+<p>The pixel size is accurate in that way. Addressing and plotting other parameters on top of the image will be in the scale expressed with the extent parameters.</p>
+<p>However, that there is a slight problem with the origin and the coordinate reference of a pixel, which will be discussed in the next subsection.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[0., 1., 0., 1., 0., 1., 0., 1.],
+       [1., 0., 1., 0., 2., 0., 1., 0.],
+       [0., 1., 0., 1., 0., 1., 0., 1.],
+       [1., 0., 1., 0., 1., 0., 1., 0.]])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">scale_x</span> <span class="o">=</span> <span class="n">scale_y</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">FOV_x</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span> <span class="n">scale_x</span>
+<span class="n">FOV_y</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span> <span class="n">scale_y</span>
+<span class="n">image_extent</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">FOV_x</span><span class="p">,</span><span class="n">FOV_y</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">extent</span> <span class="o">=</span> <span class="n">image_extent</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span><span class="o">*</span><span class="n">scale_x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">scale_y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+<span class="c1">## while above coordinates are translated from pixel, next we use directly image coordinates</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">40</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "ad830843dd26460c991aebc8290ae1b4", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Correct-Absolute-Scale">
+<h3>Correct Absolute Scale<a class="headerlink" href="#Correct-Absolute-Scale" title="Link to this heading">¶</a></h3>
+<p>We can see that in the image above the relative scale, which means the size of the pixel, is accurate and the y-axis is numbered as we are used to.</p>
+<p>Plotting a line from pixel [0,0] to pixel [4,1] however reveals that the origin of the pixels moved from the center to the top left corner.</p>
+<p>This is usually not a problem however it can lead to problems in plotting of parameters with subpixel accuracy, where the origin of the matrix pixel is regarded <code class="docutils literal notranslate"><span class="pre">at</span> <span class="pre">the</span> <span class="pre">center</span></code>.</p>
+<p>The correct scale needs to be shifted by half a pixel:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">scale_x</span> <span class="o">=</span> <span class="n">scale_y</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">FOV_x</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span> <span class="n">scale_x</span>
+<span class="n">FOV_y</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span> <span class="n">scale_y</span>
+
+<span class="c1">## Set correct image extent</span>
+<span class="n">image_extent</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">scale_x</span><span class="p">,</span><span class="n">scale_x</span><span class="p">,</span><span class="n">scale_y</span><span class="p">,</span><span class="n">scale_y</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">extent</span> <span class="o">=</span> <span class="n">image_extent</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span><span class="o">*</span><span class="n">scale_x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">scale_y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+<span class="c1">## while above coordinates are translated from pixel here we use directly image coordinates</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">40</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "809a900ebbdb41939ba572413cd24abf", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="Summary">
+<h2>Summary<a class="headerlink" href="#Summary" title="Link to this heading">¶</a></h2>
+<p>So internally we use the mathematical convention of matrices and all we have to take care of is that the output plot of the image is the right kind around.</p>
+<p>For absolute pixel positions we need to shift the <code class="docutils literal notranslate"><span class="pre">grid</span></code> by half a pixel to keep the pixel origin in the center of the pixels.</p>
+<p>The advantage of this approach is that no other effort has to be spent to keep track on what axis is where, which can get cumbersome in multidimensional datasets.</p>
+</section>
+<section id="Navigation">
+<h2>Navigation<a class="headerlink" href="#Navigation" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Back</strong> <a class="reference internal" href="CH1_02-Prerequisites.html"><span class="doc">Installation and Prerequisites</span></a><strong>)</strong></p></li>
+<li><p><strong>Next:</strong> <a class="reference internal" href="CH1_04-Open_File.html"><span class="doc">Open a (DM) file</span></a></p></li>
+<li><p><strong>Chapter 1:</strong> <a class="reference internal" href="CH1_00-Introduction.html"><span class="doc">Introduction</span></a></p></li>
+<li><p><strong>List of Content:</strong> <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">Front</span></a></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Diffraction/index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Spectroscopy/index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Introduction</a><ul>
+      <li>Previous: <a href="CH1_02-Prerequisites.html" title="previous chapter">Prerequisites</a></li>
+      <li>Next: <a href="CH1_05-Course_Organization.html" title="next chapter">Course Organization</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Introduction/CH1_03-Data_Representation.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

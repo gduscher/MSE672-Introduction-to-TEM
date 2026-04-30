@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Quantify Spectrum &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 4:</strong> <a class="reference internal" href="CH4_00-Spectroscopy.html"><span class="doc">Spectroscopy</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="Quantify-Spectrum">
+<h1>Quantify Spectrum<a class="headerlink" href="#Quantify-Spectrum" title="Link to this heading">¶</a></h1>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p>by Gerd Duscher, Spring 2026</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<section id="First-we-import-the-essential-libraries">
+<h2>First we import the essential libraries<a class="headerlink" href="#First-we-import-the-essential-libraries" title="Link to this heading">¶</a></h2>
+<p>All we need here should come with the annaconda or any other package</p>
+<p>The xml library will enable us to read the Bruker file.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2026.1.1&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w">  </span>--upgrade<span class="w"> </span>pyTEMlib<span class="w"> </span>-q
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+done
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> widget
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1">## import the configuration files of pyTEMlib (we need access to the data folder)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyTEMlib</span>
+
+<span class="n">pyTEMlib</span><span class="o">.</span><span class="n">__version__</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;0.2026.1.3&#39;
+</pre></div></div>
+</div>
+</section>
+<section id="Cross-section-for-EDS-in-Transmission">
+<h2>Cross-section for EDS in Transmission<a class="headerlink" href="#Cross-section-for-EDS-in-Transmission" title="Link to this heading">¶</a></h2>
+<p>For thin samples such as used in transmission electron microscopy absorption, and fluorescence, can be neglected <a class="reference external" href="https://doi.org/10.1007/978-1-4419-7200-2">Chapter 2: Pennycook and Nellist, 2011</a>. If multiple scattering and channelling is avoided the EDS partial scattering cross-section for a single atom of element x is given by <a class="reference external" href="https://doi.org/10.1017/S1431927615015494">Macarthur et al., 2015</a> and <a class="reference external" href="https://doi.org/10.1016/J.ULTRAMIC.2017.07.020">Macarthur et al., 2017</a>:</p>
+<div class="math notranslate nohighlight">
+\[\sigma_{x}^{EDS} = \frac{I_x e}{i_0 \tau N_x t}\]</div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(N_x\)</span>: the volumetric number density of the elemental species being detected,</p></li>
+<li><p><span class="math notranslate nohighlight">\(t\)</span>: the sample thickness (same length unit as volume in N_x),</p></li>
+<li><p><span class="math notranslate nohighlight">\(I_x\)</span>: is the raw x-ray counts detected from the sample (a.u.),</p></li>
+<li><p><span class="math notranslate nohighlight">\(i_0\)</span>: is the probe current (A),</p></li>
+<li><p><span class="math notranslate nohighlight">\(\tau\)</span> is the exposure time (s),</p></li>
+<li><p><span class="math notranslate nohighlight">\(e\)</span> is the electronic charge (C).</p></li>
+</ul>
+<p>A more consistent way would be to relate the cross-section with areal density <span class="math notranslate nohighlight">\(n_x\)</span> and to use incident flux <span class="math notranslate nohighlight">\(I_0\)</span> like in the case of EELS earlier.</p>
+<div class="math notranslate nohighlight">
+\[\sigma_{x}^{EDS} = \frac{I_x}{i_0\tau/e} \frac{1} {N_x t} = \frac{I_x}{I_0} \frac{1} {n_x}\]</div>
+<p>Where:</p>
+<ul class="simple">
+<li><p>$n_x = <span class="math">\rho</span>_x *t $: the areal density of the elemental species being detected,</p></li>
+<li><p><span class="math notranslate nohighlight">\(I_0 = i_0*\tau/e\)</span>: incident flux: total number of electrons the sample is exposed to during the experiment</p></li>
+</ul>
+<section id="Comparison-with-EELS">
+<h3>Comparison with EELS<a class="headerlink" href="#Comparison-with-EELS" title="Link to this heading">¶</a></h3>
+<p>Above formula is the same as derived for EELS earlier. The difference is that <span class="math notranslate nohighlight">\(I_x^{EELS}\)</span> is the number of electrons that scattered inelastically per energy transfer (and momentum transfer).</p>
+<p>While <span class="math notranslate nohighlight">\(I_x^{EDS}\)</span> is the raw counts of X-rays that originate in the relaxation of excitation from a specific core level of element <span class="math notranslate nohighlight">\(x\)</span>. This implies that the competing relaxation process of generation of Auger electrons is the same for all elements. &gt;This is a fundamental requirement for quantification of both EDS and Auger spectroscopy.</p>
+<p>The relationship between <span class="math notranslate nohighlight">\(\sigma_{x}^{EDS}\)</span> and <span class="math notranslate nohighlight">\(\sigma_{x}^{EELS}\)</span> is, therfore, a linear one. And we need to determine the efficiency of X-ray detection (not generation) per EDS system, which also has an take-off angle dependence.</p>
+<p>However, the linear dependency is not between the EELS and EDS cross section as defined here, but the cross section of the core excitation, as introduced by Egerton. In that approach the inelastic scattering of lower-energy core-losses are approximated together with the background caused by plasmon losses.</p>
+<p>Therefore, in the code cell below we need to subtract the background from lower-level excitations from the core-level in question.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">z</span> <span class="o">=</span> <span class="mi">38</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_eds_xsection</span><span class="p">(</span><span class="n">Xsection</span><span class="p">,</span> <span class="n">energy_scale</span><span class="p">,</span> <span class="n">start_bgd</span><span class="p">,</span> <span class="n">end_bgd</span><span class="p">):</span>
+    <span class="n">background</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eels_tools</span><span class="o">.</span><span class="n">power_law_background</span><span class="p">(</span><span class="n">Xsection</span><span class="p">,</span> <span class="n">energy_scale</span><span class="p">,</span> <span class="p">[</span><span class="n">start_bgd</span><span class="p">,</span> <span class="n">end_bgd</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">cross_section_core</span> <span class="o">=</span> <span class="n">Xsection</span><span class="o">-</span> <span class="n">background</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">cross_section_core</span><span class="p">[</span><span class="n">cross_section_core</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">cross_section_core</span><span class="p">[</span><span class="n">energy_scale</span> <span class="o">&lt;</span> <span class="n">end_bgd</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">return</span> <span class="n">cross_section_core</span>
+<span class="n">energy_scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">20000</span><span class="p">)</span>
+<span class="n">Xsection</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eels_tools</span><span class="o">.</span><span class="n">xsec_xrpa</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="mf">20000.</span> <span class="p">)</span>
+<span class="n">edge_info</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eels_tools</span><span class="o">.</span><span class="n">get_x_sections</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+<span class="k">if</span> <span class="s1">&#39;K1&#39;</span> <span class="ow">in</span> <span class="n">edge_info</span><span class="p">:</span>
+    <span class="n">start_bgd</span> <span class="o">=</span> <span class="n">edge_info</span><span class="p">[</span><span class="s1">&#39;K1&#39;</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">.8</span>
+    <span class="n">end_bgd</span> <span class="o">=</span> <span class="n">edge_info</span><span class="p">[</span><span class="s1">&#39;K1&#39;</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span><span class="o">-</span><span class="mi">5</span>
+    <span class="n">K_eds_xsection</span> <span class="o">=</span> <span class="n">get_eds_xsection</span><span class="p">(</span><span class="n">Xsection</span><span class="p">,</span> <span class="n">energy_scale</span><span class="p">,</span> <span class="n">start_bgd</span><span class="p">,</span> <span class="n">end_bgd</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="s1">&#39;L3&#39;</span> <span class="ow">in</span> <span class="n">edge_info</span><span class="p">:</span>
+    <span class="n">start_bgd</span> <span class="o">=</span> <span class="n">edge_info</span><span class="p">[</span><span class="s1">&#39;L3&#39;</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">.8</span>
+    <span class="n">end_bgd</span> <span class="o">=</span> <span class="n">edge_info</span><span class="p">[</span><span class="s1">&#39;L3&#39;</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span><span class="o">-</span><span class="mi">5</span>
+    <span class="n">L_eds_xsection</span> <span class="o">=</span> <span class="n">get_eds_xsection</span><span class="p">(</span><span class="n">Xsection</span><span class="p">,</span> <span class="n">energy_scale</span><span class="p">,</span> <span class="n">start_bgd</span><span class="p">,</span> <span class="n">end_bgd</span><span class="p">)</span>
+<span class="k">if</span> <span class="s1">&#39;M5&#39;</span> <span class="ow">in</span> <span class="n">edge_info</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">edge_info</span><span class="p">[</span><span class="s1">&#39;M5&#39;</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">])</span>
+    <span class="n">start_bgd</span> <span class="o">=</span> <span class="n">edge_info</span><span class="p">[</span><span class="s1">&#39;M5&#39;</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">.8</span>
+    <span class="n">end_bgd</span> <span class="o">=</span> <span class="n">edge_info</span><span class="p">[</span><span class="s1">&#39;M5&#39;</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span><span class="o">-</span><span class="mi">5</span>
+    <span class="n">M_eds_xsection</span> <span class="o">=</span> <span class="n">get_eds_xsection</span><span class="p">(</span><span class="n">Xsection</span><span class="p">,</span> <span class="n">energy_scale</span><span class="p">,</span> <span class="n">start_bgd</span><span class="p">,</span> <span class="n">end_bgd</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">M_eds_xsection</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">background</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eels_tools</span><span class="o">.</span><span class="n">power_law_background</span><span class="p">(</span><span class="n">Xsection</span><span class="p">,</span> <span class="n">energy_scale</span><span class="p">,</span> <span class="p">[</span><span class="mi">80</span><span class="p">,</span> <span class="mi">95</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">Xsection</span><span class="p">)</span> <span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;EELS X-section&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">background</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;L-core background&#39;</span><span class="p">)</span>
+
+<span class="c1">#plt.plot(energy_scale, np.log(1+L_eds_xsection), label=&#39;L-level X-section&#39;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">K_eds_xsection</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;K-level X-section&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">M_eds_xsection</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">M_eds_xsection</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;M-level X-section&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">5000</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span> <span class="p">(</span><span class="s1">&#39;energy (eV)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;cross section (barns)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+133.1
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "cb417b84ca9745608d82c25ab2a97f37", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Cross-section-for-EDS">
+<h3>Cross-section for EDS<a class="headerlink" href="#Cross-section-for-EDS" title="Link to this heading">¶</a></h3>
+<p>Of course we do not need the dependence of the cross section on energy but the sum.</p>
+<p>The relevant functions will then be:</p>
+<p>Comparison to k-factors to Cliff Lorimer</p>
+<ul class="simple">
+<li><p>k-factors are in weight%</p></li>
+<li><p>cross-sections in atom%</p></li>
+</ul>
+<p>The above cross sections are for the excitation of a specific core-level of an atom. The sum of the experimental detected X-ray lines of one family are a fraction of those cross-sections.</p>
+<p>Given the large discrepancy of excitation probabilities of the different core-levels, we use the lower-energy cross-sections if possible. Adding up the different families will result in sup-percent change in the total percentage of excitation probabilties.</p>
+<p><a class="reference external" href="https://doi.org/10.1016/j.micron.2018.06.015">Varambhia et al.</a> used the linear thickness dependence of the signal to correlate the cross sections of EDS and EELS. This is an excellent way to callibrate the EDS system. And the correlation factor between EELS and EDS should be same for different X-Ray peak families of all elements. The similar method can be used to callibrate the cross section of ADF intensities.</p>
+</section>
+</section>
+<section id="k-Factor-for-relative-composition">
+<h2>k-Factor for relative composition<a class="headerlink" href="#k-Factor-for-relative-composition" title="Link to this heading">¶</a></h2>
+<p>the k-factor for elements A and B is defined as:</p>
+<div class="math notranslate nohighlight">
+\[k_{AB} = \frac{Q_A  \omega_A a_A \epsilon_A}{Q_B  \omega_B a_B \epsilon_B}\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(Q\)</span> [ionizations/e<span class="math notranslate nohighlight">\(^-\)</span> (atoms / cm<span class="math notranslate nohighlight">\(^2\)</span>)): ionization cross section</p></li>
+<li><p><span class="math notranslate nohighlight">\(\omega\)</span> [X-rays/ ionization]: fluorescent yield = number of X-rays generated per ionization</p></li>
+<li><p><span class="math notranslate nohighlight">\(A\)</span> [g/moles]: atomic weight</p></li>
+<li><p><span class="math notranslate nohighlight">\(a\)</span> relative transition probability (a) of the same series of X-rays (<span class="math notranslate nohighlight">\(\alpha\ to\ \beta\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\varepsilon\)</span> detector efficiencies for lines. If we look back to the Ch4_14 and the generation of X-rays, we see that we eliminated the variables of the sample (areal density) , because they are the same.</p></li>
+</ul>
+<p>rewriting above equation we see that:</p>
+<div class="math notranslate nohighlight">
+\[k_{AB} = \frac{Q_A}{Q_B} \frac{\omega_A}{\omega_B}  \frac{\epsilon_A} {\epsilon_B}\]</div>
+<p>We do not worry about the units. Since we are fitting all lines we can omit the relative transition probability.</p>
+<p>The main uncertainties are: The cross section, and the fluorescent yield.</p>
+<p>There are three customary reference elements for the k-factor:</p>
+<ul class="simple">
+<li><p>silicon (semiconductor industrie and literature )</p></li>
+<li><p>iron (materials science)</p></li>
+<li><p>carbon (ThermoFisher seems to be using that)</p></li>
+</ul>
+<p>Using silicon we need the <span class="math notranslate nohighlight">\(k_{ASi}\)</span> factors and</p>
+<div class="math notranslate nohighlight">
+\[k_{AB} = k_{ASi} / k_{BSi}\]</div>
+<p>Only for thicker samples we need the density and thickness for absorption corrections.</p>
+</section>
+<section id="Open-a-EDS-spectrum-file">
+<h2>Open a EDS spectrum file<a class="headerlink" href="#Open-a-EDS-spectrum-file" title="Link to this heading">¶</a></h2>
+<p>Here the EDS-STO.emd file in the <strong>example_data</strong> folder.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;./EDS.rto&#39;</span><span class="p">):</span>
+        <span class="o">!</span>wget<span class="w">  </span>https://github.com/gduscher/MSE672-Introduction-to-TEM/raw/main/example_data/EDS.rto<span class="err">&#39;</span>
+        <span class="o">!</span>wget<span class="w">  </span>https://github.com/gduscher/MSE672-Introduction-to-TEM/raw/main/example_data/1EELS<span class="w"> </span>Acquire<span class="w"> </span><span class="o">(</span>low-loss<span class="o">)</span>.dm3
+    <span class="n">example_path</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">example_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="s2">&quot;../example_data&quot;</span><span class="p">)</span>
+<span class="n">file_widget</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">file_tools</span><span class="o">.</span><span class="n">FileWidget</span><span class="p">(</span><span class="n">dir_name</span><span class="o">=</span><span class="n">example_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "e06f998ce06f4541aea5e44d70ecb580", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "015fa654497940cba0986a9366fb7d6c", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spectrum</span> <span class="o">=</span> <span class="n">file_widget</span><span class="o">.</span><span class="n">selected_dataset</span>
+<span class="n">view</span> <span class="o">=</span> <span class="n">spectrum</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">spectrum</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+np.uint64(190830)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9ad5c58783e842fca4ab03e6ccf08b7c", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Does not work for spectrum images</span>
+<span class="c1">#</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">spectrum</span><span class="o">.</span><span class="n">energy_scale</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">energy_scale</span> <span class="o">=</span> <span class="n">spectrum</span><span class="o">.</span><span class="n">energy_scale</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">start</span><span class="p">:]</span>
+
+<span class="n">spectrum</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;EDS&#39;</span><span class="p">][</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;layers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">13</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;thickness&#39;</span><span class="p">:</span> <span class="mf">0.05</span><span class="o">*</span><span class="mf">1e-6</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="s1">&#39;element&#39;</span><span class="p">:</span> <span class="s1">&#39;Al&#39;</span><span class="p">},</span>                                            <span class="p">}</span>
+<span class="n">spectrum</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;EDS&#39;</span><span class="p">][</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;SiDeadThickness&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">.13</span> <span class="o">*</span><span class="mf">1e-6</span>  <span class="c1"># in m</span>
+<span class="n">spectrum</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;EDS&#39;</span><span class="p">][</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;SiLiveThickness&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.05</span>  <span class="c1"># in m</span>
+<span class="n">spectrum</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;EDS&#39;</span><span class="p">][</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;detector_area&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="mf">1e-6</span> <span class="c1">#in m2</span>
+<span class="n">spectrum</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;EDS&#39;</span><span class="p">][</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;energy_resolution&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">125</span>  <span class="c1"># in eV</span>
+<span class="n">spectrum</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;EDS&#39;</span><span class="p">][</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;start_energy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">120</span>  <span class="c1"># in eV</span>
+<span class="n">spectrum</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;EDS&#39;</span><span class="p">][</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;start_channel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">spectrum</span><span class="o">.</span><span class="n">energy_scale</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="mi">120</span><span class="p">)</span>
+
+
+<span class="n">detector_Efficiency</span><span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eds_tools</span><span class="o">.</span><span class="n">detector_response</span><span class="p">(</span><span class="n">spectrum</span><span class="p">)</span>  <span class="c1"># tags, spectrum.energy_scale.values[start:])</span>
+
+<span class="n">spectrum</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;EDS&#39;</span><span class="p">][</span><span class="s1">&#39;detector&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;start_energy&#39;</span><span class="p">,</span>  <span class="mi">120</span><span class="p">)</span>
+<span class="n">spectrum</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;EDS&#39;</span><span class="p">][</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;start_channel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">spectrum</span><span class="o">.</span><span class="n">energy_scale</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">spectrum</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;EDS&#39;</span><span class="p">][</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;start_energy&#39;</span><span class="p">])</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">spectrum</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;EDS&#39;</span><span class="p">][</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;start_channel&#39;</span><span class="p">]</span>
+<span class="n">spectrum</span><span class="p">[:</span><span class="n">spectrum</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;EDS&#39;</span><span class="p">][</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;start_channel&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="mf">0.</span>
+
+<span class="n">spectrum</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;EDS&#39;</span><span class="p">][</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;detector_efficiency&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">detector_Efficiency</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spectrum</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;EDS&#39;</span><span class="p">][</span><span class="s1">&#39;detector&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+dict_keys([&#39;layers&#39;, &#39;SiDeadThickness&#39;, &#39;SiLiveThickness&#39;, &#39;detector_area&#39;, &#39;energy_resolution&#39;, &#39;start_energy&#39;, &#39;start_channel&#39;, &#39;ElevationAngle&#39;, &#39;AzimuthAngle&#39;, &#39;RealTime&#39;, &#39;LiveTime&#39;, &#39;detector_efficiency&#39;])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">spectrum</span>
+<span class="n">dataset</span><span class="o">.</span><span class="n">view_original_metadata</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Core :
+        MetadataDefinitionVersion : 7.9
+        MetadataSchemaVersion : v1/2013/07
+        guid : 00000000000000000000000000000000
+Instrument :
+        ControlSoftwareVersion : 3.21.1
+        Manufacturer : FEI Company
+        InstrumentId : 4018
+        InstrumentClass : Titan
+        InstrumentModel : Spectra
+        ComputerName : TITAN52340180
+Acquisition :
+        AcquisitionStartDatetime :
+                DateTime : 1744132943
+        AcquisitionDatetime :
+                DateTime : 1744132970
+        BeamType :
+        SourceType : XFEG
+Optics :
+        GunLensSetting : 783.09402465820313
+        ExtractorVoltage : 3600.03662109375
+        AccelerationVoltage : 200000
+        SpotIndex : 7
+        C1LensIntensity : -0.45199715939082202
+        C2LensIntensity : 0.19444500112822424
+        C3LensIntensity : 0.3542091236880327
+        ObjectiveLensIntensity : 0.82387587258637041
+        IntermediateLensIntensity : 0.060336265199823894
+        DiffractionLensIntensity : 0.19150135873874147
+        Projector1LensIntensity : 0.28091570010789807
+        Projector2LensIntensity : 0.91034079367771092
+        LorentzLensIntensity : 0
+        MiniCondenserLensIntensity : 0.34343568932091073
+        BeamConvergence : 0.029997306394484304
+        ScreenCurrent : 3.2020921599819477e-10
+        LastMeasuredScreenCurrent : 3.2020921599819477e-10
+        FullScanFieldOfView :
+                x : 8.1985106983538468e-09
+                y : 8.1985106983538468e-09
+        Focus : -1.7021463355063892e-07
+        StemFocus : 0
+        Defocus : -1.7021463355063892e-07
+        HighMagnificationMode : None
+        Apertures :
+                Aperture-0 :
+                        Name : C1
+                        Number : 1
+                        MechanismType : Motorized
+                        Type : Circular
+                        Diameter : 0.002
+                        Enabled : 0
+                Aperture-1 :
+                        Name : C2
+                        Number : 2
+                        MechanismType : Motorized
+                        Type : Circular
+                        Diameter : 6.9999999999999994e-05
+                        Enabled : 1
+                Aperture-2 :
+                        Name : C3
+                        Number : 3
+                        MechanismType : Motorized
+                        Type : Circular
+                        Diameter : 0.002
+                        Enabled : 0
+                Aperture-3 :
+                        Name : OBJ
+                        Number : 4
+                        MechanismType : Motorized
+                        Type : None
+                Aperture-4 :
+                        Name : SA
+                        Number : 5
+                        MechanismType : Motorized
+                        Type : None
+        OperatingMode : 2
+        TemOperatingSubMode : None
+        ProjectorMode : 1
+        EFTEMOn : false
+        ObjectiveLensMode : HM
+        IlluminationMode : Probe
+        ProbeMode : 1
+        CameraLength : 0.090999999999999998
+EnergyFilter :
+        EntranceApertureType :
+Stage :
+        Position :
+                x : -8.8828500000001313e-06
+                y : -7.3590462000000029e-05
+                z : -8.8422389105847642e-05
+        AlphaTilt : -0.017956972000000068
+        BetaTilt : 0.013796762563288212
+        HolderType : FEI Double Tilt
+Scan :
+        ScanSize :
+                width : 0
+                height : 0
+        MainsLockOn : false
+        FrameTime : 4.7841439999999995
+        ScanRotation : 0
+Vacuum :
+        VacuumMode : Ready
+Detectors :
+        Detector-0 :
+                DetectorName : BF-S
+                DetectorType : ScanningDetector
+                Inserted : false
+                Enabled : true
+                Gain : 39
+                Offset : 0
+                CollectionAngleRange :
+                        begin : 0
+                        end : 0
+        Detector-1 :
+                DetectorName : BM-Ceta
+                DetectorType : ImagingDetector
+                ExposureMode :
+                Binning :
+                        width : 4
+                        height : 4
+                ReadOutArea :
+                        left : 0
+                        top : 0
+                        right : 1024
+                        bottom : 1024
+                ExposureTime : 0.10000000000000001
+                Shutters :
+                        Shutter-0 :
+                                Position : PostSpecimen
+                                Type : Electrostatic
+                DarkGainCorrectionType : 3
+        Detector-2 :
+                DetectorName : DF-S
+                DetectorType : ScanningDetector
+                Inserted : false
+                Enabled : true
+                Gain : 45.659520000000015
+                Offset : -4.0012542384708496e-08
+                CollectionAngleRange :
+                        begin : 0
+                        end : 0
+        Detector-3 :
+                DetectorName : EF-CCD
+                DetectorType : ImagingDetector
+                ExposureMode :
+                Binning :
+                        width : 4
+                        height : 4
+                ReadOutArea :
+                        left : 0
+                        top : 0
+                        right : 1024
+                        bottom : 1024
+                ExposureTime : 0.10000000000000001
+                Shutters :
+                        Shutter-0 :
+                                Position : PostSpecimen
+                                Type : Electrostatic
+                DarkGainCorrectionType : 3
+        Detector-4 :
+                DetectorName : Flucam
+                DetectorType : ImagingDetector
+                ExposureMode :
+                Gain : 0.69999999999999996
+                Binning :
+                        width : 1
+                        height : 1
+                ReadOutArea :
+                        left : 0
+                        top : 0
+                        right : 1024
+                        bottom : 1024
+                ExposureTime : 0.012800000000000001
+                Shutters :
+                        Shutter-0 :
+                                Position : None
+                                Type : Electrostatic
+                DarkGainCorrectionType : 3
+        Detector-5 :
+                DetectorName : HAADF
+                DetectorType : ScanningDetector
+                Inserted : true
+                Enabled : true
+                Gain : 21.544316350646859
+                Offset : -1.752
+                CollectionAngleRange :
+                        begin : 0.072878546905260952
+                        end : 0.20000000000000001
+        Detector-6 :
+                DetectorName : SuperXG21
+                DetectorType : AnalyticalDetector
+                Inserted : true
+                Enabled : true
+                ElevationAngle : 0.31415926999999999
+                AzimuthAngle : 0.78539816339744828
+                CollectionAngle : 0.69999999999999996
+                Dispersion : 5
+                PulseProcessTime : 3.0000000000000001e-06
+                RealTime : 26.200044074999997
+                LiveTime : 25.717295459544289
+                InputCountRate : 1334
+                OutputCountRate : 1320
+                AnalyticalDetectorShutterState : 4
+                OffsetEnergy : -250
+                ElectronicsNoise : 25.359999999999999
+                BeginEnergy : 120
+        Detector-7 :
+                DetectorName : SuperXG22
+                DetectorType : AnalyticalDetector
+                Inserted : true
+                Enabled : true
+                ElevationAngle : 0.31415926999999999
+                AzimuthAngle : 2.3561944901923448
+                CollectionAngle : 0.69999999999999996
+                Dispersion : 5
+                PulseProcessTime : 3.0000000000000001e-06
+                RealTime : 26.234130274999998
+                LiveTime : 25.942911392788901
+                InputCountRate : 242
+                OutputCountRate : 240
+                AnalyticalDetectorShutterState : 4
+                OffsetEnergy : -250
+                ElectronicsNoise : 25.170000000000002
+                BeginEnergy : 120
+        Detector-8 :
+                DetectorName : SuperXG23
+                DetectorType : AnalyticalDetector
+                Inserted : true
+                Enabled : true
+                ElevationAngle : 0.31415926999999999
+                AzimuthAngle : 3.9269908169872414
+                CollectionAngle : 0.69999999999999996
+                Dispersion : 5
+                PulseProcessTime : 3.0000000000000001e-06
+                RealTime : 26.2338126
+                LiveTime : 25.204968704665891
+                InputCountRate : 2978
+                OutputCountRate : 2859
+                AnalyticalDetectorShutterState : 4
+                OffsetEnergy : -250
+                ElectronicsNoise : 24.350000000000001
+                BeginEnergy : 120
+        Detector-9 :
+                DetectorName : SuperXG24
+                DetectorType : AnalyticalDetector
+                Inserted : true
+                Enabled : true
+                ElevationAngle : 0.31415926999999999
+                AzimuthAngle : 5.497787143782138
+                CollectionAngle : 0.69999999999999996
+                Dispersion : 5
+                PulseProcessTime : 3.0000000000000001e-06
+                RealTime : 26.252377599999999
+                LiveTime : 25.576678845541675
+                InputCountRate : 2936
+                OutputCountRate : 2841
+                AnalyticalDetectorShutterState : 4
+                OffsetEnergy : -250
+                ElectronicsNoise : 25.460000000000001
+                BeginEnergy : 120
+BinaryResult :
+        AcquisitionUnit :
+        CompositionType :
+        DetectorIndex : 8
+        Detector : SuperXG23
+        Encoding :
+Sample :
+GasInjectionSystems :
+CustomProperties :
+        Aperture[C1].Name :
+                type : string
+                value : 2000
+        Aperture[C2].Name :
+                type : string
+                value : 70
+        Aperture[C3].Name :
+                type : string
+                value : 2000
+        Aperture[OBJ].Name :
+                type : string
+                value : None
+        Aperture[SA].Name :
+                type : string
+                value : None
+        Detectors[EF-CCD].CommercialName :
+                type : string
+                value : Continuum 1065
+        Detectors[EF-CCD].ElectronCounted :
+                type : bool
+                value : 0
+        Detectors[SuperXG21].BilatThresholdHi :
+                type : double
+                value : 0.0050390000000000001
+        Detectors[SuperXG21].CommercialName :
+                type : string
+                value : Super-X G2
+        Detectors[SuperXG21].DetectorConfigID :
+                type : string
+                value : 3101e35a-08ec-4b3d-9108-6aa5d0e49281
+        Detectors[SuperXG21].DistanceToSample :
+                type : double
+                value : 12.42
+        Detectors[SuperXG21].IncidentAngle :
+                type : double
+                value : 0.094596840000000001
+        Detectors[SuperXG21].KMax :
+                type : double
+                value : 180
+        Detectors[SuperXG21].KMin :
+                type : double
+                value : 120
+        Detectors[SuperXG21].PulsePairResolutionTime :
+                type : double
+                value : 4.9999999999999998e-07
+        Detectors[SuperXG21].SpectrumBeginEnergy :
+                type : long
+                value : 120
+        Detectors[SuperXG22].BilatThresholdHi :
+                type : double
+                value : 0.0050390000000000001
+        Detectors[SuperXG22].CommercialName :
+                type : string
+                value : Super-X G2
+        Detectors[SuperXG22].DetectorConfigID :
+                type : string
+                value : 3101e35a-08ec-4b3d-9108-6aa5d0e49281
+        Detectors[SuperXG22].DistanceToSample :
+                type : double
+                value : 12.42
+        Detectors[SuperXG22].IncidentAngle :
+                type : double
+                value : 0.094596840000000001
+        Detectors[SuperXG22].KMax :
+                type : double
+                value : 180
+        Detectors[SuperXG22].KMin :
+                type : double
+                value : 120
+        Detectors[SuperXG22].PulsePairResolutionTime :
+                type : double
+                value : 4.9999999999999998e-07
+        Detectors[SuperXG22].SpectrumBeginEnergy :
+                type : long
+                value : 120
+        Detectors[SuperXG23].BilatThresholdHi :
+                type : double
+                value : 0.0050390000000000001
+        Detectors[SuperXG23].CommercialName :
+                type : string
+                value : Super-X G2
+        Detectors[SuperXG23].DetectorConfigID :
+                type : string
+                value : 3101e35a-08ec-4b3d-9108-6aa5d0e49281
+        Detectors[SuperXG23].DistanceToSample :
+                type : double
+                value : 12.42
+        Detectors[SuperXG23].IncidentAngle :
+                type : double
+                value : 0.094596840000000001
+        Detectors[SuperXG23].KMax :
+                type : double
+                value : 180
+        Detectors[SuperXG23].KMin :
+                type : double
+                value : 120
+        Detectors[SuperXG23].PulsePairResolutionTime :
+                type : double
+                value : 4.9999999999999998e-07
+        Detectors[SuperXG23].SpectrumBeginEnergy :
+                type : long
+                value : 120
+        Detectors[SuperXG24].BilatThresholdHi :
+                type : double
+                value : 0.0050390000000000001
+        Detectors[SuperXG24].CommercialName :
+                type : string
+                value : Super-X G2
+        Detectors[SuperXG24].DetectorConfigID :
+                type : string
+                value : 3101e35a-08ec-4b3d-9108-6aa5d0e49281
+        Detectors[SuperXG24].DistanceToSample :
+                type : double
+                value : 12.42
+        Detectors[SuperXG24].IncidentAngle :
+                type : double
+                value : 0.094596840000000001
+        Detectors[SuperXG24].KMax :
+                type : double
+                value : 180
+        Detectors[SuperXG24].KMin :
+                type : double
+                value : 120
+        Detectors[SuperXG24].PulsePairResolutionTime :
+                type : double
+                value : 4.9999999999999998e-07
+        Detectors[SuperXG24].SpectrumBeginEnergy :
+                type : long
+                value : 120
+        Optics.MonoSpotSize :
+                type : string
+                value : &lt;=11
+        StemMagnification :
+                type : double
+                value : 10000000
+AcquisitionSettings :
+        encoding : uint16
+        bincount : 4096
+        StreamEncoding : uint16
+        Size : 2097152
+</pre></div></div>
+</div>
+</section>
+<section id="Element-Finding-With-pyTEMlib">
+<h2>Element Finding With pyTEMlib<a class="headerlink" href="#Element-Finding-With-pyTEMlib" title="Link to this heading">¶</a></h2>
+<p>The minimum_number_of_peaks determines how many elements will be found.</p>
+<p>Increase from 10 to 11 of that parameter will reveal Nb, a common dopant of SrTiO<span class="math notranslate nohighlight">\(_3\)</span></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --------Input -----------</span>
+<span class="n">minimum_number_of_peaks</span> <span class="o">=</span> <span class="mi">11</span>
+<span class="c1"># --------------------------</span>
+
+<span class="n">elements</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eds_tools</span><span class="o">.</span><span class="n">get_elements</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">minimum_number_of_peaks</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">energy_scale</span><span class="p">,</span><span class="n">dataset</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;spectrum&#39;</span><span class="p">)</span>
+<span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eds_tools</span><span class="o">.</span><span class="n">plot_lines</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;EDS&#39;</span><span class="p">],</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+<span class="n">elements</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;Ti&#39;, &#39;Sr&#39;, &#39;Cu&#39;, &#39;O&#39;, &#39;Nb&#39;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "c9c2dbf4b6a8450b95d4327256d8bd28", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Quantify">
+<h2>Quantify<a class="headerlink" href="#Quantify" title="Link to this heading">¶</a></h2>
+<p>In the model based approach with want to fit the spectrum with its basic features</p>
+<p>These basic features in an EDS spectrum are:</p>
+<ul class="simple">
+<li><p>Background dominated by</p>
+<ul>
+<li><p><a class="reference internal" href="CH4_13-Bremsstrahlung.html"><span class="doc">Bremsstrahlung</span></a></p></li>
+<li><p><a class="reference internal" href="CH4_15-Detector.html"><span class="doc">Detector effciency</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="CH4_14-Characteristic_X_Rays.html"><span class="doc">Characteristic Peaks</span></a></p></li>
+</ul>
+<section id="Fit-spectrum">
+<h3>Fit spectrum<a class="headerlink" href="#Fit-spectrum" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">peaks</span><span class="p">,</span> <span class="n">pp</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eds_tools</span><span class="o">.</span><span class="n">fit_model</span><span class="p">(</span><span class="n">spectrum</span><span class="p">,</span> <span class="n">use_detector_efficiency</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eds_tools</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="n">spectrum</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">spectrum</span><span class="o">.</span><span class="n">energy_scale</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;spectrum&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">spectrum</span><span class="o">.</span><span class="n">energy_scale</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;model&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">spectrum</span><span class="o">.</span><span class="n">energy_scale</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">spectrum</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;difference&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;energy (eV)&#39;</span><span class="p">)</span>
+<span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eds_tools</span><span class="o">.</span><span class="n">plot_lines</span><span class="p">(</span><span class="n">spectrum</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;EDS&#39;</span><span class="p">],</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+no intensity Nb M-family
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "42a46dcc79f74f1db872475b8b7678a5", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Composition-Basis">
+<h3>Composition Basis<a class="headerlink" href="#Composition-Basis" title="Link to this heading">¶</a></h3>
+</section>
+<section id="Castaing’s-first-approximation:">
+<h3>Castaing’s first approximation:<a class="headerlink" href="#Castaing’s-first-approximation:" title="Link to this heading">¶</a></h3>
+<div class="math notranslate nohighlight">
+\[C_i = \frac{I_i}{I_{Pure}}\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(𝐶_i\)</span> = Concentration of element <span class="math notranslate nohighlight">\(𝑖\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(𝐼_𝑖\)</span> = X-ray intensity of element <span class="math notranslate nohighlight">\(𝑖\)</span> in the sample</p></li>
+<li><p><span class="math notranslate nohighlight">\(𝐼_{𝑃𝑢𝑟𝑒}\)</span> = X-ray intensity of a pure sample of the element</p></li>
+</ul>
+<p>We call the ratio: <span class="math notranslate nohighlight">\(\frac{I_i}{I_{Pure}}\)</span> <strong>k-ratio</strong></p>
+<img alt="k-ratio" src="../_images/k-ratio.jpg" />
+<ul class="simple">
+<li><p>Stainless to Fe-Ka ratio = 0.745</p></li>
+<li><p>Stainless to Cr-Ka ratio = 0.208</p></li>
+<li><p>Stainless to Ni-Ka ratio = 0.080</p></li>
+</ul>
+<p>therefore:</p>
+<ul class="simple">
+<li><p>Fe: 70.8 wt%</p></li>
+<li><p>Cr: 17.2 wt%</p></li>
+<li><p>Ni: 9.1 wt%</p></li>
+</ul>
+</section>
+<section id="id1">
+<h3>Quantify Spectrum<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<p>first with Bote-Salvat cross section using dictionaries calculated with <a class="reference external" href="https://github.com/adriente/emtables/blob/main/">emtables package</a>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eds_tools</span><span class="o">.</span><span class="n">quantify_eds</span><span class="p">(</span><span class="n">spectrum</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;Cu&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+using cross sections for quantification
+Ti: 28.35 at% 34.02 wt%
+Sr: 20.51 at% 45.05 wt%
+O : 50.91 at% 20.42 wt%
+Nb: 0.22 at% 0.52 wt%
+</pre></div></div>
+</div>
+<p>then with k-factor dictionary</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">q_dict</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eds_tools</span><span class="o">.</span><span class="n">load_k_factors</span><span class="p">()</span>
+<span class="n">tags</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eds_tools</span><span class="o">.</span><span class="n">quantify_eds</span><span class="p">(</span><span class="n">spectrum</span><span class="p">,</span> <span class="n">q_dict</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Cu&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+using k-factors for quantification
+Ti: 22.43 at% 27.54 wt%
+Sr: 21.80 at% 48.98 wt%
+O : 55.46 at% 22.75 wt%
+Nb: 0.30 at% 0.73 wt%
+excluded from quantification  [&#39;Cu&#39;]
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="ZAF-Correction">
+<h2>ZAF Correction<a class="headerlink" href="#ZAF-Correction" title="Link to this heading">¶</a></h2>
+<p>While the k-ratio is a good starting point, the basic approximation does not take absorption and interaction between the different elements into account. To increase the precision the following corrections are applied:</p>
+<ul class="simple">
+<li><p><strong>Z</strong>: Atomic number factor</p></li>
+<li><p><strong>A</strong>: sample Absorption</p></li>
+<li><p><strong>F</strong>: Fluorescence</p></li>
+</ul>
+<section id="Atomic-Number-Factor---Z">
+<h3>Atomic Number Factor - Z<a class="headerlink" href="#Atomic-Number-Factor---Z" title="Link to this heading">¶</a></h3>
+<p>The <strong>stopping power</strong> is equal to the energy loss of the electron per unit length it travels in the material: <span class="math notranslate nohighlight">\(𝑆(𝐸)=−𝑑𝐸/𝑑t\)</span></p>
+<p><a class="reference external" href="https://doi.org/10.1007/s100050010070">D.C. Joy, Microsc. Microanal. 7(2001): 159-169</a></p>
+<div class="math notranslate nohighlight">
+\[S(E)  \propto \rho \frac{Z}{AE} \ln \left( \frac{1.116 (E+0.85J)}{J}\right)\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(E\)</span>: electron energy</p></li>
+<li><p><span class="math notranslate nohighlight">\(\rho\)</span>: density of material</p></li>
+<li><p><span class="math notranslate nohighlight">\(Z\)</span>: Atomic number</p></li>
+<li><p><span class="math notranslate nohighlight">\(A\)</span>: atomic weight of material</p></li>
+<li><p><span class="math notranslate nohighlight">\(J\)</span>: Mean ionizaton potential</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[J(eV) = 10.04 + 8.25 \exp(-Z/11.22)\]</div>
+<p>The <strong>backscatter correction</strong> is the relation between how many photons are generated with and without backscattering.</p>
+<div class="math notranslate nohighlight">
+\[R = \frac{1}{1+0.008Z(1-\frac{E_c}{E_0})}\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(R\)</span>: backscatter correction</p></li>
+<li><p><span class="math notranslate nohighlight">\(Z\)</span>: Mean atomic number of sample</p></li>
+<li><p><span class="math notranslate nohighlight">\(E_0\)</span>: electron energy</p></li>
+<li><p><span class="math notranslate nohighlight">\(E_c\)</span>: critical ionization energy</p></li>
+</ul>
+</section>
+<section id="Absorption-Correction">
+<h3>Absorption Correction<a class="headerlink" href="#Absorption-Correction" title="Link to this heading">¶</a></h3>
+<img alt="Absorption_Correction" src="../_images/Absorption_Correction2.jpg" />
+<p>The numerator describes how many X-rays are generated at a given depth and scales the number by the attenuation due to the escape path in the sample.</p>
+<p>The denominator is the total number of X-rays generated without attenuation.</p>
+<p>This means that A is a normalized value that describes how many of the generated X-rays actually escaped the sample.</p>
+</section>
+<section id="Takeoff-angle-and-Absorption">
+<h3>Takeoff angle and Absorption<a class="headerlink" href="#Takeoff-angle-and-Absorption" title="Link to this heading">¶</a></h3>
+<p><img alt="takeoff angle" class="no-scaled-link" src="../_images/takeoff.png" style="width: 50%;" /></p>
+<p>After an X-ray is emitted it may get absorbed by an other atom with a line of lower energy. In NiO the Ni-K X-ray photon can be absobed by the O-K edge and thus the oxygen signal is more prominent than the chemical composition would allow. Therefore, the path-length of the X-rays within the sample to the detector is important With a sample-thickness <span class="math notranslate nohighlight">\(t\)</span> and take-off angle <span class="math notranslate nohighlight">\(\alpha\)</span>, the path-length <span class="math notranslate nohighlight">\(p\)</span> in the sample is:</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}p = \frac{t}{sin(\alpha)}\\NOTE\\Absorption is not important for thin specimens (&lt; ~50nm)\end{aligned}\end{align} \]</div>
+<p>The absorption coefficient is defined as :</p>
+<div class="math notranslate nohighlight">
+\[k_A = \frac{\int_0^t  \varphi_B(\rho t) \exp -\left( \left. \frac{\mu}{\rho} \right]^B_{\rm spec}\rho \frac{t}{\sin \alpha}    \right) d(\rho t)}
+{\int_0^t \varphi_A(\rho t) \exp -\left( \left. \frac{\mu}{\rho} \right]^A_{\rm spec}\rho \frac{t}{\sin \alpha}    \right) d(\rho t)}\]</div>
+<p>with: $ <span class="math">\varphi</span>_B(:nbsphinx-math:<a href="#id2"><span class="problematic" id="id3">`</span></a>rho <a href="#id4"><span class="problematic" id="id5">`</span></a>t)$ : depth distribution of Xray production</p>
+<p>which is the ratio of the X-ray emission from a layer of element A/B of thickness <span class="math notranslate nohighlight">\(\Delta \rho t\)</span> at depth <span class="math notranslate nohighlight">\(t\)</span> in the specimen with density <span class="math notranslate nohighlight">\(\rho\)</span> to the X-ray emission from an identical, but isolated film.</p>
+<p>$ <span class="math">\left</span>. <span class="math">\frac{\mu}{\rho}</span> <span class="math">\right</span>]^A_{<span class="math">\rm spec</span>} = <span class="math">\sum</span><em>i :nbsphinx-math:`left`( :nbsphinx-math:`left`. :nbsphinx-math:`frac{C_imu}{rho}` :nbsphinx-math:`right`]^A</em>{<span class="math">\rm spec</span>} <span class="math">\right</span>)$ : the mass-absorption coefficient of X-rays from element A in the specimen (<span class="math notranslate nohighlight">\(C_i\)</span> concentration of element <span class="math notranslate nohighlight">\(i\)</span> with <span class="math notranslate nohighlight">\(\sum_i C_i =1\)</span>)</p>
+<p><span class="math notranslate nohighlight">\(\alpha\)</span> : the detector take-off angle.</p>
+<blockquote>
+<div><p>Note</p>
+<p>The sample acts like the detector and will absorbe part of the photons emitted</p>
+<p>This absorption is treatd like the detector but the elements depend on the sample</p>
+</div></blockquote>
+<p>In a TEM we can assume that the film is homogeneous and can set $ <span class="math">\varphi</span>_B(:nbsphinx-math:<a href="#id6"><span class="problematic" id="id7">`</span></a>rho <a href="#id8"><span class="problematic" id="id9">`</span></a>t) = 1$</p>
+<p>and we get:</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}A_{AB} = \frac{\left( \left. \frac{\mu}{\rho} \right]^A_{\rm spec}   \right)}
+{ \left( \left. \frac{\mu}{\rho} \right]^B_{\rm spec}   \right)}
+\left(\frac{1 -  \exp\left( \left. \frac{\mu}{\rho} \right]^B_{\rm spec}\frac{\rho t}{\sin \alpha}    \right)}
+{ 1-\exp\left( \left. \frac{\mu}{\rho} \right]^A_{\rm spec} \frac{\rho t}{\sin \alpha}    \right)}\right)\\For absorption correction, we need to know desnity :math:`\rho` and thickness :math:`t` of our specimen.\end{aligned}\end{align} \]</div>
+</section>
+<section id="Absorption-with-pyTEMlib">
+<h3>Absorption with pyTEMlib<a class="headerlink" href="#Absorption-with-pyTEMlib" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Please note that this is the only correction needed in TEM</p>
+</div></blockquote>
+<p>Lower energy lines will be more affected than higher x-ray lines.</p>
+<p>At thin sample location (&lt;50nm) absorption is not significant.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------ Input ----------</span>
+<span class="n">thickness_in_nm</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="c1"># -----------------------</span>
+<span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eds_tools</span><span class="o">.</span><span class="n">apply_absorption_correction</span><span class="p">(</span><span class="n">spectrum</span><span class="p">,</span> <span class="n">thickness_in_nm</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">spectrum</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;EDS&#39;</span><span class="p">][</span><span class="s1">&#39;GUI&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">if</span> <span class="s1">&#39;corrected-atom%&#39;</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Element: </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">, Corrected Atom%: </span><span class="si">{</span><span class="n">value</span><span class="p">[</span><span class="s1">&#39;corrected-atom%&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, Corrected Weight%: </span><span class="si">{</span><span class="n">value</span><span class="p">[</span><span class="s1">&#39;corrected-weight%&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Element: Ti, Corrected Atom%: 21.21, Corrected Weight%: 26.92
+Element: Sr, Corrected Atom%: 20.58, Corrected Weight%: 47.81
+Element: Cu, Corrected Atom%: 0.00, Corrected Weight%: 0.00
+Element: O, Corrected Atom%: 57.92, Corrected Weight%: 24.57
+Element: Nb, Corrected Atom%: 0.29, Corrected Weight%: 0.71
+</pre></div></div>
+</div>
+</section>
+<section id="Fluorescence-Correction">
+<h3>Fluorescence Correction<a class="headerlink" href="#Fluorescence-Correction" title="Link to this heading">¶</a></h3>
+<p><img alt="Fluorescence_Correction" class="no-scaled-link" src="../_images/Fluorescence2.jpg" style="width: 50%;" /></p>
+<p>The high energy X-ray can originate from characteristic X-rays from elements with higher energy lines or from the bremsstrahlung. This means that even the element with the highest energy line can have a fluorescence correction.</p>
+</section>
+</section>
+<section id="Using-ZAF">
+<h2>Using ZAF<a class="headerlink" href="#Using-ZAF" title="Link to this heading">¶</a></h2>
+<div class="math notranslate nohighlight">
+\[𝑊𝑒𝑖𝑔ℎ𝑡 \% =  \frac{𝑘−𝑟𝑎𝑡𝑖𝑜}{𝑍𝐴𝐹}∙100\%\]</div>
+</section>
+<section id="ZAF-assumptions">
+<h2>ZAF assumptions<a class="headerlink" href="#ZAF-assumptions" title="Link to this heading">¶</a></h2>
+<p>Several assumptions are made either directly or indirectly in the equations used to calculate the composition of a sample.</p>
+<ul class="simple">
+<li><p>The sample is homogenous.</p>
+<ul>
+<li><p>The density 𝜌 and the mass attenuation 𝜇/𝜌 is assumed to be constant.</p></li>
+</ul>
+</li>
+<li><p>The sample is flat.</p>
+<ul>
+<li><p>𝑧 is well defined for any given position and no additional absorption takes place after the X-ray reaches the sample surface.</p></li>
+</ul>
+</li>
+<li><p>The sample is infinitely thick as seen by the electron beam.</p>
+<ul>
+<li><p>-The energy of the incident electron is deposited in the sample and only secondary and backscatter electrons escape.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="Composition-Standardless">
+<h2>Composition Standardless<a class="headerlink" href="#Composition-Standardless" title="Link to this heading">¶</a></h2>
+<p>For standard-less analysis the k-ratio is either calculated in the software or based on internal standards.</p>
+<p>Following</p>
+<p><a class="reference external" href="https://doi-org.proxy.lib.utk.edu/10.1021/ac00107a017">D.E. Newbury, C.R. Swyt, and R.L. Myklebust, “Standardless” Quantitative Electron Probe Microanalysis with Energy-Dispersive X-ray Spectrometry: Is It Worth the Risk?, Anal. Chem. 1995, 67, 1866-1871</a></p>
+<p>to calculate the mass concentration <span class="math notranslate nohighlight">\(C_i\)</span> from the intensity of a line (<span class="math notranslate nohighlight">\(I_{ch}\)</span>), we use:</p>
+<div class="math notranslate nohighlight">
+\[I_{ch} = \epsilon  (\omega N_A \rho C_i / A) R \int _{E_c}^{E_0} \frac{Q_i}{dE/ds}dE\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\omega\)</span> : fluorescence yield</p></li>
+<li><p><span class="math notranslate nohighlight">\(N_A\)</span>: Avogadro’s number</p></li>
+<li><p><span class="math notranslate nohighlight">\(\rho\)</span>: density</p></li>
+<li><p><span class="math notranslate nohighlight">\(C_i\)</span>: mass concentration of element <span class="math notranslate nohighlight">\(i\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A\)</span>:atomic weight</p></li>
+<li><p><span class="math notranslate nohighlight">\(R\)</span>: backscatter loss</p></li>
+<li><p><span class="math notranslate nohighlight">\(Q_i\)</span>: ionization cross section</p></li>
+<li><p><span class="math notranslate nohighlight">\(dE/ds\)</span>: rate of energy loss</p></li>
+<li><p><span class="math notranslate nohighlight">\(E_0\)</span>: incident beam energy</p></li>
+<li><p><span class="math notranslate nohighlight">\(E_c\)</span>: excitation energy</p></li>
+<li><p><span class="math notranslate nohighlight">\(\epsilon\)</span>: EDS efficiency</p></li>
+</ul>
+<p>where: <span class="math notranslate nohighlight">\(N_A * \rho * C_i/A\)</span>: volume density of element <span class="math notranslate nohighlight">\(i\)</span> (atoms per unit volume)</p>
+<p>What do we know at this point?</p>
+<p><span class="math notranslate nohighlight">\(\omega; N_A; \rho; A; Q_i; E_0; E_c;\)</span> and <span class="math notranslate nohighlight">\(\epsilon\)</span></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">BrowningEmpiricalCrossSection</span><span class="p">(</span><span class="n">elm</span> <span class="p">,</span> <span class="n">energy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; * Computes the elastic scattering cross section for electrons of energy between</span>
+<span class="sd">     * 0.1 and 30 keV for the specified element target. The algorithm comes from&lt;br&gt;</span>
+<span class="sd">     * Browning R, Li TZ, Chui B, Ye J, Pease FW, Czyzewski Z &amp;amp; Joy D; J Appl</span>
+<span class="sd">     * Phys 76 (4) 15-Aug-1994 2016-2022</span>
+
+<span class="sd">     * The implementation is designed to be similar to the implementation found in</span>
+<span class="sd">     * MONSEL.</span>
+<span class="sd">     * Copyright: Pursuant to title 17 Section 105 of the United States Code this</span>
+<span class="sd">     * software is not subject to copyright protection and is in the public domain</span>
+<span class="sd">     * Company: National Institute of Standards and Technology</span>
+<span class="sd">     * @author Nicholas W. M. Ritchie</span>
+<span class="sd">     * @version 1.0</span>
+
+<span class="sd">     */</span>
+<span class="sd">     Modified by Gerd Duscher, UTK</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#/**</span>
+    <span class="c1">#* totalCrossSection - Computes the total cross section for an electron of</span>
+    <span class="c1">#* the specified energy.</span>
+    <span class="c1">#*</span>
+    <span class="c1"># @param energy double - In keV</span>
+    <span class="c1"># @return double - in square meters</span>
+    <span class="c1">#*/</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">energy</span>  <span class="c1">#in keV</span>
+    <span class="n">re</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mf">3.0e-22</span> <span class="o">*</span> <span class="n">elm</span><span class="o">**</span><span class="mf">1.7</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.005</span> <span class="o">*</span> <span class="n">elm</span><span class="o">**</span><span class="mf">1.7</span> <span class="o">*</span> <span class="n">re</span><span class="p">)</span> <span class="o">+</span> <span class="p">((</span><span class="mf">0.0007</span> <span class="o">*</span> <span class="n">elm</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">re</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Summary">
+<h2>Summary<a class="headerlink" href="#Summary" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>EDS quantification is not magic and the results will highly depend on sample preparation and correct peak identification.</p></li>
+<li><p>Correct quantification with ZAF relies on the sample being:</p>
+<ul>
+<li><p>Flat</p></li>
+<li><p>Homogenous</p></li>
+<li><p>Infinitely thick to the electron beam</p></li>
+</ul>
+</li>
+<li><p>Use of standards is not required for good quantification but it will give additional information and increase quality of the results.</p></li>
+<li><p>Peak-to-background based ZAF is good for rough samples but requires better spectra than regular ZAF.</p></li>
+<li><p>The best way to good EDS results:</p>
+<ul>
+<li><p>Good samples</p></li>
+<li><p>Thorough sample preparation</p></li>
+<li><p>Exact SEM Parameters</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="Back:-Detector-Response">
+<h2>Back: <a class="reference internal" href="CH4_15-Detector.html"><span class="doc">Detector Response</span></a><a class="headerlink" href="#Back:-Detector-Response" title="Link to this heading">¶</a></h2>
+</section>
+<section id="List-of-Content:-Front">
+<h2>List of Content: <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">Front</span></a><a class="headerlink" href="#List-of-Content:-Front" title="Link to this heading">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Diffraction/index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Spectroscopy/CH4_17-Quantify_EDS_Spectrum.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

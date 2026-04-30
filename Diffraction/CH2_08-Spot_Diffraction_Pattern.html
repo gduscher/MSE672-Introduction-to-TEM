@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Analyzing Spot Diffraction Pattern &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Unic Cell Determination and Stereographic Projection" href="CH2_09-Unit_Cell.html" />
+    <link rel="prev" title="Plotting Diffraction Pattern" href="CH2_07-Plotting_Diffraction_Pattern.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 2:</strong> <a class="reference internal" href="CH2_00-Diffraction.html"><span class="doc">Diffraction</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="Analyzing-Spot-Diffraction-Pattern">
+<h1>Analyzing Spot Diffraction Pattern<a class="headerlink" href="#Analyzing-Spot-Diffraction-Pattern" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Diffraction/CH2_08-Spot_Diffraction_Pattern.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main//Diffraction/CH2_08-Spot_Diffraction_Pattern.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p><strong>Spring 2026</strong> by Gerd Duscher</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<section id="Load-relevant-python-packages">
+<h2>Load relevant python packages<a class="headerlink" href="#Load-relevant-python-packages" title="Link to this heading">¶</a></h2>
+<section id="Check-Installed-Packages">
+<h3>Check Installed Packages<a class="headerlink" href="#Check-Installed-Packages" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2026.1.0&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/pycroscopy/pyTEMlib.git@main<span class="w"> </span>-q<span class="w"> </span>--upgrade
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+done
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Import-numerical-and-plotting-python-packages">
+<h2>Import numerical and plotting python packages<a class="headerlink" href="#Import-numerical-and-plotting-python-packages" title="Link to this heading">¶</a></h2>
+<p>Import the python packages that we will use:</p>
+<p>Beside the basic numerical (numpy) and plotting (pylab of matplotlib) libraries,</p>
+<p>and some libraries from the book</p>
+<ul class="simple">
+<li><p>kinematic scattering library.</p></li>
+<li><p>file_tools library</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span>  widget
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">output</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+
+<span class="c1"># Import libraries from pyTEMlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyTEMlib</span>
+
+<span class="c1">### And we use the image tool library of pyTEMlib</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pyTEMlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.2026.1.3
+</pre></div></div>
+</div>
+</section>
+<section id="Acquisition-of-Selected-Area-Diffraction-Patterns">
+<h2>Acquisition of Selected Area Diffraction Patterns<a class="headerlink" href="#Acquisition-of-Selected-Area-Diffraction-Patterns" title="Link to this heading">¶</a></h2>
+<p>Practical steps:</p>
+<ul class="simple">
+<li><p>Make sure that area of interest is in focus.</p></li>
+<li><p>Insert SAD or equivalent aperture in image plane</p></li>
+<li><p>Remove objective aperture (let all the diffracted beams through)</p></li>
+<li><p>Focus the SAD aperture (Put’s that aperture in the image plane of the objective lens)</p></li>
+<li><p>Switch to diffraction mode</p></li>
+<li><p>Adjust convergence angle (C3) within the limits given by the area you want to investigate</p></li>
+<li><p>Focus the diffraction pattern with the intermediate lens (diffraction focus).</p></li>
+<li><p>Correct astigmatism</p></li>
+<li><p>Block zero beam with the pointer. (You can damage the CCD)</p></li>
+<li><p>Use long exposer times (<span class="math notranslate nohighlight">\(&gt;\)</span> 1 sec: better dynamics, sharper pattern) or even take several at different exposure times.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Some tips:</strong></p>
+<ul class="simple">
+<li><p>cooling the specimen will reduce thermal diffuse scattering (scattering at phonons).</p></li>
+<li><p>With a Gatan Image Filter (GIF) or an in-column filter one can filter out the inelastic scattering (lower energy) electrons responsible for a lot of the background intensity.</p></li>
+<li><p>CCD cameras usually have a lower dynamic range and can be easily damaged by the zero refection. Summing several diffraction-pattern increases the dynamic range of the data.</p></li>
+<li><p>Changes in the lattice parameter due to stress will not be easily seen in the diffraction patterns, but HOLZ line patterns (later) give that level of accuracy.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="Load-Spot-Diffraction-Pattern">
+<h2>Load Spot-Diffraction Pattern<a class="headerlink" href="#Load-Spot-Diffraction-Pattern" title="Link to this heading">¶</a></h2>
+<p>First we select the diffraction pattern</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------ Input ------- #</span>
+<span class="n">load_example</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="c1"># -------------------- #</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+        <span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s2">&quot;/content/drive&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">load_example</span> <span class="ow">and</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;./Si001_300mm_alpha0.1_beta9.4_diff.dm3&#39;</span><span class="p">):</span>
+        <span class="o">!</span>wget<span class="w">  </span>https://github.com/gduscher/MSE672-Introduction-to-TEM/raw/main/example_data/Si001_300mm_alpha0.1_beta9.4_diff.dm3
+
+<span class="c1"># Open file widget and select file which will be opened in code cell below</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">load_example</span><span class="p">:</span>
+    <span class="n">drive_directory</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">file_tools</span><span class="o">.</span><span class="n">get_last_path</span><span class="p">()</span>
+    <span class="n">file_widget</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">file_tools</span><span class="o">.</span><span class="n">FileWidget</span><span class="p">(</span><span class="n">drive_directory</span><span class="p">)</span>
+
+    <span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;..</span><span class="se">\\</span><span class="s1">example_data</span><span class="se">\\</span><span class="s1">Si001_300mm_alpha0.1_beta9.4_diff.dm3&#39;</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">load_example</span><span class="p">:</span>
+    <span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;..</span><span class="se">\\</span><span class="s1">example_data</span><span class="se">\\</span><span class="s1">Si001_300mm_alpha0.1_beta9.4_diff.dm3&#39;</span>
+    <span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;./Si001_300mm_alpha0.1_beta9.4_diff.dm3&#39;</span>
+    <span class="n">datasets</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">file_tools</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+    <span class="n">main_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">datasets</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">main_dataset</span> <span class="o">=</span> <span class="n">file_widget</span><span class="o">.</span><span class="n">selected_dataset</span>
+    <span class="n">datasets</span> <span class="o">=</span> <span class="n">file_widget</span><span class="o">.</span><span class="n">datasets</span>
+
+<span class="n">view</span> <span class="o">=</span> <span class="n">main_dataset</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "882d5810440e41ffa413a6441aa88207", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<section id="Plotting-on-a-logarithmic-scale">
+<h3>Plotting on a logarithmic scale<a class="headerlink" href="#Plotting-on-a-logarithmic-scale" title="Link to this heading">¶</a></h3>
+<p>The dynamic range in diffraction data is even larger than in images and so for a good presentation of the data it is advantageous to go to plot the intensities in a logarithmic scale.</p>
+<p>To present data in logarithmic scale no negative values (noise) can be in these data and so all negative values in the dataset will be set to zero.</p>
+<p>The factor 1 in front of the diffraction pattern in the log numpy function in the <code class="docutils literal notranslate"><span class="pre">imshow</span></code> is the gamma value. Changing that value will change the contrast.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diff_pattern</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">main_dataset</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">diff_pattern</span><span class="p">[</span><span class="n">diff_pattern</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
+<span class="n">extent</span> <span class="o">=</span> <span class="n">main_dataset</span><span class="o">.</span><span class="n">get_extent</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">diff_pattern</span><span class="p">),</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">diff_pattern</span><span class="p">))</span><span class="o">*</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">);</span>
+<span class="n">scale_300mm</span> <span class="o">=</span> <span class="mf">0.012829394079744816</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "49ecaf4b01f249d6ba8263b61772d754", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="Finding-the-center">
+<h2>Finding the center<a class="headerlink" href="#Finding-the-center" title="Link to this heading">¶</a></h2>
+<p>First try with cross correlation of rotated images</p>
+<section id="Finding-the-center-of-the-beam-stop">
+<h3>Finding the center of the beam-stop<a class="headerlink" href="#Finding-the-center-of-the-beam-stop" title="Link to this heading">¶</a></h3>
+<p>The beam-stop is naturally dark, and we first select the dark regions. These dark regions are naturally spotty, and we set all small values to</p>
+<p>We first find the maximum of the profile for the</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">scipy.ndimage</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ndimage</span>
+
+<span class="n">beam_stop</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">diff_pattern</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">beam_stop</span><span class="p">[</span><span class="n">diff_pattern</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">beam_stop</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">gaussian_filter</span><span class="p">(</span><span class="n">beam_stop</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">beam_stop</span><span class="p">[</span><span class="n">beam_stop</span> <span class="o">&lt;=</span> <span class="mf">.7</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">beam_stop</span><span class="p">[</span><span class="n">beam_stop</span> <span class="o">&gt;</span> <span class="mf">.7</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># Find maximum of intensity onto x-axis</span>
+<span class="n">center_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">beam_stop</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+
+<span class="c1"># Find center of y-axis line profile at position center_x</span>
+<span class="n">center_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">beam_stop</span><span class="p">[:,</span><span class="n">center_x</span><span class="p">]</span><span class="o">&gt;</span><span class="mf">0.7</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">center_x</span><span class="p">,</span> <span class="n">center_y</span><span class="p">)</span>
+<span class="n">center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">center_x</span><span class="p">,</span> <span class="n">center_y</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">diff_pattern</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">beam_stop</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">beam_stop</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span> <span class="s1">&#39;intensity projected onto x&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">center_x</span><span class="o">+</span><span class="n">beam_stop</span><span class="p">[:,</span><span class="n">center_x</span><span class="p">]</span><span class="o">*</span><span class="mi">300</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2048</span><span class="p">)</span> <span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;y-axis profile&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;beam-stop center&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower left&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1101 1016.5
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "41b425a5582e4a0b922bfae8c4f0127f", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="Determine-Bragg-Peaks">
+<h2>Determine Bragg Peaks<a class="headerlink" href="#Determine-Bragg-Peaks" title="Link to this heading">¶</a></h2>
+<p>Peak finding is actually not as simple as it looks</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># our blob detectors from the scipy image package</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">skimage.feature</span><span class="w"> </span><span class="kn">import</span> <span class="n">blob_dog</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="c1"># The beam stop is rather dark</span>
+<span class="n">beam_stop</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">diff_pattern</span><span class="o">.</span><span class="n">T</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># Determine all spots</span>
+
+<span class="n">dif</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">diff_pattern</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">dif</span> <span class="o">=</span> <span class="n">dif</span><span class="o">-</span><span class="n">dif</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="c1"># blog detector does not like negative values</span>
+<span class="n">spots</span> <span class="o">=</span> <span class="n">blob_dog</span><span class="p">(</span><span class="n">dif</span><span class="p">,</span> <span class="n">max_sigma</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">.8</span><span class="p">)</span>
+
+<span class="n">Bragg_spots</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">diff_pattern</span><span class="p">),</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">diff_pattern</span><span class="p">))</span><span class="o">*</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># We only consider spots not associated with the beam stop (which confuses the blob finder)</span>
+<span class="k">for</span> <span class="n">spot</span> <span class="ow">in</span> <span class="n">spots</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">beam_stop</span><span class="o">-</span><span class="n">spot</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">&gt;</span> <span class="mi">50</span><span class="p">:</span>
+        <span class="n">Bragg_spots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spot</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">Bragg_spots</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Bragg_spots</span><span class="p">)</span>
+<span class="n">Bragg_spots</span> <span class="o">=</span> <span class="n">Bragg_spots</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">Bragg_spots</span><span class="p">[:,:</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">center</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)),:]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Bragg_spots</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">Bragg_spots</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span>  <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.collections.PathCollection at 0x27c54b9f390&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "fade1f9196ee4b38b0e940d7906d4cbf", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<section id="Refine-Center">
+<h3>Refine Center<a class="headerlink" href="#Refine-Center" title="Link to this heading">¶</a></h3>
+<p>We use the N innermost reflections and the average of those positions is the new center</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># -------INPUT-----------</span>
+<span class="n">number_of_reflections</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="c1">#------------------------</span>
+
+<span class="k">if</span> <span class="n">number_of_reflections</span><span class="o">%</span><span class="k">2</span> !=0:
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Because of inversion symmetry we need an even number&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">diff_pattern</span><span class="p">),</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">diff_pattern</span><span class="p">))</span><span class="o">*</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Bragg_spots</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">Bragg_spots</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span>  <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Bragg_spots</span><span class="p">[:</span><span class="n">number_of_reflections</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">Bragg_spots</span><span class="p">[:</span><span class="n">number_of_reflections</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span>  <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">new_center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">Bragg_spots</span><span class="p">[:</span><span class="n">number_of_reflections</span><span class="p">,:</span><span class="mi">2</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">new_center</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">new_center</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">);</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "2f9e8f2413474f8986e80177c9fb1597", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Now-we-plot-with-the-right-scale">
+<h3>Now we plot with the right scale<a class="headerlink" href="#Now-we-plot-with-the-right-scale" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">center</span> <span class="o">=</span> <span class="n">new_center</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">gx</span> <span class="o">=</span> <span class="n">gy</span> <span class="o">=</span> <span class="n">main_dataset</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">slope</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">gx</span> <span class="o">=</span> <span class="n">gy</span> <span class="o">=</span> <span class="n">scale_300mm</span><span class="o">*</span><span class="mf">1.09</span><span class="o">/</span><span class="mi">10</span>
+<span class="c1">#gx = gy * 1.05</span>
+
+<span class="n">spots_experiment</span> <span class="o">=</span> <span class="p">(</span><span class="n">Bragg_spots</span><span class="o">-</span><span class="p">(</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span><span class="o">*</span><span class="p">(</span><span class="n">gx</span><span class="p">,</span><span class="n">gy</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">extent</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">gx</span><span class="p">,</span> <span class="p">(</span><span class="n">diff_pattern</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="n">gx</span><span class="p">,(</span><span class="n">diff_pattern</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">gy</span><span class="p">,</span> <span class="o">-</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">gy</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">diff_pattern</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">diff_pattern</span><span class="p">))</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">spots_experiment</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">spots_experiment</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span>  <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+           <span class="n">label</span><span class="o">=</span><span class="s1">&#39;spots&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;reciprocal distance [1/$\rm \AA$]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.collections.PathCollection at 0x27c5478d1d0&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "0aa835e93346426b9ba94abeae3001cb", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="The-norm-of-the-reflections">
+<h3>The norm of the reflections<a class="headerlink" href="#The-norm-of-the-reflections" title="Link to this heading">¶</a></h3>
+<p>will show us how accurate our center was determined and what give us a first idea on what zone axis we have. If the center is accurate, we should have always a number of spots with the same distance from center (norm of reciprocal lattice vector) according to symmetry (in [001] direction always 4 reciprocal lattice vectors with the same length)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;reciprocal distances in 1/Ang&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">spots_experiment</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+reciprocal distances in 1/Ang
+[0.4702835  0.47095977 0.50442625 0.50459971 0.68907171 0.68966174
+ 0.6937413  0.69407384]
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Calculate-Spot-Pattern">
+<h2>Calculate Spot Pattern<a class="headerlink" href="#Calculate-Spot-Pattern" title="Link to this heading">¶</a></h2>
+<p>see <a class="reference internal" href="CH2_07-Plotting_Diffraction_Pattern.html"><span class="doc">Plotting of Diffraction Pattern</span></a> for details</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">atoms</span>  <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">crystal_tools</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">(</span><span class="s1">&#39;silicon&#39;</span><span class="p">)</span>
+<span class="n">tags</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;acceleration_voltage&#39;</span><span class="p">:</span> <span class="mf">200.0</span> <span class="o">*</span><span class="mf">1000.0</span><span class="p">,</span>  <span class="c1"># Volt</span>
+        <span class="s1">&#39;new_figure&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s1">&#39;plot FOV&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>  <span class="c1"># in 1/Ang</span>
+        <span class="s1">&#39;convergence_angle&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;zone_hkl&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]),</span>  <span class="c1"># incident nearest zone axis: defines Laue Zones!!!!</span>
+        <span class="s1">&#39;Sg_max&#39;</span><span class="p">:</span> <span class="mf">.03</span><span class="p">,</span> <span class="c1"># 1/Ang  maximum allowed excitation error ; This parameter is related to the thickness</span>
+        <span class="s1">&#39;hkl_max&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">}</span>   <span class="c1"># Highest evaluated Miller indices</span>
+
+<span class="c1">######################################</span>
+<span class="c1"># Diffraction Simulation of Crystal #</span>
+<span class="c1">######################################</span>
+
+<span class="n">diff_dict</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_bragg_reflections</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Of the 260 possible reflection 36 are allowed.
+Of those, there are 24 in ZOLZ  and 12 in HOLZ
+Of the 196 forbidden reflection in ZOLZ  0 can be dynamically activated.
+</pre></div></div>
+</div>
+</section>
+<section id="Plotting-Experimental-and-Simulated-Spot-Diffraction-Patterns">
+<h2>Plotting Experimental and Simulated Spot Diffraction Patterns<a class="headerlink" href="#Plotting-Experimental-and-Simulated-Spot-Diffraction-Patterns" title="Link to this heading">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --------Input------------------</span>
+<span class="n">percent_change</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="c1"># ------------------------------</span>
+<span class="n">scale_change</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">+</span> <span class="n">percent_change</span><span class="o">/</span><span class="mi">100</span>
+
+<span class="n">tags_simulation</span> <span class="o">=</span> <span class="n">diff_dict</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">gx</span> <span class="o">=</span> <span class="n">gy</span> <span class="o">=</span> <span class="n">main_dataset</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">slope</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">gx</span> <span class="o">=</span> <span class="n">gy</span> <span class="o">=</span> <span class="n">scale_300mm</span><span class="o">*</span><span class="mf">1.12</span><span class="o">/</span><span class="mi">10</span> <span class="o">*</span><span class="n">scale_change</span>
+<span class="n">gx</span> <span class="o">=</span> <span class="n">gy</span> <span class="o">*</span> <span class="mf">1.05</span>
+
+<span class="n">extent</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">gx</span><span class="p">,</span> <span class="p">(</span><span class="n">diff_pattern</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="n">gx</span><span class="p">,(</span><span class="n">diff_pattern</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">gy</span><span class="p">,</span> <span class="o">-</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">gy</span><span class="p">])</span>
+
+<span class="n">angle</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mf">59.6</span><span class="p">)</span>
+<span class="c1">#angle = np.radians(45)</span>
+
+<span class="n">spots_experiment</span> <span class="o">=</span> <span class="p">(</span><span class="n">Bragg_spots</span><span class="o">-</span><span class="p">(</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span><span class="o">*</span><span class="p">(</span><span class="n">gx</span><span class="p">,</span><span class="n">gy</span><span class="p">)</span>
+<span class="n">spots_simulation</span> <span class="o">=</span> <span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">][</span><span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;ZOLZ&#39;</span><span class="p">]]</span>
+<span class="n">hkl</span> <span class="o">=</span> <span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;hkl&#39;</span><span class="p">][</span><span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;ZOLZ&#39;</span><span class="p">]]</span>
+<span class="n">spots_simulation</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">angle</span>  <span class="c1"># rotation</span>
+<span class="n">spots_simulation</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/=</span> <span class="mi">10</span>  <span class="c1"># 1/Angstrom -&gt; 1/nm</span>
+<span class="n">spots_xy</span> <span class="o">=</span>  <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plotting_coordinates</span><span class="p">(</span><span class="n">spots_simulation</span><span class="p">,</span> <span class="n">k0</span><span class="o">=</span><span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;K_0&#39;</span><span class="p">])</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39; SAED in &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span> <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;zone_hkl&#39;</span><span class="p">]),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">diff_pattern</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">diff_pattern</span><span class="p">))</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">spots_experiment</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">spots_experiment</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span>  <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;experiment&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">spots_xy</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">spots_xy</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span>  <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>   <span class="n">label</span><span class="o">=</span><span class="s1">&#39;simulation&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">tags_simulation</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">spots_xy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">spots_xy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="nb">str</span><span class="p">(</span><span class="n">hkl</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
+                <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">horizontalalignment</span> <span class="o">=</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span> <span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "ba44c22388e44b2b8b2b5a9f726b0106", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<section id="What-does-the-above-figure-convey?">
+<h3>What does the above figure convey?<a class="headerlink" href="#What-does-the-above-figure-convey?" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>center is determined accurately</p></li>
+<li><p>relative distances are accurately described</p></li>
+<li><p>scaling accurately for reference crystal - calibration?</p></li>
+<li><p>diffraction pattern is indexed</p></li>
+</ul>
+</section>
+<section id="What-is-the-accuracy?">
+<h3>What is the accuracy?<a class="headerlink" href="#What-is-the-accuracy?" title="Link to this heading">¶</a></h3>
+<p>Change the scale by 1% and see what happens</p>
+<p>So we can determine the lattice parameter better than 1% if we use high scattering angles!</p>
+<p>Objective stigmation is critical to resolve angles well.</p>
+<p>Illumination stigmation determines size of Bragg spots.</p>
+</section>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading">¶</a></h2>
+<p>We need more information for the spot pattern than for the ring pattern.</p>
+<p>A comparison between simulation and experiment can be very precise.</p>
+<p>In principle, if you have the spots and the approximate center you can let an optimization routine do all the scaling for you (which we will do in the high resolution imaging section).</p>
+</section>
+<section id="Navigation">
+<h2>Navigation<a class="headerlink" href="#Navigation" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Back:</strong> <a class="reference internal" href="CH2_07-Plotting_Diffraction_Pattern.html"><span class="doc">Plotting Diffraction Pattern</span></a></p></li>
+<li><p><strong>Next:</strong> <a class="reference internal" href="CH2_09-Unit_Cell.html"><span class="doc">Unit Cell Determination</span></a></p></li>
+<li><p><strong>Chapter 2:</strong> <a class="reference internal" href="CH2_00-Diffraction.html"><span class="doc">Diffraction</span></a></p></li>
+<li><p><strong>List of Content:</strong> <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">Front</span></a></p></li>
+</ul>
+</section>
+<section id="Appendix">
+<h2>Appendix<a class="headerlink" href="#Appendix" title="Link to this heading">¶</a></h2>
+<section id="Code-of-Diffraction-Simulation-of-a-Crystal">
+<h3>Code of Diffraction Simulation of a Crystal<a class="headerlink" href="#Code-of-Diffraction-Simulation-of-a-Crystal" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#######################################</span>
+<span class="c1"># Diffraction Simulation of a Crystal #</span>
+<span class="c1">#######################################</span>
+<span class="n">tags_simulation</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_bragg_reflections</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">spots_xy</span> <span class="o">=</span>  <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plotting_coordinates</span><span class="p">(</span><span class="n">tags_simulation</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">])</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">spots_xy</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">spots_xy</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tags_simulation</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">])):</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">tags_simulation</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">&lt;</span><span class="mf">.8</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">tags_simulation</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">tags_simulation</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="nb">str</span><span class="p">(</span><span class="n">tags_simulation</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;hkl&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]),</span>
+                <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">horizontalalignment</span> <span class="o">=</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span> <span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Of the 260 possible reflection 36 are allowed.
+Of those, there are 24 in ZOLZ  and 12 in HOLZ
+Of the 196 forbidden reflection in ZOLZ  0 can be dynamically activated.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "3da9e4d0e5054211a9e702c94d39e199", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/index.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Spectroscopy/index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Diffraction</a><ul>
+      <li>Previous: <a href="CH2_07-Plotting_Diffraction_Pattern.html" title="previous chapter">Plotting Diffraction Pattern</a></li>
+      <li>Next: <a href="CH2_09-Unit_Cell.html" title="next chapter">Unic Cell Determination and Stereographic Projection</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Diffraction/CH2_08-Spot_Diffraction_Pattern.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

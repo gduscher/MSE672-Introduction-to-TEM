@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chemical Composition in Core-Loss Spectra &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 4:</strong> <a class="reference internal" href="CH4_00-Spectroscopy.html"><span class="doc">Spectroscopy</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="Chemical-Composition-in-Core-Loss-Spectra">
+<h1>Chemical Composition in Core-Loss Spectra<a class="headerlink" href="#Chemical-Composition-in-Core-Loss-Spectra" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM/main/Spectroscopy/CH4_08-Chemical_Compostion.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/Spectroscopy/CH4_08-Chemical_Compostion.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p><strong>Spring 2026</strong> by Gerd Duscher</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<section id="Content">
+<h2>Content<a class="headerlink" href="#Content" title="Link to this heading">¶</a></h2>
+<p>Quantitative determination of composition in a core-loss EELS spectrum</p>
+<p>Please cite:</p>
+<p><a class="reference external" href="https://doi.org/10.1016/j.ultramic.2018.10.009">M. Tian et al. Measuring the areal density of nanomaterials by electron energy-loss spectroscopy Ultramicroscopy Volume 196, 2019, pages 154-160</a></p>
+<p>as a reference of the here introduced model-based quantification method.</p>
+</section>
+<section id="Load-important-packages">
+<h2>Load important packages<a class="headerlink" href="#Load-important-packages" title="Link to this heading">¶</a></h2>
+<section id="Check-Installed-Packages">
+<h3>Check Installed Packages<a class="headerlink" href="#Check-Installed-Packages" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2026.1.1&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w">  </span>--upgrade<span class="w"> </span>pyTEMlib<span class="w"> </span>-q
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+done
+</pre></div></div>
+</div>
+</section>
+<section id="Import-all-relevant-libraries">
+<h3>Import all relevant libraries<a class="headerlink" href="#Import-all-relevant-libraries" title="Link to this heading">¶</a></h3>
+<p>Please note that the EELS_tools package from pyTEMlib is essential.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> ipympl
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pylab</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
+
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">output</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">drive</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+
+<span class="c1">## import the configuration files of pyTEMlib (we need access to the data folder)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyTEMlib</span>
+
+<span class="c1"># For archiving reasons it is a good idea to print the version numbers out at this point</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pyTEM version: &#39;</span><span class="p">,</span><span class="n">pyTEMlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+pyTEM version:  0.2026.1.3
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Chemical-Composition">
+<h2>Chemical Composition<a class="headerlink" href="#Chemical-Composition" title="Link to this heading">¶</a></h2>
+<p>We discuss first the conventional method of EELS chemical compoisition determination</p>
+<p>In this chapter we use the area under the ionization edge to determine the chemical composition of a (small) sample volume. The equation used to determine the number of atoms per unit volume <span class="math notranslate nohighlight">\(N\)</span> (also called areal density) is: <span class="math">\begin{equation}
+I_{edge}(\beta, \Delta E) = N * I_{0}(\beta) * \sigma_{edge}(\beta, \Delta E)
+\end{equation}</span></p>
+<p><span class="math notranslate nohighlight">\(I_0\)</span> is the number of electrons hitting the sample, and so directly comparable to the beam current.</p>
+<p>The equation can be approximated assuming that the spectrum has not been corrected for single scattering: <span class="math">\begin{equation}
+I_{edge}(\beta, \Delta E) = N * I_{low-loss}(\beta,\Delta E) *  \sigma_{edge}(\beta, \Delta E)
+\end{equation}</span> where <span class="math notranslate nohighlight">\(\beta\)</span> is the collection angle and <span class="math notranslate nohighlight">\(\sigma_{edge}\)</span> is the <strong>partial</strong> cross–section (for energy window <span class="math notranslate nohighlight">\(\Delta E\)</span>) for the core–loss excitation.</p>
+<p>The integration interval <span class="math notranslate nohighlight">\(\Delta E\)</span> which defines <span class="math notranslate nohighlight">\(I_{edge}(\beta, \Delta E)\)</span> and <span class="math notranslate nohighlight">\(I_{low-loss}\)</span> is shown in figure below.</p>
+<p><img alt="chemical_composition" class="no-scaled-link" src="../_images/edge2.jpg" style="width: 50%;" /></p>
+<p><em>Valence–loss, core–loss edges and background of SrTiO:math:`_3`]{:nbsphinx-math:`label{fig:edge2}` Ti-L:math:`_{2,3}` and O-K (right) core–loss edges and background of SrTiO:math:`_3`. The valence-loss spectrum with the zero–loss :math:`I_{zero-loss}` and low–loss intensities $I_{low-loss} $ to be used in the quantification are displayed in the background.</em></p>
+<p>If we cannot determine the intensity of the zero-loss peak <span class="math notranslate nohighlight">\(I_{zero-loss}\)</span> or of the low-loss area <span class="math notranslate nohighlight">\(I_{low-loss}\)</span>, we still can determine relative chemical compositions of two elements <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> considering that:</p>
+<p><span class="math">\begin{equation}
+\frac{N_a}{N_b} = \frac{I_{e_a}(\beta, \Delta E)}{I_0 \sigma_{e_a}(\beta, \Delta E)} \frac{I_0 \sigma_{e_b}(\beta, \Delta E) } {I_{e_b}(\beta, \Delta E)} \nonumber
+\end{equation}</span></p>
+<p><span class="math">\begin{equation}
+\frac{N_a}{N_b}=  \frac{I_{e_a}(\beta, \Delta E)\sigma_{e_b}(\beta, \Delta E) }
+{I_{e_b}(\beta, \Delta E)\sigma_{e_a}(\beta, \Delta E) }
+\end{equation}</span></p>
+<p>and the value <span class="math notranslate nohighlight">\(I_0\)</span> cancels out.</p>
+<p>The integration windows for the two edges <span class="math notranslate nohighlight">\(\Delta E\)</span> should be the same, but can be chosen differently as long as we use a different cross-section <span class="math notranslate nohighlight">\(\sigma\)</span> as well. For that case we get:</p>
+<p><span class="math">\begin{equation} \
+\frac{N_a}{N_b} =  \frac{I_{e_a}(\beta, \Delta E_a)\sigma_{e_b}(\beta, \Delta E_b) }
+{I_{e_b}(\beta, \Delta E_a)\sigma_{e_a}(\beta, \Delta E_a) }
+\end{equation}</span>, <span class="math">\Delta `E_a):nbsphinx-math:</span>sigma`_{e_a}(<span class="math">\beta</span>, :nbsphinx-math:<a href="#id1"><span class="problematic" id="id2">`</span></a>Delta <a href="#id3"><span class="problematic" id="id4">`</span></a>E_a) } \end{equation}</p>
+<p>Note, that the use of different integration windows usually results in a larger error of the quantification.</p>
+<p>In order to use the above equation we first have to determine the background under the edge. This background is then subtracted from the spectrum. Then we integrate over the different parts of the spectrum to determine the integrals (sums) of <span class="math notranslate nohighlight">\(I_{edge}\)</span>, and <span class="math notranslate nohighlight">\(I_{zero-loss}\)</span>, or $I_{low-loss} $ (depending whether we did a SSD first or not). After that we have to determine the cross-section (<a class="reference internal" href="CH4_07-Introduction_Core_Loss.html"><span class="doc">notebook</span></a>) for each edge for the parameter
+<span class="math notranslate nohighlight">\(\beta\)</span> and <span class="math notranslate nohighlight">\(\Delta E\)</span>.</p>
+<section id="Background-Fitting">
+<h3>Background Fitting<a class="headerlink" href="#Background-Fitting" title="Link to this heading">¶</a></h3>
+<p>The core-loss edges occur usually at energy-losses higher than 100 eV, superimposed to a monotonic decreasing background. For quantification of the chemical composition we need the area under the edge of a spectrum, and therefore, need to subtract the intensity of the background under the edge. Here we discuss several methods of how to determine the intensity of the background under the edge.</p>
+<p>The high energy <code class="docutils literal notranslate"><span class="pre">tail</span></code> of the plasmon peak follows the power law <span class="math notranslate nohighlight">\(A E^{-r}\)</span>. The parameter is varies widely and is associated with the intensity of the background. <span class="math notranslate nohighlight">\(E\)</span> is the energy loss. The exponent <span class="math notranslate nohighlight">\(r\)</span> gives the slope and should be between 2-6. The value <span class="math notranslate nohighlight">\(r\)</span> usually decreases with increasing specimen thickness, because of plural-scattering contributions. <span class="math notranslate nohighlight">\(r\)</span> also decreases with increasing collection angles <span class="math notranslate nohighlight">\(\beta\)</span>, but increases with increasing
+energy–loss.</p>
+<p><strong>Consequently, we have to determine the parameters :math:`A` and :math:`r` for each ionization edge.</strong></p>
+<p>The fitting of the power law <span class="math notranslate nohighlight">\(A E^{-r}\)</span> (to determine <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(r\)</span>) is usually done in an area just before the edge, assuming that the background follows the same power law under the edge. This fit can only work if the detector dark current and gain variation is corrected prior to the analysis.</p>
+<p>A standard technique is to match the pre–edge background <span class="math notranslate nohighlight">\(J(E)\)</span> to a function <span class="math notranslate nohighlight">\(F(E)\)</span> (here the power law) whose parameter (here <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(r\)</span>) minimize the quantity: <span class="math">\begin{equation}
+\chi^2 = \sum \limits_{i} \left[  \frac{J_i - F_i}{\sigma_i} \right]^2
+\end{equation}</span> where <span class="math notranslate nohighlight">\(i\)</span> is the index of the channel within the fitting region and <span class="math notranslate nohighlight">\(\sigma_i\)</span> represents the statistical error (standard deviation) of the intensity in that channel.</p>
+<p>The value <span class="math notranslate nohighlight">\(\sigma_i\)</span> is often considered constant (for example <span class="math notranslate nohighlight">\(1/3\)</span> or <span class="math notranslate nohighlight">\(e^{-1}\)</span>). For our problem, the quantum mechanical shot noise is adequate <span class="math">\begin{equation}
+\sigma_i = \ln(J_i - \sqrt{J_i}) - \ln(J_i) \approx \sqrt{J_i}
+\end{equation}</span> where we assume that <span class="math notranslate nohighlight">\(J_i\)</span> is in number of electrons and not in counts (number of electrons times a conversion factor).</p>
+<p>In the figure below, we see the result and the output of the background fit (plus subtraction).</p>
+<p><img alt="chemical_composition" class="no-scaled-link" src="../_images/background.jpg" style="width: 50%;" /></p>
+<ul class="simple">
+<li><p>Background fit on a spectrum of SrTiO<span class="math notranslate nohighlight">\(_3\)</span>]{<span class="math">\label{fig:background}</span> Background fit on a spectrum of SrTiO<span class="math notranslate nohighlight">\(_3\)</span>. The <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(r\)</span> parameter together with the normalized (reduced) <span class="math notranslate nohighlight">\(\chi^2_n\)</span> parameter is displayed in the {<span class="math">\bf Results</span>} window.*</p></li>
+</ul>
+</section>
+<section id="Background-Fitting:-Spatial-Difference">
+<h3>Background Fitting: Spatial Difference<a class="headerlink" href="#Background-Fitting:-Spatial-Difference" title="Link to this heading">¶</a></h3>
+<p>We can use also an experimentally determined background, if impurity or dopant atoms are present in confined areas only. Then, we can take two spectra: one next to this area and one at this area. The near by area will result in a spectrum without this edge and can be used as a background for quantification of the other spectrum. This method is highly accurate if the sample thickness does not change between these areas. The measurement of ppm levels of dopants and impurity atoms can achieved with
+this method. This Method will be more closely examined in Section Spatial-Difference</p>
+</section>
+<section id="Background-Subtraction-Errors">
+<h3>Background Subtraction Errors<a class="headerlink" href="#Background-Subtraction-Errors" title="Link to this heading">¶</a></h3>
+<p>In addition to possible systematic errors, any fitted background to noisy data will be subject to to a random or statistical error. The signal noise ration (SNR) can be defined as:</p>
+<p><span class="math">\begin{equation}
+SNR = I_{edge} [var(I_{edge})]^{-1/2} = I_{edge}/(I_{edge}+ h \quad I_{background})^{1/2}
+\end{equation}</span></p>
+<p>where the dimensionless parameter <span class="math notranslate nohighlight">\(h\)</span> represents the uncertainty of the background fit due to noise. If the width of the integration window is sufficiently small (for example the same width as the fitting window) then this factor <span class="math notranslate nohighlight">\(h\)</span> is relatively small. For equal windows we can approximate <span class="math notranslate nohighlight">\(h = 10\)</span>.</p>
+</section>
+<section id="Cross-Section">
+<h3>Cross-Section<a class="headerlink" href="#Cross-Section" title="Link to this heading">¶</a></h3>
+<p>The cross–section gives us the weight of the edge intensity to compare to different elements or to the total number of electrons (to compute areal density). Such a cross–sections is compared to an edge intensity in the figure below.</p>
+<p><img alt="Comparison of calculated cross-section and Si-L edges" class="no-scaled-link" src="../_images/cross-section1.jpg" style="width: 50%;" /></p>
+<p><em>The shape of a calculated cross-section (black) is compared to the intensity of a Si-L:math:`_{2,3}` and Si-:math:`L_{1}` edge after background subtraction (gray). The SSD–corrected spectrum (red) and the extrapolated background (light blue) are also shown. In the results window, we see the integrated edge intensity, the integrated cross-sections and the determined areal density.</em></p>
+<p>There are different methods of how to use cross-sections in the quantification of the chemical composition from spectra:</p>
+<p>Egerton gives in his book a tabulated list of generalized oscillator strength (GOS) for different elements. The values for different integration windows <span class="math notranslate nohighlight">\(\Delta E\)</span> can be linearly extrapolated for other integration window widths. The GOS have to be extrapolated for the chosen integration window and converted to cross–sections. The GOS are calculated with the Bethe theory in Hydrogenic approximation (see below in chapter <span class="math">\ref{sec:cross-section-calculate}</span> ### Calculation of
+the Cross–Section</p>
+<p>There are two methods in the literature to calculate the cross–section. One is the one where we assume s states in free atoms and is called Hydrogenic approximation and one which approximates the free atoms a little more detailed: the Hatree-Slater method.</p>
+<p>Both methods are based on free atom calculations, because of the strong bonding of the core–electrons to the nucleus, band-structure (collective) effects can be neglected.</p>
+<p>The figure below compares the cross–sections of these two approximations (with a background added) to an experimental spectrum.</p>
+<p><img alt="The shape of a Hydrogenic and Hatree--Slater cross-section" class="no-scaled-link" src="../_images/cross-section-both.jpg" style="width: 50%;" /></p>
+<p><em>The shape of a Hydrogenic (green) and Hatree–Slater (blue) cross-section (with a background added) is compared to an experimental (SSD-corrected) spectrum of Si.</em></p>
+</section>
+<section id="Summary">
+<h3>Summary<a class="headerlink" href="#Summary" title="Link to this heading">¶</a></h3>
+<p>The power law is not really correct for any larger energy interval, which results in a change of the <span class="math notranslate nohighlight">\(r\)</span> exponent throughout the spectrum’s energy range.</p>
+<p>A polynomial of 2<span class="math notranslate nohighlight">\(^{nd}\)</span> order can be used to fit the spectrum, but often leads to strong oscillations in the extrapolated high energy part.</p>
+<p>The exact slope of the extrapolated background depends on pre-edge features and noise</p>
+<p><strong>Generally the above described classic method of quantification is often non-reproducible, and results in errors often in excess of 100%.</strong></p>
+<p>In the following we will work with a model based method that reduces the artefacts, increases reproducibility and improves the error to about 3 atom % absolute.</p>
+</section>
+</section>
+<section id="Load-and-plot-a-spectrum">
+<h2>Load and plot a spectrum<a class="headerlink" href="#Load-and-plot-a-spectrum" title="Link to this heading">¶</a></h2>
+<p>As an example we load the spectrum <strong>1EELS Acquire (high-loss).dm3</strong> from the <em>example data</em> folder.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- Input ------</span>
+<span class="n">load_example</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="c1"># -----------------</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">load_example</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+        <span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s2">&quot;/content/drive&quot;</span><span class="p">)</span>
+
+    <span class="n">fileWidget</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">file_tools</span><span class="o">.</span><span class="n">FileWidget</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- Input ------</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;1EELS Acquire (high-loss).dm3&#39;</span>
+<span class="c1"># -----------------</span>
+<span class="k">if</span> <span class="n">load_example</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;./&#39;</span><span class="o">+</span><span class="n">file_name</span><span class="p">):</span>
+        <span class="o">!</span>wget<span class="w">  </span>https://github.com/gduscher/MSE672-Introduction-to-TEM/raw/main/example_data/1EELS<span class="w"> </span>Acquire<span class="w"> </span><span class="o">(</span>high-loss<span class="o">)</span>.dm3
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">datasets</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">file_tools</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="s1">&#39;../example_data/&#39;</span><span class="o">+</span><span class="n">file_name</span><span class="p">)</span>
+        <span class="n">main_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="s1">&#39;Channel_000&#39;</span><span class="p">]</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">datasets</span> <span class="o">=</span> <span class="n">fileWidget</span><span class="o">.</span><span class="n">datasets</span>
+    <span class="n">main_dataset</span> <span class="o">=</span> <span class="n">fileWidget</span><span class="o">.</span><span class="n">selected_dataset</span>
+
+<span class="n">main_dataset</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;experiment&#39;</span><span class="p">][</span><span class="s1">&#39;exposure_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">main_dataset</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;experiment&#39;</span><span class="p">][</span><span class="s1">&#39;single_exposure_time&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">main_dataset</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;experiment&#39;</span><span class="p">][</span><span class="s1">&#39;number_of_frames&#39;</span><span class="p">]</span>
+
+<span class="k">if</span> <span class="n">main_dataset</span><span class="o">.</span><span class="n">data_type</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;SPECTRUM&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;NOT what we want here&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">main_dataset</span><span class="o">.</span><span class="n">view_metadata</span><span class="p">()</span>
+
+<span class="n">v</span> <span class="o">=</span> <span class="n">main_dataset</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+frames:  Number of frames
+experiment :
+        single_exposure_time : 3.0
+        exposure_time : 63.0
+        number_of_frames : 21
+        convergence_angle : 0.0
+        collection_angle : 0.0
+        microscope : Unknown
+        acceleration_voltage : 200000.0
+filename : ../example_data/1EELS Acquire (high-loss).dm3
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "27496e0b4c0245959e1f9dbc50b34aa3", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<section id="Which-elements-are-present">
+<h3>Which elements are present<a class="headerlink" href="#Which-elements-are-present" title="Link to this heading">¶</a></h3>
+<p>To determine which elements are present we add a cursor to the above plot (see <a class="reference internal" href="CH4_07-Introduction_Core_Loss.html"><span class="doc">Working with Cross-Sections</span></a> for details) and with a left (right) mouse-click, we will get the major (all) edges in the vincinity of the cursor.</p>
+<p>In the example we note that the N-K edge of this boron nitride sample is not at 400keV. We have to adjust the energy-scale. (THIS SHOULD NOT HAPPEN IN NORMAL SPECTRA AND IS FOR DEMONSTRATION ONLY)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[68]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">EdgesAtCursor</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">energy</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">maximal_chemical_shift</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maximal_chemical_shift</span> <span class="o">=</span> <span class="n">maximal_chemical_shift</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">energy</span> <span class="o">=</span> <span class="n">energy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">line</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">Cursor</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">useblit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">horizOn</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cid</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">mpl_connect</span><span class="p">(</span><span class="s1">&#39;button_press_event&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges_on_click</span><span class="p">)</span>
+        <span class="c1">#self.mouse_cid = ax.figure.canvas.mpl_connect(&#39;motion_notify_event&#39;, self.mouse_move)</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">edges_on_click</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">event</span><span class="o">.</span><span class="n">inaxes</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">x</span><span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">xdata</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">line</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">button</span> <span class="o">==</span>  <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eels_tools</span><span class="o">.</span><span class="n">find_all_edges</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">maximal_chemical_shift</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+                                      <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eels_tools</span><span class="o">.</span><span class="n">find_all_edges</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">maximal_chemical_shift</span><span class="p">),</span>
+                                      <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">line</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+
+<span class="n">maximal_chemical_shift</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">energy_scale</span> <span class="o">=</span> <span class="n">main_dataset</span><span class="o">.</span><span class="n">energy_loss</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">EdgesAtCursor</span><span class="p">(</span><span class="n">main_dataset</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">axis</span><span class="p">,</span> <span class="n">energy_scale</span><span class="p">,</span> <span class="n">main_dataset</span><span class="p">,</span> <span class="n">maximal_chemical_shift</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eels_tools</span><span class="o">.</span><span class="n">find_all_edges</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;\n N -K1:    401.6 eV \n Sc-L3:    402.2 eV \n Cd-M5:    403.7 eV \n Tb-N1:    397.9 eV \n Yb-N2:    396.7 eV \n Ta-N3:    404.5 eV &#39;
+</pre></div></div>
+</div>
+<p>Let’s correct the energy scale of the example spectrum.</p>
+<p>Again a shift of the enrrgy scale is normal but not a discripancy of the dispersion.</p>
+</section>
+<section id="Probability-scale-of-y-axis">
+<h3>Probability scale of y-axis<a class="headerlink" href="#Probability-scale-of-y-axis" title="Link to this heading">¶</a></h3>
+<p>We need to know the total amount of electrons involved in the EELS spectrum</p>
+<p>There are three possibilities:</p>
+<ul class="simple">
+<li><p>the intensity of the low loss will give us the counts per acquisition time</p></li>
+<li><p>the intensity of the beam in an image</p></li>
+<li><p>a direct measurement of the incident beam current</p></li>
+</ul>
+<p>Here we got the low-loss spectrum. For the example please load <strong>1EELS Acquire (low-loss).dm3</strong> from the <em>example data</em> folder.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- Input ------</span>
+<span class="n">load_example</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="c1"># -----------------</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">load_example</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+        <span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s2">&quot;/content/drive&quot;</span><span class="p">)</span>
+
+    <span class="n">ll_fileWidget</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">file_tools</span><span class="o">.</span><span class="n">FileWidget</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[71]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- Input ------</span>
+<span class="n">load_example</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">ll_file_name</span> <span class="o">=</span> <span class="s1">&#39;1EELS Acquire (low-loss).dm3&#39;</span>
+<span class="c1"># -----------------</span>
+<span class="k">if</span> <span class="n">load_example</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;./&#39;</span><span class="o">+</span><span class="n">file_name</span><span class="p">):</span>
+        <span class="o">!</span>wget<span class="w">  </span>https://github.com/gduscher/MSE672-Introduction-to-TEM/raw/main/example_data/1EELS<span class="w"> </span>Acquire<span class="w"> </span><span class="o">(</span>low-loss<span class="o">)</span>.dm3
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ll_datasets</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">file_tools</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="s1">&#39;../example_data/&#39;</span><span class="o">+</span><span class="n">ll_file_name</span><span class="p">)</span>
+        <span class="n">ll_dataset</span> <span class="o">=</span> <span class="n">ll_datasets</span><span class="p">[</span><span class="s1">&#39;Channel_000&#39;</span><span class="p">]</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">ll_datasets</span> <span class="o">=</span> <span class="n">ll_fileWidget</span><span class="o">.</span><span class="n">datasets</span>
+    <span class="n">ll_dataset</span> <span class="o">=</span> <span class="n">ll_fileWidget</span><span class="o">.</span><span class="n">selected_dataset</span>
+
+
+<span class="n">ll_dataset</span><span class="o">.</span><span class="n">view_metadata</span><span class="p">()</span>
+
+<span class="n">v</span> <span class="o">=</span> <span class="n">ll_dataset</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+frames:  Number of frames
+experiment :
+        single_exposure_time : 0.01
+        exposure_time : 3.01000999977623
+        number_of_frames : 21
+        convergence_angle : 0.0
+        collection_angle : 0.0
+        microscope : Unknown
+        acceleration_voltage : 200000.0
+filename : ../example_data/1EELS Acquire (low-loss).dm3
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "cf2afd23b72f466abf5291ec88b2b236", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Intensity-to-Probability-Calibration">
+<h3>Intensity to Probability Calibration<a class="headerlink" href="#Intensity-to-Probability-Calibration" title="Link to this heading">¶</a></h3>
+<p>We need to calibrate the number of counts with the integration time of the spectrum.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[72]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">ll_dataset</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;experiment&#39;</span><span class="p">][</span><span class="s1">&#39;exposure_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ll_dataset</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;experiment&#39;</span><span class="p">][</span><span class="s1">&#39;number_of_frames&#39;</span><span class="p">]</span> <span class="o">*</span><span class="n">ll_dataset</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;experiment&#39;</span><span class="p">][</span><span class="s1">&#39;single_exposure_time&#39;</span><span class="p">]</span>
+<span class="n">I0</span> <span class="o">=</span> <span class="n">ll_dataset</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="n">ll_dataset</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;experiment&#39;</span><span class="p">][</span><span class="s1">&#39;exposure_time&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">main_dataset</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;experiment&#39;</span><span class="p">][</span><span class="s1">&#39;exposure_time&#39;</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;incident beam current of core--loss spectrum is </span><span class="si">{</span><span class="n">I0</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> counts  in  </span><span class="si">{</span><span class="n">ll_dataset</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;experiment&#39;</span><span class="p">][</span><span class="s1">&#39;exposure_time&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> sec&quot;</span><span class="p">)</span>
+
+<span class="n">main_dataset</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;experiment&#39;</span><span class="p">][</span><span class="s1">&#39;intentsity_scale_ppm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">I0</span><span class="o">*</span><span class="mf">1e6</span>
+<span class="n">main_dataset</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;experiment&#39;</span><span class="p">][</span><span class="s1">&#39;incident_beam_current_counts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">I0</span>
+
+<span class="n">dispersion</span> <span class="o">=</span> <span class="n">main_dataset</span><span class="o">.</span><span class="n">energy_loss</span><span class="o">.</span><span class="n">slope</span>
+<span class="n">spectrum</span> <span class="o">=</span> <span class="n">main_dataset</span> <span class="o">*</span> <span class="n">main_dataset</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;experiment&#39;</span><span class="p">][</span><span class="s1">&#39;intentsity_scale_ppm&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">dispersion</span>
+<span class="n">spectrum</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">main_dataset</span><span class="o">.</span><span class="n">title</span><span class="o">+</span> <span class="s1">&#39;_calibrated&#39;</span>
+<span class="n">spectrum</span><span class="o">.</span><span class="n">quantity</span> <span class="o">=</span> <span class="s1">&#39;inelastic scattering probability&#39;</span>
+<span class="n">spectrum</span><span class="o">.</span> <span class="n">units</span> <span class="o">=</span> <span class="s1">&#39;ppm&#39;</span>
+<span class="n">view</span> <span class="o">=</span><span class="n">spectrum</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+incident beam current of core--loss spectrum is 34710048768 counts  in  0.21 sec
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "83352278e40b49229d9ee35e85732093", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">channels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">spectrum</span><span class="o">.</span><span class="n">energy_loss</span><span class="p">,</span> <span class="p">[</span><span class="mi">188</span><span class="p">,</span> <span class="mi">388</span><span class="p">])</span>
+<span class="n">dE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">401</span><span class="o">-</span><span class="mi">188</span><span class="p">)</span><span class="o">/</span> <span class="p">(</span><span class="n">channels</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">channels</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">dE</span> <span class="p">,</span> <span class="n">spectrum</span><span class="o">.</span><span class="n">energy_loss</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span> <span class="n">spectrum</span><span class="o">.</span><span class="n">energy_loss</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(np.float64(0.26625), np.float64(0.25))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spectrum</span><span class="o">.</span><span class="n">energy_loss</span> <span class="o">*=</span> <span class="n">dE</span><span class="o">/</span><span class="p">(</span><span class="n">spectrum</span><span class="o">.</span><span class="n">energy_loss</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span> <span class="n">spectrum</span><span class="o">.</span><span class="n">energy_loss</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">spectrum</span><span class="o">.</span><span class="n">energy_loss</span><span class="o">.</span><span class="n">slope</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+C:\Users\gduscher\AppData\Local\Temp\ipykernel_8000\2811515315.py:1: DeprecationWarning: __array_wrap__ must accept context and return_scalar arguments (positionally) in the future. (Deprecated NumPy 2.0)
+  spectrum.energy_loss *= dE/(spectrum.energy_loss[1]- spectrum.energy_loss[0])
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+np.float64(0.2662500000000005)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spectrum</span><span class="o">.</span><span class="n">energy_loss</span> <span class="o">-=</span> <span class="n">spectrum</span><span class="o">.</span><span class="n">energy_loss</span><span class="p">[</span><span class="n">channels</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">-</span><span class="mi">188</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+C:\Users\gduscher\AppData\Local\Temp\ipykernel_8000\2686128764.py:1: DeprecationWarning: __array_wrap__ must accept context and return_scalar arguments (positionally) in the future. (Deprecated NumPy 2.0)
+  spectrum.energy_loss -= spectrum.energy_loss[channels[0]]-188
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spectrum</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">main_dataset</span><span class="o">.</span><span class="n">title</span>
+
+<span class="n">v</span> <span class="o">=</span> <span class="n">spectrum</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">EdgesAtCursor</span><span class="p">(</span><span class="n">spectrum</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">axis</span><span class="p">,</span> <span class="n">spectrum</span><span class="o">.</span><span class="n">energy_loss</span><span class="p">,</span> <span class="n">main_dataset</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "e70b88a4aed449a88aef16bb729f22f1", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="Components-of-a-core-loss-spectrum">
+<h2>Components of a core loss spectrum<a class="headerlink" href="#Components-of-a-core-loss-spectrum" title="Link to this heading">¶</a></h2>
+<p>-background</p>
+<p>-absorption edges</p>
+<section id="Plotting-of-cross-sections-and-spectrum">
+<h3>Plotting of cross sections and spectrum<a class="headerlink" href="#Plotting-of-cross-sections-and-spectrum" title="Link to this heading">¶</a></h3>
+<p>please note that spectrum and cross sections are not on the same scale</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">energy_scale</span> <span class="o">=</span> <span class="n">spectrum</span><span class="o">.</span><span class="n">energy_loss</span>
+<span class="n">B_Xsection</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eels_tools</span><span class="o">.</span><span class="n">xsec_xrpa</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">10.</span> <span class="p">)</span><span class="o">/</span><span class="mf">1e10</span>
+<span class="n">N_Xsection</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eels_tools</span><span class="o">.</span><span class="n">xsec_xrpa</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mf">10.</span> <span class="p">,</span><span class="n">shift</span><span class="o">=-</span><span class="mi">6</span><span class="p">)</span><span class="o">/</span><span class="mf">1e10</span>       <span class="c1">#  xsec  is in barns = 10^28 m2 = 10^10 nm2</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">B_Xsection</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;B X-section&#39;</span> <span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">N_Xsection</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;N X-section&#39;</span> <span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;energy_loss [eV]&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;probability [atoms/nm$^</span><span class="si">{2}</span><span class="s1">$]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;spectrum&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;probability [ppm]&#39;</span><span class="p">)</span>
+<span class="c1">#plt.xlim(100,500)</span>
+<span class="c1">#plt.legend();</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "7357863d8abe40cd8a81f1511f858968", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">energy_scale</span> <span class="o">=</span> <span class="n">spectrum</span><span class="o">.</span><span class="n">energy_loss</span>
+<span class="n">B_Xsection</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eels_tools</span><span class="o">.</span><span class="n">xsec_xrpa</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">10.</span> <span class="p">)</span><span class="o">/</span><span class="mf">1e10</span>
+<span class="n">N_Xsection</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eels_tools</span><span class="o">.</span><span class="n">xsec_xrpa</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mf">10.</span> <span class="p">,</span><span class="n">shift</span><span class="o">=-</span><span class="mi">6</span><span class="p">)</span><span class="o">/</span><span class="mf">1e10</span>       <span class="c1">#  xsec  is in barns = 10^28 m2 = 10^10 nm2</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">B_Xsection</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;B X-section&#39;</span> <span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">N_Xsection</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;N X-section&#39;</span> <span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;energy_loss [eV]&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;probability [atoms/nm$^</span><span class="si">{2}</span><span class="s1">$]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;spectrum&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;probability [ppm]&#39;</span><span class="p">)</span>
+<span class="c1">#plt.xlim(100,500)</span>
+<span class="c1">#plt.legend();</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "3eaa4344c522484bab14f1ec1416150d", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Background">
+<h3>Background<a class="headerlink" href="#Background" title="Link to this heading">¶</a></h3>
+<p>The other ingredient in a core loss spectrum is the background</p>
+<p>The backgrund consists of</p>
+<ul class="simple">
+<li><p>ionization edges to the left of the beginning of the spectrum (offset)</p></li>
+<li><p>tail of the plasmon peak (generally a power_law with <span class="math notranslate nohighlight">\(\approx A* E^{-3}\)</span>)</p></li>
+</ul>
+<p>Here we approximate the background in an energy window before the first ionization edge in the spectrum as a power law with exponent <span class="math notranslate nohighlight">\(r\approx 3\)</span></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">leastsq</span>  <span class="c1">## leastsqure fitting routine fo scipy</span>
+
+
+<span class="c1"># Determine energy window in pixels</span>
+<span class="n">bgdStart</span> <span class="o">=</span> <span class="mi">130</span>
+<span class="n">bgdWidth</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">energy_scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">spectrum</span><span class="o">.</span><span class="n">energy_loss</span><span class="p">)</span>
+<span class="n">offset</span> <span class="o">=</span> <span class="n">energy_scale</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">dispersion</span> <span class="o">=</span> <span class="n">energy_scale</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">energy_scale</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">startx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">bgdStart</span><span class="o">-</span><span class="n">offset</span><span class="p">)</span><span class="o">/</span><span class="n">dispersion</span><span class="p">)</span>
+<span class="n">endx</span> <span class="o">=</span> <span class="n">startx</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">bgdWidth</span><span class="o">/</span><span class="n">dispersion</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">[</span><span class="n">startx</span><span class="p">:</span><span class="n">endx</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">spectrum</span><span class="p">[</span><span class="n">startx</span><span class="p">:</span><span class="n">endx</span><span class="p">])</span>
+
+<span class="c1"># Initial values of parameters</span>
+<span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0E+10</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+
+<span class="c1">## background fitting</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">bgdfit</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="o">-</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
+    <span class="k">return</span> <span class="n">err</span>
+<span class="n">p</span><span class="p">,</span> <span class="n">lsq</span> <span class="o">=</span> <span class="n">leastsq</span><span class="p">(</span><span class="n">bgdfit</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">maxfev</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Power-law background with amplitude A: </span><span class="si">{</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> and exponent -r: </span><span class="si">{</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1">#Calculate background over the whole energy scale</span>
+<span class="n">background</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">spectrum</span><span class="o">.</span><span class="n">energy_loss</span><span class="p">),(</span><span class="o">-</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">spectrum</span><span class="o">.</span><span class="n">energy_loss</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;spectrum&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">spectrum</span><span class="o">.</span><span class="n">energy_loss</span><span class="p">,</span> <span class="n">background</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;background&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;energy-loss (eV)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;scattering probability (ppm)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Power-Law Background&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Power-law background with amplitude A: 2733441.5 and exponent -r: 3.21
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9050afdd22c74d5cba0f9e7592cdc350", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="Fitting-a-Spectrum">
+<h2>Fitting a Spectrum<a class="headerlink" href="#Fitting-a-Spectrum" title="Link to this heading">¶</a></h2>
+<p>We are revisiting the above the fundamental equation of the chemical composition:</p>
+<p>We already calibrated the cross section in per <span class="math notranslate nohighlight">\(nm^2\)</span> and so if we start again from the fundamental equation:</p>
+<p><span class="math">\begin{equation}
+I_{edge}(\beta, \Delta E) = N I_{0}(\beta) \sigma_{edge}(\beta, \Delta E)
+\end{equation}</span></p>
+<p>and as above we calibrate the intensity of the spectrum by <span class="math notranslate nohighlight">\(I_{spectrum}/I_0\)</span> then we get:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>:nbsphinx-math:`\begin{equation}
+</pre></div>
+</div>
+<p>frac{I_{edge}(beta, Delta E)}{I_0} = I^{norm}_{edge}  = N sigma_{edge}(beta, Delta E)
+end{equation}`</p>
+<p>and if we fit the calibrated intensity with the cross section then we can replace<span class="math notranslate nohighlight">\(I^{norm}_{edge}\)</span> by a fitting value <span class="math notranslate nohighlight">\(q_{edge}\)</span> multiplied by cross section <span class="math notranslate nohighlight">\(\sigma\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[N =  \frac{I_{edge}(\beta, \Delta E)/I_0}{\sigma_{edge}(\beta, \Delta E)}  = \frac{I^{norm}_{edge}}{\sigma_{edge}(\beta, \Delta E)} = \frac{q_{edge} * \sigma_{edge}(\beta, \Delta E)}{\sigma_{edge}(\beta, \Delta E)} = q_{edge}\]</div>
+<p>and N is in atoms per nm<span class="math notranslate nohighlight">\(^2\)</span>.</p>
+<p>So a fit to a callibrated spectrum as above, will get us a <code class="docutils literal notranslate"><span class="pre">fitting</span> <span class="pre">parameter</span></code> which is an <code class="docutils literal notranslate"><span class="pre">areal</span> <span class="pre">density</span></code> (which is a legitimate thermodynamic quantity).</p>
+<p>And for the relative composition we get:</p>
+<div class="math notranslate nohighlight">
+\[\frac{N_a}{N_b}= \frac{q_a}{q_b}\]</div>
+<p>In the following we will do this kind of a fit by:</p>
+<ul class="simple">
+<li><p>calibrate the intensity in the spectrum (in ppm)</p></li>
+<li><p>using cross section in units of nm<span class="math notranslate nohighlight">\(^2\)</span></p></li>
+</ul>
+<blockquote>
+<div><p>Please note that for the relative composition , the <span class="math notranslate nohighlight">\(I_0\)</span> will fall out and so a fit to a spectrum without calibrated intensity will still give the relative intensity accurately.</p>
+</div></blockquote>
+<section id="Preparing-the-fitting-mask">
+<h3>Preparing the fitting mask<a class="headerlink" href="#Preparing-the-fitting-mask" title="Link to this heading">¶</a></h3>
+<p>Our theoretical cross sections do not include any solid state effects (band structure) and so the fine structure at the onset of the spectra must be omitted in a quantification.</p>
+<p>These parts of the spectrum will be simply set to zero. We plot the masked spectrum that will be evaluated.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">energy_scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">spectrum</span><span class="o">.</span><span class="n">energy_loss</span><span class="p">)</span>
+
+<span class="n">dispersion</span> <span class="o">=</span> <span class="n">spectrum</span><span class="o">.</span><span class="n">energy_loss</span><span class="o">.</span><span class="n">slope</span>
+<span class="n">offset</span> <span class="o">=</span> <span class="n">energy_scale</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">startx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">bgdStart</span><span class="o">-</span><span class="n">offset</span><span class="p">)</span><span class="o">/</span><span class="n">dispersion</span><span class="p">)</span>
+
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">))</span>
+<span class="n">mask</span><span class="p">[</span><span class="mi">0</span> <span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">startx</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+
+<span class="n">edges</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">edges</span><span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">edges</span><span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">][</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span><span class="o">=</span><span class="mi">5</span>
+<span class="n">edges</span><span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">][</span><span class="s1">&#39;symmetry&#39;</span><span class="p">]</span><span class="o">=</span> <span class="s1">&#39;K1&#39;</span>
+<span class="n">edges</span><span class="p">[</span><span class="s1">&#39;2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">edges</span><span class="p">[</span><span class="s1">&#39;2&#39;</span><span class="p">][</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span><span class="o">=</span><span class="mi">7</span>
+<span class="n">edges</span><span class="p">[</span><span class="s1">&#39;2&#39;</span><span class="p">][</span><span class="s1">&#39;symmetry&#39;</span><span class="p">]</span><span class="o">=</span> <span class="s1">&#39;K1&#39;</span>
+
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">((</span><span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eels_tools</span><span class="o">.</span><span class="n">get_x_sections</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;Z&#39;</span><span class="p">]))[</span><span class="n">edges</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;symmetry&#39;</span><span class="p">]])</span>
+    <span class="n">edges</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eels_tools</span><span class="o">.</span><span class="n">get_x_sections</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;Z&#39;</span><span class="p">]))[</span><span class="n">edges</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;symmetry&#39;</span><span class="p">]][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span>
+    <span class="n">edges</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;start_exclude&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edges</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span><span class="o">-</span><span class="mi">5</span>
+    <span class="n">edges</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;end_exclude&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">edges</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span><span class="o">+</span><span class="mi">50</span>
+    <span class="n">edges</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eels_tools</span><span class="o">.</span><span class="n">get_x_sections</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;Z&#39;</span><span class="p">])</span>
+    <span class="n">mask</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">edges</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;start_exclude&#39;</span><span class="p">]):</span><span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">edges</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;end_exclude&#39;</span><span class="p">])]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;spectrum&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">spectrum</span><span class="o">*</span><span class="n">mask</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;spectrum&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;energy-loss [eV]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;probability [ppm]&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;filename&#39;: &#39;B.K1&#39;, &#39;excl before&#39;: 5, &#39;excl after&#39;: 50, &#39;onset&#39;: 188.0, &#39;factor&#39;: 1.0, &#39;shape&#39;: &#39;hydrogenic&#39;}
+{&#39;filename&#39;: &#39;N.K1&#39;, &#39;excl before&#39;: 5, &#39;excl after&#39;: 50, &#39;onset&#39;: 401.6, &#39;factor&#39;: 1.0, &#39;shape&#39;: &#39;hydrogenic&#39;}
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "7a098a5c87d74154ae526da7e4a1d359", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="The-Fit">
+<h3>The Fit<a class="headerlink" href="#The-Fit" title="Link to this heading">¶</a></h3>
+<p>The function <strong>model</strong> just sums the weighted cross-sections and the background.</p>
+<p>The background consists of the power-lawbackground before plus a polynomial component allowing for <em>a variation of the exponent :math:`r` of the power-law</em>.</p>
+<p>The least square fit is weighted by the noise according to Poison statistic <span class="math notranslate nohighlight">\(\sqrt{I(\Delta E)}\)</span>.</p>
+<blockquote>
+<div><p>Please note that the cross sections are for single atoms only and do not cover any solid state effects vsible as strong peaks in the first 50 eV or so past the onset.</p>
+<p>We exclude those parts from the fits.</p>
+</div></blockquote>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">RegionSelector</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Selects fitting region and the regions that are excluded for each edge.</span>
+
+<span class="sd">        Select a region with a spanSelector and then type &#39;a&#39; for all of the fitting region or a number for the edge</span>
+<span class="sd">        you want to define the region excluded from the fit (solid state effects).</span>
+
+<span class="sd">        see Chapter4 &#39;CH4-Working_with_X-Sections,ipynb&#39; notebook</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regions</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rect</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xwidth</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">span</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">SpanSelector</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onselect1</span><span class="p">,</span> <span class="s1">&#39;horizontal&#39;</span><span class="p">,</span> <span class="n">useblit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                 <span class="n">props</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">),</span> <span class="n">interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="c1"># , span_stays=True)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cid</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">mpl_connect</span><span class="p">(</span><span class="s1">&#39;key_press_event&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">click</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">draw</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">mpl_connect</span><span class="p">(</span><span class="s1">&#39;draw_event&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onresize</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">onselect1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span> <span class="o">=</span> <span class="n">xmin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">xmax</span><span class="o">-</span><span class="n">xmin</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">onresize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_region</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;Rect&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;Rect&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;Text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+            <span class="k">del</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;Rect&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;Rect&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;Text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+
+            <span class="n">xmin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;xmin&#39;</span><span class="p">]</span>
+            <span class="n">width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;width&#39;</span><span class="p">]</span>
+            <span class="n">height</span> <span class="o">=</span> <span class="n">y_max</span><span class="o">-</span><span class="n">y_min</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;color&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;Rect&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">patches</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">((</span><span class="n">xmin</span><span class="p">,</span> <span class="n">y_min</span><span class="p">),</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span>
+                                                          <span class="n">edgecolor</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;Rect&#39;</span><span class="p">])</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;Text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">],</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">click</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">key</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;6&#39;</span><span class="p">]:</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;exclude </span><span class="se">\n</span><span class="s1">edge &#39;</span> <span class="o">+</span> <span class="n">key</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span>
+        <span class="k">elif</span> <span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">key</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">]:</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.2</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;fit region&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;xmin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;width&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">alpha</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">text</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_regions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">start_x</span><span class="p">,</span> <span class="n">width</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;fit&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">region</span><span class="p">):</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span>
+        <span class="k">if</span> <span class="n">region</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;6&#39;</span><span class="p">]:</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">region</span>
+        <span class="k">if</span> <span class="n">region</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]:</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;6&#39;</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;exclude </span><span class="se">\n</span><span class="s1">edge &#39;</span> <span class="o">+</span> <span class="n">key</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;fit region&#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.2</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;xmin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;width&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">width</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_regions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">tags</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+                <span class="n">area</span> <span class="o">=</span> <span class="s1">&#39;fit_area&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">area</span> <span class="o">=</span> <span class="n">key</span>
+            <span class="n">tags</span><span class="p">[</span><span class="n">area</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">tags</span><span class="p">[</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;start_x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;xmin&#39;</span><span class="p">]</span>
+            <span class="n">tags</span><span class="p">[</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;width_x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;width&#39;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">tags</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;Rect&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;Rect&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">regions</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;Text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+        <span class="k">del</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">span</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">mpl_disconnect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cid</span><span class="p">)</span>
+        <span class="c1"># self.ax.figure.canvas.mpl_disconnect(self.draw)</span>
+        <span class="k">pass</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[84]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;spectrum&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">spectrum</span><span class="o">*</span><span class="n">mask</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;spectrum&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;energy-loss [eV]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;probability [ppm]&#39;</span><span class="p">);</span>
+
+<span class="n">regions</span> <span class="o">=</span> <span class="n">RegionSelector</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">())</span>
+
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="n">regions</span><span class="o">.</span><span class="n">set_regions</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">),</span><span class="n">edges</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mf">50.</span><span class="p">)</span>
+
+<span class="n">regions</span><span class="o">.</span><span class="n">set_regions</span><span class="p">(</span><span class="s1">&#39;fit region&#39;</span><span class="p">,</span><span class="n">bgdStart</span><span class="p">,</span> <span class="n">energy_scale</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">bgdStart</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1
+2
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "1284ad93f8074c74acc0b396b4de229d", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[90]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">region_tags</span> <span class="o">=</span> <span class="n">regions</span><span class="o">.</span><span class="n">get_regions</span><span class="p">()</span>
+
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">main_dataset</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">startx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span><span class="n">region_tags</span><span class="p">[</span><span class="s1">&#39;fit_area&#39;</span><span class="p">][</span><span class="s1">&#39;start_x&#39;</span><span class="p">])</span>
+
+<span class="n">mask</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">startx</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">region_tags</span><span class="p">:</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">region_tags</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;start_x&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">region_tags</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;width_x&#39;</span><span class="p">]</span>
+    <span class="n">startx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span><span class="n">region_tags</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;start_x&#39;</span><span class="p">])</span>
+    <span class="n">endx</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span><span class="n">end</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;fit_area&#39;</span><span class="p">:</span>
+        <span class="n">mask</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">startx</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">mask</span><span class="p">[</span><span class="n">endx</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mask</span><span class="p">[</span><span class="n">startx</span><span class="p">:</span><span class="n">endx</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+<span class="n">pin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">,</span><span class="mf">.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">energy_scale</span>
+
+<span class="n">blurred</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">ndimage</span><span class="o">.</span><span class="n">gaussian_filter</span><span class="p">(</span><span class="n">spectrum</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">blurred</span><span class="o">*</span><span class="mf">1e-6</span><span class="o">/</span><span class="n">dispersion</span> <span class="c1">## now in probability</span>
+<span class="n">y</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y</span><span class="o">&lt;</span><span class="mf">1e-8</span><span class="p">)]</span><span class="o">=</span><span class="mf">1e-8</span>
+
+
+<span class="n">B_Xsection</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eels_tools</span><span class="o">.</span><span class="n">xsec_xrpa</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span>  <span class="mf">30.</span> <span class="p">)</span><span class="o">/</span><span class="mf">1e10</span>
+<span class="n">N_Xsection</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eels_tools</span><span class="o">.</span><span class="n">xsec_xrpa</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span>  <span class="mf">30.</span> <span class="p">)</span><span class="o">/</span><span class="mf">1e10</span>       <span class="c1">#  xsec  is in barns = 10^-28 m2 = 10^-10 nm2</span>
+
+<span class="n">xsec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">B_Xsection</span><span class="p">,</span> <span class="n">N_Xsection</span><span class="p">])</span>
+<span class="n">numberOfEdges</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">residuals</span><span class="p">(</span><span class="n">p</span><span class="p">,</span>  <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">):</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">))</span><span class="o">*</span><span class="n">mask</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">err</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="o">-</span><span class="n">p</span><span class="p">[</span><span class="mi">10</span><span class="p">])))</span> <span class="o">+</span><span class="n">p</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="n">p</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">x</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numberOfEdges</span><span class="p">):</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">xsec</span><span class="p">[</span><span class="n">i</span><span class="p">,:]</span>
+    <span class="k">return</span> <span class="n">y</span>
+
+<span class="n">p</span><span class="p">,</span> <span class="n">cov</span> <span class="o">=</span> <span class="n">leastsq</span><span class="p">(</span><span class="n">residuals</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span>  <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;B/N ratio is </span><span class="si">{</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+\
+<span class="c1">#the B atom areal density of a single layer of h-BN (18.2 nm−2)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; B areal density is </span><span class="si">{</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> atoms per square nm, which equates </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="mf">18.2</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> atomic layers&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; N areal density is </span><span class="si">{</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> atoms per square nm, which equates </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mf">18.2</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> atomic layers&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+B/N ratio is 1.031
+ B areal density is 89 atoms per square nm, which equates 4.9 atomic layers
+ N areal density is 87 atoms per square nm, which equates 4.8 atomic layers
+</pre></div></div>
+</div>
+</section>
+<section id="Plotting-of-the-fit">
+<h3>Plotting of the fit<a class="headerlink" href="#Plotting-of-the-fit" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[92]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_spectrum</span> <span class="o">=</span>  <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="c1"># in ppm</span>
+<span class="n">model_background</span> <span class="o">=</span>  <span class="p">((</span><span class="n">p</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="o">-</span><span class="n">p</span><span class="p">[</span><span class="mi">10</span><span class="p">]))</span> <span class="o">+</span><span class="n">p</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="n">p</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="c1"># in ppm</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;spectrum&#39;</span><span class="p">)</span>
+<span class="c1">#plt.plot(energy_scale, blurred, label=&#39;blurred spectrum&#39;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">model_spectrum</span><span class="o">*</span><span class="mf">1e6</span><span class="o">*</span><span class="mf">.25</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">spectrum</span><span class="o">-</span><span class="n">model_spectrum</span><span class="o">*</span><span class="mf">1e6</span><span class="o">*</span><span class="mf">.25</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;difference&#39;</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">model_background</span><span class="o">*</span><span class="mf">1e6</span><span class="o">*</span><span class="mf">.25</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;background&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;energy-loss [eV]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;probability [ppm]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "68db10dcb91b40edbebbe2d85ad80d9d", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="id5">
+<h2>Summary<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h2>
+<p>We use a cross section in units of <span class="math notranslate nohighlight">\(\frac{\# atoms}{nm^{2}}\)</span> and a calibrated spectrum to fit a cross section to each edge.</p>
+<p>The fitting parameter is then the areal density of the element.</p>
+<p>We only fit the part of the spectrum we know which is the single atom part of the edge, and avoid to fit any solid state effects at the onset of the edge.</p>
+<p>The interpreation of solid state effects at the onset are discussed in the <a class="reference internal" href="CH4_10-ELNES.html"><span class="doc">energy-loss near-edge structure (ELNES)</span></a> notebook.</p>
+</section>
+<section id="Navigation">
+<h2>Navigation<a class="headerlink" href="#Navigation" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Up Chapter 4:</strong> <a class="reference internal" href="CH4_00-Spectroscopy.html"><span class="doc">Imaging</span></a></p></li>
+<li><p><strong>Back:</strong> <a class="reference internal" href="CH4_07-Introduction_Core_Loss.html"><span class="doc">Introduction to Core-Loss</span></a></p></li>
+<li><p><strong>Next:</strong> <a class="reference internal" href="CH4_09-Analyse_Core_Loss.html"><span class="doc">Analysis of Core-Loss</span></a></p></li>
+<li><p><strong>List of Content:</strong> <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">Front</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Diffraction/index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Spectroscopy/CH4_08-Chemical_Composition.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

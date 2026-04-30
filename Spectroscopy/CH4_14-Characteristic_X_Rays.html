@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Characteristic X-Rays &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 4:</strong> <a class="reference internal" href="CH4_00-Spectroscopy.html"><span class="doc">Spectroscopy</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="Characteristic-X-Rays">
+<h1>Characteristic X-Rays<a class="headerlink" href="#Characteristic-X-Rays" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM/main/Spectroscopy/CH4_14-Characteristic_X_Rays.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main//Spectroscopy/CH4_14-Characteristic_X_Rays.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p><strong>Spring 2026</strong> by Gerd Duscher</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<section id="Load-relevant-python-packages">
+<h2>Load relevant python packages<a class="headerlink" href="#Load-relevant-python-packages" title="Link to this heading">¶</a></h2>
+<section id="Check-Installed-Packages">
+<h3>Check Installed Packages<a class="headerlink" href="#Check-Installed-Packages" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2026.01.1&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w">  </span>--upgrade<span class="w"> </span>pyTEMlib<span class="w"> </span>-q
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+done
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="First-we-import-the-essential-libraries">
+<h2>First we import the essential libraries<a class="headerlink" href="#First-we-import-the-essential-libraries" title="Link to this heading">¶</a></h2>
+<p>All we need here should come with the annaconda or any other package</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> widget
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">output</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">drive</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyTEMlib</span>
+<span class="n">__notebook__</span> <span class="o">=</span> <span class="s1">&#39;CH4_14-Characteristic-X_Rays&#39;</span>
+<span class="n">__notebook_version__</span> <span class="o">=</span> <span class="s1">&#39;2026_01_18&#39;</span>
+<br/></pre></div>
+</div>
+</div>
+</section>
+<section id="X-Ray-Families">
+<h2>X-Ray Families<a class="headerlink" href="#X-Ray-Families" title="Link to this heading">¶</a></h2>
+<p>The case is not always as simple as in the case of the carbon atom in the <a class="reference internal" href="CH4_12-Introduction_X_Rays.html#X-Rays"><span class="std std-ref">Introduction</span></a></p>
+<p>As the atomic number <span class="math notranslate nohighlight">\(Z\)</span> increases the number of electrons in the respective energy states increases. With increasing complexity of the shell structure more options for relaxtions are available with different probabilities.</p>
+<p>For example a Na atom which has an M-shell The 1s state can be filled by an L- or an M-shell, producing two different characteristic X-rays:</p>
+<ul class="simple">
+<li><p>K-L<span class="math notranslate nohighlight">\(_{2,3} (\)</span>K:nbsphinx-math:<cite>alpha`$): $E_X = :math:`E_K- E_L</cite> = 104 eV</p></li>
+<li><p>K-M<span class="math notranslate nohighlight">\(_{2,3} (\)</span>K:nbsphinx-math:<cite>beta`$): $E_X = :math:`E_K- E_M</cite> = 1071 eV</p></li>
+</ul>
+<p>For heavier atoms than sodium more options exist:</p>
+<img alt="Nomenclature" src="../_images/Nomenclature.jpg" />
+</section>
+<section id="X-ray-Nomenclature">
+<h2>X-ray Nomenclature<a class="headerlink" href="#X-ray-Nomenclature" title="Link to this heading">¶</a></h2>
+<p>Two systems are in use for naming characteristic X-ray lines.</p>
+<p>The oldest one is the Siegbahn system in wich first the shell where the ionization occured is listed and then a greek letter that suggests the order of their families by their <strong>relative intensity</strong> (<span class="math notranslate nohighlight">\(\alpha&gt;\beta&gt;\gamma&gt;\eta&gt;\zeta\)</span>).</p>
+<p>For closely related memebers of a family additionally numebrs are attched such as <span class="math notranslate nohighlight">\(L \beta_1\)</span>.</p>
+<p>While most commercial software still uses the Siegbahn system the <a class="reference external" href="https://old.iupac.org/publications/pac/1991/pdf/6305x0735.pdf">International Union of Pure and Applied Chemistry (IUPAC)</a> has officially changed the system to a protocol that first dentoes the subshell were the ionization occured and followed with the term that indicates from which subshell the relaxation originates.</p>
+<p>So <span class="math notranslate nohighlight">\(K\alpha_1\)</span> is replaced by <span class="math notranslate nohighlight">\(K-L_3\)</span>.</p>
+<img alt="eds-lines" src="../_images/eds-lines.jpg" />
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Siegbahn</p></th>
+<th class="head"><p>—–IUPAC—–</p></th>
+<th class="head"><p>Siegbahn</p></th>
+<th class="head"><p>—–IUPAC—–</p></th>
+<th class="head"><p>Siegbahn</p></th>
+<th class="head"><p>—–IUPAC—–</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(K\alpha_1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(K-L_3\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(L\alpha_1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(L_3-M_5\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(M\alpha_1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(M_5-N_7\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(K\alpha_2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(K-L_2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(L\alpha_2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(L_3-M_4\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(M\alpha_2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(M_5-N_6\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(K\beta_1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(K-M_3\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(L\beta_1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(L_2-M_4\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(M\beta\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(M_4-N_6\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(K\beta_2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(K-N_{2,3}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(L\beta_2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(L_3-N_5\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(M\gamma\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(M_3-N_5\)</span></p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(L\beta_3\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(L_1-M_3\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(M\zeta\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(M_{4,5}-N_{2,3}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(L\beta_4\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(L_1-M_2\)</span></p></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(M_3-N_1\)</span></p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(L\gamma_1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(L_2-N_4\)</span></p></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(M_2-N_1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(L\gamma_2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(L_1-N_2\)</span></p></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(M_3-N_{4,5}\)</span></p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(L\gamma_3\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(L_1-N_3\)</span></p></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(M_3-O_1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(L\gamma_4\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(L_1-O_4\)</span></p></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(M_3-O_{4,5}\)</span></p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(L\zeta\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(L_2-M_1\)</span></p></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(M_2-N_4\)</span></p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(L\iota\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(L_3-M_1\)</span></p></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="X-ray-Weight-of-Lines">
+<h2>X-ray Weight of Lines<a class="headerlink" href="#X-ray-Weight-of-Lines" title="Link to this heading">¶</a></h2>
+<p>Within the excitation probaility of the characteristic X-ray lines are not equal.</p>
+<p>For sodium (see above for energies), the ratio of <span class="math notranslate nohighlight">\(K-L_{2,3}\)</span> to <span class="math notranslate nohighlight">\(K-M\)</span> is approximatively 150: 1.</p>
+<p>This ratios between the lines are a strong function of the atomic number <span class="math notranslate nohighlight">\(Z\)</span>.</p>
+<p>We load the data of the X-Ray lines from data from <a class="reference external" href="https://www.nist.gov/">NIST</a>, the line weights are taken from the Program <a class="reference external" href="https://www.cstl.nist.gov/div837/837.02/epq/dtsa2/index.html">DTSA-II</a>, which is the quasi-standard in EDS analysis.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_sections</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">utilities</span><span class="o">.</span><span class="n">get_x_sections</span><span class="p">()</span>
+<span class="n">K_M5</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">ele_K_M5</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">L3_M1</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">ele_M3_M1</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">L1_N3</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">ele_L1_N3</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">L3_N5</span> <span class="o">=</span><span class="p">[]</span>
+<span class="n">ele_L3_N5</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">L2_M4</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">ele_L2_M4</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">82</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s1">&#39;K-M5&#39;</span> <span class="ow">in</span> <span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)][</span><span class="s1">&#39;lines&#39;</span><span class="p">]:</span>
+        <span class="n">K_M5</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)][</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="s1">&#39;K-M5&#39;</span><span class="p">][</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)][</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="s1">&#39;K-L3&#39;</span><span class="p">][</span><span class="s1">&#39;weight&#39;</span><span class="p">])</span>
+        <span class="n">ele_K_M5</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;L3-M5&#39;</span> <span class="ow">in</span> <span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)][</span><span class="s1">&#39;lines&#39;</span><span class="p">]:</span>
+
+        <span class="k">if</span> <span class="s1">&#39;L3-M1&#39;</span> <span class="ow">in</span> <span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)][</span><span class="s1">&#39;lines&#39;</span><span class="p">]:</span>
+            <span class="n">L3_M1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)][</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="s1">&#39;L3-M1&#39;</span><span class="p">][</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)][</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="s1">&#39;L3-M5&#39;</span><span class="p">][</span><span class="s1">&#39;weight&#39;</span><span class="p">])</span>
+            <span class="n">ele_M3_M1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;L1-N3&#39;</span> <span class="ow">in</span> <span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)][</span><span class="s1">&#39;lines&#39;</span><span class="p">]:</span>
+            <span class="n">L1_N3</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)][</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="s1">&#39;L1-N3&#39;</span><span class="p">][</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)][</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="s1">&#39;L3-M5&#39;</span><span class="p">][</span><span class="s1">&#39;weight&#39;</span><span class="p">])</span>
+            <span class="n">ele_L1_N3</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;L3-N5&#39;</span> <span class="ow">in</span> <span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)][</span><span class="s1">&#39;lines&#39;</span><span class="p">]:</span>
+            <span class="n">L3_N5</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)][</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="s1">&#39;L3-N5&#39;</span><span class="p">][</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)][</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="s1">&#39;L3-M5&#39;</span><span class="p">][</span><span class="s1">&#39;weight&#39;</span><span class="p">])</span>
+            <span class="n">ele_L3_N5</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;L2-M4&#39;</span> <span class="ow">in</span> <span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)][</span><span class="s1">&#39;lines&#39;</span><span class="p">]:</span>
+            <span class="n">L2_M4</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)][</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="s1">&#39;L2-M4&#39;</span><span class="p">][</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)][</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="s1">&#39;L3-M5&#39;</span><span class="p">][</span><span class="s1">&#39;weight&#39;</span><span class="p">])</span>
+            <span class="n">ele_L2_M4</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+
+<span class="n">ele</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">94</span><span class="p">,</span><span class="mi">94</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ele_K_M5</span> <span class="p">,</span><span class="n">K_M5</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;K-M$_3$ / K-L$_3$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ele_M3_M1</span><span class="p">,</span><span class="n">L3_M1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;L$_3$-M$_1$ / L$_3$-M$_5$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ele_L1_N3</span><span class="p">,</span><span class="n">L1_N3</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;L$_1$-N$_3$ / L$_3$-M$_5$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ele_L3_N5</span><span class="p">,</span><span class="n">L3_N5</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;L$_3$-N$_5$ / L$_3$-M$_5$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ele_L2_M4</span><span class="p">,</span><span class="n">L2_M4</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;L$_2$-M$_4$ / L$_3$-M$_5$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;atomic number&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;relative weights of lines&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "022e5ff918af4b8796c07dd23fd8ef5c", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Characteristic-X-ray-Intensity">
+<h2>Characteristic X-ray Intensity<a class="headerlink" href="#Characteristic-X-ray-Intensity" title="Link to this heading">¶</a></h2>
+<p>The cross section <span class="math notranslate nohighlight">\(Q_I\)</span> (probability of excitation expressed as area) of an isolated atom ejecting an electron bound with energy <span class="math notranslate nohighlight">\(E_c\)</span> (keV) by an electron with energy <span class="math notranslate nohighlight">\(E\)</span> (keV) is:</p>
+<div class="math notranslate nohighlight">
+\[Q_I \left(\frac{ionizations}{e^- (atoms/cm^2)} \right) =  6.51 \times 10^{-20} \left[ \frac{n_s b_s}{E E_c}\right]\log_e (c_s E / E_c)\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(n_s\)</span>: number of electrons in shell or subshell <span class="math notranslate nohighlight">\(s\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(b_s\)</span>, <span class="math notranslate nohighlight">\(c_s\)</span>: constants for a given shell <span class="math notranslate nohighlight">\(s\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(E\)</span>: energy of the exciting electron</p></li>
+<li><p><span class="math notranslate nohighlight">\(E_𝑐\)</span>: Critical ionization energy</p></li>
+</ul>
+<p>For example for a K shell (Powell 1979): <span class="math notranslate nohighlight">\(n_K = 2\)</span>, <span class="math notranslate nohighlight">\(b_K = 0.35\)</span>, and <span class="math notranslate nohighlight">\(c_k = 1\)</span></p>
+<p>For silion the characteristic energy or binding energy for the K shell: <span class="math notranslate nohighlight">\(E_c = 1.838\)</span> keV</p>
+<p>The relationship between energy of the exciting electron and critical energy is important and is expressed as <strong>overvoltage</strong> <span class="math notranslate nohighlight">\(U\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[U =\frac{E}{E_c}\]</div>
+<p>The overvoltage of the primary electron with energy <span class="math notranslate nohighlight">\(E_0\)</span> is expressed as:</p>
+<div class="math notranslate nohighlight">
+\[U_0 =\frac{E_0}{E_c}\]</div>
+<p>We can express the cross section with the overvoltage:</p>
+<div class="math notranslate nohighlight">
+\[Q_I  =  6.51 \times 10^{-20} \left[ \frac{n_s b_s}{U E_c^2}\right]\log_e (c_s U)\]</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_K</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">b_K</span> <span class="o">=</span> <span class="mf">0.35</span>
+<span class="n">c_K</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="c1"># Silicon</span>
+<span class="n">E_c_Si</span> <span class="o">=</span> <span class="mf">1.838</span>
+<span class="c1"># Iron</span>
+<span class="n">E_c_Fe</span> <span class="o">=</span> <span class="mf">6.401</span>
+
+<span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">2048</span><span class="p">)</span><span class="o">+</span><span class="mf">0.05</span>
+<span class="n">U</span> <span class="o">=</span> <span class="n">E</span><span class="o">/</span><span class="n">E_c_Si</span>
+
+<span class="n">Q_Si</span> <span class="o">=</span> <span class="mf">6.51</span><span class="o">*</span><span class="mf">1e-20</span><span class="o">*</span><span class="n">n_K</span><span class="o">*</span><span class="n">b_K</span><span class="o">/</span><span class="p">(</span><span class="n">U</span> <span class="o">*</span> <span class="n">E_c_Si</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">c_K</span> <span class="o">*</span> <span class="n">U</span><span class="p">)</span>
+<span class="n">U</span> <span class="o">=</span> <span class="n">E</span><span class="o">/</span><span class="n">E_c_Fe</span>
+<span class="n">Q_Fe</span> <span class="o">=</span> <span class="mf">6.51</span><span class="o">*</span><span class="mf">1e-20</span><span class="o">*</span><span class="n">n_K</span><span class="o">*</span><span class="n">b_K</span><span class="o">/</span><span class="p">(</span><span class="n">U</span> <span class="o">*</span> <span class="n">E_c_Fe</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">c_K</span> <span class="o">*</span> <span class="n">U</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">E</span><span class="p">,</span><span class="n">Q_Si</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span><span class="s1">&#39;Si&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">E</span><span class="p">,</span><span class="n">Q_Fe</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span><span class="s1">&#39;Fe&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="n">Q_Si</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">*</span><span class="mf">1.1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;excitation energy (keV)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Q (inizations/[e$^-$ (atoms /cm$^2$)])&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "b6d7b2db0e9140d8ac7c25cbda707529", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p><a class="reference external" href="https://doi.org/10.1016/0304-3991(89)90264-7">C.J. Powell,”Cross sections for inelastic electron scattering in solids”, Ultramicroscopy 28 pp 24-31 (1989)</a></p>
+<p><a class="reference external" href="https://doi.org/10.1088/0022-3700/15/1/022">E. Casnati, A. Tartari, and C. Baraldi; J. Phys. B: At. Mol. Phys..li (1982) 155-167: An empirical approach to K-shell ionisation cross section by electrons</a></p>
+<p><a class="reference external" href="https://doi.org/10.1103/PhysRevA.77.042701">D. Bote and F. Salvat “Calculations of inner-shell ionization by electron impact with the distorted-wave and plane-wave Born approximations”,Phys. Rev. A 77, 042701</a></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_sections</span><span class="p">[</span><span class="s1">&#39;25&#39;</span><span class="p">][</span><span class="s1">&#39;M4&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;filename&#39;: &#39;None&#39;,
+ &#39;excl before&#39;: 5,
+ &#39;excl after&#39;: 50,
+ &#39;onset&#39;: 7.26159,
+ &#39;factor&#39;: 0.6666666666666666}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">(Casnati&#39;s equation) was found to fit cross-section data to</span>
+<span class="sd">typically better than +-10% over the range 1&lt;=Uk&lt;=20 and 6&lt;=Z&lt;=79.&quot;</span>
+
+<span class="sd">Note: This result is for K shell. L &amp; M are much less well characterized.</span>
+<span class="sd">C. Powell indicated in conversation that he believed that Casnati&#39;s</span>
+<span class="sd">expression was the best available for L &amp; M also.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">shell_occupancy</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;K&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;L1&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;L2&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;L3&#39;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;M1&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;M1&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;M2&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;M3&#39;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;M4&#39;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;M5&#39;</span><span class="p">:</span><span class="mi">6</span><span class="p">}</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.constants</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">const</span>
+<span class="n">res</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="n">beamE</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">rel</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">Z</span><span class="o">=</span> <span class="p">[]</span>
+<span class="n">shell</span> <span class="o">=</span> <span class="s1">&#39;M4&#39;</span>
+<span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">56</span><span class="p">):</span>
+    <span class="n">ee</span> <span class="o">=</span> <span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)][</span><span class="n">shell</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span><span class="c1">#getEdgeEnergy();</span>
+    <span class="n">u</span> <span class="o">=</span>  <span class="n">ee</span><span class="o">/</span><span class="n">beamE</span><span class="p">;</span>
+    <span class="c1">#print(u)</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">u</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">):</span>
+        <span class="n">u2</span> <span class="o">=</span> <span class="n">u</span> <span class="o">*</span> <span class="n">u</span><span class="p">;</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="mf">10.57</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="o">-</span><span class="mf">1.736</span> <span class="o">/</span> <span class="n">u</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.317</span> <span class="o">/</span> <span class="n">u2</span><span class="p">));</span>
+        <span class="c1">#psi = Math.pow(ee / PhysicalConstants.RydbergEnergy, -0.0318 + (0.3160 / u) + (-0.1135 / u2));</span>
+        <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">ee</span> <span class="o">/</span> <span class="n">const</span><span class="o">.</span><span class="n">Rydberg</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0318</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.3160</span> <span class="o">/</span> <span class="n">u</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.1135</span> <span class="o">/</span> <span class="n">u2</span><span class="p">));</span>
+
+        <span class="n">i</span> <span class="o">=</span> <span class="n">ee</span> <span class="o">/</span> <span class="n">const</span><span class="o">.</span><span class="n">electron_mass</span><span class="c1"># PhysicalConstants.ElectronRestMass;</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">beamE</span> <span class="o">/</span> <span class="n">const</span><span class="o">.</span><span class="n">electron_mass</span><span class="c1">#PhysicalConstants.ElectronRestMass;</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="p">((</span><span class="mf">2.0</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">+</span> <span class="n">t</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">t</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">i</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(((</span><span class="n">i</span> <span class="o">+</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">+</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">i</span><span class="p">))</span><span class="o">/</span> <span class="p">((</span><span class="n">t</span> <span class="o">*</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">+</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">i</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">+</span> <span class="n">i</span><span class="p">))),</span> <span class="mf">1.5</span><span class="p">);</span>
+        <span class="n">getGroundStateOccupancy</span> <span class="o">=</span> <span class="n">shell_occupancy</span><span class="p">[</span><span class="n">shell</span><span class="p">]</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">((</span><span class="n">getGroundStateOccupancy</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">const</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s1">&#39;Bohr radius&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">const</span><span class="o">.</span><span class="n">Rydberg</span><span class="p">)</span> <span class="o">/</span> <span class="n">ee</span><span class="p">)</span> <span class="o">*</span> <span class="n">f</span> <span class="o">*</span> <span class="n">psi</span> <span class="o">*</span> <span class="n">phi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">u</span><span class="p">))</span> <span class="o">/</span> <span class="n">u</span><span class="p">);</span>
+
+        <span class="n">rel</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="n">Z</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+    <span class="c1">#print(res)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Casnati&#39;s cross section for beam energy </span><span class="si">{</span><span class="n">beamE</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> keV&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span><span class="n">rel</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;atomic number Z&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Q [barns]&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "17a93f7cbfbb40a79cffbe0ed8d34799", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>Even though the cross section raises fast with overvoltage <span class="math notranslate nohighlight">\(U\)</span>, too low overvoltage leads to a small cross section, which results in poor excitation of the X-ray line.</p>
+<p>We can also see that the intial overvoltage <span class="math notranslate nohighlight">\(U_0\)</span> varies with atomic number <span class="math notranslate nohighlight">\(Z\)</span>, which will affect the relative generation of X-rays from different elements.</p>
+</section>
+<section id="X-ray-Production-in-a-Thick-Solid-Sample">
+<h2>X-ray Production in a Thick Solid Sample<a class="headerlink" href="#X-ray-Production-in-a-Thick-Solid-Sample" title="Link to this heading">¶</a></h2>
+<p>If the sample is sufficient thick so that all electrons interact ( several micrometers) the X-ray intensity is found to follow an expression fo the form:</p>
+<div class="math notranslate nohighlight">
+\[I \approx i_p \left[ (E_0-E_c)/E_0\right]^n \approx i_p [U_0-1]^n\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(i_p\)</span>: beam current</p></li>
+<li><p><span class="math notranslate nohighlight">\(n\)</span>: exponent <span class="math notranslate nohighlight">\(n\)</span> depends on particular element and shell (Lifshin et al. 1980)</p></li>
+</ul>
+<p>The exponent <span class="math notranslate nohighlight">\(n\)</span> is ususally between 1.5 and 2. See what changes in the plot below if you change this exponent.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mf">1.5</span>
+
+<span class="n">U_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2048</span><span class="p">)</span>
+<span class="n">i_p</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c1"># in nA</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">i_p</span> <span class="o">*</span> <span class="p">(</span><span class="n">U_0</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span><span class="o">**</span><span class="n">n</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">U_0</span><span class="p">,</span><span class="n">I</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;overvoltage $U_0$ [kV]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$I$ [nA]&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "05de1e55d7b340a98283bf4b1ee84120", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="X-ray-Production-in-a-Thin-Foil">
+<h2>X-ray Production in a Thin Foil<a class="headerlink" href="#X-ray-Production-in-a-Thin-Foil" title="Link to this heading">¶</a></h2>
+<p>Now we have all the ingeedients to look at the total generation of X-rays.</p>
+<p>The number of photons <span class="math notranslate nohighlight">\(n_X\)</span> produced in a thin foil of thickness <span class="math notranslate nohighlight">\(t\)</span> is :</p>
+<div class="math notranslate nohighlight">
+\[n_x  = Q_I(E) \ \omega   N_A  \frac{1}{A} \rho \ t\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(n_X\)</span> [photons/e<span class="math notranslate nohighlight">\(^-\)</span>]</p></li>
+<li><p><span class="math notranslate nohighlight">\(Q_I(E)\)</span> [ ionizations/e<span class="math notranslate nohighlight">\(^-\)</span> (atoms / cm<span class="math notranslate nohighlight">\(^2\)</span>)): ionization cross section</p></li>
+<li><p><span class="math notranslate nohighlight">\(\omega\)</span> [X-rays/ ionization]: fluorescent yield = number of X-rays generated per ionization</p></li>
+<li><p>$ N_A$ [atoms per mol]: Avogadro’s number</p></li>
+<li><p><span class="math notranslate nohighlight">\(A\)</span> [g/moles]: atomic weight</p></li>
+<li><p><span class="math notranslate nohighlight">\(\rho\)</span> [g/cm<span class="math notranslate nohighlight">\(^3\)</span>]: density of sample</p></li>
+<li><p><span class="math notranslate nohighlight">\(t\)</span> [cm]: thickness of sample</p></li>
+</ul>
+<blockquote>
+<div><p>The number of X-rays increase linearly with the number of atoms per unit area ($N_A <span class="math">\frac{1}{A}</span> :nbsphinx-math:<a href="#id1"><span class="problematic" id="id2">`</span></a>rho ` t $).</p>
+</div></blockquote>
+<p>In the graph above, we can see the importance of the overvoltage <span class="math notranslate nohighlight">\(U\)</span> by how the intensity increase with increasing <span class="math notranslate nohighlight">\(U_0\)</span></p>
+</section>
+<section id="Quiz">
+<h2>Quiz<a class="headerlink" href="#Quiz" title="Link to this heading">¶</a></h2>
+<p>Why is the overvoltage increasing so much while the cross section remains rather constant above the threshold?</p>
+</section>
+<section id="Navigation">
+<h2>Navigation<a class="headerlink" href="#Navigation" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Back:</strong> <a class="reference internal" href="CH4_13-Bremsstrahlung.html"><span class="doc">Bremsstrahlung</span></a></p></li>
+<li><p><strong>Next:</strong> <a class="reference internal" href="CH4_15-Detector.html"><span class="doc">Detector Response</span></a></p></li>
+<li><p><strong>Chapter 4:</strong> <a class="reference internal" href="CH4_00-Spectroscopy.html"><span class="doc">Spectroscopy</span></a></p></li>
+<li><p><strong>List of Content:</strong> <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">Front</span></a></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Diffraction/index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Spectroscopy/CH4_14-Characteristic_X_Rays.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

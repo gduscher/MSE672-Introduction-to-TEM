@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Z-Contrast Imaging &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 3:</strong> <a class="reference internal" href="CH3_00-Imaging.html"><span class="doc">Imaging</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="Z-Contrast-Imaging">
+<h1>Z-Contrast Imaging<a class="headerlink" href="#Z-Contrast-Imaging" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM/main/Imaging/CH3_09-Z_Contrast.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/Imaging/CH3_09-Z_Contrast.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p><strong>Spring 2026</strong> by Gerd Duscher</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<p>Note: This notebook needs <a class="reference external" href="https://abtem.readthedocs.io/en/latest/intro.html">abTEM</a> installled</p>
+<section id="Load-important-packages">
+<h2>Load important packages<a class="headerlink" href="#Load-important-packages" title="Link to this heading">¶</a></h2>
+<p>In Colab the next code cell must be run first</p>
+<section id="Check-Installed-Packages">
+<h3>Check Installed Packages<a class="headerlink" href="#Check-Installed-Packages" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2026.1.0&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w">  </span>--upgrade<span class="w"> </span>pyTEMlib<span class="w"> </span>-q
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;abtem&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;1.0.8&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing abtem&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w">  </span>--upgrade<span class="w"> </span>pyTEMlib<span class="w"> </span>-q
+
+<span class="c1"># ------------------------------</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+done
+</pre></div></div>
+</div>
+</section>
+<section id="Load-Packages">
+<h3>Load Packages<a class="headerlink" href="#Load-Packages" title="Link to this heading">¶</a></h3>
+<p>We will use</p>
+<ul class="simple">
+<li><p>numpy and matplotlib</p></li>
+<li><p>physical constants from scipy</p></li>
+<li><p>The pyTEMlib kinematic scattering librarty is only used to determine the wavelength.</p></li>
+</ul>
+<p>abTEM</p>
+<p>please cite abTEM methods article:</p>
+<p><a class="reference external" href="https://doi.org/10.12688/openreseurope.13015.1">J. Madsen &amp; T. Susi, “The abTEM code: transmission electron microscopy from first principles”, Open Research Europe 1: 24 (2021)</a></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import matplotlib and numpy</span>
+<span class="c1">#                       use &quot;inline&quot; instead of &quot;notebook&quot; for non-interactive plots</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="o">%</span><span class="k">matplotlib</span> ipympl
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">output</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># import atomic simulation environment</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ase</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ase.spacegroup</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ase.visualize</span>
+
+<span class="c1"># import abintio-tem library</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">abtem</span>
+
+<span class="n">__notebook__</span> <span class="o">=</span> <span class="s1">&#39;CH3_09-Z_Contrast&#39;</span>
+<span class="n">__notebook_version__</span> <span class="o">=</span> <span class="s1">&#39;2021_03_29&#39;</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Z-contrast-imaging">
+<h2>Z-contrast imaging<a class="headerlink" href="#Z-contrast-imaging" title="Link to this heading">¶</a></h2>
+<p>A Z-contrast image is acquired by scanning a <code class="docutils literal notranslate"><span class="pre">convergent</span></code> beam accross the sample and collecting signals with an <code class="docutils literal notranslate"><span class="pre">annular</span></code> (ring-like) detector. The detector sits in the convergent beam electron diffraction pattern plane and so it integrates over a ring-like part of the convergent beam diffraction (CBED) pattern.</p>
+<p>More generally a scanning transmisison electron microscopy (STEM) image is still scanning the same probe but integrates over different portions of the CBED pattern. A <code class="docutils literal notranslate"><span class="pre">bright</span> <span class="pre">field</span> <span class="pre">detector</span></code> for instance integrates over the inner part of the CBED pattern and is <code class="docutils literal notranslate"><span class="pre">disk-like</span></code>.</p>
+</section>
+<section id="Make-Structure-and-Potential-with-Frozen-Phonons">
+<h2>Make Structure and Potential with Frozen Phonons<a class="headerlink" href="#Make-Structure-and-Potential-with-Frozen-Phonons" title="Link to this heading">¶</a></h2>
+<p>As in the Dynamic Diffraction with Frozen Phonons part in the <a class="reference internal" href="CH3_08-Thermal_Diffuse_Scattering.html"><span class="doc">Thermal Diffuse Scattering notebook</span></a>, we first define the potential of the slices.</p>
+<p>Again we use the <code class="docutils literal notranslate"><span class="pre">abtem</span></code> and <code class="docutils literal notranslate"><span class="pre">ase</span></code> packages to do this</p>
+<section id="Defining-the-structure">
+<h3>Defining the structure<a class="headerlink" href="#Defining-the-structure" title="Link to this heading">¶</a></h3>
+<p>Here we make a SrTiO<span class="math notranslate nohighlight">\(_3\)</span> crystal again</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------- Input -----------#</span>
+<span class="n">thickness</span> <span class="o">=</span><span class="mi">30</span>  <span class="c1"># in nm</span>
+<span class="n">number_of_layers</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># per unit cell</span>
+<span class="c1"># -------------------------#</span>
+
+
+<span class="n">atom_pos</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)]</span>
+<span class="n">srtio3</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">spacegroup</span><span class="o">.</span><span class="n">crystal</span><span class="p">([</span><span class="s1">&#39;Sr&#39;</span><span class="p">,</span><span class="s1">&#39;Ti&#39;</span><span class="p">,</span><span class="s1">&#39;O&#39;</span><span class="p">],</span> <span class="n">atom_pos</span><span class="p">,</span> <span class="n">spacegroup</span><span class="o">=</span><span class="mi">221</span><span class="p">,</span> <span class="n">cellpar</span><span class="o">=</span><span class="mf">3.905</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">60</span><span class="p">))</span>
+
+<span class="n">srtio3</span><span class="o">.</span><span class="n">center</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Simulation cell: </span><span class="si">{</span><span class="n">srtio3</span><span class="o">.</span><span class="n">cell</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">abtem</span><span class="o">.</span><span class="n">show_atoms</span><span class="p">(</span><span class="n">srtio3</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Simulation cell: Cell([39.05, 39.05, 234.29999999999998])
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "0e75e784ee5c4a1e981154ce8d97e612", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Make-the-potential">
+<h3>Make the potential<a class="headerlink" href="#Make-the-potential" title="Link to this heading">¶</a></h3>
+<p>with frozen phonon approximation</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------ Input ------ #</span>
+<span class="n">number_of_frozen_phonon_runs</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="c1"># --------------------#</span>
+<span class="n">abtem</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">({</span><span class="s2">&quot;device&quot;</span><span class="p">:</span> <span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="s2">&quot;fft&quot;</span><span class="p">:</span> <span class="s2">&quot;fftw&quot;</span><span class="p">})</span>
+<span class="n">frozen_phonons</span> <span class="o">=</span> <span class="n">abtem</span><span class="o">.</span><span class="n">FrozenPhonons</span><span class="p">(</span><span class="n">srtio3</span><span class="p">,</span> <span class="n">number_of_frozen_phonon_runs</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;Sr&#39;</span> <span class="p">:</span> <span class="mf">.1</span><span class="p">,</span> <span class="s1">&#39;Ti&#39;</span> <span class="p">:</span> <span class="mf">.1</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span> <span class="p">:</span> <span class="mf">.1</span><span class="p">},</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">tds_potential</span> <span class="o">=</span> <span class="n">abtem</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="n">frozen_phonons</span><span class="p">,</span> <span class="n">gpts</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">slice_thickness</span><span class="o">=</span><span class="mf">3.905</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>
+                                <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;infinite&#39;</span><span class="p">,</span> <span class="n">parametrization</span><span class="o">=</span><span class="s1">&#39;kirkland&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Real space sampling: </span><span class="si">{</span><span class="n">tds_potential</span><span class="o">.</span><span class="n">sampling</span><span class="si">}</span><span class="s2"> Angstrom &quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Real space sampling: (0.07626953125, 0.07626953125) Angstrom
+</pre></div></div>
+</div>
+</section>
+<section id="Make-the-probe">
+<h3>Make the probe<a class="headerlink" href="#Make-the-probe" title="Link to this heading">¶</a></h3>
+<p>The probe has to be on the same grid (matrix, pixels) as the potential, which is ensured with the <code class="docutils literal notranslate"><span class="pre">grid.match</span></code> function.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- Input ----- #</span>
+<span class="n">convergence_angle</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># in mrad of half angle</span>
+<span class="n">acceleration_voltage</span> <span class="o">=</span> <span class="mf">200e3</span> <span class="c1"># in V</span>
+<span class="n">defocus</span> <span class="o">=</span> <span class="mi">40</span>  <span class="c1"># in nm</span>
+<span class="n">C_s</span> <span class="o">=</span> <span class="mf">.5</span> <span class="c1"># in mm            conversion to ase and Angstrom    *1-6 * 1e10 = 1e4</span>
+<span class="c1"># -----------------#</span>
+
+
+<span class="n">probe</span> <span class="o">=</span> <span class="n">abtem</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">energy</span><span class="o">=</span><span class="n">acceleration_voltage</span><span class="p">,</span> <span class="n">semiangle_cutoff</span><span class="o">=</span><span class="n">convergence_angle</span><span class="p">,</span>
+                    <span class="n">defocus</span><span class="o">=</span><span class="n">defocus</span><span class="p">,</span> <span class="n">Cs</span><span class="o">=</span><span class="n">C_s</span><span class="o">*</span><span class="mf">1e4</span><span class="p">)</span>
+<span class="n">probe</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">tds_potential</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;defocus = </span><span class="si">{</span><span class="n">probe</span><span class="o">.</span><span class="n">aberrations</span><span class="o">.</span><span class="n">defocus</span><span class="si">}</span><span class="s2"> Å&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FWHM = </span><span class="si">{</span><span class="n">probe</span><span class="o">.</span><span class="n">profiles</span><span class="p">()</span><span class="o">.</span><span class="n">width</span><span class="p">()</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span><span class="si">}</span><span class="s2"> Å&quot;</span><span class="p">)</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+defocus = 40 Å
+FWHM = 0.6864258050918579 Å
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">probe</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<span class="n">probe</span><span class="o">.</span><span class="n">profiles</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "ab9c9410d91c44778556ba0d3300ea52", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "68c7f78d663946ae87186dbfc4cba1cf", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "de1e1c6fb8c14804b2dde58791dc4250", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="Detectors">
+<h2>Detectors<a class="headerlink" href="#Detectors" title="Link to this heading">¶</a></h2>
+<p>The detectors are definded by their angles and ususally in mrad.</p>
+<p>The detector integrate radially over the CBED pattern for each pixel.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">detector</span> <span class="o">=</span> <span class="n">abtem</span><span class="o">.</span><span class="n">PixelatedDetector</span><span class="p">(</span><span class="n">max_angle</span><span class="o">=</span><span class="s1">&#39;limit&#39;</span><span class="p">)</span>
+<span class="n">probe</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">tds_potential</span><span class="p">)</span>
+<span class="n">tds_cbed</span> <span class="o">=</span> <span class="n">probe</span><span class="o">.</span><span class="n">multislice</span><span class="p">(</span><span class="n">tds_potential</span><span class="p">)</span>
+<span class="n">tds_cbed</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">power</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "fdabc5ec44484352a8180fe7d5258ff9", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;abtem.visualize.visualizations.Visualization at 0x230650a4a50&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "dc70a66ad6f04d59a12ccca100c10e9a", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>We see that the HAADF detector is dominated by the features of thermal diffuse scattering.</p>
+<p>While that part is not terribly important in the bright field image.</p>
+<p>Please note:</p>
+<p>The detectors have to be well aligned on the optical axis or the simulation here is not valid.</p>
+<section id="Definition-of-a-detector">
+<h3>Definition of a detector<a class="headerlink" href="#Definition-of-a-detector" title="Link to this heading">¶</a></h3>
+<p>The software only retains the radial integrated intensity of the detector</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">detector</span> <span class="o">=</span> <span class="n">abtem</span><span class="o">.</span><span class="n">FlexibleAnnularDetector</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Scanning-the-Probe">
+<h2>Scanning the Probe<a class="headerlink" href="#Scanning-the-Probe" title="Link to this heading">¶</a></h2>
+<section id="Define-scanning-area">
+<h3>Define scanning area<a class="headerlink" href="#Define-scanning-area" title="Link to this heading">¶</a></h3>
+<p>The scanning area can be small, but the structure in real space (width and height) is important because it determines the pixel size in reciprocal space.</p>
+<p>We calculate a diffraction pattern for each point of the scanned area.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grid_scan</span> <span class="o">=</span> <span class="n">abtem</span><span class="o">.</span><span class="n">GridScan</span><span class="p">(</span>
+    <span class="n">start</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="n">end</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">10</span><span class="p">],</span>
+    <span class="n">sampling</span><span class="o">=</span><span class="n">probe</span><span class="o">.</span><span class="n">aperture</span><span class="o">.</span><span class="n">nyquist_sampling</span><span class="p">,</span>
+    <span class="n">fractional</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">potential</span><span class="o">=</span><span class="n">tds_potential</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">abtem</span><span class="o">.</span><span class="n">show_atoms</span><span class="p">(</span><span class="n">srtio3</span><span class="p">)</span>
+
+<span class="n">grid_scan</span><span class="o">.</span><span class="n">add_to_plot</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "8a97e78c01aa4934bbe70317a772320a", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Now-we-are-scanning">
+<h3>Now we are scanning<a class="headerlink" href="#Now-we-are-scanning" title="Link to this heading">¶</a></h3>
+<p>The results are going to be stored to file.</p>
+<p>This takes about 20 min on my laptop</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flexible_measurement</span> <span class="o">=</span> <span class="n">probe</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">tds_potential</span><span class="p">,</span> <span class="n">scan</span><span class="o">=</span><span class="n">grid_scan</span><span class="p">,</span> <span class="n">detectors</span><span class="o">=</span><span class="n">detector</span><span class="p">)</span>
+
+<span class="n">flexible_measurement</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "4019dc702ec748b88b71f6ccec2fdb8a", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;abtem.measurements.PolarMeasurements at 0x23000a0b650&gt;
+</pre></div></div>
+</div>
+</section>
+<section id="Integrate-measurements">
+<h3>Integrate measurements<a class="headerlink" href="#Integrate-measurements" title="Link to this heading">¶</a></h3>
+<p>The measurements are integrated to obtain the bright field, medium-angle annular dark field and high-angle annular dark field signals.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bf_measurement</span> <span class="o">=</span> <span class="n">flexible_measurement</span><span class="o">.</span><span class="n">integrate_radial</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">probe</span><span class="o">.</span><span class="n">semiangle_cutoff</span><span class="p">)</span>
+<span class="n">maadf_measurement</span> <span class="o">=</span> <span class="n">flexible_measurement</span><span class="o">.</span><span class="n">integrate_radial</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="c1"># maadf_measurement = flexible_measurement.integrate_radial(probe.semiangle_cutoff-10, probe.semiangle_cutoff+10)</span>
+<span class="n">haadf_measurement</span> <span class="o">=</span> <span class="n">flexible_measurement</span><span class="o">.</span><span class="n">integrate_radial</span><span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+</section>
+<section id="Plot-images">
+<h3>Plot images<a class="headerlink" href="#Plot-images" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">measurements</span> <span class="o">=</span> <span class="n">abtem</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">bf_measurement</span><span class="p">,</span> <span class="n">maadf_measurement</span><span class="p">,</span> <span class="n">haadf_measurement</span><span class="p">],</span> <span class="p">(</span><span class="s2">&quot;BF&quot;</span><span class="p">,</span> <span class="s2">&quot;MAADF&quot;</span><span class="p">,</span> <span class="s2">&quot;HAADF&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">measurements</span><span class="o">.</span><span class="n">show</span><span class="p">(</span>
+    <span class="n">explode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="n">cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "d087b977c81b4b92a198755d01b86e74", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>“”### Plotting result We make the images a bit bigger by tiling</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">haadf_image</span> <span class="o">=</span> <span class="n">haadf_measurement</span><span class="o">.</span><span class="n">tile</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">haadf_image</span> <span class="o">=</span> <span class="n">haadf_image</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="mf">.04</span><span class="p">)</span>
+
+<span class="n">bf_image</span> <span class="o">=</span> <span class="n">bf_measurement</span><span class="o">.</span><span class="n">tile</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">bf_image</span> <span class="o">=</span> <span class="n">bf_image</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="mf">.04</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">haadf_image</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">im2</span> <span class="o">=</span> <span class="n">bf_image</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "d6646b3640e5448fa2d123eadcad9552", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>We can simulate partial spatial coherence by applying a gaussian filter. The standard deviation of the filter is 0.3 Å, the approximate size of the electron source.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">interpolated_measurements</span> <span class="o">=</span> <span class="n">measurements</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="mf">0.05</span><span class="p">)</span>
+
+<span class="n">filtered_measurements</span> <span class="o">=</span> <span class="n">interpolated_measurements</span><span class="o">.</span><span class="n">gaussian_filter</span><span class="p">(</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">filtered_measurements</span><span class="o">.</span><span class="n">show</span><span class="p">(</span>
+    <span class="n">explode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="n">cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "7c8ecbf1774d4c42848bf6287e8a5292", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Noise">
+<h3>Noise<a class="headerlink" href="#Noise" title="Link to this heading">¶</a></h3>
+<p>We simulate a finite electron dose by applying poisson noise</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># -------- Input -------------</span>
+<span class="n">dose_per_area</span> <span class="o">=</span> <span class="mf">1e7</span>   <span class="c1"># electrons/angstrom^2</span>
+<span class="c1"># ----------------------------</span>
+
+<span class="n">noisy_measurements</span> <span class="o">=</span> <span class="n">filtered_measurements</span><span class="o">.</span><span class="n">poisson_noise</span><span class="p">(</span><span class="n">dose_per_area</span><span class="o">=</span><span class="n">dose_per_area</span><span class="p">)</span>
+
+<span class="n">noisy_measurements</span><span class="o">.</span><span class="n">show</span><span class="p">(</span>
+    <span class="n">explode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="n">cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "7a7b3e5eed4248a8958a89e49d9cf743", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="Experimental-Consideration">
+<h2>Experimental Consideration<a class="headerlink" href="#Experimental-Consideration" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>We need an as small a probe as possible.</p>
+<ul>
+<li><p>This will depend on the instrument especially everything before the sample!</p></li>
+<li><p>This will depend on the defocus.</p></li>
+<li><p>This will depend on the aperture, which will depend on the instrument and the largest coherent area.</p></li>
+<li><p>This will depend on the aberrations and how well you corrected them</p></li>
+</ul>
+</li>
+<li><p>We need to be tilted in the relevant zone axis</p></li>
+<li><p>We need a relatively thin specimen location</p></li>
+</ul>
+</section>
+<section id="Summary">
+<h2>Summary<a class="headerlink" href="#Summary" title="Link to this heading">¶</a></h2>
+<p>For a quantitative image simulation we need to do dynamic scattering theory.</p>
+<p>The dynamic scattering theory is done within the multislice algorithm that treats each slice like a weak phase object.</p>
+<p>Thermal defuse scattering needs to be included into the multislice calculations for a good simulation</p>
+<p>The thermal diffuse scattering can be approximated by the frozen phonon approximation but it is computationally intensive.</p>
+</section>
+<section id="Navigation">
+<h2>Navigation<a class="headerlink" href="#Navigation" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Up Chapter 2:</strong> <a class="reference internal" href="CH3_00-Imaging.html"><span class="doc">Diffraction</span></a></p></li>
+<li><p><strong>Back:</strong> <a class="reference internal" href="CH3_08-Thermal_Diffuse_Scattering.html"><span class="doc">Thermal Diffuse Scattering</span></a></p></li>
+<li><p><strong>Next:</strong> <a class="reference internal" href="CH3_10-Ronchigram.html"><span class="doc">Ronchigram</span></a></p></li>
+<li><p><strong>List of Content:</strong> <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">Front</span></a></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Diffraction/index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Spectroscopy/index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Imaging/CH3_09-Z_Contrast.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

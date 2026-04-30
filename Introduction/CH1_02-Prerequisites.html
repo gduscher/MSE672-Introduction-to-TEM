@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Prerequisites &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Matplotlib and Numpy for Micrographs" href="CH1_03-Data_Representation.html" />
+    <link rel="prev" title="Introduction to Python as it is used in this lecture" href="CH1_01-Introduction_Python.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 1:</strong> <a class="reference internal" href="CH1_00-Introduction.html"><span class="doc">Introduction</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="Prerequisites">
+<h1>Prerequisites<a class="headerlink" href="#Prerequisites" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Introduction/CH1_02-Prerequisites.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/Introduction/CH1_02-Prerequisites.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p><strong>Spring 2026</strong> by Gerd Duscher</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<section id="Language">
+<h2>Language<a class="headerlink" href="#Language" title="Link to this heading">¶</a></h2>
+<p>The notebooks are all in python 3.</p>
+<p>At this point the common version is python 3.9</p>
+<p>cd ## Packages The idea behind any python program is to make use of the highly efficient libraries that already exist.</p>
+<p>I use <a class="reference external" href="https://www.anaconda.com/distribution/">anaconda3</a> (not miniconda) which is available for all major operating systems.</p>
+<p>We use a few modules that come with every python installation, like:</p>
+<ul class="simple">
+<li><p>math</p></li>
+<li><p>sys</p></li>
+<li><p>os</p></li>
+</ul>
+<p>We use mostly the common packages for scientific computing in python (all included in anaconda3) The most important ones are:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.numpy.org/">Numpy</a> - the numerical library</p></li>
+<li><p><a class="reference external" href="https://www.scipy.org/scipylib/index.html">Scipy</a> the scientific library</p></li>
+<li><p><a class="reference external" href="https://www.matplotlib.org/">Matplotlib</a> the interactive plotting library</p></li>
+</ul>
+<p>These packages are expected to be installed on your computer to run the notebooks of this book. These packages are already installed in Google colab.</p>
+<p>For specialist applications we do not reinvent the wheel and use those on an as needed basis.</p>
+<p>Example is the library to register a stack of images:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.simpleitk.org">SimpleITK</a> integration of AI in image analysis and for high performing computer algorithms</p></li>
+<li><p><a class="reference external" href="https://pycroscopy.github.io/pyNSID/about.html">pyNSID</a> the atomistic simulation program is used for crystallographic data</p></li>
+<li><p><a class="reference external" href="https://wiki.fysik.dtu.dk/ase/">ase</a> together with a symmetry package</p></li>
+<li><p><a class="reference external" href="https://atztogo.github.io/spglib/">spglib</a></p></li>
+</ul>
+<p>For dialogs, we use the capabilities of Jupyter Widgets provided by:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://ipywidgets.readthedocs.io/en/stable/">ipywidgets</a></p></li>
+</ul>
+<p>All routines that are introduced in the notebooks are also available (for analysis) in the provided package</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/pycroscopy/pyTEMlib">pyTEMlib</a></p></li>
+</ul>
+<p>If you install <a class="reference internal" href="#TEM-Library"><span class="std std-ref">pyTEMlib</span></a> with the code cell below all packages you need for this book will be installed.</p>
+</section>
+<section id="Basic-Installation-of-Python-Environment">
+<h2>Basic Installation of Python Environment<a class="headerlink" href="#Basic-Installation-of-Python-Environment" title="Link to this heading">¶</a></h2>
+<p>I recommend installing the free <strong>anaconda3</strong> from this <a class="reference external" href="https://www.anaconda.com/products/individual">link</a>.</p>
+<p>If you have an old version of anaconda, please reinstall the new version. The lecture is based on fairly new packages of scipy and numpy, dask, and h5py, which will create problems in old anaconda versions.</p>
+<p>Once you have installed anaconda type &gt;pip install pyTEMlib</p>
+<p>Alternatively you can just run the code cell below. Be aware that the installation process may take a while.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="c1"># pyTEMlib setup ------------------</span>
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2026.1.0&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pyTEMlib
+
+<span class="c1"># ------------------------------</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+done
+</pre></div></div>
+</div>
+</section>
+<section id="Data-Format">
+<h2>Data Format<a class="headerlink" href="#Data-Format" title="Link to this heading">¶</a></h2>
+<p>All data in this course are stored in the file format of</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pycroscopy.github.io/pyNSID/about.html">pyNSID</a></p></li>
+</ul>
+<p>which is based on</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.h5py.org/">HDF5</a></p></li>
+</ul>
+<p>In the memory the data are stored in dictionaries in the</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pycroscopy.github.io/sidpy">sidpy</a> data format</p></li>
+</ul>
+<p>which provides a lot of functionalities for plotting and is the basis for any other package of the <a class="reference external" href="https://github.com/pycroscopy">pycroscopy</a> ecosystem.</p>
+</section>
+<section id="Notebook-preamble">
+<h2>Notebook preamble<a class="headerlink" href="#Notebook-preamble" title="Link to this heading">¶</a></h2>
+<p>As a minimum Any notebook in this course has to have the following libraries loaded :</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import matplotlib and numpy</span>
+<span class="c1"># Define iteractivity with this **magic** command</span>
+<span class="c1">#                       use &quot;inline&quot; instead of &quot;widget&quot; for non-interactive plots</span>
+<span class="o">%</span><span class="k">matplotlib</span> widget
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pylab</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Numpy">
+<h2>Numpy<a class="headerlink" href="#Numpy" title="Link to this heading">¶</a></h2>
+<p>The calculations depend on <strong>Numpy</strong> and an installation of that package that is compiled to include BLAS and LAPACK libraries will be much faster than the standalone version. For example the numpy installed on ubuntu with <em>&gt; sudo apt-get install python3-numpy</em> or at windows you can install the numpy package from Gohlke’s webpage which compiled against the MKL library of Intel. If you used anaconda3, everything is already optimized.</p>
+<p>The command below lets you see what you have</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## What is numpy compiled against</span>
+<span class="n">np</span><span class="o">.</span><span class="n">__config__</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;numpy version: &#39;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;scipy version: &#39;</span><span class="p">,</span><span class="n">sp</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Build Dependencies:
+  blas:
+    detection method: pkgconfig
+    found: true
+    include directory: C:/Users/gduscher/AppData/Local/anaconda3/Library/include
+    lib directory: C:/Users/gduscher/AppData/Local/anaconda3/Library/lib
+    name: mkl-sdl
+    openblas configuration: unknown
+    pc file directory: C:\miniconda3\conda-bld\numpy_and_numpy_base_1763980694785\_h_env\Library\lib\pkgconfig
+    version: &#39;2025&#39;
+  lapack:
+    detection method: pkgconfig
+    found: true
+    include directory: C:/Users/gduscher/AppData/Local/anaconda3/Library/include
+    lib directory: C:/Users/gduscher/AppData/Local/anaconda3/Library/lib
+    name: mkl-sdl
+    openblas configuration: unknown
+    pc file directory: C:\miniconda3\conda-bld\numpy_and_numpy_base_1763980694785\_h_env\Library\lib\pkgconfig
+    version: &#39;2025&#39;
+Compilers:
+  c:
+    commands: cl.exe
+    linker: link
+    name: msvc
+    version: 19.29.30159
+  c++:
+    commands: cl.exe
+    linker: link
+    name: msvc
+    version: 19.29.30159
+  cython:
+    commands: cython
+    linker: cython
+    name: cython
+    version: 3.1.4
+Machine Information:
+  build:
+    cpu: x86_64
+    endian: little
+    family: x86_64
+    system: windows
+  host:
+    cpu: x86_64
+    endian: little
+    family: x86_64
+    system: windows
+Python Information:
+  path: C:\miniconda3\conda-bld\numpy_and_numpy_base_1763980694785\_h_env\python.exe
+  version: &#39;3.13&#39;
+SIMD Extensions:
+  baseline:
+  - SSE
+  - SSE2
+  - SSE3
+  found:
+  - SSSE3
+  - SSE41
+  - POPCNT
+  - SSE42
+  - AVX
+  - F16C
+
+numpy version:  2.3.5
+scipy version:  1.16.3
+</pre></div></div>
+</div>
+</section>
+<section id="TEM-Library">
+<h2>TEM Library<a class="headerlink" href="#TEM-Library" title="Link to this heading">¶</a></h2>
+<p>You will have to run the code cell below <strong>at least once</strong> to install the library with the programs needed for the analysis of data.</p>
+<p>The code cell below will install pyTEMlib directly from pypi</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="c1"># pyTEMlib setup ------------------</span>
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2026.1.0&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pyTEMlib
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+done
+</pre></div></div>
+</div>
+<p>Now we load pyTEMlib to make it available for this notebook.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pyTEMlib</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;pyTEM version: </span><span class="si">{</span><span class="n">pyTEMlib</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+pyTEM version: 0.2026.1.1
+</pre></div></div>
+</div>
+</section>
+<section id="Test">
+<h2>Test<a class="headerlink" href="#Test" title="Link to this heading">¶</a></h2>
+<p>Let’s test if the installation was successful and plot a unit cell. You can rotate the plot around, zoom and select. Try it!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- Input ------------</span>
+<span class="n">crystal_name</span> <span class="o">=</span> <span class="s1">&#39;graphite&#39;</span>
+<span class="c1"># -----------------------</span>
+
+<span class="c1"># make a structure dictionary with crystal_tools</span>
+<span class="n">atoms</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">crystal_tools</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">(</span><span class="n">crystal_name</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">atoms</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ase.visualize</span>
+<span class="n">ase</span><span class="o">.</span><span class="n">visualize</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">atoms</span><span class="o">*</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">viewer</span><span class="o">=</span><span class="s1">&#39;x3d&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Atoms(symbols=&#39;C4&#39;, pbc=False, cell=[[2.46772414, 0.0, 0.0], [-1.2338620699999996, 2.1371117947721068, 0.0], [0.0, 0.0, 6.711]])
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<html>
+    <head>
+        <title>ASE atomic visualization</title>
+        <link rel="stylesheet" type="text/css"             href="https://www.x3dom.org/release/x3dom.css"></link>
+        <script type="text/javascript"             src="https://www.x3dom.org/release/x3dom.js"></script>
+    </head>
+    <body>
+        <X3D width="400px"; height="300px";>
+
+<!--Inserting Generated X3D Scene-->
+<scene>
+  <viewpoint position="0 0 29.612689679999995">
+    <group/>
+  </viewpoint>
+  <transform translation="-4.93544828 -4.2742235895442136 -3.3555">
+    <group>
+      <group>
+        <transform translation="0 0 0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0 0 0"/>
+            </appearance>
+            <lineset vertexCount="5">
+              <coordinate point="0 0 0 9.87089656 0.0 0.0 4.935448280000002 8.548447179088427 0.0 -4.935448279999998 8.548447179088427 0.0 0 0 0"/>
+            </lineset>
+          </shape>
+        </transform>
+        <transform translation="0.0 0.0 6.711">
+          <shape>
+            <appearance>
+              <material diffuseColor="0 0 0"/>
+            </appearance>
+            <lineset vertexCount="5">
+              <coordinate point="0 0 0 9.87089656 0.0 0.0 4.935448280000002 8.548447179088427 0.0 -4.935448279999998 8.548447179088427 0.0 0 0 0"/>
+            </lineset>
+          </shape>
+        </transform>
+        <transform translation="0 0 0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0 0 0"/>
+            </appearance>
+            <lineset vertexCount="5">
+              <coordinate point="0 0 0 9.87089656 0.0 0.0 9.87089656 0.0 6.711 0.0 0.0 6.711 0 0 0"/>
+            </lineset>
+          </shape>
+        </transform>
+        <transform translation="-4.935448279999998 8.548447179088427 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0 0 0"/>
+            </appearance>
+            <lineset vertexCount="5">
+              <coordinate point="0 0 0 9.87089656 0.0 0.0 9.87089656 0.0 6.711 0.0 0.0 6.711 0 0 0"/>
+            </lineset>
+          </shape>
+        </transform>
+      </group>
+      <group>
+        <transform translation="0.0 0.0 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="0.0 0.0 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="1.23386207 0.7123705982573689 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="3.0471410839005837e-16 1.4247411965147379 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="-1.2338620699999996 2.1371117947721068 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="-1.2338620699999996 2.1371117947721068 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="4.440892098500626e-16 2.8494823930294757 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="-1.2338620699999994 3.5618529912868446 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="-2.467724139999999 4.2742235895442136 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="-2.467724139999999 4.2742235895442136 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="-1.2338620699999991 4.9865941878015825 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="-2.4677241399999987 5.698964786058951 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="-3.7015862099999985 6.41133538431632 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="-3.7015862099999985 6.41133538431632 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="-2.4677241399999987 7.123705982573689 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="-3.701586209999998 7.836076580831058 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="2.46772414 0.0 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="2.46772414 0.0 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="3.7015862100000003 0.7123705982573689 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="2.4677241400000005 1.4247411965147379 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="1.2338620700000005 2.1371117947721068 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="1.2338620700000005 2.1371117947721068 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="2.4677241400000005 2.8494823930294757 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="1.2338620700000007 3.5618529912868446 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="8.881784197001252e-16 4.2742235895442136 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="8.881784197001252e-16 4.2742235895442136 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="1.233862070000001 4.9865941878015825 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="1.1928925280901836e-15 5.698964786058951 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="-1.2338620699999987 6.41133538431632 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="-1.2338620699999987 6.41133538431632 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="1.3322676295501878e-15 7.123705982573689 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="-1.2338620699999985 7.836076580831058 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="4.93544828 0.0 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="4.93544828 0.0 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="6.16931035 0.7123705982573689 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="4.93544828 1.4247411965147379 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="3.7015862100000003 2.1371117947721068 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="3.7015862100000003 2.1371117947721068 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="4.93544828 2.8494823930294757 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="3.7015862100000008 3.5618529912868446 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="2.467724140000001 4.2742235895442136 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="2.467724140000001 4.2742235895442136 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="3.701586210000001 4.9865941878015825 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="2.4677241400000014 5.698964786058951 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="1.2338620700000014 6.41133538431632 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="1.2338620700000014 6.41133538431632 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="2.4677241400000014 7.123705982573689 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="1.2338620700000016 7.836076580831058 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="7.403172420000001 0.0 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="7.403172420000001 0.0 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="8.637034490000001 0.7123705982573689 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="7.403172420000001 1.4247411965147379 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="6.169310350000001 2.1371117947721068 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="6.169310350000001 2.1371117947721068 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="7.403172420000001 2.8494823930294757 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="6.169310350000001 3.5618529912868446 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="4.935448280000001 4.2742235895442136 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="4.935448280000001 4.2742235895442136 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="6.169310350000001 4.9865941878015825 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="4.935448280000001 5.698964786058951 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="3.701586210000002 6.41133538431632 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="3.701586210000002 6.41133538431632 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="4.935448280000002 7.123705982573689 0.0">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+        <transform translation="3.7015862100000025 7.836076580831058 3.3555">
+          <shape>
+            <appearance>
+              <material diffuseColor="0.565 0.565 0.565"/>
+            </appearance>
+            <sphere radius="0.76"/>
+          </shape>
+        </transform>
+      </group>
+    </group>
+  </transform>
+</scene>
+<!--End of Inserted Scene-->
+
+        </X3D>
+    </body>
+</html></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">pyTEMlib</span><span class="o">.</span><span class="n">crystal_tools</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Help on function structure_by_name in module pyTEMlib.crystal_tools:
+
+structure_by_name(crystal_name: str) -&gt; ase.atoms.Atoms | None
+    Provides crystal structure in ase.Atoms format.
+    Additional information is stored in the info attribute as a dictionary
+
+    Parameter
+    ---------
+    crystal_name: str
+        Please note that the chemical expressions are not case-sensitive.
+
+    Returns
+    -------
+    atoms: ase.Atoms
+        structure
+
+    Example
+    -------
+    &gt;&gt; #  for a list of pre-defined crystal structures
+    &gt;&gt; import pyTEMlib.crystal_tools
+    &gt;&gt; print(pyTEMlib.crystal_tools.crystal_data_base.keys())
+    &gt;&gt;
+    &gt;&gt; atoms = pyTEMlib.crystal_tools.structure_by_name(&#39;Silicon&#39;)
+    &gt;&gt; print(atoms)
+    &gt;&gt; print(atoms.info)
+
+</pre></div></div>
+</div>
+<p>Get used to changing parameters and type <strong>silicon</strong> instead of <strong>Graphite</strong> in the code cell above.</p>
+</section>
+<section id="Summary">
+<h2>Summary<a class="headerlink" href="#Summary" title="Link to this heading">¶</a></h2>
+<p>We now have tested all tools to load data and save our analysis.</p>
+<p>We are ready to go</p>
+</section>
+<section id="Navigation">
+<h2>Navigation<a class="headerlink" href="#Navigation" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Back</strong> <a class="reference internal" href="CH1_01-Introduction_Python.html"><span class="doc">Python as it is used here</span></a></p></li>
+<li><p><strong>Next:</strong> <a class="reference internal" href="CH1_03-Data_Representation.html"><span class="doc">Matplotlib and Numpy for Micrographs</span></a></p></li>
+<li><p><strong>Chapter 1:</strong> <a class="reference internal" href="CH1_00-Introduction.html"><span class="doc">Introduction</span></a></p></li>
+<li><p><strong>List of Content:</strong> <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">Front</span></a></p></li>
+</ul>
+</section>
+<section id="Appendix">
+<h2>Appendix<a class="headerlink" href="#Appendix" title="Link to this heading">¶</a></h2>
+<p>I am using some extensions to jupyter notebooks which can be installed with the following cells</p>
+<p>I like mostly the table of content extension that shows where in the notebook I am and lets me jump to different parts easily.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install a pip package in the current Jupyter kernel</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>jupyter<span class="w"> </span>nbextension<span class="w"> </span>list
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Known nbextensions:
+  config dir: C:\Users\gdusc\anaconda3\etc\jupyter\nbconfig
+    notebook section
+      jupyter-jsmol/extension enabled
+      jupyterlab-plotly/extension enabled
+      jupyter-js-widgets/extension enabled
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+      - Validating: ok
+      - Validating: ok
+      - Validating: ok
+</pre></div></div>
+</div>
+<p>Use one of the following (uncomment pip and comment out the conda command line, if you are not in an anaconda environment)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="c1">#!{sys.executable} -m pip install jupyter_contrib_nbextensions</span>
+<span class="o">!</span>conda<span class="w"> </span>install<span class="w"> </span>--yes<span class="w"> </span>--prefix<span class="w"> </span><span class="o">{</span>sys.prefix<span class="o">}</span><span class="w"> </span>jupyter_contrib_nbextensions
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Collecting package metadata (current_repodata.json): ...working... done
+Solving environment: ...working... failed with initial frozen solve. Retrying with flexible solve.
+Collecting package metadata (repodata.json): ...working... done
+Solving environment: ...working... failed with initial frozen solve. Retrying with flexible solve.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+PackagesNotFoundError: The following packages are not available from current channels:
+
+  - jupyter_contrib_nbextensions
+
+Current channels:
+
+  - https://repo.anaconda.com/pkgs/main/win-64
+  - https://repo.anaconda.com/pkgs/main/noarch
+  - https://repo.anaconda.com/pkgs/r/win-64
+  - https://repo.anaconda.com/pkgs/r/noarch
+  - https://repo.anaconda.com/pkgs/msys2/win-64
+  - https://repo.anaconda.com/pkgs/msys2/noarch
+
+To search for alternate channels that may provide the conda package you&#39;re
+looking for, navigate to
+
+    https://anaconda.org
+
+and use the search bar at the top of the page.
+
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w">  </span>jupyter<span class="w"> </span>nbextension<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>toc2
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Enabling notebook extension toc2...
+      - Validating: problems found:
+        - require?  X toc2
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="nx">javascript</span>
+<span class="nx">$</span><span class="p">(</span><span class="s1">&#39;&lt;div id=&quot;toc&quot;&gt;&lt;/div&gt;&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">({</span><span class="nx">position</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;fixed&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">top</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;120px&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">left</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span><span class="p">}).</span><span class="nx">appendTo</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">);</span>
+<span class="nx">$</span><span class="p">.</span><span class="nx">getScript</span><span class="p">(</span><span class="s1">&#39;https://kmahelona.github.io/ipython_notebook_goodies/ipython_notebook_toc.js&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="output_javascript"></div>
+<script type="text/javascript">
+var element = document.currentScript.previousSibling.previousSibling;
+$('<div id="toc"></div>').css({position: 'fixed', top: '120px', left: 0}).appendTo(document.body);
+$.getScript('https://kmahelona.github.io/ipython_notebook_goodies/ipython_notebook_toc.js');
+
+</script></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Diffraction/index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Spectroscopy/index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Introduction</a><ul>
+      <li>Previous: <a href="CH1_01-Introduction_Python.html" title="previous chapter">Introduction to Python as it is used in this lecture</a></li>
+      <li>Next: <a href="CH1_03-Data_Representation.html" title="next chapter">Matplotlib and Numpy for Micrographs</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Introduction/CH1_02-Prerequisites.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

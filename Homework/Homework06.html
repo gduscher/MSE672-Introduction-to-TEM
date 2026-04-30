@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>HW6: Analyzing CBED Pattern &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 2:</strong> <a class="reference internal" href="../Diffraction/CH2_00-Diffraction.html"><span class="doc">Diffraction</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="HW6:-Analyzing-CBED-Pattern">
+<h1>HW6: Analyzing CBED Pattern<a class="headerlink" href="#HW6:-Analyzing-CBED-Pattern" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Homework/Homework06.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/Homework/Homework06.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p>by Gerd Duscher, Spring 2026</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes</p>
+<section id="Load-relevant-python-packages">
+<h2>Load relevant python packages<a class="headerlink" href="#Load-relevant-python-packages" title="Link to this heading">¶</a></h2>
+<section id="Check-Installed-Packages">
+<h3>Check Installed Packages<a class="headerlink" href="#Check-Installed-Packages" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pkg_resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_distribution</span><span class="p">,</span> <span class="n">DistributionNotFound</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">get_distribution</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span><span class="o">.</span><span class="n">version</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">DistributionNotFound</span><span class="p">,</span> <span class="ne">ImportError</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+
+<span class="c1"># pyTEMlib setup ------------------</span>
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2026.1.0&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w">  </span>--upgrade<span class="w"> </span>pyTEMlib<span class="w"> </span>-q
+<span class="c1"># ------------------------------</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+C:\Users\gduscher\AppData\Local\Temp\ipykernel_12584\2305901029.py:2: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import get_distribution, DistributionNotFound
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+installing pyTEMlib
+done
+</pre></div></div>
+</div>
+</section>
+<section id="Import-numerical-and-plotting-python-packages">
+<h3>Import numerical and plotting python packages<a class="headerlink" href="#Import-numerical-and-plotting-python-packages" title="Link to this heading">¶</a></h3>
+<p>Import the python packages that we will use:</p>
+<p>Beside the basic numerical (numpy) and plotting (pylab of matplotlib) libraries,</p>
+<p>and some libraries from the book</p>
+<ul class="simple">
+<li><p>kinematic scattering library.</p></li>
+<li><p>file_tools library</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span>  widget
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">output</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">drive</span>
+
+<span class="c1"># additional package</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w">  </span><span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.constants</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">const</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">ipywidgets</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ipyw</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">sidpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyTEMlib</span>
+
+<span class="n">__notebook_version__</span> <span class="o">=</span> <span class="s1">&#39;2026.02.28&#39;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pyTEM version: &#39;</span><span class="p">,</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;notebook version: &#39;</span><span class="p">,</span> <span class="n">__notebook_version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+pyTEM version:  0.2026.1.3
+notebook version:  2026.02.28
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Load-CBED-Pattern-from-Lab-4">
+<h2>Load CBED Pattern from Lab 4<a class="headerlink" href="#Load-CBED-Pattern-from-Lab-4" title="Link to this heading">¶</a></h2>
+<p>First we select the diffraction pattern</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------Input -------------</span>
+<span class="n">load_your_own_data</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="c1"># -------------------------</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s2">&quot;/content/drive&quot;</span><span class="p">)</span>
+    <span class="n">load_your_own_data</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">if</span> <span class="n">load_your_own_data</span><span class="p">:</span>
+   <span class="n">fileWidget</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">file_tools</span><span class="o">.</span><span class="n">FileWidget</span><span class="p">(</span><span class="n">sum_frames</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "f681447c996b42faa19fa664aeacffc1", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9f87c93807ef4e969e42263039bbb239", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<section id="Plotting-on-a-logarithmic-scale">
+<h3>Plotting on a logarithmic scale<a class="headerlink" href="#Plotting-on-a-logarithmic-scale" title="Link to this heading">¶</a></h3>
+<p>The dynamic range in diffraction data is even larger than in images and so for a good presentation of the data it is advantagous to go to plot the intensities in a logarythmic scale.</p>
+<p>To present data in logarythmic scale no nexgative values (noise) can be in these data and so all negative values in the dataset will be set to zero.</p>
+<p>The factor 1 in front of the diffraction pattern in the log numpy function in the <code class="docutils literal notranslate"><span class="pre">imshow</span></code> is the gamma value. Changing that value will change the contrast.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diff_pattern</span> <span class="o">=</span> <span class="n">fileWidget</span><span class="o">.</span><span class="n">selected_dataset</span>
+<span class="n">diff_pattern</span> <span class="o">-=</span> <span class="n">diff_pattern</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+
+<span class="n">diff_pattern</span><span class="p">[</span><span class="n">diff_pattern</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
+<span class="n">extent</span> <span class="o">=</span> <span class="n">diff_pattern</span><span class="o">.</span><span class="n">get_extent</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">extent</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">diff_pattern</span><span class="p">),</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">diff_pattern</span><span class="p">))</span><span class="o">*</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">);</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[np.float64(-47.24194400905505), np.float64(-15.757563491468082), np.float64(-15.757563491468082), np.float64(-47.24194400905505)]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "534e8011c5384022935b3abc85d8d353", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="Finding-the-center">
+<h2>Finding the center<a class="headerlink" href="#Finding-the-center" title="Link to this heading">¶</a></h2>
+<section id="Selection-of-center-disk">
+<h3>Selection of center disk<a class="headerlink" href="#Selection-of-center-disk" title="Link to this heading">¶</a></h3>
+<p>Select the center disk with the ring selector</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.widgets</span><span class="w"> </span><span class="kn">import</span>  <span class="n">EllipseSelector</span>
+
+<span class="n">center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">diff_pattern</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">diff_pattern</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">diff_pattern</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">origin</span> <span class="o">=</span> <span class="s1">&#39;upper&#39;</span><span class="p">)</span>
+<span class="n">selector</span> <span class="o">=</span> <span class="n">EllipseSelector</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">(),</span> <span class="kc">None</span><span class="p">,</span><span class="n">interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># gca get current axis (plot)</span>
+<span class="n">radius</span> <span class="o">=</span> <span class="n">diff_pattern</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">4</span>
+<span class="n">center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">center</span><span class="p">)</span>
+
+<span class="n">selector</span><span class="o">.</span><span class="n">extents</span> <span class="o">=</span> <span class="p">(</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">radius</span><span class="p">,</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">radius</span><span class="p">,</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">radius</span><span class="p">,</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">radius</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "60e639395c594e96ae5d15eecf8b64fb", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Read-out-center-and-radius">
+<h3>Read out center and radius<a class="headerlink" href="#Read-out-center-and-radius" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">selector</span><span class="o">.</span><span class="n">extents</span>
+<span class="n">x_center</span><span class="p">,</span> <span class="n">y_center</span> <span class="o">=</span> <span class="n">selector</span><span class="o">.</span><span class="n">center</span>
+<span class="n">x_shift</span> <span class="o">=</span> <span class="n">x_center</span> <span class="o">-</span> <span class="n">diff_pattern</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span>
+<span class="n">y_shift</span> <span class="o">=</span> <span class="n">y_center</span> <span class="o">-</span> <span class="n">diff_pattern</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;radius x-direction = </span><span class="si">{</span><span class="p">(</span><span class="n">xmax</span><span class="o">-</span><span class="n">xmin</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> pixels = </span><span class="si">{</span><span class="p">(</span><span class="n">xmax</span><span class="o">-</span><span class="n">xmin</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">diff_pattern</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">slope</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> 1/nm&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;radius y-direction = </span><span class="si">{</span><span class="p">(</span><span class="n">ymax</span><span class="o">-</span><span class="n">ymin</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> pixels = </span><span class="si">{</span><span class="p">(</span><span class="n">ymax</span><span class="o">-</span><span class="n">ymin</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">diff_pattern</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">slope</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> 1/nm&#39;</span><span class="p">)</span>
+
+<span class="n">center</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_center</span><span class="p">,</span> <span class="n">y_center</span> <span class="p">)</span>
+
+
+
+<span class="n">left</span> <span class="o">=</span> <span class="o">-</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">diff_pattern</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">slope</span>
+<span class="n">right</span> <span class="o">=</span> <span class="p">(</span><span class="n">diff_pattern</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="n">diff_pattern</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">slope</span>
+<span class="n">up</span> <span class="o">=</span> <span class="p">(</span><span class="n">diff_pattern</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">diff_pattern</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">slope</span>
+<span class="n">down</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">diff_pattern</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">slope</span>
+
+<span class="n">extent</span> <span class="o">=</span> <span class="p">[</span><span class="n">left</span><span class="p">,</span><span class="n">right</span><span class="p">,</span> <span class="n">up</span><span class="p">,</span> <span class="n">down</span><span class="p">]</span>
+
+<span class="n">radius</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">xmax</span><span class="o">-</span><span class="n">xmin</span><span class="p">)</span><span class="o">*</span><span class="n">diff_pattern</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">slope</span><span class="o">/</span><span class="mi">2</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">diff_pattern</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">origin</span> <span class="o">=</span> <span class="s1">&#39;upper&#39;</span><span class="p">,</span> <span class="n">extent</span> <span class="o">=</span> <span class="n">extent</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">disk</span> <span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">disk</span><span class="p">)</span>
+
+
+<span class="n">out_tags</span> <span class="o">=</span><span class="p">{}</span>
+<span class="n">out_tags</span><span class="p">[</span><span class="s1">&#39;center&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">center</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+radius x-direction = 50 pixels = 1.54 1/nm
+radius y-direction = 48 pixels = 1.49 1/nm
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9c0eb83e785a4d48a8b025f51d78e0d6", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="Calculate-Spot-Pattern">
+<h2>Calculate Spot Pattern<a class="headerlink" href="#Calculate-Spot-Pattern" title="Link to this heading">¶</a></h2>
+<p>see <a class="reference internal" href="../Diffraction/CH2_08-Spot_Diffraction_Pattern.html"><span class="doc">Plotting of Diffraction Pattern</span></a> for details</p>
+<ul class="simple">
+<li><p>For your diffraction pattern you need to change the appropriate zone_axis</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------ Input --------</span>
+<span class="n">zone_axis</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="c1"># ---------------------</span>
+
+<span class="c1">#Initialize the dictionary of the input</span>
+<span class="n">tags_experiment</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="c1">### Define Crystal</span>
+<span class="n">atoms</span>  <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">crystal_tools</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">(</span><span class="s1">&#39;silicon&#39;</span><span class="p">)</span>
+
+<span class="c1">### Define experimental parameters:</span>
+<span class="n">tags_experiment</span><span class="p">[</span><span class="s1">&#39;acceleration_voltage_V&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">200.0</span> <span class="o">*</span><span class="mf">1000.0</span> <span class="c1">#V</span>
+<span class="n">tags_experiment</span><span class="p">[</span><span class="s1">&#39;new_figure&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">tags_experiment</span><span class="p">[</span><span class="s1">&#39;plot FOV&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">tags_experiment</span><span class="p">[</span><span class="s1">&#39;convergence_angle_mrad&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">tags_experiment</span><span class="p">[</span><span class="s1">&#39;zone_hkl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">zone_axis</span><span class="p">)</span>  <span class="c1"># incident neares zone axis: defines Laue Zones!!!!</span>
+<span class="n">tags_experiment</span><span class="p">[</span><span class="s1">&#39;mistilt&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>  <span class="c1"># mistilt in degrees</span>
+<span class="n">tags_experiment</span><span class="p">[</span><span class="s1">&#39;Sg_max&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">.04</span> <span class="c1"># 1/nm  maximum allowed excitation error ; This parameter is related to the thickness</span>
+<span class="n">tags_experiment</span><span class="p">[</span><span class="s1">&#39;hkl_max&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">15</span>   <span class="c1"># Highest evaluated Miller indices</span>
+
+<span class="n">atoms</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;experimental&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tags_experiment</span>
+<span class="c1">######################################</span>
+<span class="c1"># Diffraction Simulation of Crystal #</span>
+<span class="c1">######################################</span>
+
+<span class="n">diff_dict</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_bragg_reflections</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">tags_experiment</span><span class="p">,</span>  <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+</section>
+<section id="Plotting-Experimental-and-Simulated-Spot-Diffraction-Patterns">
+<h2>Plotting Experimental and Simulated Spot Diffraction Patterns<a class="headerlink" href="#Plotting-Experimental-and-Simulated-Spot-Diffraction-Patterns" title="Link to this heading">¶</a></h2>
+<p>There is a problem with those diffraction pattern and they did not store the scale. So I am using an approximate one and you’ll have to change that.</p>
+<p>Please adjust the <em>rotation angle</em>, <em>convergence angle</em>, and <em>change_in_scale</em> to match your diffraction pattern.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># -------------------</span>
+<span class="n">change_in_scale</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># in %</span>
+<span class="n">rotation_angle</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># in degrees</span>
+<span class="n">convergence_angle</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># in 1/nm</span>
+<span class="c1"># -------------------</span>
+<span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">rotation_angle</span><span class="p">)</span>
+<span class="c1"># spots_experiment = (Bragg_spots-(center[0],center[1]))*(gx,gy)</span>
+<span class="n">spots_simulation</span> <span class="o">=</span> <span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">][</span><span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;ZOLZ&#39;</span><span class="p">]]</span>
+<span class="n">hkl</span> <span class="o">=</span> <span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;hkl&#39;</span><span class="p">][</span><span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;ZOLZ&#39;</span><span class="p">]]</span>
+<span class="n">spots_simulation</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">angle</span>  <span class="c1"># rotation</span>
+<span class="c1">#spots_simulation[:, 0] = 10  # 1/Angstrom -&gt; 1/nm</span>
+<span class="n">spots_simulation</span> <span class="o">*=</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">change_in_scale</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">extent</span><span class="p">)</span>
+<span class="n">spots_xy</span> <span class="o">=</span>  <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plotting_coordinates</span><span class="p">(</span><span class="n">spots_simulation</span><span class="p">,</span> <span class="n">k0</span><span class="o">=</span><span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;K_0&#39;</span><span class="p">])</span>
+<span class="n">spots_xy</span> <span class="o">-</span> <span class="n">center</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39; CBED in &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span> <span class="n">tags_experiment</span><span class="p">[</span><span class="s1">&#39;zone_hkl&#39;</span><span class="p">]),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">diff_pattern</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">diff_pattern</span><span class="p">))</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="c1">#plt.scatter(spots_experiment[:,0], spots_experiment[:,1], c=&#39;blue&#39;,  alpha = 0.5, label=&#39;experiment&#39;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">spots_xy</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">spots_xy</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span>  <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>   <span class="n">label</span><span class="o">=</span><span class="s1">&#39;simulation&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+<span class="n">disk</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span> <span class="p">),</span> <span class="n">convergence_angle</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">disk</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">spots_xy</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">spots_xy</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="p">:</span>
+        <span class="n">disk</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="n">spots_xy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">spots_xy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="p">),</span> <span class="n">convergence_angle</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">disk</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">spots_xy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">spots_xy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="nb">str</span><span class="p">(</span><span class="n">hkl</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
+                <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">horizontalalignment</span> <span class="o">=</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span> <span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[1]</span><span class="ansi-green-fg">, line 6</span>
+<span class="ansi-green-fg">      4</span> convergence_angle = <span class="ansi-green-fg">1.0</span>  <span style="color: rgb(95,135,135)"># in 1/nm</span>
+<span class="ansi-green-fg">      5</span> <span style="color: rgb(95,135,135)"># -------------------</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">6</span> angle = <span class="ansi-yellow-bg">np</span>.radians(rotation_angle)
+<span class="ansi-green-fg">      7</span> <span style="color: rgb(95,135,135)"># spots_experiment = (Bragg_spots-(center[0],center[1]))*(gx,gy)</span>
+<span class="ansi-green-fg">      8</span> spots_simulation = diff_dict[<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">allowed</span><span class="ansi-yellow-fg">&#39;</span>][<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">g</span><span class="ansi-yellow-fg">&#39;</span>][diff_dict[<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">allowed</span><span class="ansi-yellow-fg">&#39;</span>][<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">ZOLZ</span><span class="ansi-yellow-fg">&#39;</span>]]
+
+<span class="ansi-red-fg">NameError</span>: name &#39;np&#39; is not defined
+</pre></div></div>
+</div>
+</section>
+<section id="Questions-to-answer">
+<h2>Questions to answer<a class="headerlink" href="#Questions-to-answer" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>What does the above figure convey?</p></li>
+<li><p>What is the accuracy?</p></li>
+<li><p>How does the displayed convergence angle correlate with the found one?</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[90]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;convergence angle is: </span><span class="si">{</span><span class="n">diff_pattern</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;experiment&#39;</span><span class="p">][</span><span class="s1">&#39;convergence_angle&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">1000</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> mrad&quot;</span><span class="p">)</span>
+<span class="c1"># diff_pattern.metadata[&#39;experiment&#39;]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+convergent angle is: 3.5 mrad
+</pre></div></div>
+</div>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading">¶</a></h2>
+<p>We need more information for the spot pattern than for the ring pattern.</p>
+<p>The convergent beam pattern has the same kinematic diffraciton information but provides additional dynamical diffraction information.</p>
+<p>A comparison between simulation and experiment can be very precise.</p>
+<p>In principle, if you have the spots and the approximate center you can let an optimization routine do all the scaling for you (which we will do in the high resultion imaging section).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Diffraction/index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Spectroscopy/index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Homework/Homework06.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

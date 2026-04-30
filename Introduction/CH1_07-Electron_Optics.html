@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Electron Optics &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><a class="reference external" href="https://gduscher.github.io/MSE672-Introduction-to-TEM/">MSE672: Introduction to TEM</a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="Electron-Optics">
+<h1>Electron Optics<a class="headerlink" href="#Electron-Optics" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Introduction/CH1_07-Electron_Optics.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/Introduction/CH1_07-Electron_Optics.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p><strong>Spring 2026</strong> by Gerd Duscher</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<section id="Import-packages-for-figures-and">
+<h2>Import packages for figures and<a class="headerlink" href="#Import-packages-for-figures-and" title="Link to this heading">¶</a></h2>
+<section id="Check-Installed-Packages">
+<h3>Check Installed Packages<a class="headerlink" href="#Check-Installed-Packages" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2026.1.2&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w">  </span>--upgrade<span class="w"> </span>pyTEMlib<span class="w"> </span>-q
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+done
+</pre></div></div>
+</div>
+</section>
+<section id="Load-the-plotting-and-figure-packages">
+<h3>Load the plotting and figure packages<a class="headerlink" href="#Load-the-plotting-and-figure-packages" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p>Note for Google Colab</p>
+<p>The runtime has to be restarted and the code cell below again to enable interactive plotting</p>
+<p>in the Menu <strong>Runtime</strong> choose <strong>Restart Runtime</strong> (<strong>Ctrl-M</strong>)</p>
+</div></blockquote>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> widget
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pylab</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">output</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyTEMlib.animation</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">animate</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Transmission-Electron-Microscope">
+<h2>Transmission Electron Microscope<a class="headerlink" href="#Transmission-Electron-Microscope" title="Link to this heading">¶</a></h2>
+<p>A TEM is a stack of electro-optical elements: <img alt="TEM" src="../_images/Zeiss.png" /></p>
+<ul class="simple">
+<li><p>electron source</p></li>
+<li><p>electrostatic lens</p></li>
+<li><p>accelerator</p></li>
+<li><p>magnetic lens</p></li>
+<li><p>magnetic and electrostatic deflectors</p></li>
+<li><p>magnetic multipoles</p></li>
+<li><p>apertures</p></li>
+<li><p>detectors (viewing screen,CCD)</p></li>
+<li><p>sample holder</p></li>
+</ul>
+<section id="Start-screen-on-the-computer-of-our-TEM:-Thermo-Fisher-Spectra-300">
+<h3>Start screen on the computer of our TEM: Thermo-Fisher Spectra 300<a class="headerlink" href="#Start-screen-on-the-computer-of-our-TEM:-Thermo-Fisher-Spectra-300" title="Link to this heading">¶</a></h3>
+<img alt="start_screen" src="Introduction/images/start_screen_Spectra.png" />
+<p>The big buttons on upper left, we saw already in the last notebook.</p>
+<p>You select the different modes of the TEM with those.</p>
+<img alt="TEMmodes.png" src="../_images/TEMmodes.png" />
+</section>
+</section>
+<section id="Electron-Optics---Overview-of-the-Whole-System">
+<h2>Electron Optics - Overview of the Whole System<a class="headerlink" href="#Electron-Optics---Overview-of-the-Whole-System" title="Link to this heading">¶</a></h2>
+<p>We start on the top.</p>
+<p>The electron gun produces the electrons, focuses them and accelerates them.</p>
+<p>The condenser lens system varies the beam size, the illumination area and the convergence angle.</p>
+<p>The objective lens does the maximum magnification in imaging mode.</p>
+<p>The Intermediate lens system switches between imaging and diffraction mode. The objective lens does not magnify anything in diffraction mode, because the back focal plane of the objective lens is object plane of the intermediate plane. The intermediate lens does the maximum magnification.</p>
+<p>The projector lens system magnifies everything roughly to the magnification indicated on the display/chosen on the console.</p>
+<section id="Electron-Optics---Condenser">
+<h3>Electron Optics - Condenser<a class="headerlink" href="#Electron-Optics---Condenser" title="Link to this heading">¶</a></h3>
+<p>The electron optics starts at the cross over which the gun produces in the differential pumping aperture. Then we have a condenser lens system with three lenses, three pairs of deflectors, a pair of stigmators and an aperture.</p>
+<p>This allows a very flexible illumination of the specimen.</p>
+</section>
+<section id="Electron-Optics---Projective">
+<h3>Electron Optics - Projective<a class="headerlink" href="#Electron-Optics---Projective" title="Link to this heading">¶</a></h3>
+<p>The projector lens system in our TEM (Zeiss Libra 200MC) is divided by the electron energy-loss filter into two parts.</p>
+<p>The first part switches from imaging to diffraction and does all the magnification. This part has three lenses, two pairs of deflectors, a stigmator, and an aperture.</p>
+<p>The second part switches from spectroscopy to imaging or diffraction and does only magnification in spectroscopy mode. This part has three lenses, two pairs of deflectors, a stigmator, and an aperture.</p>
+</section>
+</section>
+<section id="Electron-Optics---Ray-Diagrams">
+<h2>Electron Optics - Ray Diagrams<a class="headerlink" href="#Electron-Optics---Ray-Diagrams" title="Link to this heading">¶</a></h2>
+<p>To do the optical ray diagram we only have to concern ourselves with the lenses and the apertures.</p>
+<p>Deflectors and stigmators (correcting multipoles) are only used to correct for mechanical misalignment of the optical axis. The correcting multipoles will be discussed in the phase contrast part of this lecture. The deflectors will be discussed in the STEM part in detail.</p>
+<section id="Basic-Ray-Diagram">
+<h3>Basic Ray Diagram<a class="headerlink" href="#Basic-Ray-Diagram" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---INPUT------ #</span>
+<span class="n">focal_length</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="c1"># -------------- #</span>
+
+<span class="n">animate</span><span class="o">.</span><span class="n">geometric_ray_diagram</span><span class="p">(</span><span class="n">focal_length</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "0c0bd180f9d44af3b263e2e022ef34b8", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>A lens is determined by:</p>
+<ul class="simple">
+<li><p>focal plane</p></li>
+<li><p>object plane</p></li>
+<li><p>image plane</p></li>
+</ul>
+</section>
+<section id="Magnification">
+<h3>Magnification<a class="headerlink" href="#Magnification" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---INPUT------ #</span>
+<span class="n">focal_length</span> <span class="o">=</span> <span class="mf">1.</span>
+<span class="c1"># -------------- #</span>
+
+<span class="n">animate</span><span class="o">.</span><span class="n">geometric_ray_diagram</span><span class="p">(</span><span class="n">focal_length</span><span class="p">,</span> <span class="n">magnification</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "b3e410231ed94a55a35ebf3881bed955", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>The magnification of a lens is given by Newton’s law:</p>
+<div class="math notranslate nohighlight">
+\[\frac{1}{u}+\frac{1}{v} =\frac{1}{f}\]</div>
+<p>The magnification M is defined as</p>
+<div class="math notranslate nohighlight">
+\[M = \frac{v}{u}\]</div>
+</section>
+<section id="Focus">
+<h3>Focus<a class="headerlink" href="#Focus" title="Link to this heading">¶</a></h3>
+<p>The microscope consists of a stack of lenses in which the image plane of one lens is the object plane of the next one.</p>
+<p>The focal length <span class="math notranslate nohighlight">\(f\)</span> of a magnetic lens can be changed by its electric current.</p>
+<p>If the field is too weak, we call it underfocus, is it too strong we speak of overfocus.</p>
+<img alt="focus" src="../_images/focus.png" />
+</section>
+<section id="Condenser-Ray-Diagram">
+<h3>Condenser Ray Diagram<a class="headerlink" href="#Condenser-Ray-Diagram" title="Link to this heading">¶</a></h3>
+<p>Below is a stack of lenses that is equivalent to the condenser lens system on the Libra 200.</p>
+<p>The objective lens focal length is usually not changed (at least not much), and the sample is in the middle of the objective lens system.</p>
+<p>Change the <code class="docutils literal notranslate"><span class="pre">focal</span> <span class="pre">lengths</span></code> parameters so that there the illumination changes from parallel to convergent.</p>
+<p>Tip: do not change the gun (first value), and the objective (last two values) values.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------ INPUT ------#</span>
+<span class="n">focal_lengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">70.0</span><span class="p">,</span>  <span class="mf">378.0</span><span class="p">,</span>  <span class="mf">127.0</span> <span class="p">,</span>  <span class="mi">50</span><span class="p">,</span>  <span class="mi">50</span><span class="p">])</span> <span class="c1"># Slightly convergent</span>
+
+<span class="c1">#--------------------#</span>
+
+<span class="c1"># Define lenses here</span>
+<span class="n">lens_labels</span> <span class="o">=</span>             <span class="p">[</span><span class="s1">&#39;Gun&#39;</span><span class="p">,</span> <span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="s1">&#39;C2&#39;</span><span class="p">,</span> <span class="s1">&#39;C3&#39;</span> <span class="p">,</span> <span class="s1">&#39;Objective&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]</span>
+<span class="n">lens_positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">200.0</span><span class="p">,</span> <span class="mf">400.0</span><span class="p">,</span> <span class="mf">600.0</span><span class="p">,</span> <span class="mf">800.0</span><span class="p">,</span> <span class="mi">1100</span><span class="p">,</span><span class="mi">1200</span>    <span class="p">])</span> <span class="c1"># lens positions</span>
+
+<span class="n">animate</span><span class="o">.</span><span class="n">propagate_beam</span><span class="p">([</span><span class="mi">0</span><span class="p">,],</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">3</span><span class="p">,</span> <span class="n">lens_positions</span><span class="p">,</span> <span class="n">focal_lengths</span><span class="p">,</span> <span class="n">lens_labels</span><span class="p">,</span>   <span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "980dd12912bc44219b93efc01998338a", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>If you select any mode, magnification or brightness, the computer looks up a dataset and provides the stored values of currents to the respective lenses and other optical elements.</p>
+<p>An engineering alignment determines those values and users only have to deal with the fine-tuning of the electron optical system.</p>
+</section>
+</section>
+<section id="Convergence-Angle">
+<h2>Convergence Angle<a class="headerlink" href="#Convergence-Angle" title="Link to this heading">¶</a></h2>
+<p>The condensor lens system defines the illumination of the sample and with it the convergence angle (even parallel illumination has ususally a convergence angle of a few <span class="math notranslate nohighlight">\(\mu\)</span>rad).</p>
+<p>The convergence angle is set by the condenser lens system and can be measured with a convergent beam electron diffraction (CBED) pattern.</p>
+<p>Under plane wave illumination the diffraction pattern consists of points. If you imagine a second incident plane wave with some angle to the first one, there will be two slightly shifted diffraction patterns made out of points.</p>
+<p>A lot of plane waves with a conical angle distribution will result in small circles instead of a point. The radius of the circle corresponds to the convergence angle. One can easily calculate the convergence angle from a CBED pattern of a known sample.</p>
+</section>
+<section id="Summary-Ray-Optics-of-TEM">
+<h2>Summary Ray Optics of TEM<a class="headerlink" href="#Summary-Ray-Optics-of-TEM" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Lenses provide illumination and magnification</p></li>
+<li><p>Lenses switch modes in a TEM</p></li>
+<li><p>Lenses allow to select the angles within a TEM</p></li>
+<li><p>Apertures help to select the information projected in a TEM</p></li>
+</ul>
+<p>A detailed understanding of the angles within the TEM allows for a project oriented experimental setup.</p>
+</section>
+<section id="Navigation">
+<h2>Navigation<a class="headerlink" href="#Navigation" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Back</strong> <a class="reference internal" href="CH1_06-Overview.html"><span class="doc">Overview</span></a></p></li>
+<li><p><strong>Next:</strong> <a class="reference internal" href="../Diffraction/CH2_00-Diffraction.html"><span class="doc">Diffraction</span></a></p></li>
+<li><p><strong>Chapter 1:</strong> <a class="reference internal" href="CH1_00-Introduction.html"><span class="doc">Introduction</span></a></p></li>
+<li><p><strong>List of Content:</strong> <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">Front</span></a></p></li>
+</ul>
+</section>
+<section id="Appendix:">
+<h2>Appendix:<a class="headerlink" href="#Appendix:" title="Link to this heading">¶</a></h2>
+<section id="Code-for-condenser-stack-ray-diagram">
+<h3>Code for condenser stack ray diagram<a class="headerlink" href="#Code-for-condenser-stack-ray-diagram" title="Link to this heading">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ----------------------------------------------------------------</span>
+<span class="c1"># Modified from Michael Fairchild :simply draws a thin-lens at the provided location parameters:</span>
+<span class="c1">#     - z:    location along the optical axis (in mm)</span>
+<span class="c1">#     - f:    focal length (in mm, can be negative if div. lens)</span>
+<span class="c1">#     - diam: lens diameter in mm</span>
+<span class="c1">#     - lens_labels:  label to identify the lens on the drawing</span>
+<span class="c1"># ----------------------------------------------------------------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_lens</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">diam</span><span class="p">,</span> <span class="n">lens_labels</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;add lens to propagate beam plot&quot;&quot;&quot;</span>
+    <span class="n">ww</span><span class="p">,</span> <span class="n">tw</span><span class="p">,</span> <span class="n">rad</span> <span class="o">=</span> <span class="n">diam</span> <span class="o">/</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">diam</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">,</span> <span class="n">diam</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">z</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">rad</span><span class="p">,</span> <span class="n">rad</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">tw</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">rad</span><span class="p">,</span> <span class="o">-</span><span class="n">rad</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">*</span> <span class="n">ww</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">tw</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">rad</span><span class="p">,</span> <span class="o">-</span><span class="n">rad</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">*</span> <span class="n">ww</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">tw</span><span class="p">],</span> <span class="p">[</span><span class="n">rad</span><span class="p">,</span> <span class="n">rad</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">*</span> <span class="n">ww</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">tw</span><span class="p">],</span> <span class="p">[</span><span class="n">rad</span><span class="p">,</span> <span class="n">rad</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">*</span> <span class="n">ww</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">z</span> <span class="o">+</span> <span class="n">f</span><span class="p">,</span> <span class="n">z</span> <span class="o">+</span> <span class="n">f</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">ww</span><span class="p">,</span> <span class="n">ww</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">z</span> <span class="o">-</span> <span class="n">f</span><span class="p">,</span> <span class="n">z</span> <span class="o">-</span> <span class="n">f</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">ww</span><span class="p">,</span> <span class="n">ww</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">rad</span> <span class="o">+</span> <span class="mf">5.0</span><span class="p">,</span> <span class="n">lens_labels</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">rad</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s1">&#39;f=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">)),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">add_aperture</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">diam</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">lens_labels</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;add aperture to propagate beam plot&quot;&quot;&quot;</span>
+
+    <span class="n">ww</span><span class="p">,</span> <span class="n">tw</span><span class="p">,</span> <span class="n">rad</span> <span class="o">=</span> <span class="n">diam</span> <span class="o">/</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">diam</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">,</span> <span class="n">diam</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">radius</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">z</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">rad</span><span class="p">,</span> <span class="o">-</span><span class="n">radius</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">z</span><span class="p">],</span> <span class="p">[</span><span class="n">rad</span><span class="p">,</span> <span class="n">radius</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="o">-</span><span class="n">rad</span> <span class="o">-</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">lens_labels</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">propagate_beam</span><span class="p">(</span><span class="n">source_position</span><span class="p">,</span> <span class="n">numerical_aperture</span><span class="p">,</span> <span class="n">number_of_rays</span><span class="p">,</span> <span class="n">lens_positions</span><span class="p">,</span> <span class="n">focal_lengths</span><span class="p">,</span>
+                   <span class="n">lens_labels</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;geometrical propagation of light rays from given source</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    source_position:  list</span>
+<span class="sd">        location of the source (z0, x0) along and off axis (in mm)</span>
+<span class="sd">    numerical_aperture:  float</span>
+<span class="sd">        numerical aperture of the beam (in degrees)</span>
+<span class="sd">    number_of_rays:  int</span>
+<span class="sd">        number of rays to trace</span>
+<span class="sd">    lens_positions:  numpy array</span>
+<span class="sd">        array with the location of the lenses</span>
+<span class="sd">    focal_lengths:  numpy array</span>
+<span class="sd">        array with the focal length of lenses</span>
+<span class="sd">    lens_labels: list of string</span>
+<span class="sd">        label for the nature of lenses</span>
+<span class="sd">    color: str</span>
+<span class="sd">        color of the rays on plot</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">z_max</span> <span class="o">=</span> <span class="mf">1600.</span>
+
+    <span class="c1"># aperture (maximum angle) in radians</span>
+    <span class="n">apa</span> <span class="o">=</span> <span class="n">numerical_aperture</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">lens_positions</span><span class="p">)):</span>
+        <span class="n">add_lens</span><span class="p">(</span><span class="n">lens_positions</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">focal_lengths</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">25</span><span class="p">,</span> <span class="n">lens_labels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="n">add_aperture</span><span class="p">(</span><span class="mi">840</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;CA&#39;</span><span class="p">)</span>
+
+    <span class="c1"># position of source is z0,x0</span>
+    <span class="n">z0</span> <span class="o">=</span> <span class="n">source_position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">source_position</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">x0</span> <span class="o">=</span> <span class="n">source_position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x0</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="c1"># list of lens positions</span>
+    <span class="n">zl1</span><span class="p">,</span> <span class="n">ff1</span> <span class="o">=</span> <span class="n">lens_positions</span><span class="p">[(</span><span class="n">z0</span> <span class="o">&lt;</span> <span class="n">lens_positions</span><span class="p">)],</span> <span class="n">focal_lengths</span><span class="p">[(</span><span class="n">z0</span> <span class="o">&lt;</span> <span class="n">lens_positions</span><span class="p">)]</span>
+    <span class="n">nl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">zl1</span><span class="p">)</span>  <span class="c1"># number of lenses</span>
+
+    <span class="n">zz</span><span class="p">,</span> <span class="n">xx</span><span class="p">,</span> <span class="n">tani</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nl</span> <span class="o">+</span> <span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nl</span> <span class="o">+</span> <span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nl</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">tan0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">apa</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">apa</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">number_of_rays</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">number_of_rays</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_rays</span><span class="p">):</span>
+        <span class="n">tani</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">tan0</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>  <span class="c1"># initial incidence angle</span>
+        <span class="n">zz</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">z0</span><span class="p">,</span> <span class="n">x0</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nl</span><span class="p">):</span>
+            <span class="n">zz</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">zl1</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">xx</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">xx</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">zz</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">zz</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">*</span> <span class="n">tani</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">tani</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tani</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">xx</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">ff1</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+        <span class="n">zz</span><span class="p">[</span><span class="n">nl</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">z_max</span>
+        <span class="n">xx</span><span class="p">[</span><span class="n">nl</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">xx</span><span class="p">[</span><span class="n">nl</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">zz</span><span class="p">[</span><span class="n">nl</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">zz</span><span class="p">[</span><span class="n">nl</span><span class="p">])</span> <span class="o">*</span> <span class="n">tani</span><span class="p">[</span><span class="n">nl</span><span class="p">]</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">zz</span><span class="p">,</span> <span class="n">xx</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="n">z_max</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Diffraction/index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Spectroscopy/index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Introduction/CH1_07-Electron_Optics.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

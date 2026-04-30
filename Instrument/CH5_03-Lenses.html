@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Apertures, Deflectors, and Magnetic Lenses &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Lab Course" href="../Lab_Course/index.html" />
+    <link rel="prev" title="Instrument" href="index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 5:</strong> <a class="reference external" href="CH5_00-Instrument.ipynb">Instrument</a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="Apertures,-Deflectors,-and-Magnetic-Lenses">
+<h1>Apertures, Deflectors, and Magnetic Lenses<a class="headerlink" href="#Apertures,-Deflectors,-and-Magnetic-Lenses" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Instrument/CH5_03-Lenses.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/Instrument/CH5_03-Lenses.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p>*<strong>Spring 2026</strong> by Gerd Duscher</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<section id="Magnetic-Lenses">
+<h2>Magnetic Lenses<a class="headerlink" href="#Magnetic-Lenses" title="Link to this heading">¶</a></h2>
+<p>Electro–magnetic lenses are different from optical lenses: You can change the focal length.</p>
+<p>For a deeper understanding and a better operation of the TEM, we have to discuss the details.</p>
+<p>Electro–static lenses are not common anymore, because the long term stability is hard to achieve. Magnetic lenses are much easier to keep stable.</p>
+<img alt="Magnetic Lens" src="../_images/magnetic_lens.png" />
+<p>The cut through a magnetic lens. Please note that all lenses must be radial symmetric.\</p>
+<p>The coil produces a strong magnetic field (up to 1 Tesla or higher), which is concentrated at the pole piece. This pole piece consists of soft iron to achieve a maximal inhomogeneous magnetic field (2.1 Tesla). At room temperature you cannot achieve a higher field than the maximum magnetic field of iron.</p>
+<p>Because pure iron is a very soft material, this pole piece has to be handled with extreme care. Any scratch, inhomogeneity or dirt (results from magnetic samples which FLY to the pole piece) destroy the radial symmetry and induce optical errors.</p>
+<p>The gap is needed to place apertures and the sample close to the focal planes. This gap doesn’t cause a problem at weak lenses, but at strong lenses (objective lens) this gap induces optical errors. The focal length of a strong lens is also short, and the sample has o be paced inside the objective lens. High resolution lenses always exhibit a small gap to minimize optical errors which results in limited sample tilt.</p>
+<p>TEM manufactures invest a lot of money and time to develop new designs of the pole pieces and lens designs.</p>
+<p>The coils are made of wires with a low but still some resistance. this resistance heats the lenses and water pipes are integrated for cooling.</p>
+<p>TEM manufactures invest a lot of money and time to develop new designs of the pole pieces and lens designs.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<section id="Electrons-in-a-Magnetic-Field">
+<h3>Electrons in a Magnetic Field<a class="headerlink" href="#Electrons-in-a-Magnetic-Field" title="Link to this heading">¶</a></h3>
+<p>The main equation which describes the motion of an electron in an electro-magnetic field is:</p>
+<div class="math notranslate nohighlight">
+\[\begin{equation}\Large \label{magnetic force}
+\vec{F} = q (\vec{E} + \vec{v} \times \vec{B}) = e(\vec{v} \times \vec{B})
+\end{equation}\]</div>
+<p>The force <span class="math notranslate nohighlight">\(\vec{F}\)</span> on an electron with charge <span class="math notranslate nohighlight">\(q=e\)</span> depends on the electric field <span class="math notranslate nohighlight">\(\vec{E}\)</span> and the vector cross product (<span class="math notranslate nohighlight">\(\times\)</span>) of velocity <span class="math notranslate nohighlight">\(\vec{v}\)</span> and magnetic field <span class="math notranslate nohighlight">\(\vec{B}\)</span> (measured in Tesla).</p>
+<p>For magnetic fields we can ignore the effect of the electric field. The effect of the magnetic field is described by the left hand rule as pictured below.</p>
+<img alt="Left hand Rule" src="../_images/hand.jpg" />
+<p>The forefinger points in the direction of the magnetic field <span class="math notranslate nohighlight">\(\vec{B}\)</span>, the second finger in the direction the electron flies initially and the thumb will give you the direction of the thrust.</p>
+<p>This left hand rule shows immediately that for a <span class="math notranslate nohighlight">\(\theta\)</span> of 0<span class="math notranslate nohighlight">\(\rm ^o\)</span> and 180<span class="math notranslate nohighlight">\(\rm ^o\)</span>, we do not know what to do and really there is no thrust. The thrust is maximum for a <span class="math notranslate nohighlight">\(\theta\)</span> of 90<span class="math notranslate nohighlight">\(\rm ^o\)</span>.</p>
+<p>For small deviation angles we can make the approximation for the magnitude of the force:</p>
+<div class="math notranslate nohighlight">
+\[F =  e v B \sin \theta \approx e v B = \frac{mv^2}{r}\]</div>
+<p>The smaller the distance from the optic axis <span class="math notranslate nohighlight">\(r\)</span> the higher is the force. The higher the velocity of the electrons the stronger the lens has to be.</p>
+<p>For 100 keV electrons and a lens diameter of 1 mm, the magnetic field <span class="math notranslate nohighlight">\(B\)</span> has to be in the order of 1 Tesla.</p>
+<p>Any direction of the beam can be split in a motion parallel <span class="math notranslate nohighlight">\(\vec{v}_{\|}\)</span> and perpendicular <span class="math notranslate nohighlight">\(\vec{v}_{\bot}\)</span> to the magnetic field direction.</p>
+<div class="math notranslate nohighlight">
+\[\Large
+\vec{v}_{\|} = v \sin \theta\]</div>
+<div class="math notranslate nohighlight">
+\[\Large
+\vec{v}_{\bot} = v \cos \theta\]</div>
+<p>The parallel motion is undisturbed while the perpendicular motion will result in a circle. The radius of this circle is</p>
+<div class="math notranslate nohighlight">
+\[\Large r=\frac{mv}{eB}\]</div>
+<p>.</p>
+<p>Both motions together result in a spiral motion with the frequency</p>
+<div class="math notranslate nohighlight">
+\[\Large \omega_c = \frac{2\pi}{T_c}=\frac{eB}{m}\not\approx v\]</div>
+<p>.</p>
+<p>Mathematical, we can write for the near axis motion the paraxial ray equations.</p>
+<div class="math notranslate nohighlight">
+\[\frac{d^2r}{dz2}+\frac {\eta B^2 r}{2V^{\frac{1}{2}}} = 0\]</div>
+<div class="math notranslate nohighlight">
+\[\frac{d\theta}{dz}=\frac {\eta B}{2V^{\frac{1}{2}}} = 0\]</div>
+<p>with</p>
+<div class="math notranslate nohighlight">
+\[\eta = \sqrt{\frac{e}{2m_0c^2}}\]</div>
+<p>This results in a smaller <span class="math notranslate nohighlight">\(\Delta r\)</span> for higher energetic electrons (higher acceleration Voltage <span class="math notranslate nohighlight">\(V\)</span>), and therefore in the need to increase the magnetic field.</p>
+<p>Because real lenses are not indefinite thin, but have a certain length, there will always be spiral motion and therefore an image rotation associated with a magnetic lens. The TEM manufactures have a variety of lens settings for different magnifications, which can minimize or cancel image rotation.</p>
+<img alt="Lens-Rotation" src="../_images/lens_rotation.png" />
+</section>
+</section>
+<section id="Apertures">
+<h2>Apertures<a class="headerlink" href="#Apertures" title="Link to this heading">¶</a></h2>
+<p>As you know you can put apertures in and out, also you can move them, so that they are aligned with respect to the optic axis. These apertures are little plates with small hopefully round holes in it; they are called diaphragm. The holes are about 10 <span class="math notranslate nohighlight">\(\mu\)</span>m to 100 <span class="math notranslate nohighlight">\(\mu\)</span>m in diameter.</p>
+<p>The diaphragm are made of molybdenum, copper or gold. The gold apertures have a self cleaning effect, if you hit them with an intense electron beam and are therefore preferable in a TEM. You cannot use them in a dedicated STEM, where the beam current is much lower.</p>
+</section>
+<section id="Electron-Beam-Deflection">
+<h2>Electron Beam Deflection<a class="headerlink" href="#Electron-Beam-Deflection" title="Link to this heading">¶</a></h2>
+<p>Aligning the microscope means to bring all the optical elements (electron source, apertures, lenses, …) onto the same optical axis. To do this a rough alignment is done mechanically. The lenses are pushed and tilted close to a common optic axis. The day to day alignment of the TEM is done electronically with deflectors. These alignment deflectors (with long time stability) are normally magnetic.</p>
+<p>In a scanning TEM (or SEM), where the beam has to be moved around, electro–static deflectors are used. Also other deflectors, which have to be fast (beam blanker), use electro–static forces. While a magnetic deflector need a few microseconds, a electro–static one can do in a split of a microsecond.</p>
+<p>For the magnetic deflectors, the deflection angle <span class="math notranslate nohighlight">\(\epsilon\)</span> is give by: <span class="math">\begin{equation}\Large
+\epsilon = \frac{eLB}{mv}
+\end{equation}</span></p>
+<p>For a 5<span class="math notranslate nohighlight">\(^{\rm o}\)</span> deflection of 100keV electrons we need 0.01 Tesla. That means 100 turn coil with 0.2 A.</p>
+<p>We will go a little bit more in detail with the electro–static deflection.\</p>
+<p>We have the following equations:</p>
+<div class="math notranslate nohighlight">
+\[\Large v=\frac{dz}{dt};\]</div>
+<p></p>
+<div class="math notranslate nohighlight">
+\[\Large p_z=mv;\]</div>
+<p></p>
+<div class="math notranslate nohighlight">
+\[\Large T=\frac{L}{v}\]</div>
+<img alt="Deflection" src="../_images/deflection.png" />
+<p>Deflection of an electron in an electro–static field <span class="math notranslate nohighlight">\(\vec{E}\)</span></p>
+<p>For the momentum in x direction we get: <span class="math">\begin{equation}\Large
+p_x = \int_0^T F dt= e \int_0^T E dt = \frac{e}{v} \int_0^L E dz = \frac{eEL}{v}
+\end{equation}</span></p>
+<p>For 100 keV electrons in a deflector (capacitor) need an electric field of 20000 V/cm to be deflected by 0.1 rad (5<span class="math notranslate nohighlight">\(\rm o\)</span>) For that you have to apply a Voltage of 4000V to a deflector with a length <span class="math notranslate nohighlight">\(L\)</span> of 1cm and a width <span class="math notranslate nohighlight">\(d\)</span> of 2mm.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Diffraction/index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Spectroscopy/index.html">Spectroscopy</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Instrument</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Instrument</a></li>
+      <li>Next: <a href="../Lab_Course/index.html" title="next chapter">Lab Course</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Instrument/CH5_03-Lenses.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

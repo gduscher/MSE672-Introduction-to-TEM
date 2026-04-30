@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Unic Cell Determination and Stereographic Projection &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Kikuchi Lines" href="CH2_10-Kikuchi_Lines.html" />
+    <link rel="prev" title="Analyzing Spot Diffraction Pattern" href="CH2_08-Spot_Diffraction_Pattern.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 2:</strong> <a class="reference internal" href="CH2_00-Diffraction.html"><span class="doc">Diffraction</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="Unic-Cell-Determination-and-Stereographic-Projection">
+<h1>Unic Cell Determination and Stereographic Projection<a class="headerlink" href="#Unic-Cell-Determination-and-Stereographic-Projection" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Diffraction/CH2_09-Unit_Cell.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main//Diffraction/CH2_09-Unit_Cell.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p><strong>Spring 2026</strong> by Gerd Duscher</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes</p>
+<section id="Load-relevant-python-packages">
+<h2>Load relevant python packages<a class="headerlink" href="#Load-relevant-python-packages" title="Link to this heading">¶</a></h2>
+<section id="Check-Installed-Packages">
+<h3>Check Installed Packages<a class="headerlink" href="#Check-Installed-Packages" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2026.1.2&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pyTEMlib<span class="w"> </span>-q<span class="w"> </span>--upgrade
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+done
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Import-numerical-and-plotting-python-packages">
+<h2>Import numerical and plotting python packages<a class="headerlink" href="#Import-numerical-and-plotting-python-packages" title="Link to this heading">¶</a></h2>
+<p>Import the python packages that we will use:</p>
+<p>Beside the basic numerical (numpy) and plotting (pylab of matplotlib) libraries,</p>
+<p>and some libraries from pyTEMlib</p>
+<ul class="simple">
+<li><p>diffraction_tools</p></li>
+<li><p>animation</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span>  widget
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">output</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+
+<span class="c1"># additional package</span>
+<span class="kn">import</span><span class="w">  </span><span class="nn">itertools</span>
+
+<span class="c1"># Import libraries from pyTEMlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyTEMlib</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyTEMlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">animation</span>        <span class="c1"># Provide some functions to plot schematic plots</span>
+<span class="n">__notebook_version__</span> <span class="o">=</span> <span class="s1">&#39;2026.01.08&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pyTEM version: &#39;</span><span class="p">,</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;notebook version: &#39;</span><span class="p">,</span> <span class="n">__notebook_version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+pyTEM version:  0.2026.1.3
+notebook version:  2026.01.08
+</pre></div></div>
+</div>
+</section>
+<section id="Unit-Cell-Determination">
+<h2>Unit Cell Determination<a class="headerlink" href="#Unit-Cell-Determination" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>The HOLZ rings will give the lattice repeat vector (reciprocal vector parallel to the zone axis).</p></li>
+<li><p>So tilting in [001] zone axis, the ZOLZ pattern will give you the [100] and [010] distance</p></li>
+<li><p>and the HOLZ ring radius the [001] distance.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>This is the determination of the lattice parameter of a unit cell.</strong></p>
+<p>Thus, we see that one can determine 3D information from a single two dimensional pattern.</p>
+<p>It might be necessary to use other low order zone axes.</p>
+</div></blockquote>
+<section id="Measurements">
+<h3>Measurements<a class="headerlink" href="#Measurements" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Record HOLZ and ZOLZ patterns, if possible in one picture (use double illumination with different exposure times to enhance dynamic range), but with different convergence angles.</p></li>
+<li><p>If the angle of the ring is too large then your measurements may suffer from lens distortions.</p></li>
+<li><p>If the HOLZ ring is split measure the inner one.</p></li>
+</ul>
+</section>
+<section id="Z-Component-of-Unit-Cell">
+<h3>Z-Component of Unit Cell<a class="headerlink" href="#Z-Component-of-Unit-Cell" title="Link to this heading">¶</a></h3>
+<p>If <span class="math notranslate nohighlight">\(H\)</span> is the distance between the reciprocal-lattice planes parallel to the beam and <span class="math notranslate nohighlight">\(G_n\)</span> is the projected radius of the HOLZ ring, then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}G_1 = \left( \frac{2H}{\lambda}\right)^{1/2} = \sqrt{\frac{2H}{\lambda}}\\
+G_2 = 2\left( \frac{H}{\lambda}\right)^{1/2} = 2 \sqrt{\frac{H}{\lambda}}\end{split}\]</div>
+<p>for FOLZ and SOLZ.</p>
+<p>With <span class="math notranslate nohighlight">\(\lambda\)</span> wavelength of incident electrons</p>
+<p>Similar expressions can be developed for higher order HOLZ rings.</p>
+<p>In real space you get for example for FOLZ: <span class="math">\begin{equation}
+\frac{1}{H}=\frac{2}{\lambda G_1^2} = \frac{2}{\lambda} \left(\frac{\lambda L}{r}\right)^{2}
+\end{equation}</span></p>
+<p>If you did use a zone axis which is not <span class="math notranslate nohighlight">\({100}\)</span>, then you have to compare your result to calculated values.</p>
+<p>Assuming you are looking down <span class="math notranslate nohighlight">\([UVW]\)</span> then we know: <span class="math">\begin{equation}
+\frac{1}{H}= |[UVW]|
+\end{equation}</span></p>
+<p>Now we have to calculate this <span class="math notranslate nohighlight">\(|[UVW]|\)</span> for different structures:\ #### for fcc: <span class="math">\begin{equation}
+\frac{1}{H}= \frac{a_0}{p(U^2+V^2+W^2)}
+\end{equation}</span> with <span class="math notranslate nohighlight">\(a_0\)</span> is the lattice parameter and <span class="math notranslate nohighlight">\(p=1\)</span> for <span class="math notranslate nohighlight">\(U+V+W\)</span> is odd; <span class="math notranslate nohighlight">\(p=2\)</span> for <span class="math notranslate nohighlight">\(U+V+W\)</span> is even.</p>
+<section id="for-bcc:">
+<h4>for bcc:<a class="headerlink" href="#for-bcc:" title="Link to this heading">¶</a></h4>
+<p>the same relationship as for fcc is true for bcc but <span class="math notranslate nohighlight">\(p\)</span> is different: <span class="math notranslate nohighlight">\(p=2\)</span> for <span class="math notranslate nohighlight">\(U\)</span>, <span class="math notranslate nohighlight">\(V\)</span>, and <span class="math notranslate nohighlight">\(W\)</span> all odd; <span class="math notranslate nohighlight">\(p=1\)</span> otherwise.</p>
+<p>Look up other crystal systems.</p>
+<p>If a ring is forbidden: you have to multiply your measurement <span class="math notranslate nohighlight">\(1/H_m\)</span> with an integer <span class="math notranslate nohighlight">\(n\)</span> to obtain the distance of the crystal.</p>
+</section>
+</section>
+</section>
+<section id="Lattice-Centering">
+<h2>Lattice Centering<a class="headerlink" href="#Lattice-Centering" title="Link to this heading">¶</a></h2>
+<p>We are going to look at cubic structures to</p>
+<ul class="simple">
+<li><p>fcc</p></li>
+<li><p>bcc</p></li>
+<li><p>a-face</p></li>
+<li><p>b-face</p></li>
+<li><p>primitive or simple cubic</p></li>
+</ul>
+<p>The maximal excitation error is chosen so that ZOLZ and FOLZ overlap and we can see the different centering</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">plot_spots</span><span class="p">(</span><span class="n">tags</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple plotting for spot pattern&quot;&quot;&quot;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">]</span>
+
+    <span class="n">Laue_zones</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">p</span><span class="p">[:,</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">ZOLZ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">p</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">Laue_zones</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">FOLZ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">p</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">Laue_zones</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">SOLZ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">p</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">Laue_zones</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plotting_coordinates</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">FOLZ</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">FOLZ</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">SOLZ</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">SOLZ</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s1">&#39;crystal_name&#39;</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+
+<span class="c1"># load structure</span>
+<span class="n">atoms</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">crystal_tools</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">(</span><span class="s1">&#39;FCC Fe&#39;</span><span class="p">)</span>
+
+<span class="c1"># add necessary parameters for kinematic scattering calculation</span>
+<span class="n">tags</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;acceleration_voltage_V&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">200000</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;convergence_angle_mrad&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;zone_hkl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="c1"># incident neares zone axis: defines Laue Zones!!!!</span>
+
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;Sg_max&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="c1"># 1/nm  maximum allowed excitation error ; This parameter is related to the thickness</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;hkl_max&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">45</span>   <span class="c1"># Highest evaluated Miller indices</span>
+<span class="c1"># calulcuate kinematic scattering data</span>
+
+<span class="n">diff_dict</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_bragg_reflections</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># plot diffraction pattern</span>
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;crystal_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;FCC or I&#39;</span>
+<span class="n">plot_spots</span><span class="p">(</span><span class="n">diff_dict</span><span class="p">,</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">plot_spots</span><span class="p">(</span><span class="n">diff_dict</span><span class="p">,</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+
+<span class="n">atoms</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">crystal_tools</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">(</span><span class="s1">&#39;BCC Fe&#39;</span><span class="p">)</span>
+<span class="n">diff_dict</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_bragg_reflections</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;crystal_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;BCC&#39;</span>
+<span class="c1"># plot diffraction pattern</span>
+<span class="n">plot_spots</span><span class="p">(</span><span class="n">diff_dict</span><span class="p">,</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="n">atoms</span><span class="o">.</span><span class="n">set_scaled_positions</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">]])</span>
+<span class="n">diff_dict</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_bragg_reflections</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;crystal_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;a-face&#39;</span>
+<span class="n">plot_spots</span><span class="p">(</span><span class="n">diff_dict</span><span class="p">,</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="n">atoms</span><span class="o">.</span><span class="n">set_scaled_positions</span><span class="p">([[</span><span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.</span> <span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">]])</span>
+<span class="n">diff_dict</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_bragg_reflections</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;crystal_name&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="s1">&#39;b-face&#39;</span>
+<span class="n">plot_spots</span><span class="p">(</span><span class="n">diff_dict</span><span class="p">,</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="k">del</span> <span class="n">atoms</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">diff_dict</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_bragg_reflections</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;crystal_name&#39;</span><span class="p">]</span> <span class="o">=</span><span class="s1">&#39;simple cubic&#39;</span>
+<span class="n">plot_spots</span><span class="p">(</span><span class="n">diff_dict</span><span class="p">,</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "d077cfbeb645422784c460495bcc10bf", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>To analyse an experimental pattern:</p>
+<ul class="simple">
+<li><p>Extend the pattern for the ZOLZ into the HOLZ ring and look for discrepancies.</p></li>
+</ul>
+</section>
+<section id="Laue-Circle">
+<h2>Laue Circle<a class="headerlink" href="#Laue-Circle" title="Link to this heading">¶</a></h2>
+<p>The mistilt (angles in degrees) leads to a circular pattern in the ZOLZ.</p>
+<p>Any mistilt will cause the Ewald sphere to cut through the projection plane in a circle: the Laue circle. The maximal excitation error <span class="math notranslate nohighlight">\(S_{g_{max}}\)</span> has to be rather small for this effect to appear.</p>
+<p>The nearest zone axis will always be in the middle of the Laue circle.</p>
+<p>If you encounter such a Laue circle try to minimize the circle by tilting towards the center. You can try this out below in rhe</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># -----Input ----------</span>
+<span class="n">mistilt_alpha</span>  <span class="o">=</span> <span class="mf">0.5</span>  <span class="c1"># in degree</span>
+<span class="n">mistilt_beta</span> <span class="o">=</span> <span class="mf">0.</span>    <span class="c1"># in degree</span>
+<span class="n">S_g</span> <span class="o">=</span> <span class="mf">.02</span> <span class="c1"># 1/Ang  maximum allowed excitation error ; This parameter is related to the thickness</span>
+<span class="c1"># ---------------------</span>
+
+<span class="n">atoms</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">crystal_tools</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">(</span><span class="s1">&#39;FCC Fe&#39;</span><span class="p">)</span>
+
+<span class="c1"># add necessary parameters for kinematic scattering calculation</span>
+<span class="n">tags</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;acceleration_voltage_V&#39;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>
+        <span class="s1">&#39;convergence_angle&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+        <span class="s1">&#39;zone_hkl&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="c1"># incident neares zone axis: defines Laue Zones!!!!</span>
+        <span class="s1">&#39;mistilt_alpha&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">mistilt_alpha</span><span class="p">),</span>  <span class="c1"># mistilt in radians</span>
+        <span class="s1">&#39;mistilt_beta&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">mistilt_beta</span><span class="p">),</span>
+        <span class="s1">&#39;Sg_max&#39;</span><span class="p">:</span> <span class="n">S_g</span><span class="p">,</span> <span class="c1"># 1/Ang  maximum allowed excitation error ; This parameter is related to the thickness</span>
+        <span class="s1">&#39;hkl_max&#39;</span><span class="p">:</span> <span class="mi">13</span>   <span class="c1"># Highest evaluated Miller indices</span>
+       <span class="p">}</span>
+<span class="c1"># calulcuate kinematic scattering data</span>
+
+
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;crystal_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;FCC with mistilt </span><span class="si">{</span><span class="n">tags</span><span class="p">[</span><span class="s1">&#39;mistilt_alpha&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="n">diff_dict</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_bragg_reflections</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plot_saed_parameter</span><span class="p">()</span>
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">][</span><span class="s1">&#39;plot_labels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">][</span><span class="s1">&#39;plot_Kikuchi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="n">v</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plot_diffraction_pattern</span><span class="p">(</span><span class="n">diff_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+mistilt
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "f24019c0fe2b4babbfa8dc35e0a1804b", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>The next graph shows a cross section through the reciprocal space (with Ewald sphere).</p>
+<p>The tilt out of zone axis (blue) leaves some spots in the middle with an high excitation error <span class="math notranslate nohighlight">\(s_g\)</span> larger than the maximum allowed one. These spots (in the figure from 2 1/nm to 8 1/nm) are invisible in such a case. Because the Ewald sphere is a 3D object the cut of a sphere with a plane will give a circle.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">animation</span><span class="o">.</span><span class="n">deficient_holz_line</span><span class="p">(</span><span class="n">exact_bragg</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">laue_zone</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">animation</span><span class="o">.</span><span class="n">deficient_holz_line</span><span class="p">(</span><span class="n">exact_bragg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">laue_zone</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "fd3834d7d5314ef2ac8e68e03648a63c", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Stereographic-Projection">
+<h2>Stereographic Projection<a class="headerlink" href="#Stereographic-Projection" title="Link to this heading">¶</a></h2>
+<p>There are a lot of problems in materials science you can solve with diffraction patterns in the TEM.</p>
+<p>For instance the orientation relationship two crystals have to each other. What is the grain boundary plane and so on.</p>
+<p>The method to visualize such orientation relationships is the stereographic projection.</p>
+<section id="Construction">
+<h3>Construction<a class="headerlink" href="#Construction" title="Link to this heading">¶</a></h3>
+<p>The Schematic below shows the construction of <strong>Stereographic Projection</strong> for cubic systems.</p>
+<p>Steps of Construction:</p>
+<ul class="simple">
+<li><p>Draw the crystal in the middle of a sphere.</p></li>
+<li><p>Draw a line from the center of the sphere through the middle of each plane (must be normal to the plane).</p></li>
+<li><p>Mark where this line intersects the sphere (it is named P in figure above).</p></li>
+<li><p>From this point draw a line to the south or north pole so that you intersect the equatorial plane. If you have to go to the south pole, mark the intersection of this line with equatorial plane with a dot; if you go to the north pole mark this intersection with a circle.We construct the point P’.</p></li>
+</ul>
+<p>Prperties of Stereograpic Projection</p>
+<ul class="simple">
+<li><p>This point represents uniquely one plane.</p></li>
+<li><p>The relevant area of the equatorial plane is a disk.</p></li>
+<li><p>Now we can also project circumference of a circle. Note that all the planes perpendicular to a low order zone axis lay on such a circle.</p></li>
+<li><p>These circles show up as lines or as ovals in the stereographic projection .</p></li>
+</ul>
+<p>Change the Miller indices (reflection) to see the change</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------Input ----------</span>
+<span class="n">reflection</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="c1"># -----------------------</span>
+<span class="k">if</span> <span class="n">reflection</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;we only use a cross section so y is set to 0&#39;</span><span class="p">)</span>
+    <span class="n">reflection</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">R</span> <span class="o">=</span> <span class="mi">90</span> <span class="c1"># 90 degrees projection sphere</span>
+<span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span> <span class="o">=</span><span class="n">reflection</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">reflection</span><span class="p">)</span><span class="o">*</span><span class="n">R</span> <span class="c1"># Coordinates on sphere surface</span>
+<span class="n">x_projeted</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">R</span><span class="o">/</span><span class="p">(</span><span class="n">R</span><span class="o">+</span><span class="n">z</span><span class="p">))</span> <span class="c1"># x coordinate on stereographic projection plane</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;projected x-coordinate is </span><span class="si">{</span><span class="n">x_projeted</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> degree&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Cross Section of Stereographic Projection of </span><span class="si">{</span><span class="n">reflection</span><span class="si">}</span><span class="s1"> &#39;</span><span class="p">)</span>
+<span class="n">sphere</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.</span> <span class="p">),</span> <span class="n">R</span> <span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span> <span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">sphere</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="n">R</span><span class="o">*</span><span class="mf">1.1</span><span class="p">,</span><span class="n">R</span><span class="o">*</span><span class="mf">1.1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.04</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;projection plane&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="n">R</span><span class="o">*</span><span class="mf">1.1</span><span class="p">,</span><span class="n">R</span><span class="o">*</span><span class="mf">1.1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="n">R</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="n">R</span><span class="o">*</span><span class="mf">1.02</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">z</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;diffracted wave vector&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="mf">1.04</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">z</span><span class="p">,</span> <span class="o">-</span><span class="n">R</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;connection to south pole&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_projeted</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x_projeted</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="s1">&#39;P</span><span class="se">\&#39;</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+projected x-coordinate is 64.87 degree
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "47efe88c84794cc0bcfe24c431d97489", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p><strong>Some features of the stereographic projection:</strong></p>
+<ul class="simple">
+<li><p>We can represent plane normals and directions in the same projection.</p></li>
+<li><p>The can read off the angles between the directions, because the angles are preserved in this projection. Possibly the most important feature of this projection.</p></li>
+<li><p>The zone axis is always 90$^{<span class="math">\rm o</span>} $ away from any plane normal to its zone.</p></li>
+<li><p>All the planes normal to a particular zone will lay on a great circle (oval). The zone of the centrale pole is on the circumference of the whole projection.</p></li>
+<li><p>The angle between two planes is the angle between their normals measured with the Wulff net.</p></li>
+<li><p>We can add the symmetry elements of any particular crystal system.</p></li>
+</ul>
+</section>
+<section id="Wulff-Plot">
+<h3>Wulff Plot<a class="headerlink" href="#Wulff-Plot" title="Link to this heading">¶</a></h3>
+<p>The result of the stereographic Projection of the holeprojeciton sphere is shown below. It is convenient to show the ** circles of the sphere** as a grid the Wulff Plot.</p>
+<p>But first we define some helper functions.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## ## Some helper functions first</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">circumcenter</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">):</span>
+    <span class="n">ax</span><span class="p">,</span> <span class="n">ay</span> <span class="o">=</span> <span class="n">a</span>
+    <span class="n">bx</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="n">b</span>
+    <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span> <span class="o">=</span> <span class="n">c</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">ax</span> <span class="o">*</span> <span class="p">(</span><span class="n">by</span> <span class="o">-</span> <span class="n">cy</span><span class="p">)</span> <span class="o">+</span> <span class="n">bx</span> <span class="o">*</span> <span class="p">(</span><span class="n">cy</span> <span class="o">-</span> <span class="n">ay</span><span class="p">)</span> <span class="o">+</span> <span class="n">cx</span> <span class="o">*</span> <span class="p">(</span><span class="n">ay</span> <span class="o">-</span> <span class="n">by</span><span class="p">))</span>
+    <span class="n">ux</span> <span class="o">=</span> <span class="p">((</span><span class="n">ax</span> <span class="o">*</span> <span class="n">ax</span> <span class="o">+</span> <span class="n">ay</span> <span class="o">*</span> <span class="n">ay</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">by</span> <span class="o">-</span> <span class="n">cy</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">bx</span> <span class="o">*</span> <span class="n">bx</span> <span class="o">+</span> <span class="n">by</span> <span class="o">*</span> <span class="n">by</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">cy</span> <span class="o">-</span> <span class="n">ay</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">cx</span> <span class="o">*</span> <span class="n">cx</span> <span class="o">+</span> <span class="n">cy</span> <span class="o">*</span> <span class="n">cy</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">ay</span> <span class="o">-</span> <span class="n">by</span><span class="p">))</span> <span class="o">/</span> <span class="n">d</span>
+    <span class="n">uy</span> <span class="o">=</span> <span class="p">((</span><span class="n">ax</span> <span class="o">*</span> <span class="n">ax</span> <span class="o">+</span> <span class="n">ay</span> <span class="o">*</span> <span class="n">ay</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">cx</span> <span class="o">-</span> <span class="n">bx</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">bx</span> <span class="o">*</span> <span class="n">bx</span> <span class="o">+</span> <span class="n">by</span> <span class="o">*</span> <span class="n">by</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">ax</span> <span class="o">-</span> <span class="n">cx</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">cx</span> <span class="o">*</span> <span class="n">cx</span> <span class="o">+</span> <span class="n">cy</span> <span class="o">*</span> <span class="n">cy</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">bx</span> <span class="o">-</span> <span class="n">ax</span><span class="p">))</span> <span class="o">/</span> <span class="n">d</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">ux</span><span class="p">,</span> <span class="n">uy</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">wulff_net</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+
+    <span class="n">outer_ring</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span> <span class="mf">0.</span> <span class="p">,</span> <span class="mf">0.</span> <span class="p">),</span> <span class="mi">90</span> <span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span> <span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span> <span class="n">outer_ring</span> <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_position</span><span class="p">((</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;bottom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_position</span><span class="p">((</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">94</span><span class="p">,</span><span class="mi">94</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">94</span><span class="p">,</span><span class="mi">94</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">phi</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">density</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="n">density</span><span class="p">):</span>
+        <span class="n">phi_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="mi">90</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi_r</span><span class="p">),</span> <span class="mi">90</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi_r</span><span class="p">)</span>
+        <span class="n">u</span><span class="p">,</span><span class="n">v</span> <span class="o">=</span> <span class="n">circumcenter</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">],[</span><span class="o">-</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">90</span><span class="o">-</span><span class="n">phi</span><span class="p">])</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span> <span class="n">y</span><span class="o">-</span><span class="n">v</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">u</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">patches</span><span class="o">.</span><span class="n">Arc</span><span class="p">((</span><span class="mf">0.</span> <span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="mi">90</span><span class="o">+</span><span class="n">phi</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="mi">90</span><span class="o">+</span><span class="n">phi</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">edgecolor</span> <span class="o">=</span> <span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">.5</span><span class="p">,</span> <span class="n">theta1</span><span class="o">=</span><span class="mi">180</span><span class="o">-</span><span class="n">theta</span> <span class="p">,</span> <span class="n">theta2</span><span class="o">=</span><span class="n">theta</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">patches</span><span class="o">.</span><span class="n">Arc</span><span class="p">((</span><span class="mf">0.</span> <span class="p">,</span> <span class="o">-</span><span class="n">v</span><span class="p">),</span> <span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="mi">90</span><span class="o">+</span><span class="n">phi</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="mi">90</span><span class="o">+</span><span class="n">phi</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">edgecolor</span> <span class="o">=</span> <span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">.5</span><span class="p">,</span> <span class="n">theta1</span><span class="o">=-</span><span class="n">theta</span> <span class="p">,</span> <span class="n">theta2</span><span class="o">=</span><span class="mi">180</span><span class="o">+</span><span class="n">theta</span><span class="p">))</span>
+        <span class="n">u</span><span class="p">,</span><span class="n">v</span> <span class="o">=</span> <span class="n">circumcenter</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">90</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">90</span><span class="p">],[</span><span class="n">phi</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">phi</span><span class="p">))</span>
+        <span class="n">radius</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">u</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span> <span class="mi">90</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span>  <span class="mi">90</span><span class="p">,</span> <span class="n">u</span><span class="p">))</span>
+        <span class="n">radius</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">u</span><span class="o">-</span><span class="n">phi</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">patches</span><span class="o">.</span><span class="n">Arc</span><span class="p">((</span><span class="n">u</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">radius</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">edgecolor</span> <span class="o">=</span> <span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">.5</span><span class="p">,</span> <span class="n">theta1</span><span class="o">=</span><span class="mi">180</span><span class="o">+</span><span class="n">theta</span> <span class="p">,</span> <span class="n">theta2</span><span class="o">=-</span><span class="mi">180</span><span class="o">-</span><span class="n">theta</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">patches</span><span class="o">.</span><span class="n">Arc</span><span class="p">((</span><span class="o">-</span><span class="n">u</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">radius</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">edgecolor</span> <span class="o">=</span> <span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">.5</span><span class="p">,</span> <span class="n">theta1</span><span class="o">=</span><span class="n">theta</span> <span class="p">,</span> <span class="n">theta2</span><span class="o">=-</span><span class="n">theta</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">add_main_circles</span><span class="p">(</span><span class="n">ax</span><span class="p">):</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="mi">45</span>
+    <span class="n">phi_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="mi">90</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi_r</span><span class="p">),</span> <span class="mi">90</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi_r</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="o">-</span><span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span><span class="o">-</span><span class="n">y</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="o">-</span><span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">y</span><span class="p">,</span><span class="n">y</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+    <span class="n">phi_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="mi">90</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi_r</span><span class="p">),</span> <span class="mi">90</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi_r</span><span class="p">)</span>
+    <span class="n">u</span><span class="p">,</span><span class="n">v</span> <span class="o">=</span> <span class="n">circumcenter</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">],[</span><span class="o">-</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">90</span><span class="o">-</span><span class="n">phi</span><span class="p">])</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span> <span class="n">y</span><span class="o">-</span><span class="n">v</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">u</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">patches</span><span class="o">.</span><span class="n">Arc</span><span class="p">((</span><span class="mf">0.</span><span class="p">,</span> <span class="mi">90</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">180</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">180</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">edgecolor</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">theta1</span><span class="o">=</span><span class="mi">180</span><span class="o">+</span><span class="mi">45</span> <span class="p">,</span> <span class="n">theta2</span><span class="o">=-</span><span class="mi">45</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">patches</span><span class="o">.</span><span class="n">Arc</span><span class="p">((</span><span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">180</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">180</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">edgecolor</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">theta1</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">theta2</span><span class="o">=</span><span class="mi">180</span><span class="o">-</span><span class="mi">45</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">patches</span><span class="o">.</span><span class="n">Arc</span><span class="p">((</span><span class="mf">90.</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">180</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">180</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">edgecolor</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">theta1</span><span class="o">=</span><span class="mi">180</span><span class="o">-</span><span class="mi">45</span><span class="p">,</span> <span class="n">theta2</span><span class="o">=</span><span class="mi">180</span><span class="o">+</span><span class="mi">45</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">patches</span><span class="o">.</span><span class="n">Arc</span><span class="p">((</span><span class="o">-</span><span class="mf">90.</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">180</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">180</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">edgecolor</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">theta1</span><span class="o">=-</span><span class="mi">45</span> <span class="p">,</span> <span class="n">theta2</span><span class="o">=</span><span class="mi">45</span><span class="p">))</span>
+<br/><br/><br/></pre></div>
+</div>
+</div>
+<p>Again change the Miller indices around to see where the reflections <em>lands</em>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------Input ----------</span>
+<span class="n">reflection1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">reflection2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># -----------------------</span>
+<span class="n">R</span> <span class="o">=</span> <span class="mi">90</span> <span class="c1"># 90 degrees Ewald sphere</span>
+<span class="n">projected1</span> <span class="o">=</span><span class="p">(</span><span class="n">reflection1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">reflection1</span><span class="p">)</span><span class="o">*</span><span class="n">R</span><span class="p">)</span> <span class="c1"># Coordinates on ewals sphere surface</span>
+<span class="n">projected1</span> <span class="o">=</span> <span class="n">projected1</span><span class="o">*</span><span class="n">R</span><span class="o">/</span><span class="p">(</span><span class="n">R</span><span class="o">+</span><span class="n">projected1</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="c1"># x coordinate on stereographic projection plane</span>
+<span class="n">projected2</span> <span class="o">=</span><span class="p">(</span><span class="n">reflection2</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">reflection2</span><span class="p">)</span><span class="o">*</span><span class="n">R</span><span class="p">)</span> <span class="c1"># Coordinates on ewals sphere surface</span>
+<span class="n">projected2</span> <span class="o">=</span> <span class="n">projected2</span><span class="o">*</span><span class="n">R</span><span class="o">/</span><span class="p">(</span><span class="n">R</span><span class="o">+</span><span class="n">projected2</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="c1"># x coordinate on stereographic projection plane</span>
+
+<span class="k">if</span> <span class="n">projected1</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Projected coordinates: </span><span class="si">{</span><span class="n">projected1</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;negative l Miller index is not supported&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Stereographic Projection of </span><span class="si">{</span><span class="n">reflection1</span><span class="si">}</span><span class="s1"> and </span><span class="si">{</span><span class="n">reflection2</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">wulff_net</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">(),</span> <span class="n">density</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">add_main_circles</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">())</span>
+<span class="k">if</span> <span class="n">projected1</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">projected1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">projected1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">projected2</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">projected2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">projected2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Projected coordinates: [63.63961031 63.63961031]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "081b68e0f4544231bfdc38ffed6c90ca", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Cubic-Crystal-Reflections">
+<h3>Cubic Crystal Reflections<a class="headerlink" href="#Cubic-Crystal-Reflections" title="Link to this heading">¶</a></h3>
+<p>change the maximum Miller index around to see what happens</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------Input ----------</span>
+<span class="n">hkl_max</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="c1"># -----------------------</span>
+<span class="n">h</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">hkl_max</span><span class="p">,</span><span class="n">hkl_max</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">hkl_max</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># all evaluated single Miller Indices</span>
+<span class="n">hkl</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">h</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span> <span class="c1"># all evaluated Miller indices</span>
+<span class="n">zero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">hkl</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">R</span> <span class="o">=</span> <span class="mi">90</span> <span class="c1"># 90 degrees projection sphere</span>
+
+<span class="n">projected</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">reflections</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">reflection</span> <span class="ow">in</span> <span class="n">hkl</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">reflection</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">reflection</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">reflection</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">reflection</span><span class="p">)</span><span class="o">*</span><span class="n">R</span><span class="c1"># Coordinates on sphere surface</span>
+            <span class="n">projected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="n">R</span><span class="o">/</span><span class="p">(</span><span class="n">R</span><span class="o">+</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span> <span class="c1"># x coordinate on stereographic projection plane</span>
+            <span class="n">reflections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reflection</span><span class="p">)</span>
+<span class="n">projected</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">projected</span><span class="p">)</span>
+<span class="n">reflections</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">reflections</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Stereographic Projection of hkl up to [</span><span class="si">{</span><span class="n">hkl_max</span><span class="si">}{</span><span class="n">hkl_max</span><span class="si">}{</span><span class="n">hkl_max</span><span class="si">}</span><span class="s1">]&#39;</span> <span class="p">)</span>
+<span class="n">wulff_net</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">(),</span> <span class="n">density</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">add_main_circles</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">())</span>
+<span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;blue&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">200</span>
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">spot</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">projected</span><span class="p">):</span>
+    <span class="n">color_index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">reflections</span><span class="p">[</span><span class="n">index</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">spot</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">spot</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">[</span><span class="n">color_index</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">color_index</span><span class="o">&lt;</span><span class="mi">3</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">spot</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">spot</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">reflections</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>  <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "027bcd6320264f5da66ec3746e3e411a", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Stereographic-Projections-for-Any-Symmertry-and-Any-Orientation">
+<h3>Stereographic Projections for Any Symmertry and Any Orientation<a class="headerlink" href="#Stereographic-Projections-for-Any-Symmertry-and-Any-Orientation" title="Link to this heading">¶</a></h3>
+<p>We did already all the work in the earlier notebooks and now we can just plot those the projections of the allowed <span class="math notranslate nohighlight">\(\vec{g}\)</span> vectors.</p>
+<p>The stereographic projection is after all only a projection of allowed reflections.</p>
+<p>Use a high <code class="docutils literal notranslate"><span class="pre">hkl_max</span></code> parameter (about 15) and you start seeing the Kikuchi bands (next <a class="reference internal" href="CH2_10-Kikuchi_Lines.html"><span class="doc">notebook</span></a>)</p>
+<p>Also see whether you can detect the 3-fold symmetry in [111] zone axis.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---Input ---------</span>
+<span class="n">hkl_max</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">zone_axis</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="c1"># ------------------</span>
+
+<span class="c1">#Initialize the dictionary of the input</span>
+<span class="n">tags</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="c1">### Define Crystal</span>
+<span class="n">atoms</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">crystal_tools</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">(</span><span class="s1">&#39;silicon&#39;</span><span class="p">)</span>
+
+<span class="c1"># add necessary parameters for kinematic scattering calculation</span>
+<span class="n">tags</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="c1">### Define experimental parameters:</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;acceleration_voltage_V&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">200.0</span> <span class="o">*</span><span class="mf">1000.0</span> <span class="c1">#V</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;new_figure&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;plot FOV&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;convergence_angle_mrad&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;zone_hkl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">zone_axis</span><span class="p">)</span>  <span class="c1"># incident neares zone axis: defines Laue Zones!!!!</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;mistilt&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># mistilt in degrees</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;Sg_max&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span> <span class="c1"># 1/nm  maximum allowed excitation error ; This parameter is related to the thickness</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;hkl_max&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hkl_max</span>   <span class="c1"># Highest evaluated Miller indices</span>
+
+<span class="n">atoms</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;experimental&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tags</span>
+<span class="c1">######################################</span>
+<span class="c1"># Diffraction Simulation of Crystal #</span>
+<span class="c1">######################################</span>
+
+
+<span class="n">diff_dict</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_bragg_reflections</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">hkl</span> <span class="o">=</span> <span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">][</span><span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">][:,</span><span class="mi">2</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">spots</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plotting_coordinates</span><span class="p">(</span><span class="n">hkl</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="s1">&#39;spots&#39;</span><span class="p">)</span>
+<span class="n">hkl</span><span class="p">[:,:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">spots</span><span class="o">/</span><span class="mi">10</span>
+
+<span class="n">projected</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">reflections</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">reflection</span> <span class="ow">in</span> <span class="n">hkl</span><span class="p">:</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">reflection</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">reflection</span><span class="p">)</span><span class="o">*</span><span class="n">R</span><span class="c1"># Coordinates on sphere surface</span>
+    <span class="n">projected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="n">R</span><span class="o">/</span><span class="p">(</span><span class="n">R</span><span class="o">+</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span> <span class="c1"># x coordinate on stereographic projection plane</span>
+    <span class="n">reflections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reflection</span><span class="p">)</span>
+<span class="n">projected</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">projected</span><span class="p">)</span>
+<span class="n">reflections</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">reflections</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Stereographic Projection of hkl up to [</span><span class="si">{</span><span class="n">hkl_max</span><span class="si">}{</span><span class="n">hkl_max</span><span class="si">}{</span><span class="n">hkl_max</span><span class="si">}</span><span class="s1">]&#39;</span> <span class="p">)</span>
+<span class="n">wulff_net</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">(),</span> <span class="n">density</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="c1"># add_main_circles(plt.gca())</span>
+<span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;blue&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span>
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">spot</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">projected</span><span class="p">):</span>
+    <span class="n">color_index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">reflections</span><span class="p">[</span><span class="n">index</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">spot</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">spot</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">[</span><span class="n">color_index</span><span class="p">],</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">[</span><span class="n">color_index</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">color_index</span><span class="o">&lt;</span><span class="mi">3</span><span class="p">:</span>
+        <span class="c1">#plt.text(spot[0], spot[1], f&#39;{reflections[index]}&#39;,  horizontalalignment=&#39;left&#39;, verticalalignment=&#39;top&#39;)</span>
+        <span class="k">pass</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+C:\Users\gduscher\AppData\Local\anaconda3\Lib\site-packages\pyTEMlib\diffraction_tools\kinematic.py:247: RuntimeWarning: invalid value encountered in arcsin
+  d_theta = (g_allowed[:,0]/2-np.arcsin(g_allowed[:,2]/g_allowed[:,3]))
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "c340c07e34384f2e9bec61b3a3a00f6b", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Just-a-Pretty-Plot">
+<h3>Just a Pretty Plot<a class="headerlink" href="#Just-a-Pretty-Plot" title="Link to this heading">¶</a></h3>
+<p>Like the plots you see in many books.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">add_main_planes</span><span class="p">(</span><span class="n">ax</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;[001]&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;[0$\bar</span><span class="si">{1}</span><span class="s1">$0]&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;[010]&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;[$\bar</span><span class="si">{1}</span><span class="s1">$00]&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="s1">&#39;[100]&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+
+    <span class="n">phi_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="mf">46.6</span><span class="c1"># 1/np.tan(phi_r/2)*20</span>
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">r</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi_r</span><span class="p">),</span> <span class="n">r</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi_r</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="s1">&#39;[111]&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;[$\bar</span><span class="si">{1}</span><span class="s1">$11]&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;[$\bar</span><span class="si">{1}</span><span class="s1">\bar</span><span class="si">{1}</span><span class="s1">$1]&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">,</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">,</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;[1,$\bar</span><span class="si">{1}</span><span class="s1">$,1]&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mf">37.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">37.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;[011]&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">-</span><span class="mf">37.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mf">37.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;[0$\bar</span><span class="si">{1}</span><span class="s1">$1]&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">37.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">37.2</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;[101]&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">37.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">37.2</span> <span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;[$\bar</span><span class="si">{1}</span><span class="s1">$01]&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+
+    <span class="n">phi</span> <span class="o">=</span> <span class="mi">45</span>
+    <span class="n">phi_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="mi">90</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi_r</span><span class="p">),</span> <span class="mi">90</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi_r</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="s1">&#39;[110]&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;[1$\bar</span><span class="si">{1}</span><span class="s1">$0]&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;[$\bar</span><span class="si">{1}</span><span class="s1">$10]&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;[$\bar</span><span class="si">{1}</span><span class="s1">\bar</span><span class="si">{1}</span><span class="s1">$0]&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">wulff_net</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">(),</span> <span class="n">density</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">add_main_planes</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">())</span>
+<span class="n">add_main_circles</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "b9d62c2ef5b948ed9b951fbac21195e8", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="Summary">
+<h2>Summary<a class="headerlink" href="#Summary" title="Link to this heading">¶</a></h2>
+<p>Lot’s of information can be gained with basic crystallographic tools and trigonometry.</p>
+</section>
+<section id="Navigation">
+<h2>Navigation<a class="headerlink" href="#Navigation" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Back:</strong> <a class="reference internal" href="CH2_08-Spot_Diffraction_Pattern.html"><span class="doc">Spot Diffraction Pattern</span></a></p></li>
+<li><p><strong>Next:</strong> <a class="reference internal" href="CH2_10-Kikuchi_Lines.html"><span class="doc">Kikuchi Lines</span></a></p></li>
+<li><p><strong>Chapter 2:</strong> <a class="reference internal" href="CH2_00-Diffraction.html"><span class="doc">Diffraction</span></a></p></li>
+<li><p><strong>List of Content:</strong> <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">Front</span></a></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/index.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Spectroscopy/index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Diffraction</a><ul>
+      <li>Previous: <a href="CH2_08-Spot_Diffraction_Pattern.html" title="previous chapter">Analyzing Spot Diffraction Pattern</a></li>
+      <li>Next: <a href="CH2_10-Kikuchi_Lines.html" title="next chapter">Kikuchi Lines</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Diffraction/CH2_09-Unit_Cell.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

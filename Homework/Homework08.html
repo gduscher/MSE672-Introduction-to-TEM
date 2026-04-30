@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>HW7: Simulating CBED Pattern &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 2:</strong> <a class="reference internal" href="../Diffraction/CH2_00-Diffraction.html"><span class="doc">Diffraction</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="HW7:-Simulating-CBED-Pattern">
+<h1>HW7: Simulating CBED Pattern<a class="headerlink" href="#HW7:-Simulating-CBED-Pattern" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Homework/Homework08.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main/Homework/Homework08.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p>by Gerd Duscher, Spring 2026</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<section id="Homework-Assignment">
+<h2>Homework Assignment<a class="headerlink" href="#Homework-Assignment" title="Link to this heading">¶</a></h2>
+<p>Simulate a silicon [011] CBED diffraction pattern from Lab 5 (use the one with the higher camera length).</p>
+<ul class="simple">
+<li><p>We focus on the zero disk.</p></li>
+<li><p>Change the maximum thickness to match the zero disk between simulation and your chosen experimental CBED pattern.</p></li>
+<li><p>Show both in a document format of your choice.</p></li>
+</ul>
+<blockquote>
+<div><p>Please note that you will have to activate the <code class="docutils literal notranslate"><span class="pre">GPU</span></code> in <code class="docutils literal notranslate"><span class="pre">Colab</span></code> under the Menu <code class="docutils literal notranslate"><span class="pre">Runtime</span></code> select <code class="docutils literal notranslate"><span class="pre">Change</span> <span class="pre">runtime</span> <span class="pre">type</span></code></p>
+</div></blockquote>
+<p>Questions:</p>
+<ol class="arabic simple">
+<li><p>Set the convergence angle to the value you derived at in Homework 5 (please note, here it has to be in mrad not 1/nm))</p></li>
+<li><p>What thickness did you arrive at?</p></li>
+<li><p>How can you change the intensity in the middle of the zero disk?</p></li>
+<li><p>How is that related with the intensity in the center of the [220] disks?</p></li>
+</ol>
+</section>
+<section id="Load-relevant-python-packages">
+<h2>Load relevant python packages<a class="headerlink" href="#Load-relevant-python-packages" title="Link to this heading">¶</a></h2>
+<section id="Check-Installed-Packages">
+<h3>Check Installed Packages<a class="headerlink" href="#Check-Installed-Packages" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="c1"># pyTEMlib setup ------------------</span>
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2026.1.3&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w">  </span>--upgrade<span class="w"> </span>pyTEMlib<span class="w"> </span>-q
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;abtem&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;1.0.0b17&#39;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing abtem&#39;</span><span class="p">)</span>
+<span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w">  </span>--upgrade<span class="w"> </span>abtem<span class="w"> </span>-q
+<span class="c1"># ------------------------------</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+done
+</pre></div></div>
+</div>
+</section>
+<section id="Import-numerical-and-plotting-python-packages">
+<h3>Import numerical and plotting python packages<a class="headerlink" href="#Import-numerical-and-plotting-python-packages" title="Link to this heading">¶</a></h3>
+<p>This notebook: only requires:</p>
+<ul class="simple">
+<li><p>matplotlib: for plotting</p></li>
+<li><p>numpy for numerical arrays</p></li>
+<li><p>ase: for the structure</p></li>
+<li><p>abtem: for the multislice calculation</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> widget
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pylab</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="c1"># import atomic simulation environment</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ase</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ase.build</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ase.visualize</span>
+
+<span class="c1"># import ab-initio-tem library</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">abtem</span>
+</pre></div>
+</div>
+</div>
+<p>If you have a GPU set the device below to GPU</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">abtem</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">({</span><span class="s2">&quot;device&quot;</span><span class="p">:</span> <span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="s2">&quot;fft&quot;</span><span class="p">:</span> <span class="s2">&quot;fftw&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;abtem.core.config.set at 0x2d39f581a90&gt;
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Let's-Make-a-Structure">
+<h2>Let’s Make a Structure<a class="headerlink" href="#Let's-Make-a-Structure" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><p>Here we make Si in the [011] direction</p>
+</div></blockquote>
+<p>Change the input here</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------------ Input ----------</span>
+<span class="n">thickness</span> <span class="o">=</span> <span class="mf">100.</span> <span class="c1">#  in nm</span>
+<span class="n">number_of_layers</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># per unit cell</span>
+<span class="n">zone_axis</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="c1">#------------------------------</span>
+
+
+<span class="n">atoms</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">build</span><span class="o">.</span><span class="n">bulk</span><span class="p">(</span><span class="s1">&#39;Si&#39;</span><span class="p">,</span> <span class="s1">&#39;diamond&#39;</span><span class="p">,</span> <span class="n">cubic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">silicon_110</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">build</span><span class="o">.</span><span class="n">surface</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">zone_axis</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vacuum</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">periodic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">lattice_parameter</span> <span class="o">=</span> <span class="n">silicon_110</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">layers</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">thickness</span> <span class="o">/</span> <span class="n">lattice_parameter</span> <span class="o">*</span><span class="mi">10</span><span class="p">)</span> <span class="c1"># lattice parameter is in Angstrom</span>
+<span class="n">silicon_110</span> <span class="o">*=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">layers</span><span class="p">)</span>
+<span class="n">silicon_110</span><span class="o">.</span><span class="n">center</span><span class="p">()</span>
+<span class="n">abtem</span><span class="o">.</span><span class="n">show_atoms</span><span class="p">(</span><span class="n">silicon_110</span><span class="p">)</span>
+<span class="n">silicon_110</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Atoms(symbols=&#39;Si299904&#39;, pbc=True, cell=[46.075077862115435, 43.44, 2998.719650859346], tags=...)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "7f5705fddb854229aab5b0898b70bff1", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<section id="Make-the-potential">
+<h3>Make the potential<a class="headerlink" href="#Make-the-potential" title="Link to this heading">¶</a></h3>
+<p>We are using the frozen phonon approximation to make a varied potential.</p>
+<p>Sigma is the averge deviation of positions from the symmetric sites (in Angstrom). Please do not change that value.</p>
+<p>Please note that I am using 1024 by 1024 pixels (set by the gpts variable)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">frozen_phonons</span> <span class="o">=</span> <span class="n">abtem</span><span class="o">.</span><span class="n">FrozenPhonons</span><span class="p">(</span><span class="n">silicon_110</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Si&quot;</span><span class="p">:</span> <span class="mf">0.078</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------ input ------</span>
+<span class="n">number_of_thicknes_outputs</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="c1"># -------------------</span>
+<span class="n">potential</span> <span class="o">=</span> <span class="n">abtem</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span>
+    <span class="n">frozen_phonons</span><span class="p">,</span>
+    <span class="n">sampling</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;infinite&quot;</span><span class="p">,</span>
+    <span class="n">slice_thickness</span><span class="o">=</span><span class="n">lattice_parameter</span><span class="o">/</span><span class="n">number_of_layers</span><span class="p">,</span>
+    <span class="n">exit_planes</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">silicon_110</span><span class="o">.</span><span class="n">cell</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="n">number_of_thicknes_outputs</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">potential</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(8, 1562, 461, 435)
+</pre></div></div>
+</div>
+<p>This takes a while, you can skip it!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">visualization</span> <span class="o">=</span> <span class="n">potential</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span>
+    <span class="n">project</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="n">common_color_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">);</span>
+<span class="n">lattice_parameter</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KeyboardInterrupt</span>                         Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[15]</span><span class="ansi-green-fg">, line 1</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">1</span> visualization = <span class="ansi-yellow-bg">potential</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">:</span><span class="ansi-green-fg ansi-yellow-bg">5</span><span class="ansi-yellow-bg">]</span>.sum(axis=<span class="ansi-green-fg">1</span>).show(
+<span class="ansi-green-fg">      2</span>     project=<span class="ansi-bold" style="color: rgb(0,135,0)">False</span>,
+<span class="ansi-green-fg">      3</span>     figsize=(<span class="ansi-green-fg">14</span>, <span class="ansi-green-fg">5</span>),
+<span class="ansi-green-fg">      4</span>     common_color_scale=<span class="ansi-bold" style="color: rgb(0,135,0)">True</span>,
+<span class="ansi-green-fg">      5</span>     cbar=<span class="ansi-bold" style="color: rgb(0,135,0)">True</span>,
+<span class="ansi-green-fg">      6</span> );
+<span class="ansi-green-fg">      7</span> lattice_parameter
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~\AppData\Local\anaconda3\Lib\site-packages\abtem\potentials\iam.py:377</span>, in <span class="ansi-cyan-fg">_FieldBuilder.__getitem__</span><span class="ansi-blue-fg">(self, item)</span>
+<span class="ansi-green-fg">    376</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-blue-fg">__getitem__</span>(<span style="color: rgb(0,135,0)">self</span>, item) -&gt; PotentialArray:
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">377</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">build</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">lazy</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">False</span><span class="ansi-yellow-bg">)</span>[item]
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~\AppData\Local\anaconda3\Lib\site-packages\abtem\potentials\iam.py:461</span>, in <span class="ansi-cyan-fg">_FieldBuilder.build</span><span class="ansi-blue-fg">(self, first_slice, last_slice, max_batch, lazy)</span>
+<span class="ansi-green-fg">    458</span>         potential = potential_wrapped.item()
+<span class="ansi-green-fg">    459</span>         i = np.unravel_index(<span class="ansi-green-fg">0</span>, <span style="color: rgb(0,135,0)">self</span>.ensemble_shape)
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">461</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">for</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">j</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">slic</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,0,255)">in</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">enumerate</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg">    462</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">potential</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">generate_slices</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">first_slice</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">last_slice</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    463</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">:</span>
+<span class="ansi-green-fg">    464</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">array</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">i</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">+</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">j</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">slic</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">array</span><span class="ansi-yellow-bg">[</span><span class="ansi-green-fg ansi-yellow-bg">0</span><span class="ansi-yellow-bg">]</span>
+<span class="ansi-green-fg">    466</span> <span class="ansi-bold" style="color: rgb(0,135,0)">else</span>:
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~\AppData\Local\anaconda3\Lib\site-packages\abtem\potentials\iam.py:675</span>, in <span class="ansi-cyan-fg">_FieldBuilderFromAtoms.generate_slices</span><span class="ansi-blue-fg">(self, first_slice, last_slice, return_depth)</span>
+<span class="ansi-green-fg">    672</span> <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> i, slice_idx <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> <span style="color: rgb(0,135,0)">enumerate</span>(<span style="color: rgb(0,135,0)">range</span>(start, stop)):
+<span class="ansi-green-fg">    673</span>     atoms = sliced_atoms.get_atoms_in_slices(slice_idx)
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">675</span>     new_array = <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_integrator</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">integrate_on_grid</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg">    676</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">atoms</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    677</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">a</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">sliced_atoms</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">slice_limits</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">slice_idx</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">[</span><span class="ansi-green-fg ansi-yellow-bg">0</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    678</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">b</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">sliced_atoms</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">slice_limits</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">slice_idx</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">[</span><span class="ansi-green-fg ansi-yellow-bg">1</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    679</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">gpts</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">gpts</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    680</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">sampling</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">sampling</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    681</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">device</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">device</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    682</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    684</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> array <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
+<span class="ansi-green-fg">    685</span>         array[i] += new_array
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~\AppData\Local\anaconda3\Lib\site-packages\abtem\integrals.py:495</span>, in <span class="ansi-cyan-fg">ScatteringFactorProjectionIntegrals.integrate_on_grid</span><span class="ansi-blue-fg">(self, atoms, a, b, gpts, sampling, device)</span>
+<span class="ansi-green-fg">    489</span> temp_array = xp.zeros(gpts, dtype=get_dtype(<span style="color: rgb(0,135,0)">complex</span>=<span class="ansi-bold" style="color: rgb(0,135,0)">False</span>))
+<span class="ansi-green-fg">    491</span> temp_array = superpose_deltas(positions, temp_array).astype(
+<span class="ansi-green-fg">    492</span>     get_dtype(<span style="color: rgb(0,135,0)">complex</span>=<span class="ansi-bold" style="color: rgb(0,135,0)">True</span>)
+<span class="ansi-green-fg">    493</span> )
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">495</span> temp_array = <span class="ansi-yellow-bg">fft2</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">temp_array</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">overwrite_x</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    497</span> temp_array *= scattering_factor / sinc(gpts, sampling, device)
+<span class="ansi-green-fg">    499</span> <span style="color: rgb(95,135,135)"># if not fourier_space:</span>
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~\AppData\Local\anaconda3\Lib\site-packages\abtem\core\fft.py:238</span>, in <span class="ansi-cyan-fg">fft2</span><span class="ansi-blue-fg">(x, overwrite_x, **kwargs)</span>
+<span class="ansi-green-fg">    233</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-blue-fg">fft2</span>(x: U, overwrite_x: <span style="color: rgb(0,135,0)">bool</span> = <span class="ansi-bold" style="color: rgb(0,135,0)">False</span>, **kwargs) -&gt; U:
+<span class="ansi-green-fg">    234</span> <span style="color: rgb(188,188,188)">    </span><span class="ansi-yellow-fg">&#34;&#34;&#34;</span>
+<span class="ansi-green-fg">    235</span> <span class="ansi-yellow-fg">    Compute the 2-dimensional discrete Fourier Transform.</span>
+<span class="ansi-green-fg">    236</span> <span class="ansi-yellow-fg">    Using the FFT library specified in the configuration.</span>
+<span class="ansi-green-fg">    237</span> <span class="ansi-yellow-fg">    &#34;&#34;&#34;</span>
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">238</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg">_fft_dispatch</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">x</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">func_name</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-fg ansi-yellow-bg">fft2</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">overwrite_x</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">overwrite_x</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">kwargs</span><span class="ansi-yellow-bg">)</span>
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~\AppData\Local\anaconda3\Lib\site-packages\abtem\core\fft.py:201</span>, in <span class="ansi-cyan-fg">_fft_dispatch</span><span class="ansi-blue-fg">(x, func_name, overwrite_x, **kwargs)</span>
+<span class="ansi-green-fg">    199</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> _mkl_fft_dispatch(x, func_name, overwrite_x, **kwargs)
+<span class="ansi-green-fg">    200</span> <span class="ansi-bold" style="color: rgb(0,135,0)">elif</span> config.get(<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">fft</span><span class="ansi-yellow-fg">&#34;</span>) == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">fftw</span><span class="ansi-yellow-fg">&#34;</span>:
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">201</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg">_fftw_dispatch</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">x</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">func_name</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">overwrite_x</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">kwargs</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    202</span> <span class="ansi-bold" style="color: rgb(0,135,0)">elif</span> config.get(<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">fft</span><span class="ansi-yellow-fg">&#34;</span>) == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">numpy</span><span class="ansi-yellow-fg">&#34;</span>:
+<span class="ansi-green-fg">    203</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span style="color: rgb(0,135,0)">getattr</span>(np.fft, func_name)(x, **kwargs)
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~\AppData\Local\anaconda3\Lib\site-packages\abtem\core\fft.py:183</span>, in <span class="ansi-cyan-fg">_fftw_dispatch</span><span class="ansi-blue-fg">(x, func_name, overwrite_x, **kwargs)</span>
+<span class="ansi-green-fg">    180</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> overwrite_x:
+<span class="ansi-green-fg">    181</span>     x = x.copy()
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">183</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg">get_fftw_object</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">x</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">func_name</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">overwrite_x</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">overwrite_x</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">kwargs</span><span class="ansi-yellow-bg">)</span>()
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~\AppData\Local\anaconda3\Lib\site-packages\abtem\core\fft.py:137</span>, in <span class="ansi-cyan-fg">get_fftw_object</span><span class="ansi-blue-fg">(array, name, allow_new_wisdom, overwrite_x, axes)</span>
+<span class="ansi-green-fg">    134</span>     flags += (<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">FFTW_DESTROY_INPUT</span><span class="ansi-yellow-fg">&#34;</span>,)
+<span class="ansi-green-fg">    136</span> <span class="ansi-bold" style="color: rgb(0,135,0)">try</span>:
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">137</span>     fftw = <span class="ansi-yellow-bg">pyfftw</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">FFTW</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg">    138</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">array</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    139</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">array</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    140</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">axes</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">axes</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    141</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">direction</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">direction</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    142</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">threads</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">config</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">get</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-fg ansi-yellow-bg">fftw.threads</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    143</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">flags</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">flags</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">+</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-fg ansi-yellow-bg">FFTW_WISDOM_ONLY</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    144</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    145</span> <span class="ansi-bold" style="color: rgb(0,135,0)">except</span> <span class="ansi-bold" style="color: rgb(215,95,95)">RuntimeError</span> <span class="ansi-bold" style="color: rgb(0,135,0)">as</span> e:
+<span class="ansi-green-fg">    146</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span style="color: rgb(0,135,0)">str</span>(e) != <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">No FFTW wisdom is known for this plan.</span><span class="ansi-yellow-fg">&#34;</span>:
+
+<span class="ansi-red-fg">KeyboardInterrupt</span>:
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Definition-of-electron-probe">
+<h2>Definition of electron probe<a class="headerlink" href="#Definition-of-electron-probe" title="Link to this heading">¶</a></h2>
+<p>The probe profile gives us an estmate of the probed volume.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># -------- Input --------</span>
+<span class="n">convergence_angle</span> <span class="o">=</span> <span class="mf">3.5</span>  <span class="c1"># in mrad</span>
+<span class="n">acceleration_voltage</span> <span class="o">=</span> <span class="mi">200</span> <span class="o">*</span> <span class="mf">1000.</span>
+<span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;cpu&#39;</span>
+<span class="c1"># -----------------------</span>
+
+<span class="n">probe</span> <span class="o">=</span> <span class="n">abtem</span><span class="o">.</span><span class="n">Probe</span><span class="p">(</span><span class="n">energy</span><span class="o">=</span><span class="n">acceleration_voltage</span><span class="p">,</span> <span class="n">semiangle_cutoff</span><span class="o">=</span><span class="n">convergence_angle</span><span class="p">,</span>  <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+<span class="n">probe</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">potential</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">probe</span><span class="o">.</span><span class="n">profiles</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "dd771c79072b435e9725cc57b860558d", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "659a76ac096a44409c029fa76bbefe95", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Multislice-calculation">
+<h2>Multislice calculation<a class="headerlink" href="#Multislice-calculation" title="Link to this heading">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">measurement</span> <span class="o">=</span> <span class="n">probe</span><span class="o">.</span><span class="n">multislice</span><span class="p">(</span><span class="n">potential</span><span class="p">)</span><span class="o">.</span><span class="n">diffraction_patterns</span><span class="p">(</span><span class="n">max_angle</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="n">measurement</span> <span class="o">=</span> <span class="n">measurement</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">measurement</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "3669f4f6334f48ecb31cde187748775a", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;abtem.measurements.DiffractionPatterns at 0x1708526da90&gt;
+</pre></div></div>
+</div>
+</section>
+<section id="Output">
+<h2>Output<a class="headerlink" href="#Output" title="Link to this heading">¶</a></h2>
+<p>I only plot the last 4 (-4, -3, -2, -1) and the second (python always starts at 0) CBED pattern.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">visualization</span> <span class="o">=</span> <span class="n">measurement</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="mf">0.004</span><span class="p">)[[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">show</span><span class="p">(</span>
+    <span class="n">explode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">measurement</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;abtem.measurements.DiffractionPatterns at 0x1708526da90&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "205eda4015e34b94bf4246190954b8ea", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">.1</span><span class="o">+</span><span class="n">measurement</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="mf">0.001</span><span class="p">)</span><span class="o">.</span><span class="n">array</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">measurement</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(7, 185, 175)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "0a6d4d11bab844209ef5dcd589ba6f8a", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Repeat">
+<h2>Repeat<a class="headerlink" href="#Repeat" title="Link to this heading">¶</a></h2>
+<p>Repeat with different thickness till you get the right pattern in the zero disk of the CBED pattern of homework 5 (return to the structure code cell)</p>
+</section>
+<section id="Save-the-calculation">
+<h2>Save the calculation<a class="headerlink" href="#Save-the-calculation" title="Link to this heading">¶</a></h2>
+<p>We save the numpy array, you can download this file in google colab from the file menu on the left.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;Si011-slice0_1.npy&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">measurement</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Diffraction/index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Spectroscopy/index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Homework/Homework08.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

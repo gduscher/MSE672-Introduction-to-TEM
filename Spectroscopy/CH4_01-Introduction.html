@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Introduction to Electron Energy-Loss Spectroscopy &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 4:</strong> <a class="reference internal" href="CH4_00-Spectroscopy.html"><span class="doc">Spectroscopy</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="Introduction-to-Electron-Energy-Loss-Spectroscopy">
+<h1>Introduction to Electron Energy-Loss Spectroscopy<a class="headerlink" href="#Introduction-to-Electron-Energy-Loss-Spectroscopy" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM/main/Spectroscopy/CH4_01-Introduction.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main//Spectroscopy/CH4_01-Introduction.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p>by Gerd Duscher, Spring 2026</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<section id="Preliminaries">
+<h2>Preliminaries<a class="headerlink" href="#Preliminaries" title="Link to this heading">¶</a></h2>
+<section id="Check-Installed-Packages">
+<h3>Check Installed Packages<a class="headerlink" href="#Check-Installed-Packages" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2026.1.0&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w">  </span>--upgrade<span class="w"> </span>pyTEMlib<span class="w"> </span>-q
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+done
+</pre></div></div>
+</div>
+</section>
+<section id="Import-all-relevant-libraries">
+<h3>Import all relevant libraries<a class="headerlink" href="#Import-all-relevant-libraries" title="Link to this heading">¶</a></h3>
+<p>Please note that the EELS_tools package from pyTEMlib is essential.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="o">%</span><span class="k">matplotlib</span> widget
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">output</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">drive</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pylab</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Import libraries from the book</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyTEMlib</span>
+
+<span class="c1"># For archiving reasons it is a good idea to print the version numbers out at this point</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pyTEM version: &#39;</span><span class="p">,</span><span class="n">pyTEMlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+pyTEM version:  0.2026.1.3
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Introduction">
+<h2>Introduction<a class="headerlink" href="#Introduction" title="Link to this heading">¶</a></h2>
+<section id="Parts-of-an-EELS-Spectrum:">
+<h3>Parts of an EELS Spectrum:<a class="headerlink" href="#Parts-of-an-EELS-Spectrum:" title="Link to this heading">¶</a></h3>
+<img alt="EELS spectrum" src="../_images/EELS.jpg" />
+<p><strong>No energy transfer</strong></p>
+<p>The zero–loss peak is caused by electrons of the acceleration energy which apparently did not loose any energy (or only a tiny amount in a quasi–elastic scattering).</p>
+<p><strong>Little energy transfer: 1-70 eV</strong></p>
+<p>The valence–loss region shows intraband, interband, and plasmon transitions.</p>
+<p><strong>High energy transfer: above 70eV</strong></p>
+<p>The core–loss region contains excitation from the atom core levels into the conduction band appear as saw tooth like edges.</p>
+</section>
+<section id="Inelastic-Excitation">
+<h3>Inelastic Excitation<a class="headerlink" href="#Inelastic-Excitation" title="Link to this heading">¶</a></h3>
+<p>Energy is transfered to an atom in ground state and after a while (femto seconds) this atoms will change its electron levels and shell occupations and becomes an excited atom.</p>
+<p><img alt="inelastic excitation" class="no-scaled-link" src="../_images/inelastic2.jpg" style="width: 50%;" /></p>
+<p>After some time (femto seconds to minutes) this atoms falls back to the ground state and after a little while longer (femto seconds), the atom emits this energy either in form of photons (in the light and X-ray spectrum) or Auger electron.</p>
+<p>So we have two obervable processes:</p>
+<p><strong>energy transfer to the atom in ground state</strong></p>
+<ul class="simple">
+<li><p>primary energy transfer - electron energy-loss spectroscopy</p></li>
+</ul>
+<p><strong>excited atom emitting energy</strong></p>
+<ul class="simple">
+<li><p>secondary processes - electron energy-loss spectroscopy - Auger spectroscopy - energy-dispersive X-ray spectroscopy - Cathodoluminescence</p></li>
+</ul>
+</section>
+<section id="EELS-Spectrometer">
+<h3>EELS Spectrometer<a class="headerlink" href="#EELS-Spectrometer" title="Link to this heading">¶</a></h3>
+<p>We use a magnetic field to bend the electron beam (here 90<span class="math notranslate nohighlight">\(^{\rm o}\)</span>) which acts like a prism for light and separates the electrons by spead (kinetic energy). The faster electrons will get bent less.</p>
+<p><img alt="EELS spectrometer and prism" class="no-scaled-link" src="../_images/EELS_Spectrometer.jpg" style="width: 50%;" /></p>
+<p>With such a prism for electrons we can determine the energy lost in the sample.</p>
+</section>
+<section id="EELS-and-STEM">
+<h3>EELS and STEM<a class="headerlink" href="#EELS-and-STEM" title="Link to this heading">¶</a></h3>
+<p>The advantage of EELS in STEM mode is that we get a HAADF signal and the bright field signal is analysed with EELS spectroscopy. So we get spatially resolved image and chemical information simultaneously.</p>
+<p><img alt="EELS and STEM" class="no-scaled-link" src="../_images/Z-Contrast.jpg" style="width: 50%;" /></p>
+</section>
+</section>
+<section id="Load-an-EELS-Spectrum">
+<h2>Load an EELS Spectrum<a class="headerlink" href="#Load-an-EELS-Spectrum" title="Link to this heading">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- Input ------</span>
+<span class="n">load_example</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="c1"># -----------------</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">load_example</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+        <span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s2">&quot;/content/drive&quot;</span><span class="p">)</span>
+
+    <span class="n">fileWidget</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">file_tools</span><span class="o">.</span><span class="n">FileWidget</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- Input ------</span>
+<span class="n">load_example</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;AL-DFoffset0.00.dm3&#39;</span>
+<span class="c1"># -----------------</span>
+<span class="k">if</span> <span class="n">load_example</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;./&#39;</span><span class="o">+</span><span class="n">file_name</span><span class="p">):</span>
+        <span class="o">!</span>wget<span class="w">  </span>https://github.com/gduscher/MSE672-Introduction-to-TEM/raw/main/example_data/AL-DFoffset0.00.dm3
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">datasets</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">file_tools</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="s1">&#39;../example_data/&#39;</span><span class="o">+</span><span class="n">file_name</span><span class="p">)</span>
+        <span class="n">eels_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="s1">&#39;Channel_000&#39;</span><span class="p">]</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">datasets</span> <span class="o">=</span> <span class="n">fileWidget</span><span class="o">.</span><span class="n">datasets</span>
+    <span class="n">eels_dataset</span> <span class="o">=</span> <span class="n">fileWidget</span><span class="o">.</span><span class="n">selected_dataset</span>
+
+<span class="n">view</span> <span class="o">=</span> <span class="n">eels_dataset</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+frames:  Number of frames
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "c9a594ac9baf455a94406089f6c87f48", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<section id="Important-Parameters-in-an-EELS-spectrum">
+<h3>Important Parameters in an EELS spectrum<a class="headerlink" href="#Important-Parameters-in-an-EELS-spectrum" title="Link to this heading">¶</a></h3>
+<p>A lot of information is stored in the <code class="docutils literal notranslate"><span class="pre">original_metadata</span></code>.</p>
+<p>We will learn in this <code class="docutils literal notranslate"><span class="pre">Spectroscopy</span></code> section of the lecture which ones are absolutely necessary.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eels_dataset</span><span class="o">.</span><span class="n">view_original_metadata</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ImageData :
+        Calibrations :
+                Brightness :
+                        Origin : 0.0
+                        Scale : 1.0
+                        Units : Counts
+                Dimension :
+                        0 :
+                                Origin : 179.33062744140625
+                                Scale : 0.0201262179762125
+                                Units : eV
+                DisplayCalibratedUnits : 1
+        Data : read
+        DataType : 2
+        Dimensions :
+                0 : 2048
+        PixelDepth : 4
+ImageTags :
+        Acquisition :
+                Device :
+                        Active Size (pixels) : [2048, 2048]
+                        Camera Number : 0
+                        CCD :
+                                Pixel Size (um) : [14.0, 14.0]
+                        Configuration :
+                                Transpose :
+                                        Diagonal Flip : 0
+                                        Horizontal Flip : 1
+                                        Vertical Flip : 0
+                        Name : US1000XP 1
+                        Source : US1000XP 1
+                Frame :
+                        Area :
+                                Transform :
+                                        Class Name : cm_acquisitiontransform_list
+                                        Transform List :
+                                                0 :
+                                                        Binning : [1, 1]
+                                                        Class Name : cm_acquisitiontransform
+                                                        Sub Area Adjust : [0, 0, 0, 0]
+                                                        Transpose :
+                                                                Diagonal Flip : 0
+                                                                Horizontal Flip : 1
+                                                                Vertical Flip : 0
+                        CCD :
+                                Pixel Size (um) : [14.0, 14.0]
+                        Intensity :
+                                Transform :
+                                        Class Name : cm_valuetransform_list
+                                        Transform List :
+                                                0 :
+                                                        Class Name : cm_valuetransform_affine
+                                                        Offset : 250.0
+                                                        Scale : 1.0
+                                                1 :
+                                                        ADC Max : 65535.0
+                                                        ADC Min : 0.0
+                                                        Class Name : cm_valuetransform_adc
+                Parameters :
+                        Acquisition Write Flags : 4294967295
+                        Base Detector :
+                                Class Name : cm_namedcameradetectorparameterset
+                                Name : default
+                        Detector :
+                                continuous : 1
+                                exposure (s) : 0.1
+                                hbin : 1
+                                height : 2048
+                                left : 0
+                                top : 0
+                                vbin : 1
+                                width : 2048
+                        Environment :
+                                Mode Name : Spectroscopy
+                        High Level :
+                                Acquisition Buffer Size : 0
+                                Antiblooming : 0
+                                Binning : [1, 1]
+                                CCD Read Area : [0, 0, 2048, 2048]
+                                CCD Read Ports : 1
+                                Choose Number Of Frame Shutters Automatically : 1
+                                Class Name : cm_camera_highlevelparameters
+                                Continuous Readout : 1
+                                Corrections : 817
+                                Corrections Mask : 817
+                                Exposure (s) : 0.1
+                                Number Of Frame Shutters : 1
+                                Processing : Gain Normalized
+                                Quality Level : 1
+                                Read Frame Style : 0
+                                Read Mode : 0
+                                Secondary Shutter Post Exposure Compensation (s) : 0.0
+                                Secondary Shutter Pre Exposure Compensation (s) : 0.0
+                                Shutter :
+                                        Primary Shutter States : 0
+                                        Primary Shutter States Mask : 0
+                                        Secondary Shutter States : 0
+                                        Secondary Shutter States Mask : 0
+                                        Shutter Exposure : 0
+                                        Shutter Index : 0
+                                Shutter Post Exposure Compensation (s) : 0.0
+                                Shutter Pre Exposure Compensation (s) : 0.0
+                                Transform :
+                                        Diagonal Flip : 0
+                                        Horizontal Flip : 0
+                                        Vertical Flip : 0
+                        Objects :
+                                0 :
+                                        Class Name : cm_imgproc_finalcombine
+                                        Frame Combine Style : Copy
+                                        Parameter 1 : 1.0
+                        Parameter Set Name : Acquire
+                        Parameter Set Tag Path : Spectroscopy:Acquire:Acquire
+                        Version : 33947648
+        DataBar :
+                Custom elements :
+        EELS :
+                Acquisition :
+                        Continuous mode : 0
+                        Date : 10/1/2018
+                        End time : 11:12:22 AM
+                        Exposure (s) : 0.1
+                        Integration time (s) : 10.0
+                        Number of frames : 100
+                        Saturation fraction : 0.7989057898521423
+                        Start time : 11:10:22 AM
+                Experimental Conditions :
+                        Collection semi-angle (mrad) : 100.0
+                        Convergence semi-angle (mrad) : 0.0
+        Meta Data :
+                Acquisition Mode : Parallel dispersive
+                Format : Spectrum
+                Signal : EELS
+        Microscope Info :
+                Cs(mm) : 2.2
+                Emission Current (A) : 230.0
+                Formatted Indicated Mag : 100kx
+                Formatted Voltage : 200.0kV
+                Illumination Mode : TEM
+                Imaging Mode : Image Mag
+                Indicated Magnification : 100000.0
+                Items :
+                        0 :
+                                Data Type : 20
+                                Label : Specimen
+                                Tag path : Microscope Info:Specimen
+                                Value : Fe-9Cr(0.3Y)-3E10(17)-475C
+                        1 :
+                                Data Type : 20
+                                Label : Operator
+                                Tag path : Microscope Info:Operator
+                                Value : Tengfei Yang
+                        2 :
+                                Data Type : 20
+                                Label : Microscope
+                                Tag path : Microscope Info:Microscope
+                                Value : Libra 200 MC
+                Microscope : Libra 200 MC
+                Name : Libra COM
+                Operation Mode : IMAGING
+                Operator : Tengfei Yang
+                Probe Current (nA) : 0.0
+                Probe Size (nm) : 0.0
+                Specimen : Fe-9Cr(0.3Y)-3E10(17)-475C
+                STEM Camera Length : 479.99998927116394
+                Voltage : 199990.28125
+Name : EELS90muOAonaxis3
+UniqueID :
+        0 : 182066807
+        1 : 2055036577
+        2 : 773457963
+        3 : 990266004
+DM :
+        dm_version : 3
+        file_size : 322288
+        full_file_name : ../example_data/AL-DFoffset0.00.dm3
+original_filename : ../example_data/AL-DFoffset0.00.dm3
+ApplicationBounds : [0, 0, 1465, 2236]
+DocumentObjectList :
+        0 :
+                AnnotationGroupList :
+                AnnotationType : 20
+                BackgroundColor : [-1, -1, -1]
+                BackgroundMode : 2
+                FillMode : 2
+                ForegroundColor : [-1, 0, -32640]
+                HasBackground : 0
+                ImageDisplayInfo :
+                        BackgroundOn : 1
+                        CalibrationSliceId :
+                                0 : 0
+                        CaptionOn : 1
+                        CaptionSize : 10
+                        CursorOn : 0
+                        CursorPosition : 0.0
+                        DimensionLabels :
+                                0 :
+                        FrameOn : 1
+                        GridOn : 1
+                        GroupId : 0
+                        GroupList :
+                                0 :
+                                        DoAutoSurveyHigh : 0
+                                        DoAutoSurveyLow : 0
+                                        GroupToDisplay :
+                                                Offset : [0.159382164478302, 4.566257121041417e-05]
+                                                Scale : [0.00034526686067692935, 1.484737140344805e-06]
+                                        TrackStyleX : 0
+                                        TrackStyleY : 0
+                        LegendOn : 0
+                        MainSliceId :
+                                0 : 0
+                        NumHorizontalTicks : 1
+                        NumVerticalTicks : 1
+                        ROIList :
+                                0 :
+                                        BoldLabel : 0
+                                        Color : [-32640, 0, 0]
+                                        DrawSolid : 0
+                                        End : 935.0
+                                        HeightValue : 1.0
+                                        IsDeletable : 1
+                                        IsMoveable : 1
+                                        IsResizable : 1
+                                        IsVolatile : 1
+                                        Label :
+                                        MovableLabel : 0
+                                        Name :
+                                        PartialHeightMarker : 0
+                                        Ref : 0
+                                        Selected : 1
+                                        SliceId :
+                                                0 : 0
+                                        Start : 907.0
+                        SliceList :
+                                0 :
+                                        BaseIntensity : 0.0
+                                        ComplexMode : 4
+                                        DrawFill : 1
+                                        DrawLine : 0
+                                        FillColor : [23387, -16706, -16706]
+                                        Horz Pos Fixed : 1
+                                        Horz Scale Fixed : 1
+                                        ImageToGroup :
+                                                Offset : [0.0, 0.0]
+                                                Scale : [1.0, 1.0]
+                                        IsVisible : 1
+                                        LineColor : [0, -32640, -16449]
+                                        LineThickness : 1
+                                        SliceGroup : 0
+                                        SliceId :
+                                                0 : 0
+                                        Vert Pos Fixed : 1
+                                        Vert Scale Fixed : 1
+                ImageDisplayType : 3
+                ImageSource : 0
+                IsMoveable : 1
+                IsResizable : 1
+                IsSelectable : 1
+                IsTranslatable : 1
+                IsVisible : 1
+                ObjectTags :
+                        __is_not_copy : 1
+                        __was_selected : 0
+                Rectangle : [0.0, 0.0, 342.0, 669.0]
+                UniqueID : 8
+DocumentTags :
+HasWindowPosition : 1
+Image Behavior :
+        DoIntegralZoom : 0
+        ImageDisplayBounds : [0.0, 0.0, 342.0, 669.0]
+        IsZoomedToWindow : 1
+        UnscaledTransform :
+                Offset : [0.0, 0.0]
+                Scale : [1.0, 1.0]
+        ViewDisplayID : 8
+        WindowRect : [0.0, 0.0, 342.0, 669.0]
+        ZoomAndMoveTransform :
+                Offset : [0.0, 0.0]
+                Scale : [1.0, 1.0]
+ImageSourceList :
+        0 :
+                ClassName : ImageSource:Simple
+                Extra Slice Info :
+                        0 :
+                                Id :
+                                        0 : 0
+                                Label : Spectrum
+                Id :
+                        0 : 0
+                ImageRef : 1
+InImageMode : 1
+MinVersionList :
+        0 :
+                RequiredVersion : 50659328
+NextDocumentObjectID : 9
+Page Behavior :
+        DoIntegralZoom : 0
+        DrawMargins : 1
+        DrawPaper : 1
+        IsFixedInPageMode : 0
+        IsZoomedToWindow : 1
+        LayedOut : 0
+        PageTransform :
+                Offset : [0.0, 0.0]
+                Scale : [1.0, 1.0]
+        RestoreImageDisplayBounds : [0.0, 0.0, 342.0, 669.5]
+        RestoreImageDisplayID : 8
+        TargetDisplayID : 4294967295
+PageSetup :
+        General : [1, 1000, 8500, 11000, 1000, 1000, -1000, -1000]
+        Win32 : b&#39;\x06\x00\x00\x004!\x00\x00\xf8*\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xe8\x03\x00\x00\xe8\x03\x00\x00\xe8\x03\x00\x00\xe8\x03\x00\x00\x00\x00\x00\x00\x01\x00\x01\x00\x01\x00\x01\x00\x01\x00\x1b\x10&#39;
+        Win32_DevModeW : b&#39;S\x00e\x00n\x00d\x00 \x00T\x00o\x00 \x00O\x00n\x00e\x00N\x00o\x00t\x00e\x00 \x002\x000\x001\x000\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x04\x00\x06\xdc\x00\x0c\x03\x03\xff\x81\x03\x01\x00\x01\x00\xea\no\x08d\x00\x01\x00\x07\x00\xfd\xff\x02\x00\x01\x00X\x02\x01\x00\x00\x00L\x00e\x00t\x00t\x00e\x00r\x00 \x008\x00.\x005\x00&#34;\x00x\x001\x001\x00&#34;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00\x01\x00\x00\x00\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00DINU&#34;\x00\xd0\x00\x0c\x03\x00\x00\xc2\xac\x90Q\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x05\x00\x00\x00\x00\x00\x07\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd0\x00\x00\x00SMTJ\x00\x00\x00\x00\x10\x00\xc0\x00S\x00e\x00n\x00d\x00 \x00T\x00o\x00 \x00M\x00i\x00c\x00r\x00o\x00s\x00o\x00f\x00t\x00 \x00O\x00n\x00e\x00N\x00o\x00t\x00e\x00 \x002\x000\x001\x000\x00 \x00D\x00r\x00i\x00v\x00e\x00r\x00\x00\x00RESDLL\x00UniresDLL\x00PaperSize\x00LETTER\x00Orientation\x00PORTRAIT\x00Resolution\x00DPI600\x00ColorMode\x0024bpp\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00&#39;
+        Win32_DevNamesW : b&#39;\x04\x00*\x00?\x00\x00\x00S\x00e\x00n\x00d\x00 \x00T\x00o\x00 \x00M\x00i\x00c\x00r\x00o\x00s\x00o\x00f\x00t\x00 \x00O\x00n\x00e\x00N\x00o\x00t\x00e\x00 \x002\x000\x001\x000\x00 \x00D\x00r\x00i\x00v\x00e\x00r\x00\x00\x00S\x00e\x00n\x00d\x00 \x00T\x00o\x00 \x00O\x00n\x00e\x00N\x00o\x00t\x00e\x00 \x002\x000\x001\x000\x00\x00\x00n\x00u\x00l\x00:\x00\x00\x00&#39;
+SentinelList :
+Thumbnails :
+        0 :
+                ImageIndex : 0
+                SourceSize_Pixels : [669, 342]
+WindowPosition : [30, 1378, 372, 2047]
+</pre></div></div>
+</div>
+<p>The information is contained in a python dictionary and we will have to data mine this information to get the experimental conditions.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">eels_dataset</span><span class="o">.</span><span class="n">original_metadata</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Dictionary: original_metadata[&#39;ImageList&#39;][&#39;1&#39;][&#39;ImageTags&#39;][&#39;EELS&#39;][&#39;Acquisition&#39;] &quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">item</span>  <span class="ow">in</span> <span class="n">eels_dataset</span><span class="o">.</span><span class="n">original_metadata</span><span class="p">[</span><span class="s1">&#39;ImageTags&#39;</span><span class="p">][</span><span class="s1">&#39;EELS&#39;</span><span class="p">][</span><span class="s1">&#39;Acquisition&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ImageData
+ImageTags
+Name
+UniqueID
+DM
+original_filename
+ApplicationBounds
+DocumentObjectList
+DocumentTags
+HasWindowPosition
+Image Behavior
+ImageSourceList
+InImageMode
+MinVersionList
+NextDocumentObjectID
+Page Behavior
+PageSetup
+SentinelList
+Thumbnails
+WindowPosition
+
+ Dictionary: original_metadata[&#39;ImageList&#39;][&#39;1&#39;][&#39;ImageTags&#39;][&#39;EELS&#39;][&#39;Acquisition&#39;]
+Continuous mode 0
+Date 10/1/2018
+End time 11:12:22 AM
+Exposure (s) 0.1
+Integration time (s) 10.0
+Number of frames 100
+Saturation fraction 0.7989057898521423
+Start time 11:10:22 AM
+</pre></div></div>
+</div>
+<p>Of course there is a function for this (in pyTEMlib.eels_tools).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eels_dataset</span><span class="o">.</span><span class="n">view_metadata</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+experiment :
+        single_exposure_time : 0.1
+        exposure_time : 0.1
+        number_of_frames : 100
+        convergence_angle : 0.0
+        collection_angle : 0.0
+        microscope : Libra 200 MC
+        acceleration_voltage : 199990.28125
+filename : ../example_data/AL-DFoffset0.00.dm3
+</pre></div></div>
+</div>
+</section>
+<section id="Make-Energy-Scale-andPlot">
+<h3>Make Energy Scale andPlot<a class="headerlink" href="#Make-Energy-Scale-andPlot" title="Link to this heading">¶</a></h3>
+<p>The energy scale above is linear and so a linear increasing numpy array (of size <em>eels_dataset.shape[0]</em>) is multiplied with the channel width (<em>sipersion</em>), the first channel is in the variable <em>offset</em>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dispersion [eV/pixel] : </span><span class="si">{</span><span class="n">eels_dataset</span><span class="o">.</span><span class="n">energy_loss</span><span class="o">.</span><span class="n">slope</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> eV &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Offset [eV] : </span><span class="si">{</span><span class="n">eels_dataset</span><span class="o">.</span><span class="n">energy_loss</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> eV &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Maximum energy [eV] : </span><span class="si">{</span><span class="n">eels_dataset</span><span class="o">.</span><span class="n">energy_loss</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> eV &quot;</span><span class="p">)</span>
+
+<span class="n">energy_scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">eels_dataset</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">dispersion</span> <span class="o">=</span> <span class="n">eels_dataset</span><span class="o">.</span><span class="n">energy_loss</span><span class="o">.</span><span class="n">slope</span>
+<span class="n">energy_scale</span> <span class="o">=</span> <span class="n">energy_scale</span> <span class="o">*</span> <span class="n">dispersion</span>
+
+<span class="n">offset</span> <span class="o">=</span> <span class="n">eels_dataset</span><span class="o">.</span><span class="n">energy_loss</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">energy_scale</span> <span class="o">=</span> <span class="n">energy_scale</span> <span class="o">+</span> <span class="n">offset</span><span class="o">+</span><span class="mf">.2</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">eels_dataset</span><span class="p">);</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Dispersion [eV/pixel] : 0.02 eV
+Offset [eV] : -3.61 eV
+Maximum energy [eV] : 37.59 eV
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "69cd7bd6dcb4414dac7c726d4378daa9", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>Let’s compare the keys in the current_channel and in the dictionary</p>
+</section>
+<section id="Normalizing-Intensity-Scale">
+<h3>Normalizing Intensity Scale<a class="headerlink" href="#Normalizing-Intensity-Scale" title="Link to this heading">¶</a></h3>
+<p>The following normalization makes only sense if this is a low loss spectrum, where the total number of counts represents approximatively the incident current <strong>:math:`I_0`</strong></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">I_0</span> <span class="o">=</span> <span class="n">sumSpec</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">eels_dataset</span><span class="p">)))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span><span class="n">eels_dataset</span><span class="o">/</span><span class="n">sumSpec</span><span class="o">*</span><span class="mf">1e2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span> <span class="p">(</span><span class="s1">&#39;Spectrum &#39;</span><span class="o">+</span><span class="n">eels_dataset</span><span class="o">.</span><span class="n">title</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;energy loss [eV]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">% s</span><span class="s1">cattering Intensity&#39;</span><span class="p">);</span>
+<span class="c1">#plt.xlim(-10,50)</span>
+<span class="c1">#plt.ylim(0,8);</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "2b5958cf58a540ffab923ab99245ec0d", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="Summary">
+<h2>Summary<a class="headerlink" href="#Summary" title="Link to this heading">¶</a></h2>
+<p>The metadata are as important as the values of a spectrum.</p>
+<p>Make sure all metadata are saved, whcih ususally means to store data in the proprietary format of the software used.</p>
+</section>
+<section id="Navigation">
+<h2>Navigation<a class="headerlink" href="#Navigation" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Up Chapter 4:</strong> <a class="reference internal" href="CH4_00-Spectroscopy.html"><span class="doc">Imaging</span></a></p></li>
+<li><p><strong>Back:</strong> <a class="reference internal" href="CH4_00-Spectroscopy.html"><span class="doc">Overview</span></a></p></li>
+<li><p><strong>Next:</strong> <a class="reference internal" href="CH4_02-Fit_Zero_Loss.html"><span class="doc">Fit Zero-Loss</span></a></p></li>
+<li><p><strong>List of Content:</strong> <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">Front</span></a></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Diffraction/index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Spectroscopy/CH4_01-Introduction.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

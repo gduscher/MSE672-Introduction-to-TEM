@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Fit of Zero-Loss Peak &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 4:</strong> <a class="reference internal" href="CH4_00-Spectroscopy.html"><span class="doc">Spectroscopy</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="Fit-of-Zero-Loss-Peak">
+<h1>Fit of Zero-Loss Peak<a class="headerlink" href="#Fit-of-Zero-Loss-Peak" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM/main/Spectroscopy/CH4_02-Fit_Zero_Loss.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main//Spectroscopy/CH4_02-Fit_Zero_Loss.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p><strong>Spring 2026</strong> by Gerd Duscher</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<section id="Content">
+<h2>Content<a class="headerlink" href="#Content" title="Link to this heading">¶</a></h2>
+<p>The zero-loss peak in an EELS spectrum gives us two important infomations: * the origin of the energy-scale * the zero-loss peak is the resolution function of our spectrum</p>
+<p>Often we need to subtract or know this resolution function very accurately for a precise analysis of EELS spectra.</p>
+<p>The area under the peak gives us the number of electron that are not inelatically scattered, and in relation to the total count a measure for the thickness of the sample.</p>
+</section>
+<section id="Energy-Resolution-and-Zero-Loss-Peak">
+<h2>Energy Resolution and Zero-Loss Peak<a class="headerlink" href="#Energy-Resolution-and-Zero-Loss-Peak" title="Link to this heading">¶</a></h2>
+<p>The first peak in the Electron Energy Loss Spectrum (EELS) is the so called <code class="docutils literal notranslate"><span class="pre">Zero-Loss</span></code> peak. This zero-loss peak is formed by all the electrons that are</p>
+<ul class="simple">
+<li><p>not scattered,</p></li>
+<li><p>elastically scattered, and</p></li>
+<li><p>quasi–elastically scattered.</p></li>
+</ul>
+<p><strong>We can use it as a measure of the energy resolution of the system.</strong></p>
+<p>This is called a response function in information theory.</p>
+<p>The full width at half maximum (FWHM) of the <code class="docutils literal notranslate"><span class="pre">Zero-Loss</span> <span class="pre">peak</span></code> is what we usually declare as energy resolution in an EELS spectrum.</p>
+<p>The energy resolution has three sources:</p>
+<ul class="simple">
+<li><p>the energy spread of the electrons before they reach the specimen (<span class="math notranslate nohighlight">\(\Delta E_0\)</span>),</p></li>
+<li><p>the energy spread that is added by quasi-elastic interactions with the specimen(<span class="math notranslate nohighlight">\(\Delta E_{ph}\)</span>),</p></li>
+<li><p>the spectrometer resolution (<span class="math notranslate nohighlight">\(\Delta E_{S_0}\)</span>),</p></li>
+<li><p>the energy dispersion (<span class="math notranslate nohighlight">\(s/D\)</span>).</p></li>
+</ul>
+<p>These components usually treated as independent and summed up as squares of their values. The measured resolution <span class="math notranslate nohighlight">\(\Delta\)</span>E is given by:</p>
+<p><span class="math">\begin{equation} \Large
+\Delta{\rm E}^2 \approx \Delta E_0^2 + \Delta E_{S_0}^2 + (s/D)^2
+\end{equation}</span></p>
+<p>Please note that the quasi-elastic interactions are not added here and, therefore, I assume to go through the vacuum only.</p>
+<p><strong>Contribution of Electron Source</strong></p>
+<ul class="simple">
+<li><p>The energy spread before the sample <span class="math notranslate nohighlight">\(\Delta\)</span>E<span class="math notranslate nohighlight">\(_0\)</span> is the energy spread of the electron source broadened by the Boersch effect.</p></li>
+<li><p>The energy spread of the source is a directly proportional to the temperature due to the Fermi–Dirac distribution.</p></li>
+<li><p>The Boersch effect is an additional broadening caused by the Coulomb interaction of the electrons, and is therefore more pronounced in higher density electron beams.</p></li>
+<li><p>Monochromators will select a part of the original energy spread and thus increase energy resolution. <strong>Contribution of Spectrometer</strong></p></li>
+<li><p>The spectrometer resolution <span class="math notranslate nohighlight">\(\Delta\)</span>E<span class="math notranslate nohighlight">\(_{S0}\)</span> is due to the aberration of the electron optics.</p></li>
+<li><p>This aberration is worse for larger collection angles.</p></li>
+<li><p>Aberration correctors will improve the spectrometer resolution.</p></li>
+</ul>
+<p><strong>Contribution of Detector</strong></p>
+<p>The spatial resolution of the electron detector <span class="math notranslate nohighlight">\(s\)</span> (equivalent to the width of the slid of a serial spectrometer) and the spectrometer dispersion <span class="math notranslate nohighlight">\(D\)</span> are the final contributions to the total energy resolution. <strong>Choices of Dispersion</strong></p>
+<ul class="simple">
+<li><p>A small energy dispersion will allow a high energy resolution\</p></li>
+<li><p>A large energy dispersion enables to samples a large energy window</p></li>
+</ul>
+</section>
+<section id="Load-important-packages">
+<h2>Load important packages<a class="headerlink" href="#Load-important-packages" title="Link to this heading">¶</a></h2>
+<section id="Check-Installed-Packages">
+<h3>Check Installed Packages<a class="headerlink" href="#Check-Installed-Packages" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2026.1.0&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w">  </span>--upgrade<span class="w"> </span>pyTEMlib<span class="w"> </span>-q
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+done
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Import-all-relevant-libraries">
+<h2>Import all relevant libraries<a class="headerlink" href="#Import-all-relevant-libraries" title="Link to this heading">¶</a></h2>
+<p>Please note that the EELS_tools package from pyTEMlib is essential.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="o">%</span><span class="k">matplotlib</span> ipympl
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">output</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">drive</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pylab</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="c1"># Import libraries from the book</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyTEMlib</span>
+
+<span class="c1"># For archiving reasons it is a good idea to print the version numbers out at this point</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pyTEM version: &#39;</span><span class="p">,</span><span class="n">pyTEMlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+pyTEM version:  0.2026.1.3
+</pre></div></div>
+</div>
+</section>
+<section id="Load-and-plot-a-spectrum">
+<h2>Load and plot a spectrum<a class="headerlink" href="#Load-and-plot-a-spectrum" title="Link to this heading">¶</a></h2>
+<p>please see <a class="reference internal" href="CH4_01-Introduction.html"><span class="doc">Introduction to EELS</span></a> for details</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- Input ------</span>
+<span class="n">load_example</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="c1"># -----------------</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">load_example</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+        <span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s2">&quot;/content/drive&quot;</span><span class="p">)</span>
+
+    <span class="n">fileWidget</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">file_tools</span><span class="o">.</span><span class="n">FileWidget</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- Input ------</span>
+<span class="n">load_example</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;AL-DFoffset0.00.dm3&#39;</span>
+<span class="c1"># -----------------</span>
+<span class="k">if</span> <span class="n">load_example</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;./&#39;</span><span class="o">+</span><span class="n">file_name</span><span class="p">):</span>
+        <span class="o">!</span>wget<span class="w">  </span>https://github.com/gduscher/MSE672-Introduction-to-TEM/raw/main/example_data/AL-DFoffset0.00.dm3
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">datasets</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">file_tools</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="s1">&#39;../example_data/&#39;</span><span class="o">+</span><span class="n">file_name</span><span class="p">)</span>
+        <span class="n">eels_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="s1">&#39;Channel_000&#39;</span><span class="p">]</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">datasets</span> <span class="o">=</span> <span class="n">fileWidget</span><span class="o">.</span><span class="n">datasets</span>
+    <span class="n">eels_dataset</span> <span class="o">=</span> <span class="n">fileWidget</span><span class="o">.</span><span class="n">selected_dataset</span>
+
+<span class="k">if</span> <span class="n">eels_dataset</span><span class="o">.</span><span class="n">data_type</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;SPECTRUM&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;We need an EELS spectrum for this notebook&#39;</span><span class="p">)</span>
+<span class="n">view</span> <span class="o">=</span> <span class="n">eels_dataset</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+frames:  Number of frames
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "d25332db48c043ba9233e2b569d9cee7", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Important-Parameters-in-an-EELS-spectrum">
+<h2>Important Parameters in an EELS spectrum<a class="headerlink" href="#Important-Parameters-in-an-EELS-spectrum" title="Link to this heading">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eels_dataset</span><span class="o">.</span><span class="n">view_metadata</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+experiment :
+        single_exposure_time : 0.1
+        exposure_time : 0.1
+        number_of_frames : 100
+        convergence_angle : 0.0
+        collection_angle : 0.0
+        microscope : Libra 200 MC
+        acceleration_voltage : 199990.28125
+filename : ../example_data/AL-DFoffset0.00.dm3
+</pre></div></div>
+</div>
+</section>
+<section id="Simple-Zero-Loss-Integration">
+<h2>Simple Zero-Loss Integration<a class="headerlink" href="#Simple-Zero-Loss-Integration" title="Link to this heading">¶</a></h2>
+<p>The inelastic mean free path is hard to determine and depends on the effective collection angle (convolution of collection and convergence angle) and the acceleration voltage. None of these parameters are likely to be tabulated for your experimental set-up.</p>
+<p>However, the relative thickness is a valuable parameter to judge your sample location and the validity of your spectrum.</p>
+<p>In a good sample 70 to 90% of the electrons do not interact. The relative thickness <span class="math notranslate nohighlight">\(t\)</span> in terms of the inelatic mean free path (IMFP or <span class="math notranslate nohighlight">\(\lambda\)</span>) is given by:</p>
+<div class="math notranslate nohighlight">
+\[t = \ln\left(\frac{I_{total}}{I_{ZL}} \right) * IMFP\]</div>
+<p>with:</p>
+<p><span class="math notranslate nohighlight">\(I_{total}\)</span>: total intensity of spectrum</p>
+<p><span class="math notranslate nohighlight">\(I_{ZL}\)</span>: intensity of zero-loss peak</p>
+<p>We first estimate the intensity of the zero-loss peak by a summation of the spectrum in a specific energy-loss range.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spectrum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">eels_dataset</span><span class="p">)</span>
+<span class="n">energy_scale</span> <span class="o">=</span> <span class="n">eels_dataset</span><span class="o">.</span><span class="n">energy_loss</span><span class="o">.</span><span class="n">values</span>
+<span class="n">offset</span> <span class="o">=</span> <span class="n">eels_dataset</span><span class="o">.</span><span class="n">energy_loss</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">dispersion</span> <span class="o">=</span> <span class="n">eels_dataset</span><span class="o">.</span><span class="n">energy_loss</span><span class="o">.</span><span class="n">slope</span>
+<span class="n">start</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="o">-</span><span class="mi">2</span><span class="o">-</span><span class="n">offset</span><span class="p">)</span><span class="o">/</span><span class="n">dispersion</span><span class="p">)</span>
+<span class="n">end</span>   <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="mi">4</span><span class="o">-</span><span class="n">offset</span><span class="p">)</span><span class="o">/</span><span class="n">dispersion</span><span class="p">)</span>
+
+<span class="n">sumZL</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">spectrum</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">])</span>
+<span class="n">sumSpec</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">spectrum</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Counts in zero-loss </span><span class="si">{</span><span class="n">sumZL</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> , total counts </span><span class="si">{</span><span class="n">sumSpec</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="n">sumSpec</span><span class="o">-</span><span class="n">sumZL</span><span class="p">)</span><span class="o">/</span><span class="n">sumSpec</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> % of spectrum interact with specimen&quot;</span><span class="p">)</span>
+
+<span class="n">tmfp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">sumSpec</span><span class="o">/</span><span class="n">sumZL</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Sample thickness in Multiple of the &#39;</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;thickness [IMFP]: </span><span class="si">{</span><span class="n">tmfp</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Counts in zero-loss 4123429376 , total counts 4875536384
+15.4 % of spectrum interact with specimen
+Sample thickness in Multiple of the
+thickness [IMFP]: 0.168
+</pre></div></div>
+</div>
+</section>
+<section id="Fitting-the-Zero-Loss-with-a-Gausian">
+<h2>Fitting the Zero-Loss with a Gausian<a class="headerlink" href="#Fitting-the-Zero-Loss-with-a-Gausian" title="Link to this heading">¶</a></h2>
+<p>While a Gaussian does not describe the shape of the zero-loss peak well, we will use it to determine the zero-loss peak position.</p>
+<p>The energy resolution is best measured from the zero-loss without sample (through vacuum), because the quasi elastic scattering will result in a small but noticeable broadening of the zero-loss.</p>
+<p>The maximum of the fitted Gaussian is then the origin of the energy scale.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">###</span>
+<span class="c1"># This function is also in the eels_tools of pyTEMlib</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">fix_energy_scale</span><span class="p">(</span> <span class="n">spec</span><span class="p">,</span> <span class="n">energy</span><span class="p">):</span>
+
+    <span class="n">startx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">startx</span><span class="o">+</span><span class="mi">3</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">startx</span><span class="o">-</span><span class="mi">3</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="p">[</span><span class="n">startx</span><span class="o">-</span><span class="n">i</span><span class="p">]</span><span class="o">&lt;</span><span class="mf">0.3</span><span class="o">*</span><span class="n">spec</span><span class="p">[</span><span class="n">startx</span><span class="p">]:</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">startx</span><span class="o">-</span><span class="n">i</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="p">[</span><span class="n">startx</span><span class="o">+</span><span class="n">i</span><span class="p">]</span><span class="o">&lt;</span><span class="mf">0.3</span><span class="o">*</span><span class="n">spec</span><span class="p">[</span><span class="n">startx</span><span class="p">]:</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">startx</span><span class="o">+</span><span class="n">i</span>
+    <span class="k">if</span> <span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="o">&lt;</span><span class="mi">3</span><span class="p">:</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">startx</span><span class="o">+</span><span class="mi">2</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">startx</span><span class="o">-</span><span class="mi">2</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">energy</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">])</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">])</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="n">y</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">y</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">1e-12</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">gauss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span> <span class="c1"># p[0]==mean, p[1]= area p[2]==fwhm,</span>
+        <span class="k">return</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="p">(</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mf">2.3548</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">errfunc</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="n">err</span> <span class="o">=</span> <span class="p">(</span><span class="n">gauss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span><span class="o">-</span><span class="n">y</span> <span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="c1"># Distance to the target function</span>
+        <span class="k">return</span> <span class="n">err</span>
+
+    <span class="n">p0</span> <span class="o">=</span> <span class="p">[</span><span class="n">energy</span><span class="p">[</span><span class="n">startx</span><span class="p">],</span><span class="mf">1000.0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># Inital guess is a normal distribution</span>
+    <span class="n">p1</span><span class="p">,</span> <span class="n">success</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">leastsq</span><span class="p">(</span><span class="n">errfunc</span><span class="p">,</span> <span class="n">p0</span><span class="p">[:],</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+
+    <span class="n">fit_mu</span><span class="p">,</span> <span class="n">area</span><span class="p">,</span> <span class="n">FWHM</span> <span class="o">=</span> <span class="n">p1</span>
+
+    <span class="k">return</span> <span class="n">FWHM</span><span class="p">,</span> <span class="n">fit_mu</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FWHM</span><span class="p">,</span> <span class="n">fit_mu</span> <span class="o">=</span> <span class="n">fix_energy_scale</span><span class="p">(</span><span class="n">spectrum</span><span class="p">,</span> <span class="n">energy_scale</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;FWHM: </span><span class="si">{</span><span class="n">FWHM</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> eV , with shift of </span><span class="si">{</span><span class="n">fit_mu</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> eV&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+FWHM: -0.18 eV , with shift of -0.13 eV
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- Input -----</span>
+<span class="n">Gap</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c1"># ---------------</span>
+<span class="c1">## energy range of fit</span>
+<span class="n">startx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">offset</span><span class="o">/</span><span class="n">dispersion</span> <span class="p">))</span><span class="o">+</span><span class="mi">1</span> <span class="c1">## zero eV</span>
+<span class="n">widthx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Gap</span>   <span class="o">/</span><span class="n">dispersion</span> <span class="p">))</span> <span class="c1">## fit width</span>
+<span class="c1">## We need 6 parameter to fit the resolution function</span>
+<span class="c1">## and so at least 6 channels for the fit</span>
+<span class="k">if</span> <span class="n">widthx</span><span class="o">*</span><span class="mi">2</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
+    <span class="n">Gap</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">dispersion</span>
+    <span class="n">widthx</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="n">endx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">startx</span><span class="o">+</span><span class="n">widthx</span><span class="p">)</span>
+<span class="n">startx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">startx</span><span class="o">-</span><span class="n">widthx</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fit of Zero Loss from channel &#39;</span><span class="p">,</span> <span class="n">startx</span><span class="p">,</span> <span class="s1">&#39; to &#39;</span><span class="p">,</span><span class="n">endx</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fit of Zero Loss from  &#39;</span><span class="p">,</span> <span class="n">startx</span><span class="o">*</span><span class="n">dispersion</span><span class="o">+</span><span class="n">offset</span><span class="p">,</span> <span class="s1">&#39;eV to &#39;</span><span class="p">,</span><span class="n">endx</span><span class="o">*</span><span class="n">dispersion</span><span class="o">+</span><span class="n">offset</span><span class="p">,</span> <span class="s1">&#39;eV&#39;</span><span class="p">)</span>
+
+<span class="c1"># energy scale and spectrum in the fitting window</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">energy_scale</span><span class="p">[</span><span class="n">startx</span><span class="p">:</span><span class="n">endx</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">spectrum</span><span class="p">[</span><span class="n">startx</span><span class="p">:</span><span class="n">endx</span><span class="p">])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">gauss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gaussian distribution</span>
+<span class="sd">    Input:</span>
+<span class="sd">    p: list or array  p[0]=position, p[1]= area p[2]==fwhm,</span>
+<span class="sd">    x: energy axis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="p">(</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mf">2.3548</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+
+
+<span class="c1"># Fit a Gaussian</span>
+<span class="n">y</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">y</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">1e-12</span>
+<span class="n">p0</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">1000.0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># Inital guess is a normal distribution</span>
+<span class="n">errfunc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">gauss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="c1"># Distance to the target function</span>
+<span class="n">p1</span><span class="p">,</span> <span class="n">success</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">leastsq</span><span class="p">(</span><span class="n">errfunc</span><span class="p">,</span> <span class="n">p0</span><span class="p">[:],</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span> <span class="c1"># The Fit</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Zero-loss position was </span><span class="si">{</span><span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> eV&#39;</span><span class="p">)</span>
+<span class="n">energy_scale</span><span class="o">=</span><span class="n">energy_scale</span><span class="o">-</span><span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Corrected energy axis&#39;</span><span class="p">)</span>
+<span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+<span class="n">Gauss</span> <span class="o">=</span> <span class="n">gauss</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span><span class="n">p1</span><span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Width (FWHM) is </span><span class="si">{</span><span class="n">p1</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> eV&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Probability  is </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">Gauss</span><span class="p">)</span><span class="o">/</span><span class="n">sumSpec</span><span class="o">*</span><span class="mf">1e2</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> %&#39;</span><span class="p">)</span>
+<span class="n">tmfp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">sumSpec</span><span class="o">/</span><span class="nb">sum</span><span class="p">(</span><span class="n">Gauss</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Thickness is </span><span class="si">{</span><span class="n">tmfp</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> * IMFP&#39;</span><span class="p">)</span>
+
+<span class="n">err</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">gauss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p1</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Goodness of Fit: &#39;</span> <span class="p">,</span><span class="nb">sum</span><span class="p">(</span><span class="n">err</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">sumSpec</span><span class="o">*</span><span class="mf">1e2</span><span class="p">,</span> <span class="s1">&#39;%&#39;</span><span class="p">)</span>
+
+
+<span class="nb">abs</span><span class="p">(</span><span class="n">offset</span><span class="o">/</span><span class="n">dispersion</span> <span class="p">)</span>
+<span class="n">start</span> <span class="o">=</span><span class="nb">int</span><span class="p">((</span><span class="o">-</span><span class="mi">2</span><span class="o">-</span><span class="n">offset</span><span class="p">)</span><span class="o">/</span><span class="n">dispersion</span><span class="p">)</span>
+<span class="n">end</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="mi">8</span><span class="o">-</span><span class="n">offset</span><span class="p">)</span><span class="o">/</span><span class="n">dispersion</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">spectrum</span><span class="o">/</span><span class="n">sumSpec</span><span class="o">*</span><span class="mf">1e2</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;spectrum&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="n">Gauss</span><span class="o">/</span><span class="n">sumSpec</span><span class="o">*</span><span class="mf">1e2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gaussian&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="p">(</span><span class="n">spectrum</span><span class="o">-</span><span class="n">Gauss</span><span class="p">)</span><span class="o">/</span><span class="n">sumSpec</span><span class="o">*</span><span class="mf">1e2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;difference&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span> <span class="p">(</span><span class="s1">&#39;   Gauss Fit of Zero-Loss Peak&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">Izl</span> <span class="o">=</span> <span class="n">Gauss</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">Itotal</span> <span class="o">=</span> <span class="n">spectrum</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">tmfp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">Itotal</span><span class="o">/</span><span class="n">Izl</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sum of Gaussian: &#39;</span><span class="p">,</span> <span class="n">Izl</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sum of Spectrum: &#39;</span><span class="p">,</span> <span class="n">Itotal</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;thickness [IMFP]: &#39;</span><span class="p">,</span> <span class="n">tmfp</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;scattering probability [%]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;energy-loss [eV]&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Fit of Zero Loss from channel  131  to  229
+Fit of Zero Loss from   -0.9727127428128597 eV to  0.9996566188559655 eV
+Zero-loss position was -0.13 eV
+Corrected energy axis
+Width (FWHM) is 0.20 eV
+Probability  is 79.14 %
+Thickness is 0.234 * IMFP
+Goodness of Fit:  2.6037514773555848 %
+Sum of Gaussian:  3858665454.444083
+Sum of Spectrum:  4.8755446e+09
+thickness [IMFP]:  0.23391041960317832
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "8f40cec5295540419561f967bebbec5c", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>In the above figure, we show a zero-loss peak fitted with a Gaussian.</p>
+<ul class="simple">
+<li><p>zoom in so that you can see the zero-Loss only.</p></li>
+<li><p>The zero–loss peak is about 8% high and you can read off the FWHM by going left and right where the zero-loss peak reaches 4%.</p></li>
+<li><p>Therefore, the FWHM of this zero-loss peak is about 0.18 eV. This is obviously a high resolution spectrum.</p></li>
+<li><p>Also, the shape of the zero-loss is not perfectly symmetric and the tails of the zero-loss peak extend far in both directions.</p></li>
+<li><p>The position of the maximum of the zero-loss peak is used for calibrating the energy scale. The maximum indicates zero energy–loss.</p></li>
+</ul>
+</section>
+<section id="Fitting-the-Zero-Loss-with-a-Product-of-Two-Lorentzians">
+<h2>Fitting the Zero-Loss with a Product of Two Lorentzians<a class="headerlink" href="#Fitting-the-Zero-Loss-with-a-Product-of-Two-Lorentzians" title="Link to this heading">¶</a></h2>
+<p>To better describe the full shape we use the product of two Lorentzians.</p>
+<p>Compare the residuals of the Gaussian and Lorentzian fit.</p>
+<p>You will zoom in closely to see the difference between experimental and model zero-loss peak here.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#################################################################</span>
+<span class="c1">## fit Zero Loss peak with ZLfunct =</span>
+<span class="c1">##  = convolution of Gauss with a product of two Lorentzians</span>
+<span class="c1">##################################################################</span>
+<span class="n">width</span> <span class="o">=</span> <span class="mi">30</span>
+
+
+<span class="n">startx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">spectrum</span><span class="p">)</span>
+<span class="n">endx</span> <span class="o">=</span> <span class="n">startx</span><span class="o">+</span><span class="n">width</span>
+<span class="n">startx</span> <span class="o">=</span> <span class="n">startx</span><span class="o">-</span><span class="n">width</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">startx</span><span class="p">,</span> <span class="n">endx</span><span class="p">,</span> <span class="n">endx</span><span class="o">-</span><span class="n">startx</span><span class="p">)</span>
+
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">[</span><span class="n">startx</span><span class="p">:</span><span class="n">endx</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">spectrum</span><span class="p">[</span><span class="n">startx</span><span class="p">:</span><span class="n">endx</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Energy range for fit of zero-loss: </span><span class="si">{</span><span class="n">energy_scale</span><span class="p">[</span><span class="n">startx</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">energy_scale</span><span class="p">[</span><span class="n">endx</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1">#guess = [0.02, 8000000, 0.1, 0.2, 1000,0.2,0.5, 1000,-0.5,-1.3, 1.01,1.0]</span>
+<span class="n">guess</span> <span class="o">=</span> <span class="p">[</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span><span class="mf">0.2</span> <span class="p">]</span>
+
+<span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ZL</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">center1</span><span class="p">,</span> <span class="n">amplitude1</span><span class="p">,</span> <span class="n">width1</span><span class="p">,</span> <span class="n">center2</span><span class="p">,</span> <span class="n">amplitude2</span><span class="p">,</span> <span class="n">width2</span> <span class="o">=</span> <span class="n">p</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eels_tools</span><span class="o">.</span><span class="n">zero_loss_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="n">center1</span><span class="p">,</span> <span class="n">amplitude1</span><span class="p">,</span> <span class="n">width1</span><span class="p">,</span> <span class="n">center2</span><span class="p">,</span> <span class="n">amplitude2</span><span class="p">,</span> <span class="n">width2</span><span class="p">]))</span><span class="c1">#/np.sqrt(y)</span>
+    <span class="k">return</span> <span class="n">err</span>
+
+<span class="n">pZL</span><span class="p">,</span> <span class="n">lsq</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">leastsq</span><span class="p">(</span><span class="n">ZL</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">maxfev</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fit of a Product of two Lorentzians&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Positions: &#39;</span><span class="p">,</span><span class="n">pZL</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">pZL</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="s1">&#39;Distance: &#39;</span><span class="p">,</span><span class="n">pZL</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">pZL</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Width: &#39;</span><span class="p">,</span> <span class="n">pZL</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">pZL</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Areas: &#39;</span><span class="p">,</span> <span class="n">pZL</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">pZL</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+<span class="n">center1</span><span class="p">,</span> <span class="n">amplitude1</span><span class="p">,</span> <span class="n">width1</span><span class="p">,</span> <span class="n">center2</span><span class="p">,</span> <span class="n">amplitude2</span><span class="p">,</span> <span class="n">width2</span> <span class="o">=</span> <span class="n">pZL</span>
+<span class="n">err</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eels_tools</span><span class="o">.</span><span class="n">zero_loss_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="n">center1</span><span class="p">,</span> <span class="n">amplitude1</span><span class="p">,</span> <span class="n">width1</span><span class="p">,</span> <span class="n">center2</span><span class="p">,</span> <span class="n">amplitude2</span><span class="p">,</span> <span class="n">width2</span><span class="p">]))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Goodness of Fit: </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">err</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">sumSpec</span><span class="o">*</span><span class="mf">1e2</span><span class="si">:</span><span class="s1">.5</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+
+<span class="n">zLoss</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">eels_tools</span><span class="o">.</span><span class="n">zero_loss_function</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span> <span class="p">[</span><span class="n">center1</span><span class="p">,</span> <span class="n">amplitude1</span><span class="p">,</span> <span class="n">width1</span><span class="p">,</span> <span class="n">center2</span><span class="p">,</span> <span class="n">amplitude2</span><span class="p">,</span> <span class="n">width2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+143 203 60
+Energy range for fit of zero-loss: -0.60 to 0.61
+Fit of a Product of two Lorentzians
+Positions:  0.2949903597791383 0.1917939365705815 Distance:  0.10319642320855679
+Width:  0.03100508558615033 -0.01913085318602675
+Areas:  21841.55779669922 21407.64644992665
+Goodness of Fit: 0.0027237%
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span><span class="n">spectrum</span><span class="o">/</span><span class="n">sumSpec</span><span class="o">*</span><span class="mf">1e2</span> <span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;spectrum&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span>   <span class="n">zLoss</span><span class="o">/</span><span class="n">sumSpec</span><span class="o">*</span><span class="mf">1e2</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span><span class="s1">&#39;resolution function&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">,</span>  <span class="p">(</span><span class="n">spectrum</span><span class="o">-</span><span class="n">zLoss</span><span class="p">)</span><span class="o">/</span><span class="n">sumSpec</span><span class="o">*</span><span class="mf">1e2</span> <span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;difference&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span> <span class="p">(</span><span class="s1">&#39;Lorentzian Product Fit of Zero-Loss Peak&#39;</span><span class="p">)</span>
+<span class="c1">#plt.xlim(-5,5)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">energy_scale</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">energy_scale</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">Izl</span> <span class="o">=</span> <span class="n">zLoss</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="n">Itotal</span> <span class="o">=</span> <span class="n">spectrum</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">tmfp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">Itotal</span><span class="o">/</span><span class="n">Izl</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Sum of Zero-Loss: </span><span class="si">{</span><span class="n">Izl</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> counts&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Sum of Spectrum: </span><span class="si">{</span><span class="n">Itotal</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> counts&#39;</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;thickness [IMFP]: </span><span class="si">{</span><span class="n">tmfp</span><span class="si">:</span><span class="s1">.5f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Sum of Zero-Loss: 4083171197 counts
+Sum of Spectrum: 4875544576 counts
+thickness [IMFP]: 0.17736
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "b46fd103d9eb42f6b8be6fa4315c242e", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Calibrating-Energy-Dispersion">
+<h2>Calibrating Energy Dispersion<a class="headerlink" href="#Calibrating-Energy-Dispersion" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>The software controlling the spectrometer (or image filter) will allow you to select your energy dispersion.</p></li>
+<li><p>The dispersion is set through the magnification within the spectrometer and each dispersion setting is internally a set of values for the lenses (quadrupoles).</p></li>
+<li><p>This setting will only be accurate to about 10% which is not accurate enough to automatically rely on it.</p></li>
+<li><p>Therefore, we usually calibrate the energy dispersion ourselves.</p></li>
+<li><p>The drift tube high voltage power supply is reasonable accurate to do this dispersion calibration.</p></li>
+</ul>
+<p><strong>Practical Steps</strong></p>
+<ul class="simple">
+<li><p>We collect a zero–loss (preferably but not necessarily in vacuum) without applied drift tube voltage. The zero–loss should be at the right hand of the display.</p></li>
+<li><p>Then we collect a zero–loss peak with applied drift tube voltage, so that the zero-loss peak is at the left side of the display.</p></li>
+</ul>
+<p><img alt="EELS dispersion calibration" class="no-scaled-link" src="../_images/energy-calibration2.jpg" style="width: 50%;" /></p>
+<ul class="simple">
+<li><p>We now measure the number of channels between the two zero-loss peaks (make sure that there is no other energy dispersion selected.</p></li>
+<li><p>We divide the voltage by this number and get the accurate energy dispersion.</p></li>
+<li><p>In the case of the spectrum in figure above it is 300 eV / 265 channels = 1.17 eV/channel.</p></li>
+</ul>
+<p><strong>The selected energy dispersion was 1.0 eV / channel.</strong></p>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading">¶</a></h2>
+<p>We use a Gaussian fit to determine the zero energy channel and thus the origin of the energy-scale</p>
+<p>We use a product of two Lorentzians to fit the zero-loss peak, we will use that fit as the resolution function for further analysis (everythin we measure is convoluted by that function).</p>
+<p>Here we used the area under the zero-loss peak to determine the relative thickness ( a relative thickness of 0.3 * IMFP is considered ideal for most experiments)</p>
+</section>
+<section id="Navigation">
+<h2>Navigation<a class="headerlink" href="#Navigation" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Up Chapter 4:</strong> <a class="reference internal" href="CH4_00-Spectroscopy.html"><span class="doc">Imaging</span></a></p></li>
+<li><p><strong>Back:</strong> <a class="reference internal" href="CH4_01-Introduction.html"><span class="doc">Overview</span></a></p></li>
+<li><p><strong>Next:</strong> <a class="reference internal" href="CH4_03-Drude.html"><span class="doc">Analysing Low-Loss Spectra with Drude Theory</span></a></p></li>
+<li><p><strong>List of Content:</strong> <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">Front</span></a></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Diffraction/index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Spectroscopy/CH4_02-Fit_Zero_Loss.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

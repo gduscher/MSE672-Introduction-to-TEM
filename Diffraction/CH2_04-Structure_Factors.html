@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Structure Factors &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 2:</strong> <a class="reference internal" href="CH2_00-Diffraction.html"><span class="doc">Diffraction</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="Structure-Factors">
+<h1>Structure Factors<a class="headerlink" href="#Structure-Factors" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Diffraction/CH2_04-Structure_Factors.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main//Diffraction/CH2_04-Structure_Factors.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p><strong>Spring 2026</strong> by Gerd Duscher</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<section id="Load-relevant-python-packages">
+<h2>Load relevant python packages<a class="headerlink" href="#Load-relevant-python-packages" title="Link to this heading">¶</a></h2>
+<section id="Check-Installed-Packages">
+<h3>Check Installed Packages<a class="headerlink" href="#Check-Installed-Packages" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2026.1.3&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w">  </span>--upgrade<span class="w"> </span>pyTEMlib<span class="w"> </span>-q
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+done
+</pre></div></div>
+</div>
+</section>
+<section id="Load-the-plotting-and-figure-packages">
+<h3>Load the plotting and figure packages<a class="headerlink" href="#Load-the-plotting-and-figure-packages" title="Link to this heading">¶</a></h3>
+<p>Import the python packages that we will use:</p>
+<p>Beside the basic numerical (numpy) and plotting (pylab of matplotlib) libraries,</p>
+<ul class="simple">
+<li><p>three dimensional plotting from matplotlib</p></li>
+<li><p>iteration_tools</p></li>
+</ul>
+<p>and some libraries from the pyTEMlib</p>
+<ul class="simple">
+<li><p>kinematic scattering from the diffraction_tools library.</p></li>
+<li><p>structures from the crystal_tools library &gt; Note for Google Colab &gt; &gt; <strong>Restart Session</strong> in the <strong>Runtime Menu</strong></p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span>  widget
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">output</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+
+<span class="c1"># 3D plotting package</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mpl_toolkits.mplot3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Axes3D</span> <span class="c1"># 3D plotting</span>
+
+<span class="c1"># additional package</span>
+<span class="kn">import</span><span class="w">  </span><span class="nn">itertools</span>
+
+<span class="c1"># Import libraries from the book</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyTEMlib</span>
+
+<span class="c1"># it is a good idea to show the version numbers at this point for archiving reasons.</span>
+<span class="n">__notebook_version__</span> <span class="o">=</span> <span class="s1">&#39;2026.01.31&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pyTEM version: &#39;</span><span class="p">,</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;notebook version: &#39;</span><span class="p">,</span> <span class="n">__notebook_version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+pyTEM version:  0.2026.1.3
+notebook version:  2026.01.31
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Define-Crystal">
+<h2>Define Crystal<a class="headerlink" href="#Define-Crystal" title="Link to this heading">¶</a></h2>
+<p>Here we define silicon but you can use any other structure you like.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Initialize the dictionary with all the input</span>
+<span class="n">atoms</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">crystal_tools</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">(</span><span class="s1">&#39;silicon&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">atoms</span><span class="o">.</span><span class="n">symbols</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_scaled_positions</span><span class="p">())</span>
+
+<span class="c1">#Reciprocal Lattice</span>
+<span class="c1"># We use the linear algebra package of numpy to invert the unit_cell &quot;matrix&quot;</span>
+<span class="n">reciprocal_unit_cell</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="c1"># transposed of inverted unit_cell</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Si8
+[[0.   0.   0.  ]
+ [0.25 0.25 0.25]
+ [0.5  0.5  0.  ]
+ [0.75 0.75 0.25]
+ [0.5  0.   0.5 ]
+ [0.75 0.25 0.75]
+ [0.   0.5  0.5 ]
+ [0.25 0.75 0.75]]
+</pre></div></div>
+</div>
+<section id="Reciprocal-Lattice">
+<h3>Reciprocal Lattice<a class="headerlink" href="#Reciprocal-Lattice" title="Link to this heading">¶</a></h3>
+<p>Check out <a class="reference internal" href="CH2_03-Basic_Crystallography.html"><span class="doc">Basic Crystallography</span></a> notebook for more details on this.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Reciprocal Lattice</span>
+<span class="c1"># We use the linear algebra package of numpy to invert the unit_cell &quot;matrix&quot;</span>
+<span class="n">reciprocal_lattice</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="c1"># transposed of inverted unit_cell</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;reciprocal lattice</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">reciprocal_lattice</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+reciprocal lattice
+ [[0.184 0.    0.   ]
+ [0.    0.184 0.   ]
+ [0.    0.    0.184]]
+</pre></div></div>
+</div>
+</section>
+<section id="2D-Plot-of-Unit-Cell-in-Reciprocal-Space">
+<h3>2D Plot of Unit Cell in Reciprocal Space<a class="headerlink" href="#2D-Plot-of-Unit-Cell-in-Reciprocal-Space" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">reciprocal_lattice</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">reciprocal_lattice</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;h (1/Å)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;l (1/Å)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "0dac3bd9647a4045a87047c5a8224bd6", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="3D-Plot-of-Miller-Indices">
+<h3>3D Plot of Miller Indices<a class="headerlink" href="#3D-Plot-of-Miller-Indices" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hkl_max</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">h</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">hkl_max</span><span class="p">,</span><span class="n">hkl_max</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">hkl_max</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># all evaluated single Miller Indices</span>
+<span class="n">hkl</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">h</span><span class="p">)</span> <span class="p">))</span> <span class="c1"># all evaluated Miller indices</span>
+
+<span class="c1"># Plot 2D</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">hkl</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">hkl</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">hkl</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;l&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="c1">#ax.set_aspect(&#39;equal&#39;)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 0, &#39;k&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "1b99ce34d7144840aa93dd418999d669", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="Reciprocal-Space-and-Miller-Indices">
+<h2>Reciprocal Space and Miller Indices<a class="headerlink" href="#Reciprocal-Space-and-Miller-Indices" title="Link to this heading">¶</a></h2>
+<p>For a reciprocal cubic unit cell with lattice parameter <span class="math notranslate nohighlight">\(b = \frac{1}{a}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\vec{g}_{hkl} = \begin{pmatrix}h\\k\\l\end{pmatrix}  \cdot  \begin{pmatrix}b&amp;0&amp;0\\0&amp;b&amp;0\\0&amp;0&amp;b\end{pmatrix}\end{split}\]</div>
+<p>Or more general</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\vec{g}_{hkl} = \begin{pmatrix}h\\k\\l\end{pmatrix} \cdot   \begin{pmatrix}b_{1,1}&amp;b_{1,2}&amp;b_{1,3}\\b_{2,1}&amp;b_{2,2}&amp;b_{2,3}\\b_{3,1}&amp;b_{3,2}&amp;b_{3,3}\end{pmatrix}\end{split}\]</div>
+<p>The matrix is of course the reciprocal unit cell or the inverse of the structure matrix.</p>
+<p>Therefore, we get any reciprocal lattice vector with the dot product of its Miller indices and the reciprocal lattice matrix.</p>
+<p>Spacing of planes with Miller Indices <span class="math notranslate nohighlight">\(hkl\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align*}
+  |\vec{g}_{hkl}|&amp; = \frac{1}{d}\\
+  d &amp;= \frac{1}{|\vec{g}_{hkl}|}
+  \end{align*}\end{split}\]</div>
+<p>The length of a vector is called its <strong>norm</strong>.</p>
+<p>Be careful there are two different notations for the reciprocal lattice vectors:</p>
+<ul class="simple">
+<li><p>materials science</p></li>
+<li><p>physics</p></li>
+</ul>
+<p>The notations are different in a factor <span class="math notranslate nohighlight">\(2\pi\)</span>. The introduction of <span class="math notranslate nohighlight">\(2\pi\)</span> in physics allows to take care of the <span class="math notranslate nohighlight">\(n\)</span> more naturally.</p>
+<p>In the materials science notation the reciprocal lattice points are directly associated with the Bragg reflections in your diffraction pattern. (OK,s we are too lacy to keep track of <span class="math notranslate nohighlight">\(2\pi\)</span>)</p>
+<section id="All-Possible-Reflections">
+<h3>All Possible Reflections<a class="headerlink" href="#All-Possible-Reflections" title="Link to this heading">¶</a></h3>
+<p>Are then given by the all permutations of the Miller indices and the reiprocal unit cell matrix.</p>
+<p>All considered Miller indices are then produced with the itertool package of python.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">hkl_max</span> <span class="o">=</span> <span class="mi">6</span><span class="c1">#  maximum allowed Miller index</span>
+
+<span class="n">h</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">hkl_max</span><span class="p">,</span><span class="n">hkl_max</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">hkl_max</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># all evaluated single Miller Indices</span>
+<span class="n">hkl</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">h</span><span class="p">)</span> <span class="p">))</span> <span class="c1"># all evaluated Miller indices</span>
+<span class="n">g_hkl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">hkl</span><span class="p">,</span><span class="n">reciprocal_unit_cell</span><span class="p">)</span>         <span class="c1"># all evaluated reciprocal lattice points</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Evaluation of </span><span class="si">{</span><span class="n">g_hkl</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1"> reflections of </span><span class="si">{</span><span class="n">hkl</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1"> Miller indices&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g_hkl</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g_hkl</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">g_hkl</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;u (1/A)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;v (1/A)&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">&#39;w (1/A)&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Evaluation of (2197, 3) reflections of (2197, 3) Miller indices
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 0, &#39;w (1/A)&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "32373439c4594283858edc8405a5e461", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Atomic-form-factor">
+<h3>Atomic form factor<a class="headerlink" href="#Atomic-form-factor" title="Link to this heading">¶</a></h3>
+<p>If we look at the scattering power of a single atom that deflects an electron:</p>
+<img alt="Single atom scattering" src="../_images/scattering_single_atom.jpg" />
+<p>See <a class="reference internal" href="CH2_02-Atomic_Form_Factor.html"><span class="doc">Atomic Form Factor</span></a> for details</p>
+</section>
+</section>
+<section id="Calculate-Structure-Factors">
+<h2>Calculate Structure Factors<a class="headerlink" href="#Calculate-Structure-Factors" title="Link to this heading">¶</a></h2>
+<p>To extend the single atom view of the atomic form factor <span class="math notranslate nohighlight">\(f(\theta\)</span>) to a crystal, we change to the structure factor <span class="math notranslate nohighlight">\(F(\theta)\)</span>. The structure factor <span class="math notranslate nohighlight">\(F(\theta)\)</span> is a measure of the amplitude scattered by a unit cell of a crystal structure.</p>
+<p>Because <span class="math notranslate nohighlight">\(F(\theta)\)</span> is an amplitude like <span class="math notranslate nohighlight">\(f(\theta)\)</span>, it also has dimensions of length.We can define <span class="math notranslate nohighlight">\(F(\theta)\)</span> as:</p>
+<div class="math notranslate nohighlight">
+\[F_{hkl}(\theta) = \sum_{j=1}^{\inf} f_j(\theta) \mathrm{e}^{[-2 \pi i (h x_j+k y_j + l z_j)]}\]</div>
+<div class="math notranslate nohighlight">
+\[F_{hkl}(\theta) = \sum_{j=1}^{\inf} f_j(\theta) \mathrm{e}^{[-2 \pi i (\vec{g}_h x_j+ \vec{g}_k y_j + \vec{g}_ll z_j)]}\]</div>
+<div class="math notranslate nohighlight">
+\[F_{hkl}(\theta) = \sum_{j=1}^{\inf} f_j(\theta) \mathrm{e}^{[-2 \pi i (\vec{g}_{hkl} \cdot \vec{r}_j)]}\]</div>
+<p>The sum is over all the <span class="math notranslate nohighlight">\(i\)</span> atoms in the unit cell (with atomic coordinates $ <span class="math">\vec{r}</span>_i = [x_i, y_i, z_i]$ )</p>
+<p>The structure factors <span class="math notranslate nohighlight">\(f_i(\theta)\)</span> are multiplied by a phase factor (the exponential function). The phase factor takes account of the difference in phase between waves scattered from atoms on different but parallel atomic planes with the same Miller indices$ (hkl)$.</p>
+<p>The scattering angle <span class="math notranslate nohighlight">\(\theta\)</span> is the angle between the angle between the incident and scattered electron beams.</p>
+<p>Please identify all the variables in line 10 below. Please note that we only do a finite number of hkl</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate Structure Factors</span>
+
+<span class="n">structure_factors</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">base</span> <span class="o">=</span> <span class="n">atoms</span><span class="o">.</span><span class="n">positions</span>  <span class="c1"># positions in Carthesian coordinates</span>
+<span class="k">for</span> <span class="n">j</span>  <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">g_hkl</span><span class="p">)):</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">base</span><span class="p">)):</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">g_hkl</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">reciprocal_lattice</span><span class="p">))</span>  <span class="c1"># angle in 1/nm</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_form_factor</span><span class="p">(</span><span class="n">atoms</span><span class="p">[</span><span class="n">b</span><span class="p">]</span><span class="o">.</span><span class="n">symbol</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>  <span class="c1"># Atomic form factor for element and momentum change (g vector)</span>
+        <span class="n">F</span> <span class="o">+=</span> <span class="n">f</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="p">(</span><span class="n">g_hkl</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">base</span><span class="p">[</span><span class="n">b</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+    <span class="n">structure_factors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
+<span class="n">structure_factors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">structure_factors</span><span class="p">))</span>
+<br/></pre></div>
+</div>
+</div>
+<section id="All-Allowed-Reflections">
+<h3>All Allowed Reflections<a class="headerlink" href="#All-Allowed-Reflections" title="Link to this heading">¶</a></h3>
+<p>The structure factor determines whether a reflection is allowed or not.</p>
+<p>If the structure factor is zero, the reflection is called forbidden.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Allowed reflections have a non zero structure factor F (with a  bit of numerical error)</span>
+<span class="n">allowed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">structure_factors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.001</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39; Of the evaluated </span><span class="si">{</span><span class="n">hkl</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1"> Miller indices </span><span class="si">{</span><span class="n">allowed</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s1"> are allowed. &#39;</span><span class="p">)</span>
+
+<span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">g_hkl</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="c1"># We select now all the</span>
+<span class="n">zero</span> <span class="o">=</span> <span class="n">distances</span> <span class="o">==</span> <span class="mf">0.</span>
+<span class="c1"># allowed = np.logical_and(allowed,np.logical_not(zero))</span>
+
+<span class="n">F</span> <span class="o">=</span> <span class="n">structure_factors</span><span class="p">[</span><span class="n">allowed</span><span class="p">]</span>
+<span class="n">g_hkl</span> <span class="o">=</span> <span class="n">g_hkl</span><span class="p">[</span><span class="n">allowed</span><span class="p">]</span>
+<span class="n">hkl</span> <span class="o">=</span> <span class="n">hkl</span><span class="p">[</span><span class="n">allowed</span><span class="p">]</span>
+<span class="n">distances</span> <span class="o">=</span> <span class="n">distances</span><span class="p">[</span><span class="n">allowed</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ Of the evaluated 2197 Miller indices 387 are allowed.
+</pre></div></div>
+</div>
+</section>
+<section id="Families-of-reflections">
+<h3>Families of reflections<a class="headerlink" href="#Families-of-reflections" title="Link to this heading">¶</a></h3>
+<p>reflections with the same length of reciprocal lattice vector are called families</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sorted_allowed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">distances</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>  <span class="c1">## remove zero</span>
+
+<span class="n">distances</span> <span class="o">=</span> <span class="n">distances</span><span class="p">[</span><span class="n">sorted_allowed</span><span class="p">]</span>
+<span class="n">hkl</span> <span class="o">=</span> <span class="n">hkl</span><span class="p">[</span><span class="n">sorted_allowed</span><span class="p">]</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">F</span><span class="p">[</span><span class="n">sorted_allowed</span><span class="p">]</span>
+
+<span class="c1"># How many have unique distances and what is their muliplicity</span>
+
+<span class="n">unique</span><span class="p">,</span> <span class="n">indices</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">distances</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39; Of the </span><span class="si">{</span><span class="n">allowed</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s1"> allowed Bragg reflections there are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">unique</span><span class="p">)</span><span class="si">}</span><span class="s1"> families of reflections.&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ Of the 387 allowed Bragg reflections there are 18 families of reflections.
+</pre></div></div>
+</div>
+</section>
+<section id="Intensities-and-Multiplicities">
+<h3>Intensities and Multiplicities<a class="headerlink" href="#Intensities-and-Multiplicities" title="Link to this heading">¶</a></h3>
+<p>In a cubic system, the all reflection belonging to one families have the same reciprocal lattice vector and the same probability of scattering.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">multiplicitity</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="n">indices</span><span class="p">)</span>
+<span class="n">intensity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">multiplicitity</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> index </span><span class="se">\t</span><span class="s2">     </span><span class="si">{</span><span class="s1">&#39;hkl&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span><span class="si">}</span><span class="se">\t</span><span class="s2"> 1/d [1/Ang]   d [pm] </span><span class="se">\t</span><span class="s2">  F </span><span class="se">\t</span><span class="s2"> multip. intensity&quot;</span><span class="p">)</span>
+<span class="n">family</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+    <span class="n">i2</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">family</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hkl</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">hkl</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i2</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s1">3g</span><span class="si">}</span><span class="se">\t</span><span class="s1">  </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">family</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span><span class="si">}</span><span class="s1"> </span><span class="se">\t</span><span class="s1">  </span><span class="si">{</span><span class="n">distances</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">  </span><span class="se">\t</span><span class="s1"> </span><span class="si">{</span><span class="mi">1</span><span class="o">/</span><span class="n">distances</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> </span><span class="se">\t</span><span class="s1"> </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+          <span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">  </span><span class="si">{</span><span class="n">indices</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">indices</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="si">:</span><span class="s1">3g</span><span class="si">}</span><span class="s1"> </span><span class="se">\t</span><span class="s1"> </span><span class="si">{</span><span class="n">intensity</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+ index       hkl                 1/d [1/Ang]   d [pm]     F      multip. intensity
+  0       [1. 1. 1.]              0.32           314     32.05      8    8219.25
+  8       [2. 0. 2.]              0.52           192     43.49     12    22694.18
+ 20       [3. 1. 1.]              0.61           164     30.02     24    21627.29
+ 44       [4. 0. 0.]              0.74           136     40.83      6    10004.44
+ 50       [1. 3. 3.]              0.80           125     28.23     24    19122.83
+ 74       [4. 2. 2.]              0.90           111     38.48     24    35539.65
+ 98       [3. 3. 3.]              0.96           105     26.63     32    22699.39
+130       [0. 4. 4.]              1.04           96      36.38     12    15880.30
+142       [3. 1. 5.]              1.09           92      25.20     48    30493.62
+190       [2. 6. 0.]              1.16           86      34.48     24    28539.58
+214       [3. 3. 5.]              1.21           83      23.92     24    13726.58
+238       [4. 4. 4.]              1.28           78      32.77      8    8590.36
+246       [5. 5. 1.]              1.31           76      22.75     24    12416.23
+270       [2. 4. 6.]              1.38           73      31.21     48    46748.74
+318       [5. 3. 5.]              1.41           71      21.68     24    11279.07
+342       [0. 6. 6.]              1.56           64      28.47     12    9728.70
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Allowed-reflections-for-Silicon:">
+<h2>Allowed reflections for Silicon:<a class="headerlink" href="#Allowed-reflections-for-Silicon:" title="Link to this heading">¶</a></h2>
+<p><span class="math notranslate nohighlight">\(\ \ |F_{hkl}|^2 = \begin{cases} ( h , k , l \ \ \mbox{ all odd} &amp;\\  ( h ,| k , l \ \  \mbox{all even}&amp; \mbox{and}\ \ h+k+l = 4n\end{cases}\)</span></p>
+<p>Check above allowed reflections whether this condition is met for the zero order Laue zone.</p>
+<p>Please note that the forbidden and alowed reflections are directly a property of the structure factor.</p>
+</section>
+<section id="Diffraction-with-parallel-Illumination">
+<h2>Diffraction with parallel Illumination<a class="headerlink" href="#Diffraction-with-parallel-Illumination" title="Link to this heading">¶</a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Polycrystalline Sample</p></th>
+<th class="head"><p>Single Crystalline Sample</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ring pattern</p></td>
+<td><p>spot pattern</p></td>
+</tr>
+<tr class="row-odd"><td><p>depends on <span class="math notranslate nohighlight">\(F(\theta)\)</span></p></td>
+<td><p>depends on <span class="math notranslate nohighlight">\(F(\theta)\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>depends on excitation error <span class="math notranslate nohighlight">\(s\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="Ring-Pattern">
+<h2>Ring Pattern<a class="headerlink" href="#Ring-Pattern" title="Link to this heading">¶</a></h2>
+<p><img alt="Bragg's Law" class="no-scaled-link" src="../_images/CL375.jpg" width="300" /> <img alt="Bragg's Law" class="no-scaled-link" src="../_images/ProfileOfCL375.jpg" width="300" /></p>
+<p><strong>Ring Pattern:</strong></p>
+<ul class="simple">
+<li><p>The profile of a ring diffraction pattern (of a polycrystalline sample) is very close to what a you are used from X-ray diffraction.</p></li>
+<li><p>The x-axis is directly the magnitude of the <span class="math notranslate nohighlight">\(|\vec{g}| = 1/d\)</span> of a hkl plane set.</p></li>
+<li><p>The intensity of a Bragg reflection is directly related to the square of the structure factor <span class="math notranslate nohighlight">\(I = F^2(\theta)\)</span></p></li>
+<li><p>The intensity of a ring is directly related to the multiplicity of the family of planes.</p></li>
+</ul>
+<p><strong>Ring Pattern Problem:</strong></p>
+<ul class="simple">
+<li><p>Where is the center of the ring pattern</p></li>
+<li><p>Integration over all angles (spherical coordinates)</p></li>
+<li><p>Indexing of pattern is analog to x-ray diffraction.</p></li>
+</ul>
+<p>The Ring Diffraction Pattern are completely defined by the Structure Factor</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">patches</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1024</span><span class="p">,</span><span class="mi">1024</span><span class="p">))</span>
+<span class="n">extent</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">unique</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">extent</span> <span class="o">=</span> <span class="n">extent</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">radius</span> <span class="ow">in</span> <span class="n">unique</span><span class="p">:</span>
+    <span class="n">circle</span> <span class="o">=</span> <span class="n">patches</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span><span class="c1">#, **kwargs)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">circle</span><span class="p">);</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;scattering angle (1/$\AA$)&#39;</span><span class="p">);</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "98ea6fa5911e44a1bd7782a59eee4358", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading">¶</a></h2>
+<p>The scattering geometry provides all the tools to determine which reciprocal lattice points are possible and which of them are allowed.</p>
+<p>Next we need to transfer out knowledge into a diffraction pattern.</p>
+</section>
+<section id="Navigation">
+<h2>Navigation<a class="headerlink" href="#Navigation" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Back Chapter 1:</strong> <a class="reference internal" href="CH2_03-Basic_Crystallography.html"><span class="doc">Basic Crystallography</span></a></p></li>
+<li><p><strong>Next:</strong> <a class="reference internal" href="CH2_05-Diffraction_Rings.html"><span class="doc">Analyzing Ring Diffraction Pattern</span></a></p></li>
+<li><p><strong>Chapter 2:</strong> <a class="reference internal" href="CH2_00-Diffraction.html"><span class="doc">Diffraction</span></a></p></li>
+<li><p><strong>List of Content:</strong> <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">Front</span></a></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Spectroscopy/index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Diffraction/CH2_04-Structure_Factors.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

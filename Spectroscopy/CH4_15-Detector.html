@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>EDS Detector Efficiency &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 4:</strong> <a class="reference internal" href="CH4_00-Spectroscopy.html"><span class="doc">Spectroscopy</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="EDS-Detector-Efficiency">
+<h1>EDS Detector Efficiency<a class="headerlink" href="#EDS-Detector-Efficiency" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM/main/Spectroscopy/CH4_15-Detector.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main//Spectroscopy/CH4_15-Detector.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p><strong>Spring 2026</strong> by Gerd Duscher</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<section id="Load-relevant-python-packages">
+<h2>Load relevant python packages<a class="headerlink" href="#Load-relevant-python-packages" title="Link to this heading">¶</a></h2>
+<section id="Check-Installed-Packages">
+<h3>Check Installed Packages<a class="headerlink" href="#Check-Installed-Packages" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2026.1.1&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w">  </span>--upgrade<span class="w"> </span>pyTEMlib<span class="w"> </span>-q
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+done
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="First-we-import-the-essential-libraries">
+<h2>First we import the essential libraries<a class="headerlink" href="#First-we-import-the-essential-libraries" title="Link to this heading">¶</a></h2>
+<p>All we need here should come with the annaconda or any other package</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> widget
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">output</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">drive</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyTEMlib.xrpa_x_sections</span><span class="w"> </span><span class="kn">import</span> <span class="n">x_sections</span>
+
+<span class="n">__notebook_version__</span> <span class="o">=</span> <span class="s1">&#39;2026.01.22&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;notebook version: &#39;</span><span class="p">,</span> <span class="n">__notebook_version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+notebook version:  2026.01.22
+</pre></div></div>
+</div>
+</section>
+<section id="Bremsstrahlung-and-EDS-Background">
+<h2>Bremsstrahlung and EDS Background<a class="headerlink" href="#Bremsstrahlung-and-EDS-Background" title="Link to this heading">¶</a></h2>
+<p>At low energies, the <a class="reference internal" href="CH4_13-Bremsstrahlung.html"><span class="doc">Bremsstrahlung</span></a> above does not look anything like the background we obtain in the EDS spectrum.</p>
+<p>This is due to the response of the EDS detector system</p>
+<p><img alt="Detector_Efficiency" src="../_images/DetectorEfficiency.png" />.</p>
+</section>
+<section id="Detector-Response">
+<h2>Detector Response<a class="headerlink" href="#Detector-Response" title="Link to this heading">¶</a></h2>
+<p>The detector response depends on the material. The detected X-ray photons need to be absorbed in the Si detector. This absorption is then dependent on the silicon aborption coefficients (per energy). Everything that absorbs X-ray photons before it reaches the detector crystal will weaken the signal according to the photoabsorption in that material layers. Obviously we want to keep the thicknesses of those layers as thin as possible.</p>
+<p>Let’s look at the design of a detector:</p>
+<img alt="detector overview" src="../_images/Bruker3b.jpg" />
+<img alt="detector details" src="../_images/Bruker.jpg" />
+<p>For the detector there is actually only one type common anymore (the liquid nitrogen cooled Si(Li) detectors are phased out) and that is the Silicon droft detector (SDD):</p>
+<img alt="detector crystal" src="../_images/SDD2.jpg" />
+<p>In front of the detector is usually a window. Only high vacuum system can have a window-less system otherwise ice would build up on the Peltier-cooled detector crystal. This window is rather fragile and relative expensive to replace so be carfull with handling the detector system on that end.</p>
+<img alt="detector window" src="../_images/Window2.jpg" />
+</section>
+<section id="Signal---Photoelectric-absorption-of-X-ray-photon.">
+<h2>Signal - Photoelectric absorption of X-ray photon.<a class="headerlink" href="#Signal---Photoelectric-absorption-of-X-ray-photon." title="Link to this heading">¶</a></h2>
+<p>Whole energy of X-ray photon is transferred to inner shell electron of a silicon atom.</p>
+<p>This ejected electron has now the kinetic energy of the X-ray photon minus its binding energy in the atom (K: 1838 eV, L: 98 eV)</p>
+<p>The ejected electron undergoes inelastic scattering and creates electron hole pairs (valence to conduction band) in the process (besides other effects)</p>
+<p>Charge generation process requires about 3.6 eV per electron hole pair</p>
+<p>So the number of created charge carriers <span class="math notranslate nohighlight">\(𝑛\)</span> is proportional to the original photon energy <span class="math notranslate nohighlight">\(𝐸_𝑝\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[n =  \frac{E_p} {3.6 eV}\]</div>
+</section>
+<section id="Detector-Efficiency">
+<h2>Detector Efficiency<a class="headerlink" href="#Detector-Efficiency" title="Link to this heading">¶</a></h2>
+<section id="Photoabsorption">
+<h3>Photoabsorption<a class="headerlink" href="#Photoabsorption" title="Link to this heading">¶</a></h3>
+<p>If we only look at the crystal we see that we have a contact and the Silicon crystal. However there is also a thin deadlayer on the top of the crystal that will absorb X-rays without detecting it. We will talk more about detectors in the <strong>EDS resolution section</strong></p>
+<p>Detection and wekening of the signal through absorption are both governed by photoabsorption cross section.</p>
+<p>The mass absorption coefficiencts $ <span class="math">\mu</span>/ <a href="#id1"><span class="problematic" id="id2">:nbsphinx-math:`\rho`$ (a function of energy) are taken from the `Mass Absorption Coefficients from NIST &lt;https://physics.nist.gov/PhysRefData/FFast/html/form.html&gt;`__</span></a></p>
+<p>Select the element and as <em>Type of Data</em> select <strong>Mass Photoabsorption Coefficient (cm:math:`^2`/g)</strong></p>
+<p>I collected all the data in a pickled dictionary which we open below and then test the content.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">shell_occupancy</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;K1&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;L1&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;L2&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;L3&#39;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;M1&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;M2&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;M3&#39;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;M4&#39;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;M5&#39;</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span>
+                        <span class="s1">&#39;N1&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;N2&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39; N3&#39;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;N4&#39;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;N5&#39;</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;N6&#39;</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;N7&#39;</span><span class="p">:</span><span class="mi">8</span><span class="p">,</span>
+                        <span class="s1">&#39;O1&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;O2&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39; O3&#39;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;O4&#39;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;O5&#39;</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;O6&#39;</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;O7&#39;</span><span class="p">:</span><span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;O8&#39;</span><span class="p">:</span><span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;O9&#39;</span><span class="p">:</span> <span class="mi">10</span> <span class="p">}</span>
+
+<span class="n">Z</span> <span class="o">=</span> <span class="mi">14</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Edges of </span><span class="si">{</span><span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)]:</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">shell_occupancy</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+      <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">:</span><span class="s2">3s</span><span class="si">}</span><span class="s2">:  </span><span class="si">{</span><span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)][</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;onset&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> keV&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span> <span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)][</span><span class="s1">&#39;ene&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1000.</span><span class="p">,</span> <span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)][</span><span class="s1">&#39;dat&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)][</span><span class="s1">&#39;photoabs_to_sigma&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e10</span><span class="o">*</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.2e4</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;energy [keV]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$\mu$ [m$^2$/kg]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Silicon Photoabsorption Cross-Section&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Edges of Si:
+M2 :  0.005 keV
+M1 :  0.011 keV
+L3 :  0.099 keV
+L2 :  0.099 keV
+L1 :  0.149 keV
+K1 :  1.839 keV
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "7eb74eb9a88b48428c96838f7f220b04", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+</section>
+<section id="id3">
+<h1>Detector Efficiency<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h1>
+<p>Absorption probability <span class="math notranslate nohighlight">\(P(E)\)</span> is related t the mass aborption coefficient with:</p>
+<div class="math notranslate nohighlight">
+\[P(E) = I/I_0 =\exp\left[ -(\mu/\rho) * \rho * t\right] = \exp\left[ -\mu* t\right]\]</div>
+<p>with</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(I_0\)</span>: initial intensity of X-rays</p></li>
+<li><p><span class="math notranslate nohighlight">\(I\)</span>: intensity of X-rays after going through thickness <span class="math notranslate nohighlight">\(t\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\rho\)</span>: density of material</p></li>
+</ul>
+<p>The detector response <span class="math notranslate nohighlight">\(P_D\)</span> is given by Small et al. as: Here, we assume the contact to be Al and the dead layer is of course Si like the detector crystal:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \Large
+\begin{align}
+P_D = &amp;(\exp(\mu_{Al}(E) *t_{Al} *\rho_{Al})) * (\exp(\mu_{Si}(E) *t_{dead layer} *\varrho_{Si} )) \\
+&amp;\times (1- \exp(\mu_{Si}(E) *t_{detector} *\varrho_{Si} ))
+\end{align}\end{split}\]</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">interp1d</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.constants</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">const</span>
+
+
+<span class="c1">## layer thicknesses of commen materials in EDS detectors in m</span>
+<span class="n">nickelLayer</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">*</span> <span class="mf">1e-9</span> <span class="c1"># in m</span>
+<span class="n">alLayer</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span><span class="mf">1e-9</span>    <span class="c1"># in m</span>
+<span class="n">goldLayer</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">*</span> <span class="mf">1e-9</span>   <span class="c1"># in m</span>
+<span class="n">deadLayer</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span><span class="mf">1e-9</span>  <span class="c1"># in m</span>
+<span class="n">detector_thickness</span> <span class="o">=</span> <span class="mi">45</span> <span class="o">*</span> <span class="mf">1e-3</span>  <span class="c1"># in m</span>
+
+<span class="n">area</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="mf">1e-6</span> <span class="c1">#in m2</span>
+<span class="n">oo4pi</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c1"># / (4.0 * np.pi)* np.radians(10)*2</span>
+
+<span class="c1">#We make a linear energy scale</span>
+<span class="n">energy_scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">.1</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">1199</span><span class="p">)</span><span class="o">*</span><span class="mi">1000</span>
+
+
+<span class="c1">## interpolate mass absorption coefficient to our energy scale</span>
+<span class="n">photoabsorption</span> <span class="o">=</span> <span class="n">x_sections</span><span class="p">[</span><span class="s1">&#39;14&#39;</span><span class="p">][</span><span class="s1">&#39;dat&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e10</span><span class="o">/</span><span class="n">x_sections</span><span class="p">[</span><span class="s1">&#39;14&#39;</span><span class="p">][</span><span class="s1">&#39;photoabs_to_sigma&#39;</span><span class="p">]</span>
+<span class="n">lin</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">x_sections</span><span class="p">[</span><span class="s1">&#39;14&#39;</span><span class="p">][</span><span class="s1">&#39;ene&#39;</span><span class="p">],</span> <span class="n">photoabsorption</span><span class="p">,</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+<span class="n">mu_Si</span> <span class="o">=</span> <span class="n">lin</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">)</span> <span class="o">*</span> <span class="n">x_sections</span><span class="p">[</span><span class="s1">&#39;14&#39;</span><span class="p">][</span><span class="s1">&#39;nominal_density&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">100.</span> <span class="c1">#1/cm -&gt; 1/m</span>
+
+<span class="c1">## interpolate mass absorption coefficient to our energy scale</span>
+
+<span class="n">photoabsorption</span> <span class="o">=</span> <span class="n">x_sections</span><span class="p">[</span><span class="s1">&#39;13&#39;</span><span class="p">][</span><span class="s1">&#39;dat&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e10</span><span class="o">/</span><span class="n">x_sections</span><span class="p">[</span><span class="s1">&#39;13&#39;</span><span class="p">][</span><span class="s1">&#39;photoabs_to_sigma&#39;</span><span class="p">]</span>
+<span class="n">lin</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">x_sections</span><span class="p">[</span><span class="s1">&#39;13&#39;</span><span class="p">][</span><span class="s1">&#39;ene&#39;</span><span class="p">],</span> <span class="n">photoabsorption</span><span class="p">,</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+<span class="n">mu_Al</span> <span class="o">=</span> <span class="n">lin</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">)</span> <span class="o">*</span> <span class="n">x_sections</span><span class="p">[</span><span class="s1">&#39;13&#39;</span><span class="p">][</span><span class="s1">&#39;nominal_density&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">100.</span> <span class="c1">#1/cm -&gt; 1/m</span>
+
+
+<span class="n">detector_Efficiency1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">mu_Al</span> <span class="o">*</span> <span class="n">alLayer</span><span class="p">)</span><span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">mu_Si</span> <span class="o">*</span> <span class="n">deadLayer</span><span class="p">)</span>  <span class="o">*</span> <span class="n">oo4pi</span>
+<span class="n">detector_Efficiency2</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">mu_Si</span> <span class="o">*</span> <span class="n">detector_thickness</span><span class="p">))</span> <span class="o">*</span> <span class="n">oo4pi</span><span class="p">;</span>
+<span class="n">detector_Efficiency</span> <span class="o">=</span><span class="n">detector_Efficiency1</span> <span class="o">*</span> <span class="n">detector_Efficiency2</span><span class="o">/</span>  <span class="n">oo4pi</span><span class="p">;</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="c1">#plt.plot(energy_scale/1000, detector_Efficiency*100, label = &#39;detector efficieny&#39;, color = &#39;red&#39;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="n">detector_Efficiency1</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;deadlayer and contacts&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="n">detector_Efficiency2</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;crystal efficiency&#39;</span> <span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;energy [keV]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;efficiency [%]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;SDD Detector Efficiency&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span><span class="mi">105</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "5293978fe7894ff0bf0c95b325e6f249", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>We see that the detector efficiency drops off after our maximum acceleration voltage of 30 keV in the SEM.</p>
+<p>The background Bremsstrahlung will be absorbed at low energies as we expected.</p>
+<p>Play around with the thickness values of the contact and deadlayer.</p>
+<p>What has the biggest impact?</p>
+<section id="Effective-Background">
+<h2>Effective Background<a class="headerlink" href="#Effective-Background" title="Link to this heading">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Z</span> <span class="o">=</span> <span class="mi">26</span>
+<span class="n">E_0</span> <span class="o">=</span> <span class="mi">30</span> <span class="c1"># keV</span>
+
+<span class="n">Z2</span> <span class="o">=</span> <span class="mi">26</span>
+<span class="n">E_02</span> <span class="o">=</span> <span class="mi">10</span>
+
+
+<span class="n">K</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4000</span>
+<span class="n">I</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">E</span> <span class="o">=</span> <span class="n">energy_scale</span><span class="o">/</span><span class="mi">1000</span> <span class="c1">#= np.linspace(.1,30,2048) #in keV</span>
+
+<span class="n">N_E</span> <span class="o">=</span> <span class="n">I</span><span class="o">*</span><span class="n">K</span><span class="o">*</span><span class="n">Z</span><span class="o">*</span><span class="p">(</span><span class="n">E</span><span class="o">-</span><span class="n">E_0</span><span class="p">)</span><span class="o">/</span><span class="n">E</span>
+<span class="n">N_E2</span> <span class="o">=</span> <span class="n">I</span><span class="o">*</span><span class="n">K</span><span class="o">*</span><span class="n">Z2</span><span class="o">*</span><span class="p">(</span><span class="n">E</span><span class="o">-</span><span class="n">E_02</span><span class="p">)</span><span class="o">/</span><span class="n">E</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="n">N_E</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="n">N_E</span><span class="o">*</span><span class="n">detector_Efficiency</span> <span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Z = </span><span class="si">{</span><span class="n">Z</span><span class="si">}</span><span class="s1"> and E$_0$ = </span><span class="si">{</span><span class="n">E_0</span><span class="si">}</span><span class="s1"> keV&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="n">N_E2</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Z = </span><span class="si">{</span><span class="n">Z2</span><span class="si">}</span><span class="s1"> and E$_0$ = </span><span class="si">{</span><span class="n">E_02</span><span class="si">}</span><span class="s1"> keV&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="n">N_E2</span><span class="o">*</span><span class="n">detector_Efficiency</span><span class="p">,</span>  <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;intensity [a.u.]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;energy [keV]&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "536f4997df32454fa27389f310db288d", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>In the curve above the change at the lower energiers is now as we expect it.</p>
+<p>Please check the slope at about 1.8 keV which is caused by the Si-K edge absorption fo the deadlayer.</p>
+<p>Change the values of <em>Z2</em> and the acceleration voltage <em>E_02</em> of the second curve to see the effects.</p>
+</section>
+<section id="Effect-of-Window">
+<h2>Effect of Window<a class="headerlink" href="#Effect-of-Window" title="Link to this heading">¶</a></h2>
+<p>So far we have ignored the effect of the window in front of the X-ray detector. This window consists mostly of carbon being manufactured from polymer in a modern detector system. The exact composition is necessary to determine the effective background in an EDS spectrum.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">C_window</span> <span class="o">=</span> <span class="mf">.0</span><span class="o">*</span> <span class="mf">1e-6</span>   <span class="c1"># in m</span>
+
+<span class="c1">## interpolate mass absorption coefficient to our energy scale</span>
+<span class="n">photoabsorption</span> <span class="o">=</span> <span class="n">x_sections</span><span class="p">[</span><span class="s1">&#39;6&#39;</span><span class="p">][</span><span class="s1">&#39;dat&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">x_sections</span><span class="p">[</span><span class="s1">&#39;6&#39;</span><span class="p">][</span><span class="s1">&#39;photoabs_to_sigma&#39;</span><span class="p">]</span>
+<span class="n">lin</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">x_sections</span><span class="p">[</span><span class="s1">&#39;6&#39;</span><span class="p">][</span><span class="s1">&#39;ene&#39;</span><span class="p">],</span> <span class="n">photoabsorption</span><span class="p">,</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+<span class="n">mu_C</span> <span class="o">=</span> <span class="n">lin</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">)</span> <span class="o">*</span> <span class="n">x_sections</span><span class="p">[</span><span class="s1">&#39;6&#39;</span><span class="p">][</span><span class="s1">&#39;nominal_density&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">100.</span> <span class="c1">#1/cm -&gt; 1/m</span>
+
+
+<span class="n">window_Absorption</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">mu_C</span> <span class="o">*</span> <span class="n">C_window</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="n">N_E</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Incoming Flux&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="n">N_E</span><span class="o">*</span><span class="n">detector_Efficiency</span> <span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Detector&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="n">N_E</span><span class="o">*</span><span class="n">detector_Efficiency</span> <span class="o">*</span> <span class="n">window_Absorption</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Detector and Window&#39;</span><span class="p">);</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;intensity [a.u.]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;energy [keV]&#39;</span><span class="p">);</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "2900dd9d2459481499352c98f11a118a", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Background-Slope-at-High-Energies">
+<h2>Background Slope at High Energies<a class="headerlink" href="#Background-Slope-at-High-Energies" title="Link to this heading">¶</a></h2>
+<p>While Kramers law gives the approximate shape of the background, the exact slopes is not reproduced. Several authors intorduced a parametrized function of the Bremsstrahlung efficiency.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">E</span> <span class="o">=</span> <span class="n">energy_scale</span><span class="o">/</span><span class="mi">1000</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="mi">26</span>
+<span class="n">E_0</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">73.9</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2446</span><span class="p">,</span><span class="mf">36.502</span><span class="p">,</span><span class="mf">148.5</span><span class="p">,</span> <span class="mf">0.1293</span><span class="p">,</span><span class="o">-</span><span class="mf">0.006624</span><span class="p">,</span><span class="mf">0.0002906</span><span class="p">]</span>
+<span class="n">g</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span><span class="o">*</span> <span class="p">(</span><span class="n">E_0</span><span class="o">-</span><span class="n">E</span><span class="p">)</span><span class="o">/</span><span class="n">E</span> <span class="o">*</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">E</span><span class="o">+</span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span><span class="o">+</span><span class="n">a</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">*</span><span class="n">E</span><span class="o">**</span><span class="n">a</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">/</span><span class="n">Z</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">+</span><span class="n">a</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">*</span><span class="n">E_0</span><span class="p">)</span><span class="o">*</span><span class="n">Z</span><span class="o">/</span><span class="n">E</span><span class="p">)</span>
+
+
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">54.86</span><span class="p">,</span><span class="mf">1.072</span><span class="p">,</span> <span class="mf">0.2835</span><span class="p">,</span> <span class="mf">30.4</span><span class="p">,</span><span class="mi">875</span><span class="p">,</span><span class="o">-</span><span class="mf">0.08</span><span class="p">]</span>
+<span class="n">g2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span><span class="o">*</span> <span class="p">(</span><span class="n">E_0</span><span class="o">-</span><span class="n">E</span><span class="p">)</span><span class="o">/</span><span class="n">E</span> <span class="o">*</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="n">E_0</span> <span class="o">+</span><span class="n">a</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span><span class="o">+</span><span class="n">a</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">*</span><span class="n">E_0</span><span class="o">**</span><span class="n">a</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">/</span><span class="n">Z</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2000</span><span class="p">,</span><span class="o">-</span><span class="mf">.6</span><span class="p">]</span>
+<span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">E_0</span><span class="p">)</span><span class="o">*</span><span class="n">Z</span><span class="o">/</span><span class="n">E</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">E</span><span class="p">,</span><span class="n">g2</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;parametrized&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">E</span><span class="p">,</span><span class="n">N_E</span><span class="o">/</span><span class="mi">100</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Kramer&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">E</span><span class="p">,</span><span class="n">g2</span><span class="o">*</span><span class="n">detector_Efficiency</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;parametrized with Detector&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;energy (keV)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "b5838264746342839a27c30a45ae4be6", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Fitting-Background">
+<h2>Fitting Background<a class="headerlink" href="#Fitting-Background" title="Link to this heading">¶</a></h2>
+<p>Neither Kramer’s Law nor any of the parametrized versions of the Bremsstrahlung are usefull for fitting.</p>
+<p>The following expression is used for fitting purposes:</p>
+<div class="math notranslate nohighlight">
+\[N(E) = \epsilon(E) A(E) \left[ p_0+ p_1 \frac{E_0-E}{E} + p_2 \frac{(E_0-E)^2}{E}  \right]\]</div>
+<p>in which we have the fitting parameters (<span class="math notranslate nohighlight">\(p_0, p_1, p_2\)</span>) of a polynomial of the overvoltage.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+<span class="n">E</span> <span class="o">=</span> <span class="n">E</span>
+<span class="n">N</span> <span class="o">=</span> <span class="n">detector_Efficiency</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">E_0</span><span class="o">-</span><span class="n">E</span><span class="p">)</span><span class="o">/</span><span class="n">E</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">E_0</span><span class="o">-</span><span class="n">E</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">E</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">E</span><span class="p">,</span><span class="n">N_E</span><span class="o">/</span><span class="mi">200</span><span class="o">*</span><span class="n">detector_Efficiency</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">E</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(0.0, 4.0)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "b97fa17c9441466591b5864dea039049", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="Now-we-put-all-of-that-together">
+<h1>Now we put all of that together<a class="headerlink" href="#Now-we-put-all-of-that-together" title="Link to this heading">¶</a></h1>
+<p>and make a function:</p>
+<p>The input is in the form of a dictionary.</p>
+<p>We note that we have several layers that reduce the efficiency and that the detector crystal itself is not really that importantfor the acceleration voltages in an SEM.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">energy_scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">.1</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">1199</span><span class="p">)</span><span class="o">*</span><span class="mi">1000</span>
+
+<span class="n">tags</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;acceleration_voltage_V&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">30000</span>
+
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;detector&#39;</span><span class="p">]</span> <span class="o">=</span><span class="p">{}</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;layers&#39;</span><span class="p">]</span> <span class="o">=</span><span class="p">{}</span>
+
+<span class="c1">## layer thicknesses of commen materials in EDS detectors in m</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;layers&#39;</span><span class="p">][</span><span class="s1">&#39;alLayer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;layers&#39;</span><span class="p">][</span><span class="s1">&#39;alLayer&#39;</span><span class="p">][</span><span class="s1">&#39;thickness&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span><span class="mf">1e-9</span>    <span class="c1"># in m</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;layers&#39;</span><span class="p">][</span><span class="s1">&#39;alLayer&#39;</span><span class="p">][</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">13</span>
+
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;layers&#39;</span><span class="p">][</span><span class="s1">&#39;deadLayer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;layers&#39;</span><span class="p">][</span><span class="s1">&#39;deadLayer&#39;</span><span class="p">][</span><span class="s1">&#39;thickness&#39;</span><span class="p">]</span> <span class="o">=</span>  <span class="mi">100</span> <span class="o">*</span><span class="mf">1e-9</span>  <span class="c1"># in m</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;layers&#39;</span><span class="p">][</span><span class="s1">&#39;deadLayer&#39;</span><span class="p">][</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">14</span>
+
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;layers&#39;</span><span class="p">][</span><span class="s1">&#39;window&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;layers&#39;</span><span class="p">][</span><span class="s1">&#39;window&#39;</span><span class="p">][</span><span class="s1">&#39;thickness&#39;</span><span class="p">]</span> <span class="o">=</span>  <span class="mf">0.0</span> <span class="o">*</span><span class="mf">1e-9</span>  <span class="c1"># in m</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;layers&#39;</span><span class="p">][</span><span class="s1">&#39;window&#39;</span><span class="p">][</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">6</span>
+
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;detector&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;thickness&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">45</span> <span class="o">*</span> <span class="mf">1e-3</span>  <span class="c1"># in m</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">14</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;area&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="mf">1e-6</span> <span class="c1">#in m2</span>
+<span class="c1">## interpolate mass absorption coefficient to our energy scale</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">detector_response</span><span class="p">(</span><span class="n">detector_definition</span><span class="p">,</span><span class="n">energy_scale</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">detector_definition</span><span class="p">[</span><span class="s1">&#39;layers&#39;</span><span class="p">]:</span>
+        <span class="n">Z</span> <span class="o">=</span> <span class="n">detector_definition</span><span class="p">[</span><span class="s1">&#39;layers&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">detector_definition</span><span class="p">[</span><span class="s1">&#39;layers&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;thickness&#39;</span><span class="p">]</span>
+        <span class="n">photoabsorption</span> <span class="o">=</span> <span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)][</span><span class="s1">&#39;dat&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e10</span><span class="o">/</span><span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)][</span><span class="s1">&#39;photoabs_to_sigma&#39;</span><span class="p">]</span>
+        <span class="n">lin</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)][</span><span class="s1">&#39;ene&#39;</span><span class="p">],</span> <span class="n">photoabsorption</span><span class="p">,</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="n">lin</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">)</span> <span class="o">*</span> <span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)][</span><span class="s1">&#39;nominal_density&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">100.</span> <span class="c1">#1/cm -&gt; 1/m</span>
+
+        <span class="n">absorption</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">mu</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">response</span><span class="o">*</span><span class="n">absorption</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">detector_definition</span><span class="p">[</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">detector_definition</span><span class="p">[</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="s1">&#39;thickness&#39;</span><span class="p">]</span>
+    <span class="n">photoabsorption</span> <span class="o">=</span> <span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)][</span><span class="s1">&#39;dat&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e10</span><span class="o">/</span><span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)][</span><span class="s1">&#39;photoabs_to_sigma&#39;</span><span class="p">]</span>
+    <span class="n">lin</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)][</span><span class="s1">&#39;ene&#39;</span><span class="p">],</span> <span class="n">photoabsorption</span><span class="p">,</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">lin</span><span class="p">(</span><span class="n">energy_scale</span><span class="p">)</span> <span class="o">*</span> <span class="n">x_sections</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Z</span><span class="p">)][</span><span class="s1">&#39;nominal_density&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">100.</span> <span class="c1">#1/cm -&gt; 1/m</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">response</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">mu</span> <span class="o">*</span> <span class="n">t</span><span class="p">))</span><span class="c1"># * oo4pi;</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+
+<span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">EDS_Background</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">tags</span><span class="p">,</span><span class="n">energy_scale</span><span class="p">):</span>
+    <span class="n">E_0</span><span class="o">=</span> <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;acceleration_voltage_V&#39;</span><span class="p">]</span>
+
+    <span class="n">detector_efficiency</span> <span class="o">=</span> <span class="n">detector_response</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s1">&#39;detector&#39;</span><span class="p">],</span><span class="n">energy_scale</span><span class="p">)</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">energy_scale</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">detector_efficiency</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">E_0</span><span class="o">-</span><span class="n">E</span><span class="p">)</span><span class="o">/</span><span class="n">E</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">E_0</span><span class="o">-</span><span class="n">E</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">E</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">N</span>
+
+<span class="n">background</span> <span class="o">=</span> <span class="n">EDS_Background</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">tags</span><span class="p">,</span><span class="n">energy_scale</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_scale</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="n">background</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;energy (keV)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 0, &#39;energy (keV)&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "6743a6c60d8f4ffda8d882cfc80ca5cb", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<section id="Navigation">
+<h2>Navigation<a class="headerlink" href="#Navigation" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Back:</strong> <a class="reference internal" href="CH4_14-Characteristic_X_Rays.html"><span class="doc">Characteristic X-Rays</span></a></p></li>
+<li><p><strong>Next:</strong> <a class="reference internal" href="CH4_16-Analyze_EDS_Spectrum.html"><span class="doc">Analyze Spectrum</span></a></p></li>
+<li><p><strong>Chapter 4:</strong> <a class="reference internal" href="CH4_00-Spectroscopy.html"><span class="doc">Spectroscopy</span></a></p></li>
+<li><p><strong>List of Content:</strong> <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">Front</span></a></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Diffraction/index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Spectroscopy/CH4_15-Detector.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

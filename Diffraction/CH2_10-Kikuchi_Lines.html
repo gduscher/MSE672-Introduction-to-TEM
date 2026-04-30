@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Kikuchi Lines &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="HOLZ Lines" href="CH2_11-HOLZ_Lines.html" />
+    <link rel="prev" title="Unic Cell Determination and Stereographic Projection" href="CH2_09-Unit_Cell.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 2:</strong> <a class="reference internal" href="CH2_00-Diffraction.html"><span class="doc">Diffraction</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="Kikuchi-Lines">
+<h1>Kikuchi Lines<a class="headerlink" href="#Kikuchi-Lines" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Diffraction/CH2_10-Kikuchi_Lines.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main//Diffraction/CH2_10-Kikuchi_Lines.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p><strong>Spring 2026</strong> by Gerd Duscher</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes</p>
+<section id="Load-relevant-python-packages">
+<h2>Load relevant python packages<a class="headerlink" href="#Load-relevant-python-packages" title="Link to this heading">¶</a></h2>
+<section id="Check-Installed-Packages">
+<h3>Check Installed Packages<a class="headerlink" href="#Check-Installed-Packages" title="Link to this heading">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2026.1.2&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pyTEMlib<span class="w"> </span>-q<span class="w"> </span>--upgrade
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Load-the-plotting-and-figure-packages">
+<h3>Load the plotting and figure packages<a class="headerlink" href="#Load-the-plotting-and-figure-packages" title="Link to this heading">¶</a></h3>
+<p>Import the python packages that we will use:</p>
+<p>Beside the basic numerical (numpy) and plotting (pylab of matplotlib) libraries, some libraries from the pyTEMlib</p>
+<ul class="simple">
+<li><p>kinematic scattering</p></li>
+<li><p>diffraction_plot</p></li>
+</ul>
+<p>included in diffraction_tools library</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span>  widget
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">output</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+
+<span class="c1"># Import libraries from the pyTEMlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyTEMlib</span>
+
+<span class="n">__notebook_version__</span> <span class="o">=</span> <span class="s1">&#39;2026.01.11&#39;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pyTEM version: &#39;</span><span class="p">,</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;notebook version: &#39;</span><span class="p">,</span> <span class="n">__notebook_version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Kikuchi-Pattern">
+<h2>Kikuchi Pattern<a class="headerlink" href="#Kikuchi-Pattern" title="Link to this heading">¶</a></h2>
+<p>An electron can be scattered elastically into the Bragg angle, or it can be scattered inelastically</p>
+<p>The inelastically scattered electrons are emitted in all directions.</p>
+<p>These inelastically scattered electrons are then diffracted at the crystal planes according to Bragg’s law.</p>
+<img alt="Kossel cone" src="../_images/Kikuchi-small.png" />
+<p>This results in a cone, where the Bragg diffraction is allowed; this cone is called Kossel cone. Because the electrons are predominantly scattered in the direction of the incident beam, this Bragg diffraction will take some intensity out of the original beam (dark line: deficit line in the figure )and transfer it to a different angle (bright band: excess line in the figure. Inside this bands is some intensity which depends on the dynamic scattering.</p>
+<p>The most important feature of the Kikuchi band is that the Kossel cones are fixed to the crystal and allow easy navigation in reciprocal space, because nothing changes with the angle (the excitation error and thickness changes for SAD patterns). A common example if you want to tilt out of a zone axis, but you also want to keep an interface edge on; you just follow the Kikuchi band of the interface plane.</p>
+<p>Note: &gt;the Kikuchi bands are bent, they just appear straight, because the Ewald sphere is so large.</p>
+<p>Note: &gt;According to the explanation above, no Kikuchi lines should be visible if we are in a low order zone axis. This is not true because of the channeling effect and dynamic scattering, but these effects do not change anything about the location, where we expect the Kikuchi lines.</p>
+</section>
+<section id="Constructing-Kikuchi-Maps">
+<h2>Constructing Kikuchi Maps<a class="headerlink" href="#Constructing-Kikuchi-Maps" title="Link to this heading">¶</a></h2>
+<section id="Define-crystal">
+<h3>Define crystal<a class="headerlink" href="#Define-crystal" title="Link to this heading">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Please choose another crystal like: Silicon, Aluminium, GaAs , ZnO</span>
+<span class="n">atoms</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">crystal_tools</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">(</span><span class="s1">&#39;silicon&#39;</span><span class="p">)</span>
+<span class="n">atoms</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Plot-the-unit-cell">
+<h3>Plot the unit cell<a class="headerlink" href="#Plot-the-unit-cell" title="Link to this heading">¶</a></h3>
+<p>Just to be sure the crystal structure is right</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ase.visualize.plot</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_atoms</span>
+
+<span class="n">plot_atoms</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">radii</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;0x,4y,0z&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;Axes: xlabel=&#39;angle (mrad)&#39;&gt;
+</pre></div></div>
+</div>
+</section>
+<section id="Parameters-for-Diffraction-Calculation">
+<h3>Parameters for Diffraction Calculation<a class="headerlink" href="#Parameters-for-Diffraction-Calculation" title="Link to this heading">¶</a></h3>
+<p>Please note that we are using a rather small number of reflections: the maximum number of Miller indices &gt; maximum hkl is 1</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tags</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;acceleration_voltage_V&#39;</span><span class="p">:</span> <span class="mf">20.0</span> <span class="o">*</span><span class="mf">1000.0</span><span class="p">,</span> <span class="c1">#V</span>
+        <span class="s1">&#39;convergence_angle_mrad&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;zone_hkl&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>  <span class="c1"># incident neares zone axis: defines Laue Zones!!!!</span>
+        <span class="s1">&#39;Sg_max&#39;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span> <span class="c1"># 1/Ang  maximum allowed excitation error ; This parameter is related to the thickness</span>
+        <span class="s1">&#39;hkl_max&#39;</span><span class="p">:</span> <span class="mi">1</span> <span class="p">}</span>  <span class="c1"># Highest evaluated Miller indices</span>
+<br/></pre></div>
+</div>
+</div>
+</section>
+<section id="Calculation">
+<h3>Calculation<a class="headerlink" href="#Calculation" title="Link to this heading">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diff_dict</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_bragg_reflections</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The results are in the info attribute as a dictionary in <em>atoms.info[‘diffraction’]</em></p>
+</section>
+<section id="Plot-Selected-Area-Electron-Diffraction-Pattern">
+<h3>Plot Selected Area Electron Diffraction Pattern<a class="headerlink" href="#Plot-Selected-Area-Electron-Diffraction-Pattern" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ########################</span>
+<span class="c1"># Plot ZOLZ SAED Pattern #</span>
+<span class="c1"># ########################</span>
+
+<span class="c1"># Get information as dictionary</span>
+<span class="n">diffraction</span> <span class="o">=</span> <span class="n">diff_dict</span>
+<span class="c1">#We plot only the allowed diffraction spots</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plotting_coordinates</span><span class="p">(</span><span class="n">diffraction</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="c1"># we sort them by order of Laue zone</span>
+<span class="n">ZOLZ</span> <span class="o">=</span> <span class="n">diffraction</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;ZOLZ&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">diffraction</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;Laue_Zone&#39;</span><span class="p">])</span>
+<span class="c1"># Plot</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="c1"># We plot the x,y axis only; the z -direction is set to zero - this is our projection</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">points</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+
+<span class="c1"># zero spot plotting</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">FOV</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="n">FOV</span><span class="p">,</span><span class="n">FOV</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="n">FOV</span><span class="p">,</span><span class="n">FOV</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[-9.63626132  6.81386572]
+ [-9.63626132 -6.81386572]
+ [ 9.63626132  6.81386572]
+ [ 9.63626132 -6.81386572]]
+[0. 0. 0. 0.]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "e6cc257701f94a5ba97e0eb8b3e7cd26", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="Kikuchi-Line-Construction">
+<h2>Kikuchi Line Construction<a class="headerlink" href="#Kikuchi-Line-Construction" title="Link to this heading">¶</a></h2>
+<p>The Kikuchi lines are the Bisections of lines from the center spot to the Bragg spots.</p>
+<p>The line equation for a bisection of a line between two points <span class="math notranslate nohighlight">\((A(x_A,y_A), B(x_B,y_B))\)</span> is given by the formula:</p>
+<p><span class="math notranslate nohighlight">\(y=-\frac{x_A-x_B}{y_A-y_B}x+\frac{x_A^2-x_B^2+y_A^2-y_B^2}{2 \cdot(y_A-y_B)}\)</span></p>
+<p>If <span class="math notranslate nohighlight">\(y_A = y_B\)</span>, then x is constant at <span class="math notranslate nohighlight">\(x= \frac{1}{2} (x_A+x_B)\)</span></p>
+<p>In our case point <span class="math notranslate nohighlight">\(B\)</span> is <span class="math notranslate nohighlight">\((0,0)\)</span> and so above equation is:</p>
+<p><span class="math notranslate nohighlight">\(y=-\frac{x_A}{y_A}x+\frac{x_A^2+y_A^2}{2 y_A}\)</span></p>
+<p>If <span class="math notranslate nohighlight">\(y_A\)</span> is zero, the line is horizontal and $ x$ is constant at <span class="math notranslate nohighlight">\(x= \frac{1}{2} x_A\)</span>.</p>
+<p><em>matplotlib</em> is doing his job for us.</p>
+<p>A line is also uniquely defined by the point closest to the origin and it’s slope.</p>
+<p>The slope is the <strong>tangens</strong> of the angle with the x-axis.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pointsZ</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">]</span>
+
+<span class="n">g</span> <span class="o">=</span> <span class="n">pointsZ</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">FOV</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="n">slope</span> <span class="o">=</span> <span class="o">-</span><span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">g</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Plot</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="c1"># We plot the x,y axis only; the z -direction is set to zero - this is our projection</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span> <span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">.3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">g</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="c1"># Draw kikuchi</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axline</span><span class="p">((</span><span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">g</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="n">slope</span><span class="o">=</span><span class="n">slope</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">g</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Kikuchi&#39;</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">37</span><span class="o">-</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">]],[</span><span class="mi">0</span><span class="p">,</span><span class="n">g</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="c1"># zero spot plotting</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="n">FOV</span><span class="p">,</span><span class="n">FOV</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="n">FOV</span><span class="p">,</span><span class="n">FOV</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;angle (1/$\AA$)&#39;</span> <span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "aefb5f5849994640ae51351a6a922d6a", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>Assume we have an SAD pattern, from experiment or simulation. Draw a line from the center to each ZOLZ diffraction spot and draw a line perpendicular to the first line at half the distance. We name the line with the same Miller indices as the spot. The distance between two pair of lines is then again <span class="math notranslate nohighlight">\(|\vec{g}|\)</span> of the original spots.</p>
+<p>If we know in which direction the next low order zone axis is and how far we have to tilt to get to it, we can draw that pole too.</p>
+<p>This is much easier with a line equation, knowing that <span class="math notranslate nohighlight">\(\vec{g}/2\)</span> is a point halfway between the Bragg reflection and zero. The slope is then tan of the direction + <span class="math notranslate nohighlight">\(90^\circ\)</span>. or the negative slope as before</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pointsZ</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">]</span>
+
+<span class="n">g</span> <span class="o">=</span> <span class="n">pointsZ</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">m</span> <span class="o">=</span> <span class="o">-</span><span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">g</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Plot</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="c1"># We plot the x,y axis only; the z -direction is set to zero - this is our projection</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span> <span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">.3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">g</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axline</span><span class="p">(</span> <span class="n">g</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">slope</span><span class="o">=</span><span class="n">m</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">g</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Kikuchi&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">52</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">]],[</span><span class="mi">0</span><span class="p">,</span><span class="n">g</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="c1"># Make right angle symbol</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">g</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1">#ax.plot([g[0]/2*.09, g[0]/2*.9+.01], [g[1]/2*.9,g[1]/2*.9+.01],c=&#39;black&#39;)</span>
+<span class="c1">#ax.plot([g[0]/2*.9, g[0]/2*.9+.01],[g[1]/2*1.1,g[1]/2*1.1-.01],c=&#39;black&#39;)</span>
+
+<span class="c1"># zero spot plotting</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="n">FOV</span><span class="p">,</span><span class="n">FOV</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="n">FOV</span><span class="p">,</span><span class="n">FOV</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "57a4ce1faf834cb29d32fcee2d7dbf3d", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<section id="Plotting-of-Kikuchi-Pattern">
+<h3>Plotting of Kikuchi Pattern<a class="headerlink" href="#Plotting-of-Kikuchi-Pattern" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pointsZ</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">]</span>
+
+<span class="n">g</span> <span class="o">=</span> <span class="n">pointsZ</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">slope</span> <span class="o">=</span> <span class="o">-</span><span class="n">g</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">g</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Plot</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="c1"># We plot the x,y axis only; the z -direction is set to zero - this is our projection</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span> <span class="p">)</span>
+<span class="k">for</span> <span class="n">spot</span> <span class="ow">in</span> <span class="n">g</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axline</span><span class="p">(</span> <span class="n">spot</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">slope</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">spot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">spot</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+
+<span class="c1"># zero spot plotting</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">FOV</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="n">FOV</span><span class="p">,</span><span class="n">FOV</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="n">FOV</span><span class="p">,</span><span class="n">FOV</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "35f3bc2eb39144468b2f6638d80a183c", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="Plotting-of-Whole-Kikuchi-Pattern">
+<h2>Plotting of Whole Kikuchi Pattern<a class="headerlink" href="#Plotting-of-Whole-Kikuchi-Pattern" title="Link to this heading">¶</a></h2>
+<p>with a few more Bragg peaks, so please increase <strong>hkl_max</strong> and see what happens!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------- Input -----------</span>
+<span class="n">hkl_max</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="c1"># -------------------------</span>
+
+
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;hkl_max&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hkl_max</span>
+<span class="n">tags</span><span class="p">[</span><span class="s1">&#39;crystal_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;silicon&#39;</span>
+<span class="n">atoms</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">crystal_tools</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">(</span><span class="s1">&#39;Si&#39;</span><span class="p">)</span>
+<span class="n">tagsD</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_bragg_reflections</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="c1">#We plot only the allowed diffraction spots</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plotting_coordinates</span><span class="p">(</span><span class="n">tagsD</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">])</span>
+<span class="c1"># we sort them by order of Laue zone</span>
+<span class="n">ZOLZ</span> <span class="o">=</span> <span class="n">tagsD</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;ZOLZ&#39;</span><span class="p">]</span>
+
+<span class="n">pointsZ</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">ZOLZ</span><span class="p">]</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">pointsZ</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="c1"># Plot</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">tags</span><span class="p">[</span><span class="s1">&#39;crystal_name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">tags</span><span class="p">[</span><span class="s1">&#39;zone_hkl&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+<span class="c1"># We plot the x,y axis only; the z -direction is set to zero - this is our projection</span>
+<span class="k">for</span> <span class="n">spot</span> <span class="ow">in</span> <span class="n">g</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axline</span><span class="p">(</span> <span class="n">spot</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">slope</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">spot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">spot</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># zero spot plotting</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+
+<span class="c1"># plt.ylim(-FOV,FOV); plt.xlim(-FOV,FOV); plt.show()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Of the 48 possible reflection 18 are allowed.
+Of those, there are 18 in ZOLZ  and 0 in HOLZ
+Of the 30 forbidden reflection in ZOLZ  6 can be dynamically activated.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "a32ded8286e64284a05029b0222f6c46", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Plotting-of-Whole-Kikuchi-Pattern-with-kineamtic_scattering-Library">
+<h2>Plotting of Whole Kikuchi Pattern with kineamtic_scattering Library<a class="headerlink" href="#Plotting-of-Whole-Kikuchi-Pattern-with-kineamtic_scattering-Library" title="Link to this heading">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># -------- input ---------------</span>
+<span class="n">crystal_name</span> <span class="o">=</span> <span class="s1">&#39;SrTiO3&#39;</span>
+<span class="n">zone_axis</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="c1"># ----------------------------</span>
+<span class="n">atoms</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">crystal_tools</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">(</span><span class="n">crystal_name</span><span class="p">)</span>
+<span class="n">tags</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;crystal_name&#39;</span><span class="p">:</span> <span class="n">crystal_name</span><span class="p">,</span>
+        <span class="s1">&#39;acceleration_voltage&#39;</span><span class="p">:</span> <span class="mf">200.0</span> <span class="o">*</span><span class="mf">1000.0</span><span class="p">,</span> <span class="c1">#V</span>
+        <span class="s1">&#39;convergence_angle&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;Sg_max&#39;</span><span class="p">:</span> <span class="mf">.03</span><span class="p">,</span>   <span class="c1"># 1/Ang  maximum allowed excitation error ; This parameter is related to the thickness</span>
+        <span class="s1">&#39;hkl_max&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>   <span class="c1"># Highest evaluated Miller indices</span>
+        <span class="s1">&#39;zone_hkl&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">zone_axis</span><span class="p">),</span>
+        <span class="s1">&#39;mistilt_alpha&#39;</span><span class="p">:</span> <span class="mf">.0</span><span class="p">,</span>  <span class="c1"># -45#-35-0.28-1+2.42</span>
+        <span class="s1">&#39;mistilt_beta&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span>
+        <span class="s1">&#39;plot_FOV&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="n">diff_dict</span> <span class="o">=</span><span class="p">{}</span>
+<span class="n">diff_dict</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_bragg_reflections</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">rotation</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">ZOLZ</span> <span class="o">=</span> <span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;ZOLZ&#39;</span><span class="p">]</span>
+
+<span class="n">xy</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plotting_coordinates</span><span class="p">(</span><span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;allowed&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">][</span><span class="n">ZOLZ</span><span class="p">],</span>
+                                                     <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span>
+                                                     <span class="n">feature</span><span class="o">=</span><span class="s1">&#39;spot&#39;</span><span class="p">)</span>
+<span class="n">kikuchi</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plotting_coordinates</span><span class="p">(</span><span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;Kikuchi&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">],</span>
+                                                     <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span>
+                                                     <span class="n">laue_circle</span><span class="o">=</span><span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;Laue_circle&#39;</span><span class="p">],</span>
+                                                     <span class="n">feature</span><span class="o">=</span><span class="s1">&#39;line&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">xy</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">kikuchi</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axline</span><span class="p">(</span> <span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span><span class="n">slope</span><span class="o">=</span><span class="n">line</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Of the 80 possible reflection 80 are allowed.
+Of those, there are 80 in ZOLZ  and 0 in HOLZ
+Of the 0 forbidden reflection in ZOLZ  0 can be dynamically activated.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "5d9612d74b474c66800d346e31114f1a", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span><span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plot_saed_parameter</span><span class="p">()</span>
+
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;plot Kikuchi&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                             <span class="s1">&#39;color Kikuchi&#39;</span><span class="p">:</span> <span class="s1">&#39;navy&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;background&#39;</span><span class="p">:</span> <span class="s1">&#39;gray&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;label size&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+                             <span class="s1">&#39;plot shift x&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                             <span class="s1">&#39;plot shift y&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                             <span class="s1">&#39;image gamma&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                             <span class="s1">&#39;label color&#39;</span><span class="p">:</span> <span class="s1">&#39;skyblue&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;color zero&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;plot_labels&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+
+<span class="c1">############</span>
+<span class="c1">## OUTPUT</span>
+<span class="c1">############</span>
+
+<span class="n">v</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plot_diffraction_pattern</span><span class="p">(</span><span class="n">diff_dict</span><span class="p">)</span>
+<span class="c1">#plt.gca().set_xlim(-2,2)</span>
+<span class="c1">#plt.gca().set_ylim(-2,2)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "248243a2f77441428804c2725031dcae", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Mistilt-in-Kikuchi-Pattern">
+<h2>Mistilt in Kikuchi Pattern<a class="headerlink" href="#Mistilt-in-Kikuchi-Pattern" title="Link to this heading">¶</a></h2>
+<p>Becasue Kikuchi pattern are directly fixed to the crystal any mistiolt can immediately be detected</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># -------Input ------ #</span>
+<span class="n">crystal_name</span> <span class="o">=</span> <span class="s1">&#39;SrTiO3&#39;</span>
+<span class="n">zone_axis</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">mistilt_alpha</span> <span class="o">=</span> <span class="mf">0.75</span>  <span class="c1"># in degree</span>
+<span class="n">mistilt_beta</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c1"># ------------------- #</span>
+
+
+<span class="c1"># Crystal unit cell defintion</span>
+<span class="n">atoms</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">crystal_tools</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">(</span><span class="n">crystal_name</span><span class="p">)</span>
+
+<span class="n">tags</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;crystal_name&#39;</span><span class="p">:</span> <span class="n">crystal_name</span><span class="p">,</span>
+        <span class="s1">&#39;acceleration_voltage&#39;</span><span class="p">:</span> <span class="mf">200.0</span> <span class="o">*</span><span class="mf">1000.0</span><span class="p">,</span> <span class="c1">#V</span>
+        <span class="s1">&#39;convergence_angle&#39;</span><span class="p">:</span> <span class="mf">3.</span><span class="p">,</span>
+        <span class="s1">&#39;Sg_max&#39;</span><span class="p">:</span> <span class="mf">.01</span><span class="p">,</span>   <span class="c1"># 1/Ang  maximum allowed excitation error ; This parameter is related to the thickness</span>
+        <span class="s1">&#39;thickness&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># in Ang</span>
+        <span class="s1">&#39;hkl_max&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>   <span class="c1"># Highest evaluated Miller indices</span>
+        <span class="s1">&#39;zone_hkl&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">zone_axis</span><span class="p">),</span>
+        <span class="s1">&#39;mistilt_alpha&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">mistilt_alpha</span><span class="p">),</span>
+        <span class="s1">&#39;mistilt_beta&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">mistilt_beta</span><span class="p">),</span>
+        <span class="s1">&#39;plot_FOV&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+
+<span class="n">diff_dict</span> <span class="o">=</span><span class="p">{}</span>
+<span class="n">diff_dict</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_bragg_reflections</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plot_saed_parameter</span><span class="p">()</span>
+
+<span class="n">diff_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;plot Kikuchi&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                             <span class="p">})</span>
+
+
+<span class="c1">############</span>
+<span class="c1">## OUTPUT</span>
+<span class="c1">############</span>
+
+<span class="n">v</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">plot_diffraction_pattern</span><span class="p">(</span><span class="n">diff_dict</span><span class="p">)</span>
+<span class="c1">#plt.gca().set_xlim(-2, 2)</span>
+<span class="c1">#plt.gca().set_ylim(-2, 2)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+mistilt
+Of the 48 possible reflection 48 are allowed.
+Of those, there are 48 in ZOLZ  and 0 in HOLZ
+Of the 0 forbidden reflection in ZOLZ  0 can be dynamically activated.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "427d8d11db544cee91f39e0c51165320", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Kikuchi-Maps">
+<h2>Kikuchi Maps<a class="headerlink" href="#Kikuchi-Maps" title="Link to this heading">¶</a></h2>
+<p>Extremly helpfull for tilting a sample to a different zone axis are maps of Kikuchi pattern as the one below.</p>
+<img alt="Diamond Kikuchi Map" src="../_images/Diamondkikuchi.png" />
+<p>If you are in a specific zone axis, which we identify by its symmetry (like the SAED</p>
+</section>
+<section id="Kikuchi-Lines-and-Excitation-Error">
+<h2>Kikuchi Lines and Excitation Error<a class="headerlink" href="#Kikuchi-Lines-and-Excitation-Error" title="Link to this heading">¶</a></h2>
+<p>Since the Kikuchi lines are rigidly attached to the crystal, we can use them to measure the excitation error. The diffraction geometry is shown in the figure above. If <span class="math notranslate nohighlight">\(\vec{s}_g = 0\)</span> the deficient line of a Kikuchi band (a pole) lays in the origin. If we tilt the sample so that the whole band shifts to the bright line, then the excitation error is positive. The angle <span class="math notranslate nohighlight">\(\eta\)</span> (which is equal to <span class="math notranslate nohighlight">\(\epsilon\)</span>) is related to the excitation error by simple trigonometry:
+<span class="math">\begin{eqnarray}
+\eta &=& \frac{x}{L}= \frac{x \lambda}{R d}\\
+\epsilon &=& \frac{s}{g}\\
+s &=& \epsilon = \frac{x}{L}g = \frac{x}{Ld}\\
+\frac{R}{L}&=& 2\theta_B=\frac{\lambda}{d}\\
+s&=& \frac{xL}{d}=\frac{x}{d}\cdot\frac{\lambda}{Rd}\\
+s&=& \frac{x\lambda}{R d^2}=\frac{x}{R}\lambda g^2
+\end{eqnarray}</span></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- Input -----</span>
+<span class="n">s_g</span><span class="o">=</span> <span class="mf">.05</span> <span class="c1"># in 1/Ang</span>
+<span class="c1"># ---------------</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyTEMlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">animation</span>
+<span class="n">animation</span><span class="o">.</span><span class="n">deficient_kikuchi_line</span><span class="p">(</span><span class="n">s_g</span><span class="o">=</span> <span class="n">s_g</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "3fe7c8ff954f4e8d8ee1d42112b27571", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>Principle of excitation error determination. You can use this to obtain exact Bragg (s_g=0) conditions in your diffraction pattern.</p>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading">¶</a></h2>
+<p>The Kikuchi lines are directly related to the Bragg reflections and therefore show the same symmetry as the diffraction pattern.</p>
+</section>
+<section id="Navigation">
+<h2>Navigation<a class="headerlink" href="#Navigation" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Back:</strong> <a class="reference internal" href="CH2_09-Unit_Cell.html"><span class="doc">Unit Cel Determination</span></a></p></li>
+<li><p><strong>Next:</strong> <a class="reference internal" href="CH2_11-HOLZ_Lines.html"><span class="doc">HOLZ Lines</span></a></p></li>
+<li><p><strong>Chapter 2:</strong> <a class="reference internal" href="CH2_00-Diffraction.html"><span class="doc">Diffraction</span></a></p></li>
+<li><p><strong>List of Content:</strong> <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">Front</span></a></p></li>
+</ul>
+</section>
+<section id="Appendix">
+<h2>Appendix<a class="headerlink" href="#Appendix" title="Link to this heading">¶</a></h2>
+<section id="An-Excursion-to-Hough-space">
+<h3>An Excursion to Hough space<a class="headerlink" href="#An-Excursion-to-Hough-space" title="Link to this heading">¶</a></h3>
+<p>The line can be defined by</p>
+<ul class="simple">
+<li><p>its end points</p></li>
+<li><p>intersection with y and slope or</p></li>
+<li><p>closest distance to origin and angle with x-axis.</p></li>
+</ul>
+<p>The latter is called <strong>Hough Space</strong> and when we look at the Kikuchi construction we see that this is easily accomplished in that case:</p>
+<ul class="simple">
+<li><p>The closest distance to origin is half the distance to the Bragg reflection.</p></li>
+<li><p>The angle between the x-axis and the angle to the Bragg reflection plus 90<span class="math notranslate nohighlight">\(^o\)</span> is the Hough line angle</p></li>
+</ul>
+<blockquote>
+<div><p>That means that polar coordinates and Hough space are closely related</p>
+</div></blockquote>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">points_polar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">points</span><span class="p">[:,:</span><span class="mi">2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">points</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="n">points</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">points_polar</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">hough2cartesian</span><span class="p">(</span><span class="n">points_polar</span><span class="p">,</span> <span class="n">maxlength</span> <span class="o">=</span> <span class="mf">.4</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; converts polar coordinates to lines and cartesian points &quot;&quot;&quot;</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">points_polar</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">points_polar</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">)</span> <span class="o">=</span> <span class="n">dist</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)])</span>
+
+    <span class="n">h_xp</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="n">maxlength</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">h_yp</span> <span class="o">=</span> <span class="n">y0</span> <span class="o">+</span> <span class="n">maxlength</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span> <span class="n">angle</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">h_xm</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">-</span> <span class="n">maxlength</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span> <span class="n">angle</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">h_ym</span> <span class="o">=</span> <span class="n">y0</span> <span class="o">-</span> <span class="n">maxlength</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span> <span class="n">angle</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">h_xp</span><span class="p">,</span> <span class="n">h_yp</span><span class="p">,</span> <span class="n">h_xm</span><span class="p">,</span> <span class="n">h_ym</span><span class="p">,</span> <span class="n">x0</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">y0</span><span class="o">*</span><span class="mi">2</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">cartesian2hough</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">maxlength</span> <span class="o">=</span> <span class="mf">.4</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; converts cartesian coordinates to lines and polar points &quot;&quot;&quot;</span>
+
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">points</span><span class="p">[:,:</span><span class="mi">2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">points</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="n">points</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">h_xp</span> <span class="o">=</span> <span class="n">points</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">maxlength</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">h_yp</span> <span class="o">=</span> <span class="n">points</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">maxlength</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">h_xm</span> <span class="o">=</span> <span class="n">points</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">maxlength</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">h_ym</span> <span class="o">=</span> <span class="n">points</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">maxlength</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">h_xp</span><span class="p">,</span> <span class="n">h_yp</span><span class="p">,</span> <span class="n">h_xm</span><span class="p">,</span> <span class="n">h_ym</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">angle</span>
+
+<span class="n">points_polar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">points</span><span class="p">[:,:</span><span class="mi">2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">points</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="n">points</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+<span class="n">hxp</span><span class="p">,</span><span class="n">hyp</span><span class="p">,</span><span class="n">hxm</span><span class="p">,</span><span class="n">hym</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">=</span> <span class="n">hough2cartesian</span><span class="p">(</span><span class="n">points_polar</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span> <span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">.3</span><span class="p">),</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span> <span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">.8</span><span class="p">),</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hxm</span><span class="p">)):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">hxm</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">hxp</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="p">[</span><span class="n">hym</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">hyp</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Polar coordinates allow us to rotate the diffraction pattern quite easily, just add a fixed value to the angle part of the coordinates</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------Input -----</span>
+<span class="n">rotation_angle</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># in degree</span>
+<span class="c1"># -----------------</span>
+<span class="n">points_polar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">points</span><span class="p">[:,:</span><span class="mi">2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">points</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="n">points</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">points_polar</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">rotation_angle</span><span class="p">)</span>
+
+<span class="n">hxp</span><span class="p">,</span><span class="n">hyp</span><span class="p">,</span><span class="n">hxm</span><span class="p">,</span><span class="n">hym</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">=</span> <span class="n">hough2cartesian</span><span class="p">(</span><span class="n">points_polar</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span> <span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">.3</span><span class="p">),</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span> <span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">.8</span><span class="p">),</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hxm</span><span class="p">)):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">hxm</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">hxp</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="p">[</span><span class="n">hym</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">hyp</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Hough-Transform">
+<h3>Hough-Transform<a class="headerlink" href="#Hough-Transform" title="Link to this heading">¶</a></h3>
+<p>From Wikipedia</p>
+<img alt="Hough Transform" src="../_images/Hough-example-result-en.png" />
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/index.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Spectroscopy/index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Diffraction</a><ul>
+      <li>Previous: <a href="CH2_09-Unit_Cell.html" title="previous chapter">Unic Cell Determination and Stereographic Projection</a></li>
+      <li>Next: <a href="CH2_11-HOLZ_Lines.html" title="next chapter">HOLZ Lines</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Diffraction/CH2_10-Kikuchi_Lines.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

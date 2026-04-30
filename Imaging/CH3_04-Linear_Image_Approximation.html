@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Linear Image Approximation: Weak Phase Object &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 3:</strong> <a class="reference internal" href="CH3_00-Imaging.html"><span class="doc">Imaging</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="Linear-Image-Approximation:-Weak-Phase-Object">
+<h1>Linear Image Approximation: Weak Phase Object<a class="headerlink" href="#Linear-Image-Approximation:-Weak-Phase-Object" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM/main/Imaging/CH3_04-Linear_Image_Approximation.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main//Imaging/CH3_04-Linear_Image_Approximation.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p><strong>Spring 2026</strong> by Gerd Duscher</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<section id="Load-important-packages">
+<h2>Load important packages<a class="headerlink" href="#Load-important-packages" title="Link to this heading">¶</a></h2>
+<section id="Check-Installed-Packages">
+<h3>Check Installed Packages<a class="headerlink" href="#Check-Installed-Packages" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2026.1.0&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w">  </span>--upgrade<span class="w"> </span>pyTEMlib<span class="w"> </span>-q
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+done
+</pre></div></div>
+</div>
+</section>
+<section id="Load-Packages">
+<h3>Load Packages<a class="headerlink" href="#Load-Packages" title="Link to this heading">¶</a></h3>
+<p>We will use</p>
+<ul class="simple">
+<li><p>numpy and matplotlib (installed with magic comand <strong>%pylab</strong>.)</p></li>
+<li><p>physical constants from scipy</p></li>
+<li><p>The pyTEMlib kinematic scattering librarty is only used to determine the wavelength.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import matplotlib and numpy</span>
+<span class="c1">#                       use &quot;inline&quot; instead of &quot;notebook&quot; for non-interactive plots</span>
+<span class="o">%</span><span class="k">matplotlib</span>  widget
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">output</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
+
+<span class="c1"># Import libraries from pyTEMlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyTEMlib</span>
+
+<span class="c1"># For archiving reasons it is a good idea to print the version numbers out at this point</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pyTEM version: &#39;</span><span class="p">,</span><span class="n">pyTEMlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+
+<span class="n">__notebook__</span> <span class="o">=</span> <span class="s1">&#39;CH3-04-Linear_Image_Approximation&#39;</span>
+<span class="n">__notebook_version__</span> <span class="o">=</span> <span class="s1">&#39;2024_03_01&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+pyTEM version:  0.2026.1.3
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Weak-Phase-Object">
+<h2>Weak Phase Object<a class="headerlink" href="#Weak-Phase-Object" title="Link to this heading">¶</a></h2>
+<p>the simplest approximation is for the sample to be very thin and then then the incident electrons pass through the specimen with only small deviations in their paths, which can be approximated by a phase change only. These influences of a specimen can be modeled as a simple transmission function <span class="math notranslate nohighlight">\(t (x)\)</span>. The electron wave function after passing through the specimen is:</p>
+<div class="math notranslate nohighlight">
+\[\Psi_t(x) = t(x) \Psi_{inc}(x)\]</div>
+<p>with <span class="math notranslate nohighlight">\(\Psi_{inc}\)</span>:incident wave function</p>
+<p>This transmisison function is the same that we used for a thin slice in the multislice algorithm. So we approximate here a sample by a thin slice.</p>
+<p>The exit wave is then distorted by the aberration function <span class="math notranslate nohighlight">\(\chi(\vec{k})\)</span> of the objective lens. Because this distortion function is defined in reciprocal space it is convenient to address the image distortion as a convolution. We descibe this effect of the objective lens as shifts to the phase of each frequency component by a different amount according to the aberration function <span class="math notranslate nohighlight">\(\chi(\vec{k})\)</span>. this convolution is a multiplicaiton in Fourier Space.</p>
+</section>
+<section id="Projected-Potential-of-Supercell">
+<h2>Projected Potential of Supercell<a class="headerlink" href="#Projected-Potential-of-Supercell" title="Link to this heading">¶</a></h2>
+<p>As in the Dynamic Diffraction part in the <a class="reference internal" href="../Diffraction/CH2_D02-Multislice.html"><span class="doc">Multislice notebook</span></a>, we first define a potential.</p>
+<p>I put the code from that notebook into a library <code class="docutils literal notranslate"><span class="pre">dynamic_scattering</span></code>which we will use here.</p>
+<p>Here we make a bcc iron crystal, which is unrealistically thin (1 unit cell).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nx</span> <span class="o">=</span> <span class="n">ny</span> <span class="o">=</span> <span class="mi">512</span>
+<span class="n">n_cell_x</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mf">2.866</span>  <span class="c1"># lattice parameter in Angstrom</span>
+
+<span class="n">potential</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">potential_2dim</span><span class="p">(</span><span class="s1">&#39;Fe&#39;</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">n_cell_x</span><span class="p">,</span> <span class="n">n_cell_x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">]])</span>
+
+<span class="n">pixel_size</span> <span class="o">=</span> <span class="n">a</span><span class="o">/</span><span class="p">(</span><span class="n">nx</span><span class="o">/</span><span class="n">n_cell_x</span><span class="p">)</span>
+<span class="n">image_extent</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">nx</span><span class="o">*</span><span class="n">pixel_size</span><span class="p">,</span> <span class="n">ny</span><span class="o">*</span><span class="n">pixel_size</span><span class="p">,</span> <span class="mi">0</span> <span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">((</span><span class="n">potential</span><span class="p">),</span> <span class="n">extent</span><span class="o">=</span><span class="n">image_extent</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;distance ($\AA$)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 0, &#39;distance ($\\AA$)&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "b6c3beecb733426ea3107708a6a4f063", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Transmission-Function-for-Very-Thin-Specimen">
+<h2>Transmission Function for Very Thin Specimen<a class="headerlink" href="#Transmission-Function-for-Very-Thin-Specimen" title="Link to this heading">¶</a></h2>
+<div class="line-block">
+<div class="line">For a very thin specimen the <code class="docutils literal notranslate"><span class="pre">weak</span> <span class="pre">phase</span> <span class="pre">approximation</span></code> is the simples way to calculate a high resolution (phase contrast) image.</div>
+<div class="line">In that approximation, the sample causes only a phase change to the incident plane wave.</div>
+</div>
+<p>To retrieve the exit we just multiply the transmission function <span class="math notranslate nohighlight">\(t(\vec{x})\)</span> with the plane wave <span class="math notranslate nohighlight">\(\exp (2\pi i k_z z)\)</span></p>
+<div class="math notranslate nohighlight">
+\[\Psi_t(\vec{x}) = t(\vec{x}) \exp \left(2 \pi i k_z z \right) \approx t(\vec{x})\]</div>
+<p>The specimen transmission function depends on the projected potential <span class="math notranslate nohighlight">\(v_z(\vec{x})\)</span> and the interaction parameter <span class="math notranslate nohighlight">\(\sigma\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[t(\vec{x}) =  \exp \left( i \sigma v_z(\vec{x})\right)\]</div>
+<p>with the interaction parameter <span class="math notranslate nohighlight">\(\sigma\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\sigma = \frac{2 \pi}{\lambda V} \left(  \frac{m_0 c^2 + eV}{2m_0c^2+eV} \right) = \frac{2 \pi m  e_0 \lambda}{h^2}\]</div>
+<p>with $ m = <span class="math">\gamma `m_0$ and :math:`eV</span> the incident electron energy.</p>
+<p>Again we did this already in the Multislice notebook, and I put the code from that notebook into the <code class="docutils literal notranslate"><span class="pre">dynamic_scattering</span></code> library.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">acceleration_voltage</span> <span class="o">=</span> <span class="mi">200000</span>
+
+<span class="n">transmission</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_transmission</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="n">acceleration_voltage</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">transmission</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">extent</span> <span class="o">=</span> <span class="n">image_extent</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;distance ($\AA$)&#39;</span><span class="p">)</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 0, &#39;distance ($\\AA$)&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "74db9e2fc1d645f886b9caa681b7ef4f", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>Please note that there is no effect by multiplying with a plane wave</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plane_wave</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="n">nx</span><span class="p">,</span><span class="n">ny</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+<span class="n">exit_wave</span> <span class="o">=</span> <span class="n">plane_wave</span> <span class="o">*</span> <span class="n">transmission</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">exit_wave</span><span class="o">.</span><span class="n">real</span><span class="p">),</span> <span class="n">extent</span><span class="o">=</span><span class="n">image_extent</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;distance ($\AA$)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 0, &#39;distance ($\\AA$)&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "19dc4e98bc484a83b4d5a70a629a4b55", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Aberration-Function">
+<h2>Aberration Function<a class="headerlink" href="#Aberration-Function" title="Link to this heading">¶</a></h2>
+<p>We make the aberration function like in the <a class="reference internal" href="CH3_03-CTF.html"><span class="doc">Contrast Transfer notebook</span></a></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_chi</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">ab</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate aberration function chi</span>
+
+<span class="sd">    Input:</span>
+<span class="sd">    ------</span>
+<span class="sd">    theta, phi: numpay array (n x m)</span>
+<span class="sd">        angle meshes of the reciprocal space</span>
+<span class="sd">    wavelength: float</span>
+<span class="sd">        wavelength in nm</span>
+<span class="sd">    ab: dict</span>
+<span class="sd">        aberrations in nm should at least contain defocus (C10), and spherical abeeration (C30)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    chi: numpy array (nxm)</span>
+<span class="sd">        aberration function</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s1">&#39;C10&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ab</span><span class="p">:</span>
+        <span class="n">ab</span><span class="p">[</span><span class="s1">&#39;C10&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="k">if</span> <span class="s1">&#39;C12a&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ab</span><span class="p">:</span>
+        <span class="n">ab</span><span class="p">[</span><span class="s1">&#39;C12a&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="k">if</span> <span class="s1">&#39;C12b&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ab</span><span class="p">:</span>
+        <span class="n">ab</span><span class="p">[</span><span class="s1">&#39;C12b&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="c1"># defocus and astigmatism</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">ab</span><span class="p">[</span><span class="s1">&#39;C10&#39;</span><span class="p">]</span>  <span class="o">+</span> <span class="n">ab</span><span class="p">[</span><span class="s1">&#39;C12a&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">phi</span><span class="p">)</span> <span class="o">+</span> <span class="n">ab</span><span class="p">[</span><span class="s1">&#39;C12b&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">phi</span><span class="p">))</span>
+
+
+    <span class="c1"># coma and three fold astigmatism</span>
+    <span class="k">if</span> <span class="s1">&#39;C21a&#39;</span> <span class="ow">in</span> <span class="n">ab</span> <span class="ow">and</span> <span class="s1">&#39;C21b&#39;</span> <span class="ow">in</span> <span class="n">ab</span> <span class="ow">and</span> <span class="s1">&#39;C23a&#39;</span> <span class="ow">in</span> <span class="n">ab</span> <span class="ow">and</span> <span class="s1">&#39;C23b&#39;</span> <span class="ow">in</span> <span class="n">ab</span><span class="p">:</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">ab</span><span class="p">[</span><span class="s1">&#39;C21a&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="n">phi</span><span class="p">)</span> <span class="o">+</span> <span class="n">ab</span><span class="p">[</span><span class="s1">&#39;C21b&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="n">phi</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="n">theta</span><span class="o">*</span><span class="mf">0.</span>
+    <span class="c1"># spherical aberration</span>
+    <span class="k">if</span> <span class="s1">&#39;C30&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ab</span><span class="p">:</span>
+        <span class="n">ab</span><span class="p">[</span><span class="s1">&#39;C30&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="n">t3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span><span class="o">/</span><span class="mi">4</span> <span class="o">*</span> <span class="n">ab</span><span class="p">[</span><span class="s1">&#39;C30&#39;</span><span class="p">]</span>
+
+    <span class="n">chi</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">t2</span><span class="o">+</span> <span class="n">t3</span>
+    <span class="k">return</span> <span class="n">chi</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">wavelength</span>  <span class="c1"># np.power(theta,6)/6*(  ab[&#39;C50&#39;] )</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">objective_lens_function</span><span class="p">(</span><span class="n">ab</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">field_of_view</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">aperture_size</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Objective len function to be convoluted with exit wave to derive image function</span>
+
+<span class="sd">    Input:</span>
+<span class="sd">    ab: dict</span>
+<span class="sd">        aberrations in nm should at least contain defocus (C10), and spherical abeeration (C30)</span>
+<span class="sd">    nx: int</span>
+<span class="sd">        number of pixel in x direction</span>
+<span class="sd">    ny: int</span>
+<span class="sd">        number of pixel in y direction</span>
+<span class="sd">    field_of_view: float</span>
+<span class="sd">        field of fiew of potential</span>
+<span class="sd">    wavelength: float</span>
+<span class="sd">        wavelength in nm</span>
+<span class="sd">    aperture_size: float</span>
+<span class="sd">        aperture size in 1/nm</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    object function: numpy array (nx x ny)</span>
+<span class="sd">    extent: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Reciprocal plane in 1/nm</span>
+    <span class="n">dk</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">field_of_view</span>
+    <span class="n">t_xv</span><span class="p">,</span> <span class="n">t_yv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="o">-</span><span class="n">nx</span><span class="o">/</span><span class="mi">2</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="n">nx</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="nb">int</span><span class="p">(</span><span class="o">-</span><span class="n">ny</span><span class="o">/</span><span class="mi">2</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="n">ny</span><span class="o">/</span><span class="mi">2</span><span class="p">)]</span> <span class="o">*</span><span class="n">dk</span>
+
+    <span class="c1"># define reciprocal plane in angles</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">t_yv</span><span class="p">,</span> <span class="n">t_xv</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">t_xv</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">t_yv</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="mi">1</span><span class="o">/</span><span class="n">wavelength</span><span class="p">)</span>
+
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">&lt;</span> <span class="n">aperture_size</span> <span class="o">*</span> <span class="n">wavelength</span>
+
+    <span class="c1"># calculate chi</span>
+    <span class="n">chi</span> <span class="o">=</span> <span class="n">make_chi</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">ab</span><span class="p">)</span>
+
+    <span class="n">extent</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">nx</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">dk</span><span class="p">,</span> <span class="n">nx</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">dk</span><span class="p">,</span> <span class="o">-</span><span class="n">nx</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">dk</span><span class="p">,</span><span class="n">nx</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">dk</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">chi</span><span class="p">)</span><span class="o">*</span><span class="n">mask</span><span class="p">,</span> <span class="n">extent</span>
+
+<span class="n">acceleration_voltage</span> <span class="o">=</span> <span class="mi">200000</span>
+<span class="n">ab</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;C10&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">910.0</span><span class="p">,</span> <span class="s1">&#39;C12a&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;C12b&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;C30&#39;</span><span class="p">:</span> <span class="mf">2.2</span><span class="o">*</span><span class="mf">1e7</span><span class="p">}</span> <span class="c1"># aberrations in Angstrom</span>
+
+<span class="n">wavelength</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_wavelength</span><span class="p">(</span><span class="n">acceleration_voltage</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;nm&#39;</span><span class="p">)</span>
+
+<span class="n">objective_lens</span><span class="p">,</span> <span class="n">extent</span> <span class="o">=</span> <span class="n">objective_lens_function</span><span class="p">(</span><span class="n">ab</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">nx</span><span class="o">*</span><span class="n">pixel_size</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mf">1.8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">objective_lens</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;reciprocal distance (1/nm)&#39;</span><span class="p">);</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "dc34285884b64853a62d6f6d817f2c9f", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Image-Simulation-in-Weak-Phase-Approximation">
+<h2>Image Simulation in Weak Phase Approximation<a class="headerlink" href="#Image-Simulation-in-Weak-Phase-Approximation" title="Link to this heading">¶</a></h2>
+<p>In the weak phase approximation the image is just the convoltuion of the transmission function and the objective lens funtion.</p>
+<p>If an aperture selects only the inner smooth part of the objetive function in Scherzer defocus, the image is naively to interpret as the dark parts as the atoms (remember the CTF is negative in that case)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Q_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft2</span><span class="p">(</span><span class="n">transmission</span><span class="p">))</span>
+
+<span class="n">psi_r</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft2</span><span class="p">((</span><span class="n">Q_k</span><span class="o">*</span><span class="n">objective_lens</span><span class="p">)))</span>
+
+<span class="n">image</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">psi_r</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(</span><span class="n">psi_r</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">real</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "150936c9dacb4aa1b90beb921cad9279", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Influence-of-Aberrations-on-Image">
+<h2>Influence of Aberrations on Image<a class="headerlink" href="#Influence-of-Aberrations-on-Image" title="Link to this heading">¶</a></h2>
+<p>Within this weak phase object aberration, we can already investigate the influence of lens aberrations on the image.</p>
+<p>We do now all steps together and check the effect of the aberration, acceleration voltage, aperture, and element onto the final image (in weak phase approximation).</p>
+<p>Try an astigmatism (<span class="math notranslate nohighlight">\(C_{12}\)</span>) value of 30 nm to see an effect. How small of a value is invisible? How does astigmatism (<span class="math notranslate nohighlight">\(C_{12}\)</span>) depend on defocus (<span class="math notranslate nohighlight">\(C_{10}\)</span>)?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># -----Input -----</span>
+<span class="n">ab</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;C10&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">490.0</span><span class="p">,</span> <span class="s1">&#39;C12a&#39;</span><span class="p">:</span> <span class="mf">100.0</span><span class="p">,</span> <span class="s1">&#39;C12b&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;C30&#39;</span><span class="p">:</span> <span class="mf">0.5e10</span><span class="p">}</span> <span class="c1"># aberrations in nm</span>
+<span class="c1"># -------------</span>
+
+<span class="n">nx</span> <span class="o">=</span> <span class="n">ny</span> <span class="o">=</span> <span class="mi">1024</span>
+<span class="n">n_cell_x</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mf">2.4</span>
+<span class="n">acceleration_voltage</span> <span class="o">=</span> <span class="mi">200000</span>
+<span class="n">resolution</span> <span class="o">=</span> <span class="mf">1.</span>
+
+
+<span class="n">potential</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">potential_2dim</span><span class="p">(</span><span class="s1">&#39;Au&#39;</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">n_cell_x</span><span class="p">,</span> <span class="n">n_cell_x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">]])</span>
+<span class="n">pixel_size</span> <span class="o">=</span> <span class="n">a</span><span class="o">/</span><span class="p">(</span><span class="n">nx</span><span class="o">/</span><span class="n">n_cell_x</span><span class="p">)</span>
+
+<span class="n">transmission</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_transmission</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="n">acceleration_voltage</span><span class="p">)</span>
+
+<span class="n">wavelength</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_wavelength</span><span class="p">(</span><span class="n">acceleration_voltage</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
+<span class="n">objective_lens</span><span class="p">,</span> <span class="n">extent_r</span> <span class="o">=</span> <span class="n">objective_lens_function</span><span class="p">(</span><span class="n">ab</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">nx</span><span class="o">*</span><span class="n">pixel_size</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">resolution</span><span class="p">)</span>
+
+<span class="n">Q_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft2</span><span class="p">(</span><span class="n">transmission</span><span class="p">))</span>
+<span class="n">psi_r</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft2</span><span class="p">((</span><span class="n">Q_k</span><span class="o">*</span><span class="n">objective_lens</span><span class="p">)))</span>
+<span class="n">image</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">psi_r</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(</span><span class="n">psi_r</span><span class="p">))</span>
+
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">objective_lens</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent_r</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;reciprocal distance (1/$\AA$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">nx</span><span class="o">*</span><span class="n">pixel_size</span><span class="p">,</span> <span class="n">ny</span><span class="o">*</span><span class="n">pixel_size</span><span class="p">,</span> <span class="mi">0</span> <span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;distance ($\AA$)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 0, &#39;distance ($\\AA$)&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "b0c4e252b0db4594833c844abf3f102a", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Summary">
+<h2>Summary<a class="headerlink" href="#Summary" title="Link to this heading">¶</a></h2>
+<p>The weak phase object allows for a fast check on image parameters. For a quantitative image simulation we need to do dynamic scattering theory. Please go to the <a class="reference internal" href="CH3_05-Defocus_Thickness.html"><span class="doc">Defocus-Thickness notebook</span></a></p>
+</section>
+<section id="Navigation">
+<h2>Navigation<a class="headerlink" href="#Navigation" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Up Chapter 3:</strong> <a class="reference internal" href="CH3_00-Imaging.html"><span class="doc">Imaging</span></a></p></li>
+<li><p><strong>Back:</strong> <a class="reference internal" href="CH3_03-CTF.html"><span class="doc">Contrast Transfer Function</span></a></p></li>
+<li><p><strong>Next:</strong> <a class="reference internal" href="CH3_05-Defocus_Thickness.html"><span class="doc">Defocus-Thickness notebook</span></a></p></li>
+<li><p><strong>List of Content:</strong> <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">Front</span></a></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Diffraction/index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Spectroscopy/index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Imaging/CH3_04-Linear_Image_Approximation.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

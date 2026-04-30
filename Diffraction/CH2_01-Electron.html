@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>The Electron &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Atomic Form Factor" href="CH2_02-Atomic_Form_Factor.html" />
+    <link rel="prev" title="Chapter 2: Diffraction" href="CH2_00-Diffraction.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 2:</strong> <a class="reference internal" href="CH2_00-Diffraction.html"><span class="doc">Diffraction</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="The-Electron">
+<h1>The Electron<a class="headerlink" href="#The-Electron" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Diffraction/CH2_01-Electron.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main//Diffraction/CH2_01-Electron.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p><strong>Spring 2026</strong> by Gerd Duscher</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<p>First we load the code to make figures from pyTEMlib ## Import packages for figures and ### Check Installed Packages</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2026.1.0&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w">  </span>--upgrade<span class="w"> </span>pyTEMlib<span class="w"> </span>-q
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+done
+</pre></div></div>
+</div>
+<blockquote>
+<div><p>Note for Google Colab</p>
+<p><strong>Restart Session</strong> in the <strong>Runtime Menu</strong></p>
+</div></blockquote>
+<section id="Load-the-plotting-and-figure-packages">
+<h2>Load the plotting and figure packages<a class="headerlink" href="#Load-the-plotting-and-figure-packages" title="Link to this heading">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> widget
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pylab</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">output</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>  <span class="c1"># we will use the constants part only</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyTEMlib</span>
+</pre></div>
+</div>
+</div>
+<section id="Interaction-of-Common-Particles-with-Matter">
+<h3>Interaction of Common Particles with Matter<a class="headerlink" href="#Interaction-of-Common-Particles-with-Matter" title="Link to this heading">¶</a></h3>
+<p>We generally use electron, photons, and neutrons for diffraction/scattering experiments.</p>
+<p>These particles interact with differently with matter:</p>
+<table style="width:80%"><tr><td><p>X-rays</p>
+</td><td><p><span class="math notranslate nohighlight">\(\leftrightarrow\)</span></p>
+</td><td><p>electron density</p>
+</td></tr><tr><td><p>neutrons</p>
+</td><td><p><span class="math notranslate nohighlight">\(\leftrightarrow\)</span></p>
+</td><td><p>mass of nucleus</p>
+</td></tr><tr><td><p>neutrons</p>
+</td><td><p><span class="math notranslate nohighlight">\(\leftrightarrow\)</span></p>
+</td><td><p>magnetic moment</p>
+</td></tr><tr><td><p>electrons</p>
+</td><td><p><span class="math notranslate nohighlight">\(\leftrightarrow\)</span></p>
+</td><td><p>screened charge of nucleus</p>
+</td></tr></table><p>We will deal with the nature of electrons more closely in the following</p>
+</section>
+<section id="Non-relativistic-de-Broglie-Wavelength">
+<h3>Non-relativistic de Broglie Wavelength<a class="headerlink" href="#Non-relativistic-de-Broglie-Wavelength" title="Link to this heading">¶</a></h3>
+<p>The electron is a elementary particle with spin <span class="math notranslate nohighlight">\(\frac{1}{2}\)</span> (lepton).</p>
+<p><strong>Non–relativistic De Broglie wavelength</strong> of electron:</p>
+<p><span class="math notranslate nohighlight">\(\lambda = \frac{h}{p} = \frac{h}{\sqrt{2m_0E_{kin}}} \approx \frac{1.22}{\sqrt{E_{kin}}}\)</span></p>
+<p>E is the kinetic energy of the electron: $E_{kin} = eU $ [eV].</p>
+<p>The wave length in a TEM is usually a couple of picometers . This is a factor of 100 smaller than your XRD-source.</p>
+<p>Obvioulsy, we are in the wave picture right now.</p>
+<p>Change to 300 keV acceleration voltage and look at the relativ espeed to the speed of light <span class="math notranslate nohighlight">\(c\)</span>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --------- input  ---------------------------</span>
+<span class="n">acceleration_voltage_V</span> <span class="o">=</span> <span class="n">U</span> <span class="o">=</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="mf">1000.0</span> <span class="c1">#V</span>
+<span class="c1"># --------------------------------------------</span>
+<span class="c1">## energy</span>
+<span class="n">E_kin</span> <span class="o">=</span> <span class="n">acceleration_voltage_V</span> <span class="o">*</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">elementary_charge</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">Planck</span>
+<span class="n">m0</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">electron_mass</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">speed_of_light</span>
+
+<span class="n">wave_length_m</span> <span class="o">=</span> <span class="n">h</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">m0</span><span class="o">*</span><span class="n">E_kin</span><span class="p">)</span> <span class="c1"># non-relativistic wavelength in m</span>
+
+<span class="c1"># # please note that we will keep all length units in Angstrom if possible.</span>
+<span class="c1"># # otherwise we use only SI units!!!</span>
+<span class="n">wave_length_A</span> <span class="o">=</span> <span class="n">wave_length_m</span> <span class="o">*</span><span class="mf">1e10</span> <span class="c1"># now in Angstrom</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Classic wave length is </span><span class="si">{</span><span class="n">wave_length_A</span><span class="o">*</span><span class="mf">100.</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> pm for acceleration voltage </span><span class="si">{</span><span class="n">acceleration_voltage_V</span><span class="o">/</span><span class="mf">1000.</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> kV&#39;</span><span class="p">)</span>
+<span class="c1"># Notice that we change units in the output to make them most readable.</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39; which is a velocity of </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="n">m0</span><span class="o">*</span><span class="n">E_kin</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> m/s or </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="n">m0</span><span class="o">*</span><span class="n">E_kin</span><span class="p">)</span><span class="o">/</span><span class="n">c</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">% of the speed of light&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Classic wave length is 3.88 pm for acceleration voltage 100.0 kV
+ which is a velocity of 187553726.08 m/s or 62.56% of the speed of light
+</pre></div></div>
+</div>
+</section>
+<section id="Relativistic-Correction">
+<h3>Relativistic Correction<a class="headerlink" href="#Relativistic-Correction" title="Link to this heading">¶</a></h3>
+<p>In the table below we see that the speeds of the electron is rather close to the speed of light <span class="math notranslate nohighlight">\(c\)</span></p>
+<p>The formula for relativistic corrected wavelength is: <span class="math notranslate nohighlight">\(\lambda = \frac{h}{\sqrt{2m_e E_{kin} *(1+\frac{E_{kin}}{2 m_e c^2})}}\)</span></p>
+<p><strong>Please note:</strong> All units are internally in SI units: kg, s, V, J, except the length wihich is in nm!</p>
+<p>We multiply with the appropriate factors for the output</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---------Input: Acceleration Voltage --</span>
+<span class="n">E0</span> <span class="o">=</span> <span class="n">acceleration_voltage_V</span> <span class="o">=</span> <span class="mf">300.0</span> <span class="o">*</span><span class="mf">1000.0</span> <span class="c1"># V</span>
+<span class="c1"># ---------------------------------------</span>
+<span class="n">E_kin</span> <span class="o">=</span> <span class="n">acceleration_voltage_V</span> <span class="o">*</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">elementary_charge</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">Planck</span>
+<span class="n">m0</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">electron_mass</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">speed_of_light</span>
+
+<span class="c1">#relativisitic wavelength</span>
+<span class="n">wave_length</span> <span class="o">=</span> <span class="n">h</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span> <span class="n">m0</span> <span class="o">*</span> <span class="n">E_kin</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">E_kin</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m0</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span> <span class="c1">#in m</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The relativistically corrected wave length is </span><span class="si">{</span><span class="n">wave_length</span><span class="o">*</span><span class="mf">1e12</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> pm for acceleration voltage </span><span class="si">{</span><span class="n">acceleration_voltage_V</span><span class="o">/</span><span class="mi">1000</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> kV&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The relativistically corrected wave length is 1.97 pm for acceleration voltage 300.0 kV
+</pre></div></div>
+</div>
+<p>100kV : <span class="math notranslate nohighlight">\(\lambda\)</span> = 4 pm <span class="math notranslate nohighlight">\(&lt;\)</span> than diameter of an atom</p>
+<p>The relativistic parameters are:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>E (keV)</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\lambda\)</span> (pm)</p></th>
+<th class="head"><p>M/m<span class="math notranslate nohighlight">\(_0\)</span></p></th>
+<th class="head"><p>v/c</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>12.2</p></td>
+<td><p>1.0796</p></td>
+<td><p>0.1950</p></td>
+</tr>
+<tr class="row-odd"><td><p>30</p></td>
+<td><p>6.98</p></td>
+<td><p>1.129</p></td>
+<td><p>0.3284</p></td>
+</tr>
+<tr class="row-even"><td><p>100</p></td>
+<td><p>3.70</p></td>
+<td><p>1.1957</p></td>
+<td><p>0.5482</p></td>
+</tr>
+<tr class="row-odd"><td><p>200</p></td>
+<td><p>2.51</p></td>
+<td><p>1.3914</p></td>
+<td><p>0.6953</p></td>
+</tr>
+<tr class="row-even"><td><p>400</p></td>
+<td><p>1.64</p></td>
+<td><p>1.7828</p></td>
+<td><p>0.8275</p></td>
+</tr>
+<tr class="row-odd"><td><p>1000</p></td>
+<td><p>0.87</p></td>
+<td><p>2.9569</p></td>
+<td><p>0.9411</p></td>
+</tr>
+</tbody>
+</table>
+<p>The same functionality (and code) is used in the kinematic_scattering library and we can test the values of above table.</p>
+<p>Please change the acceleration voltage (<strong>acceleration_voltage_V</strong>) above.</p>
+</section>
+</section>
+<section id="Relativistic-velocity">
+<h2>Relativistic velocity<a class="headerlink" href="#Relativistic-velocity" title="Link to this heading">¶</a></h2>
+<div class="math notranslate nohighlight">
+\[\frac{v^2}{c^2} = \frac{E_{kin}(E_{kin}+2m_e c^2)}{(E_{kin}+m_e c^2)^2}\]</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">E_kin</span> <span class="o">*</span> <span class="p">(</span><span class="n">E_kin</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">m0</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">E_kin</span> <span class="o">+</span> <span class="n">m0</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">c</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;For an acceleration voltage of </span><span class="si">{</span><span class="n">acceleration_voltage_V</span><span class="o">/</span><span class="mi">1000</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1">keV: &#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The classic velocity of the electron  is </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="n">m0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">E_kin</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> m/s or </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">m0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">E_kin</span><span class="p">)</span><span class="o">/</span><span class="n">c</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">% of the speed of light&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The relativistic velocity of the electron  is </span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> m/s or </span><span class="si">{</span><span class="n">v</span><span class="o">/</span><span class="n">c</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">% of the speed of light&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+For an acceleration voltage of 300keV:
+The classic velocity of the electron  is 324852582.72 m/s or 108.36% of the speed of light
+The relativistic velocity of the electron  is 232796486.20 m/s or 77.65% of the speed of light
+</pre></div></div>
+</div>
+<section id="That-means-that-the-resolution-is-not-limited-by-the-wavelength!">
+<h3>That means that the resolution is not limited by the wavelength!<a class="headerlink" href="#That-means-that-the-resolution-is-not-limited-by-the-wavelength!" title="Link to this heading">¶</a></h3>
+<p>The formula for relativistic corrected wavelength is:</p>
+<p><span class="math notranslate nohighlight">\(\lambda = \frac{h}{\sqrt{2m_e E_{kin} *(1+\frac{E_{kin}}{2 m_e c^2})}}\)</span></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ----- Input -----</span>
+<span class="n">acceleration_voltage</span><span class="o">=</span> <span class="mi">300</span> <span class="o">*</span> <span class="mf">1000.0</span>
+<span class="c1"># -------------------</span>
+
+<span class="n">wave_length</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_wavelength</span><span class="p">(</span><span class="n">acceleration_voltage</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The relativistically corrected wave length is </span><span class="si">{</span><span class="n">wave_length</span><span class="o">*</span><span class="mf">1e2</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> pm for acceleration voltage </span><span class="si">{</span><span class="n">acceleration_voltage</span><span class="o">/</span><span class="mi">1000</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> kV&#39;</span><span class="p">)</span>
+
+<span class="c1"># Wavelength in Angstrom</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_wavelength</span><span class="p">(</span><span class="n">acceleration_voltage</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the relativistic corrected de Broglie wave length of an electron</span>
+
+<span class="sd">    Input:</span>
+<span class="sd">    ------</span>
+<span class="sd">        acceleration voltage in volt</span>
+<span class="sd">    Output:</span>
+<span class="sd">    -------</span>
+<span class="sd">        wave length in Angstrom</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">acceleration_voltage</span> <span class="o">*</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">elementary_charge</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">Planck</span>
+    <span class="n">m0</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">electron_mass</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">speed_of_light</span>
+
+    <span class="n">wavelength</span> <span class="o">=</span> <span class="n">h</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m0</span> <span class="o">*</span> <span class="n">E</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">E</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m0</span> <span class="o">*</span> <span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))))</span>
+    <span class="k">return</span> <span class="n">wavelength</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">10</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The relativistically corrected wave length is 1.97 pm for acceleration voltage 300.0 kV
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_wavelength</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Help on function get_wavelength in module pyTEMlib.utilities:
+
+get_wavelength(acceleration_voltage: float, unit: str = &#39;m&#39;) -&gt; float
+    Calculates the relativistic corrected de Broglie wavelength of an electron in meter
+    and converts it to the desired unit (m, mm, μm, nm, A, Å, pm)
+
+    Parameter:
+    ---------
+    acceleration_voltage: float
+        acceleration voltage in volt
+    unit: str
+        unit of the wavelength, default is meter (&#39;m&#39;)
+    Returns:
+    -------
+    wavelength: float
+        wave length in units given, default meter
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Help on package pyTEMlib.diffraction_tools in pyTEMlib:
+
+NAME
+    pyTEMlib.diffraction_tools
+
+DESCRIPTION
+    diffraction tools subpackage
+    A collection of tools to analyze diffraction data
+    part of pyTEMlib
+    author: Gerd Duscher, UTK
+
+PACKAGE CONTENTS
+    basic
+    diffraction_plot
+    dynamic
+    kinematic
+    kinematic copy
+
+FUNCTIONS
+    calculate_holz(dif)
+        Calculate HOLZ lines (of allowed reflections)
+
+    center_of_laue_circle(atoms, tags)
+        Center of Laue circle in microscope coordinates
+
+    check_sanity(atoms, verbose_level=0)
+        Check sanity of input parameters
+
+    example(verbose=True)
+        same as zuo_fig_3_18
+
+    feq(element, q)
+        Atomic form factor parametrized in 1/Angstrom
+
+    find_angles(zone)
+        Microscope stage coordinates of zone
+
+    find_nearest_zone_axis(tags)
+        Test all zone axis up to a maximum of hkl_max
+
+    gaussian(xx, pp)
+        Gaussian function
+
+    get_all_g_vectors(hkl_max, atoms)
+        Get all reflections up to a maximum Miller index
+
+    get_all_miller_indices(hkl_max)
+        Get all Miller indices up to hkl_max
+
+    get_allowed_reflections(structure, verbose=False)
+        Calculate allowed reflections of a crystal structure
+
+    get_bragg_reflections(atoms, in_tags, verbose=False)
+        sort reflection in allowed and forbidden
+
+    get_cylinder_coordinates(zone_hkl, g, k0_magnitude)
+        Get cylindrical coordinates of g vectors around zone axis
+
+    get_dynamically_activated(out_tags, verbose=False)
+        Get dynamically activated forbidden reflections
+
+    get_form_factor(element, q)
+        Atomic form factor parametrized in 1/Angstrom but converted to 1/Angstrom
+
+        The atomic form factor is from reKirkland: Advanced Computing in
+        Electron Microscopy 2nd edition, Appendix C.
+        From Appendix C of Kirkland, &#34;Advanced Computing in Electron Microscopy&#34;, 3rd ed.
+        Calculation of electron form factor for specific q:
+        Using equation Kirkland C.15
+
+        Parameters
+        ----------
+        element: string
+            element name
+        q: float or numpy.ndarray
+            magnitude(s) of scattering vector(s) in 1/Angstrom -- (=&gt; exp(-i*g.r),
+            physics negative convention)
+
+        Returns
+        -------
+        fL+fG: float
+            atomic scattering vector
+
+    get_incident_wave_vector(atoms, acceleration_voltage, verbose=False)
+        Incident wave vector K0 in vacuum and material
+
+    get_metric_tensor(matrix)
+        The metric tensor of the lattice.
+
+    get_propagator(
+        size_in_pixel,
+        delta_z,
+        number_layers,
+        wavelength,
+        field_of_view,
+        bandwidth_factor,
+        verbose=True
+    )
+        Get propagator function
+
+        has to be convoluted with wave function after transmission
+
+        Parameter
+        ---------
+        size_in_pixel: int
+            number of pixels of one axis in square image
+        delta_z: float
+            distance between layers
+        number_layers: int
+            number of layers to make a propagator
+        wavelength: float
+            wavelength of incident electrons
+        field_of_view: float
+            field of view of image
+        bandwidth_factor: float
+            relative bandwidth to avoid anti-aliasing
+
+        Returns
+        -------
+        propagator: complex numpy array (layers x size_in_pixel x size_in_pixel)
+
+    get_reflection_families(hkl_sorted, g_sorted, f_sorted, verbose=False)
+        Determine reflection families and multiplicity
+
+    get_structure_factors(atoms, g_hkl)
+        Get structure factors for given reciprocal lattice points g_hkl
+
+    get_transmission(potential, acceleration_voltage)
+        Get transmission function
+
+        has to be multiplied in real space with wave function
+
+        Parameter
+        ---------
+        potential: numpy array (nxn)
+            potential of a layer
+        acceleration_voltage: float
+            acceleration voltage in V
+
+        Returns
+        -------
+        complex numpy array (nxn)
+
+    get_unit_cell(atoms, tags)
+        Unit cell and reciprocal unit cell
+
+    get_wavelength(acceleration_voltage: float, unit: str = &#39;m&#39;) -&gt; float
+        Calculates the relativistic corrected de Broglie wavelength of an electron in meter
+        and converts it to the desired unit (m, mm, μm, nm, A, Å, pm)
+
+        Parameter:
+        ---------
+        acceleration_voltage: float
+            acceleration voltage in volt
+        unit: str
+            unit of the wavelength, default is meter (&#39;m&#39;)
+        Returns:
+        -------
+        wavelength: float
+            wave length in units given, default meter
+
+    get_zone_rotation(tags)
+        zone axis in global coordinate system
+
+    interaction_parameter(acceleration_voltage)
+        Calculates interaction parameter sigma
+
+        Parameter
+        ---------
+        acceleration_voltage: float
+            acceleration voltage in volt
+
+        Returns
+        -------
+        interaction parameter: float
+            interaction parameter (dimensionless)
+
+    make_chi(theta, phi, aberrations)
+        ###
+        # Aberration function chi
+        ###
+        phi and theta are meshgrids of the angles in polar coordinates.
+        aberrations is a dictionary with the aberrations coefficients
+        Note: an empty aberration dictionary will give you a perfect aberration
+
+    make_pretty_labels(hkls, hex_label=False)
+        Make pretty labels
+
+        Parameters
+        ----------
+        hkls: np.ndarray
+            a numpy array with all the Miller indices to be labeled
+        hex_label: boolean - optional
+            if True this will make for Miller indices.
+
+        Returns
+        -------
+        hkl_label: list
+            list of labels in Latex format
+
+    multi_slice(
+        wave,
+        number_of_unit_cell_z,
+        number_layers,
+        transmission,
+        propagator
+    )
+        Multi-Slice Calculation
+
+        The wave function will be changed iteratively
+
+        Parameters
+        ----------
+        wave: complex numpy array (nxn)
+            starting wave function
+        number_of_unit_cell_z: int
+            this gives the thickness in multiples of c lattice parameter
+        number_layers: int
+            number of layers per unit cell
+        transmission: complex numpy array
+            transmission function
+        propagator: complex numpy array
+            propagator function
+
+        Returns
+        -------
+        complex numpy array
+
+    objective_lens_function(ab, nx, ny, field_of_view, aperture_size=10)
+        Objective len function to be convoluted with exit wave to derive image function
+
+        Parameter:
+        ----------
+        ab: dict
+            aberrations in nm should at least contain defocus (C10), and spherical aberration (C30)
+        nx: int
+            number of pixel in x direction
+        ny: int
+            number of pixel in y direction
+        field_of_view: float
+            field of view of potential
+        wavelength: float
+            wavelength in nm
+        aperture_size: float
+            aperture size in 1/nm
+
+        Returns:
+        --------
+        object function: numpy array (nx x ny)
+        extent: list
+
+    output_verbose(atoms, tags)
+        Verbose output of experimental parameters
+
+    plot_cbed_parameter()
+        Plot CBED pattern parameters
+
+    plot_diffraction_pattern(
+        atoms,
+        diffraction_pattern=None,
+        unit=&#39;mrad&#39;,
+        verbose=False
+    )
+        Plot of spot diffraction pattern with matplotlib
+
+        Parameters
+        ----------
+        atoms: dictionary or ase.Atoms object
+            information stored as dictionary either directly or in info attribute of ase.Atoms object
+        diffraction_pattern: None or sidpy.Dataset
+            diffraction pattern in background
+        unit: str default: &#39;mrad&#39;
+            unit for plotting, either &#39;mrad&#39; or &#39;1/nm&#39;
+
+        Returns
+        -------
+        fig: matplotlib figure
+            reference to matplotlib figure
+
+    plot_holz_parameter()
+        Plot HOLZ pattern parameters
+
+    plot_kikuchi(grey=False)
+        Plot Kikuchi pattern parameters
+
+    plot_reciprocal_unit_cell_2d(atoms)
+        Plot # unit cell in reciprocal space in 2D
+
+    plot_ring_pattern(atoms, diffraction_pattern=None)
+        Plot of ring diffraction pattern with matplotlib
+
+        Parameters
+        ----------
+        atoms: dictionary or sidpy.Dataset
+            information stored as dictionary either directly or in metadata attribute of sidpy.Dataset
+        grey: bool
+            plotting in greyscale if True
+
+        Returns
+        -------
+        fig: matplotlib figure
+            reference to matplotlib figure
+
+    plot_saed_parameter(gray=False)
+        Plot SAED pattern parameters
+
+    plotting_coordinates(
+        g,
+        rotation=0.0,
+        laue_circle=[0, 0],
+        feature=&#39;spot&#39;,
+        k0=None
+    )
+        Calculate plotting coordinates for spots and lines
+        Parameters
+        ----------
+        g : numpy array
+            array of g-vectors in (cylinderical coordinates in rad)
+        rotation : float
+            rotation angle in radians
+        laue_circle : list
+            position of laue circle in (x,y)
+        feature : str
+            &#39;spot&#39; or &#39;line&#39; for HOLZ/Kikuchi lines
+        k0 : float or None
+            wave vector in 1/nm, if None use g in mrad
+
+        Returns
+        -------
+        numpy array
+            array of plotting coordinates in (x,y) for spots and (x,y,slope) for lines
+
+    potential_1dim(element, r)
+        Calculates the projected potential of an atom of element
+
+        The projected potential will be in units of V nm^2,
+        however, internally we will use Angstrom instead of nm!
+        The basis for these calculations are the atomic form factors of Kirkland 2𝑛𝑑 edition
+        following the equation in  Appendix C page 252.
+
+        Parameter
+        ---------
+        element: str
+            name of &#39;element
+        r: numpy array [nxn]
+            impact parameters (distances from atom position) in nm
+
+        Returns
+        -------
+        numpy array (nxn)
+            projected potential in units of V nm^2
+
+    potential_2dim(element, nx, ny, n_cell_x, n_cell_y, lattice_parameter, base)
+        Make a super-cell with potentials
+
+        Limitation is that we only place atom potential with single pixel resolution
+
+    read_poscar(filename)
+        Deprecated - use pyTEMlib.file_tools.read_poscar
+
+    ring_pattern_calculation(structure, verbose=False)
+        Calculate the ring diffraction pattern of a crystal structure
+
+        Parameters
+        ----------
+        structure: ase.Atoms or sidpy.Dataset
+            crystal structure
+        verbose: verbose print-outs
+            set to False
+        Returns
+        -------
+        tags: dict
+            dictionary with diffraction information added
+
+    scattering_matrix(tags, verbose_level=1)
+        Scattering matrix
+
+    scattering_profiles(diff_pattern, center)
+        Determine scattering profiles from diffraction pattern
+
+        Parameters
+        ----------
+        diff_pattern :  Dataset
+            2D diffraction pattern
+        center : tuple
+            center of the diffraction pattern (x,y) in pixels
+        Returns
+        -------
+        out_tags : dict
+            dictionary with the following entries:
+            &#39;center&#39; : center of the diffraction pattern (x,y) in pixels
+            &#39;polar_projection&#39; : 2D array with the polar projection (r, theta)
+            &#39;radial_average&#39; : 1D array with the radial average
+
+    set_center(main_dataset, center, scale=None)
+        Set the u and v axes of a diffraction pattern dataset to center on origin
+
+    stage_rotation_matrix(alpha, beta, gamma=0.0)
+        Microscope stage coordinate system
+
+    warp(diff, center)
+        Define original polar grid
+
+        Parameter:
+        ----------
+        diff: sidpy object or numpy ndarray of
+            diffraction pattern
+        center: list or numpy array of length 2
+            coordinates of center in pixel
+
+        Return:
+        ------
+        numpy array of diffraction pattern in polar coordinates
+
+    zone_mistilt(zone, angles)
+        Rotation of zone axis by mistilt
+
+        Parameters
+        ----------
+        zone: list or numpy array of int
+            zone axis in Miller indices
+        angles: ist or numpy array of float
+            list of mistilt angles in degree
+
+        Returns
+        -------
+        new_zone_axis: np.ndarray (3)
+            new tilted zone axis
+
+DATA
+    __all__ = [&#39;read_poscar&#39;, &#39;example&#39;, &#39;zone_mistilt&#39;, &#39;check_sanity&#39;, &#39;...
+
+FILE
+    c:\users\gduscher\appdata\local\anaconda3\lib\site-packages\pytemlib\diffraction_tools\__init__.py
+
+
+</pre></div></div>
+</div>
+</section>
+<section id="Particle-Flux-and-Current">
+<h3>Particle Flux and Current<a class="headerlink" href="#Particle-Flux-and-Current" title="Link to this heading">¶</a></h3>
+<p>It is important todetermine the order of magitude of how many electrons are hitting the sample.</p>
+<p>The electron sources deliver in the order of <span class="math notranslate nohighlight">\(\mu\)</span>A current, but most of these electrons are not used.</p>
+<p>In a modern electron microscope, we talk about a range of 1pA to 1nA in the electron beam.</p>
+<p>We start with the defition of an Ampere:</p>
+<div class="math notranslate nohighlight">
+\[A = \frac{C}{s}\]</div>
+<p>That definition is enough to calculate the number ofelectron per time unit (flux).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; elementary charge: </span><span class="si">{</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">physical_constants</span><span class="p">[</span><span class="s1">&#39;elementary charge&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.5g</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">physical_constants</span><span class="p">[</span><span class="s1">&#39;elementary charge&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">  1pA is </span><span class="si">{</span><span class="mf">1e-12</span><span class="o">/</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">elementary_charge</span><span class="si">:</span><span class="s1">.3</span><span class="si">}</span><span class="s1"> electrons/s or </span><span class="si">{</span><span class="mf">1e-12</span><span class="o">/</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">elementary_charge</span><span class="o">/</span><span class="mi">1000</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> electrons/ms&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39; 10pA is </span><span class="si">{</span><span class="mf">10e-12</span><span class="o">/</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">elementary_charge</span><span class="si">:</span><span class="s1">.3</span><span class="si">}</span><span class="s1"> electrons/s&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;100pA is </span><span class="si">{</span><span class="mf">100e-12</span><span class="o">/</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">elementary_charge</span><span class="o">*</span><span class="mi">1</span><span class="w"> </span><span class="si">:</span><span class="s1">.3</span><span class="si">}</span><span class="s1"> electrons/s&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> at 10pA an electron will hit the sample every </span><span class="si">{</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">elementary_charge</span><span class="o">/</span><span class="mf">10e-12</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1e9</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> ns &#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ elementary charge: 1.6022e-19 C
+
+  1pA is 6.24e+06 electrons/s or 6242 electrons/ms
+ 10pA is 6.24e+07 electrons/s
+100pA is 6.24e+08 electrons/s
+
+ at 10pA an electron will hit the sample every 16.02 ns
+</pre></div></div>
+</div>
+<p>We see that we have much lower fluence in the TEM than in a laser (how could they do femtosecond pulses otherwise).</p>
+</section>
+</section>
+<section id="Question">
+<h2>Question<a class="headerlink" href="#Question" title="Link to this heading">¶</a></h2>
+<p>How long does one have to integrate a detector to register 1 electron with an electron beam of 1.6pA?</p>
+<section id="Navigation">
+<h3>Navigation<a class="headerlink" href="#Navigation" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Back Chapter 1:</strong> <a class="reference internal" href="../Introduction/CH1_00-Introduction.html"><span class="doc">Introduction</span></a></p></li>
+<li><p><strong>Next:</strong> <a class="reference internal" href="CH2_02-Atomic_Form_Factor.html"><span class="doc">Atomic Form Factor</span></a></p></li>
+<li><p><strong>Chapter 2:</strong> <a class="reference internal" href="CH2_00-Diffraction.html"><span class="doc">Diffraction</span></a></p></li>
+<li><p><strong>List of Content:</strong> <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">Front</span></a></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/index.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Spectroscopy/index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Diffraction</a><ul>
+      <li>Previous: <a href="CH2_00-Diffraction.html" title="previous chapter">Chapter 2: Diffraction</a></li>
+      <li>Next: <a href="CH2_02-Atomic_Form_Factor.html" title="next chapter">Atomic Form Factor</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Diffraction/CH2_01-Electron.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

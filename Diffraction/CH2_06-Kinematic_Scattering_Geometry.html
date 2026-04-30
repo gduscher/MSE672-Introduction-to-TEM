@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Kinematic Scattering Geometry &#8212; MSE672: Introduction to TEM Spring 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=ab56cc63"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Fourier Transform - A laboratory" href="CH2_06b-FFT.html" />
+    <link rel="prev" title="Basic Crystallography" href="CH2_03-Basic_Crystallography.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Chapter 2:</strong> <a class="reference internal" href="CH2_00-Diffraction.html"><span class="doc">Diffraction</span></a></p>
+<hr style="height:1px;border-top:4px solid #FF8200" /><section id="Kinematic-Scattering-Geometry">
+<h1>Kinematic Scattering Geometry<a class="headerlink" href="#Kinematic-Scattering-Geometry" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://raw.githubusercontent.com/gduscher/MSE672-Introduction-to-TEM//main/Diffraction/CH2_06-Kinematic_Scattering_Geometry.ipynb">Download</a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/gduscher/MSE672-Introduction-to-TEM/blob/main//Diffraction/CH2_06-Kinematic_Scattering_Geometry.ipynb"><img alt="OpenInColab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>part of</p>
+<p><a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">MSE672: Introduction to Transmission Electron Microscopy</span></a></p>
+<p><strong>Spring 2026</strong> by Gerd Duscher</p>
+<p>Microscopy Facilities Institute of Advanced Materials &amp; Manufacturing Materials Science &amp; Engineering The University of Tennessee, Knoxville</p>
+<p>Background and methods to analysis and quantification of data acquired with transmission electron microscopes.</p>
+<section id="Load-relevant-python-packages">
+<h2>Load relevant python packages<a class="headerlink" href="#Load-relevant-python-packages" title="Link to this heading">¶</a></h2>
+<section id="Check-Installed-Packages">
+<h3>Check Installed Packages<a class="headerlink" href="#Check-Installed-Packages" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_package</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if package exists and returns version or -1&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;-1&#39;</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+<span class="k">if</span> <span class="n">test_package</span><span class="p">(</span><span class="s1">&#39;pyTEMlib&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="s1">&#39;0.2026.1.3&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;installing pyTEMlib&#39;</span><span class="p">)</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pyTEMlib<span class="w"> </span>-q<span class="w"> </span>--upgrade
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+done
+</pre></div></div>
+</div>
+</section>
+<section id="Load-the-plotting-and-figure-packages">
+<h3>Load the plotting and figure packages<a class="headerlink" href="#Load-the-plotting-and-figure-packages" title="Link to this heading">¶</a></h3>
+<p>Import the python packages that we will use:</p>
+<p>Beside the basic numerical (numpy) and plotting (pylab of matplotlib) libraries,</p>
+<ul class="simple">
+<li><p>three dimensional plotting from matplotlib</p></li>
+<li><p>iteration_tools</p></li>
+</ul>
+<p>and some libraries from the pyTEMlib</p>
+<ul class="simple">
+<li><p>kinematic scattering from the diffraction_tools library.</p></li>
+<li><p>structures from the crystal_tools library &gt; Note for Google Colab &gt; &gt; <strong>Restart Session</strong> in the <strong>Runtime Menu</strong></p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span>  widget
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">output</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+
+<span class="c1"># additional package</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
+
+<span class="c1"># Import libraries from the book</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyTEMlib</span>
+
+<span class="c1"># it is a good idea to show the version numbers at this point for archiving reasons.</span>
+<span class="n">__notebook_version__</span> <span class="o">=</span> <span class="s1">&#39;2026.01.15&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pyTEM version: &#39;</span><span class="p">,</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;notebook version: &#39;</span><span class="p">,</span> <span class="n">__notebook_version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+pyTEM version:  0.2026.1.3
+notebook version:  2026.01.15
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Bragg's-Law">
+<h2>Bragg’s Law<a class="headerlink" href="#Bragg's-Law" title="Link to this heading">¶</a></h2>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned} \Large
+2d \sin{\theta} = n \lambda\\Note\\Diffraction in transmission, is more accurately named Laue condition\\and Bragg condition is originally reserved for reflection.\end{aligned}\end{align} \]</div>
+<p>with:</p>
+<ul class="simple">
+<li><p>d: interplanar spacing</p></li>
+<li><p><span class="math notranslate nohighlight">\(\theta\)</span>: Bragg angle</p></li>
+<li><p><span class="math notranslate nohighlight">\(\lambda\)</span>: wavelength</p></li>
+</ul>
+<p>The origin of Bragg’s law is most conveniently explained in real space, but we want to understand the Ewald sphere construction, one of the most omportant concepts in diffraction.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>real space</p></th>
+<th class="head"><p>reciprocal space</p></th>
+<th class="head"><p>wave vectors</p></th>
+<th class="head"><p>shifted wave vectors</p></th>
+<th class="head"><p>Ewald sphere</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><img alt="Bragg's Law" class="no-scaled-link" src="../_images/Bragg-1.jpg" width="200" /></p></td>
+<td><p><img alt="Bragg's Law" class="no-scaled-link" src="../_images/Bragg-3.jpg" width="200" /></p></td>
+<td><p><img alt="Bragg's Law" class="no-scaled-link" src="../_images/Bragg-4.jpg" width="200" /></p></td>
+<td><p><img alt="Bragg's Law" class="no-scaled-link" src="../_images/Bragg-5.jpg" width="200" /></p></td>
+<td><p><img alt="Bragg's Law" class="no-scaled-link" src="../_images/Bragg-6.jpg" width="200" /></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="Reciprocal-Space">
+<h2>Reciprocal Space<a class="headerlink" href="#Reciprocal-Space" title="Link to this heading">¶</a></h2>
+<section id="Define-silicon-crystal">
+<h3>Define silicon crystal<a class="headerlink" href="#Define-silicon-crystal" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Initialize the dictionary with all the input</span>
+<span class="n">atoms</span> <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">crystal_tools</span><span class="o">.</span><span class="n">structure_by_name</span><span class="p">(</span><span class="s1">&#39;Silicon&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">atoms</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_scaled_positions</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Lattice(symbols=&#39;Si8&#39;, pbc=True, cell=[5.43088, 5.43088, 5.43088])
+[[0.   0.   0.  ]
+ [0.25 0.25 0.25]
+ [0.5  0.5  0.  ]
+ [0.75 0.75 0.25]
+ [0.5  0.   0.5 ]
+ [0.75 0.25 0.75]
+ [0.   0.5  0.5 ]
+ [0.25 0.75 0.75]]
+</pre></div></div>
+</div>
+</section>
+<section id="Wavelength-and-Magnitude-of-Incident-Wavevector">
+<h3>Wavelength and Magnitude of Incident Wavevector<a class="headerlink" href="#Wavelength-and-Magnitude-of-Incident-Wavevector" title="Link to this heading">¶</a></h3>
+<p>Brcause if the convention of the <em>ase</em> package, all length are internally in Angstrom.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">acceleration_voltage_V</span> <span class="o">=</span> <span class="mf">200.0</span> <span class="o">*</span><span class="mf">1000.0</span> <span class="c1">#V</span>
+
+<span class="n">wave_length_A</span>  <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">utilities</span><span class="o">.</span><span class="n">get_wavelength</span><span class="p">(</span><span class="n">acceleration_voltage_V</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The wavelength for </span><span class="si">{</span><span class="n">acceleration_voltage_V</span><span class="o">/</span><span class="mi">1000</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">kV is : </span><span class="si">{</span><span class="n">wave_length_A</span><span class="o">*</span><span class="mf">100.</span><span class="si">:</span><span class="s1">.5f</span><span class="si">}</span><span class="s1">pm&#39;</span><span class="p">)</span>
+
+<span class="n">wave_vector_magnitude</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">wave_length_A</span>
+<span class="n">K0_magnitude</span> <span class="o">=</span> <span class="n">wave_vector_magnitude</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The magnitude of the incident wavevector is </span><span class="si">{</span><span class="n">K0_magnitude</span><span class="o">*</span><span class="mi">10</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> 1/nm&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The wavelength for 200.0kV is : 2.50793pm
+The magnitude of the incident wavevector is 398.7 1/nm
+</pre></div></div>
+</div>
+</section>
+<section id="Reciprocal-Lattice-and-Incident-Wavevector">
+<h3>Reciprocal Lattice and Incident Wavevector<a class="headerlink" href="#Reciprocal-Lattice-and-Incident-Wavevector" title="Link to this heading">¶</a></h3>
+<p>We use ase to invert the unit_cell “matrix” to get the reciprocal cell</p>
+<p>And we calculate the incident wave vector from</p>
+<ul class="simple">
+<li><p>this reciprocal cell,</p></li>
+<li><p>Miller indices of the zone axis and</p></li>
+<li><p>wavelength</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zone</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="c1">#Parallel to z-axis for simplicity</span>
+
+<span class="c1"># Reciprocal Lattice</span>
+<span class="c1">#  We use ase to invert the unit_cell &quot;matrix&quot;</span>
+<span class="n">reciprocal_lattice</span> <span class="o">=</span> <span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="o">.</span><span class="n">reciprocal</span><span class="p">()</span> <span class="c1"># transposed of inverted unit_cell: np.linalg.inv(atoms.cell]).T</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;reciprocal lattice</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">reciprocal_lattice</span><span class="p">)</span>
+
+<span class="c1"># Incident wavevector in vacuum</span>
+<span class="c1"># zone axis in global coordinate system</span>
+<span class="n">zone_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">zone</span><span class="p">,</span> <span class="n">reciprocal_lattice</span><span class="p">)</span>
+<span class="n">K0_unit_vector</span> <span class="o">=</span> <span class="n">zone_vector</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">zone_vector</span><span class="p">)</span> <span class="c1"># incident unit wave vector</span>
+<span class="n">K0_vector</span> <span class="o">=</span> <span class="n">K0_unit_vector</span> <span class="o">*</span> <span class="n">K0_magnitude</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Incident wavevector: &#39;</span><span class="p">,</span><span class="n">K0_vector</span><span class="p">,</span><span class="s1">&#39; in units of [1/Ang]&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+reciprocal lattice
+ Cell([0.18413222166573373, 0.18413222166573373, 0.18413222166573373])
+Incident wavevector:  [ 0.         0.        39.8734569]  in units of [1/Ang]
+</pre></div></div>
+</div>
+</section>
+<section id="2D-Plot-of-Unit-Cell-in-Reciprocal-Space">
+<h3>2D Plot of Unit Cell in Reciprocal Space<a class="headerlink" href="#2D-Plot-of-Unit-Cell-in-Reciprocal-Space" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">reciprocal_lattice</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">reciprocal_lattice</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;l&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9ba6cf08d1594d85a7752a9b0f0693b8", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="2D-plot-of-Reciprocal-Lattice">
+<h3>2D plot of Reciprocal Lattice<a class="headerlink" href="#2D-plot-of-Reciprocal-Lattice" title="Link to this heading">¶</a></h3>
+<p>Now we get all possible Miller (negative and positive) indices up to a maximum value</p>
+<p>We do get those combination with the itertool package.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hkl_max</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">hkl_max</span><span class="p">,</span><span class="n">hkl_max</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">hkl_max</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># all evaluated single Miller Indices</span>
+<span class="n">hkl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">indices</span><span class="p">)))</span> <span class="c1"># all evaluated Miller indices</span>
+
+<span class="c1"># Plot 2D</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">hkl</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">hkl</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;l&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(np.float64(-9.9), np.float64(9.9), np.float64(-9.9), np.float64(9.9))
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "1ef1880ffaf841a2b25f010b0217f5ff", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Origin-and-Laue-Zones">
+<h3>Origin and Laue Zones<a class="headerlink" href="#Origin-and-Laue-Zones" title="Link to this heading">¶</a></h3>
+<p>We really do not need that many reflections in the z-direction, so we reduce those.</p>
+<p>We chose a spot in a reciprocal lattice (3 dimensional, but we usually draw only a two dimensional projection), where we let <code class="docutils literal notranslate"><span class="pre">end</span></code> the incident wavevector <span class="math notranslate nohighlight">\(\vec{k}_I\)</span>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hkl_max</span> <span class="o">=</span> <span class="mi">11</span>
+<span class="n">indices_u_v</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">hkl_max</span><span class="p">,</span> <span class="n">hkl_max</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">hkl_max</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># all evaluated single Miller Indices</span>
+<span class="n">indices_w</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># all evaluated single Miller Indices</span>
+<span class="n">hkl</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">indices_u_v</span><span class="p">,</span> <span class="n">indices_u_v</span><span class="p">,</span> <span class="n">indices_w</span><span class="p">)))</span> <span class="c1"># all evaluated Miller indices</span>
+
+<span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">hkl</span><span class="p">,</span> <span class="n">reciprocal_lattice</span><span class="p">)</span> <span class="c1"># all evaluated reciprocal lattice points</span>
+
+<span class="c1"># Plot 2D</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">secax_y</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">secondary_yaxis</span><span class="p">(</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+<span class="n">secax_y</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;w (1/Å)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([</span><span class="s1">&#39;ZOLZ&#39;</span><span class="p">,</span> <span class="s1">&#39;FOLZ&#39;</span><span class="p">,</span> <span class="s1">&#39;SOLZ&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;u (1/Å)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Laue zones&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "8d2ef4d430eb40deaf776826b850b83c", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>Here we defined the <code class="docutils literal notranslate"><span class="pre">Laue</span> <span class="pre">zones</span></code> (look at the right for the lables of the w-axis). You are most familiar with the <code class="docutils literal notranslate"><span class="pre">Zero</span> <span class="pre">Order</span> <span class="pre">Laue</span> <span class="pre">Zone</span> <span class="pre">(ZOLZ)</span></code>, the only Laue zone reachable with X-rays.</p>
+<p>However the reciprocal lattice points do not lay only in one plane and so other orders exist as well. These other planes are called <code class="docutils literal notranslate"><span class="pre">Higher</span> <span class="pre">Order</span> <span class="pre">Laue</span> <span class="pre">Zones</span> <span class="pre">or</span> <span class="pre">HOLZ</span></code>.</p>
+<p>Laue Zones are defined by the <strong>Weiss Zone Law</strong>:</p>
+<p>The recirocal lattice vectors <span class="math notranslate nohighlight">\(\vec{g}\)</span> with Miller indices <span class="math notranslate nohighlight">\([\rm{h k l}]\)</span> are perpendicular to the zone axis <span class="math notranslate nohighlight">\([\rm{U V W}]\)</span> if:</p>
+<div class="math notranslate nohighlight">
+\[hU+kV+lW = 0\]</div>
+<p>This Weiss Zone Law is working in any crystal system thanks to the Miller indices and has been extended to any Laue Zone <span class="math notranslate nohighlight">\(n\)</span> with</p>
+<div class="math notranslate nohighlight">
+\[hU+kV+lW = n\]</div>
+<p>the first few higher order Laue zones have extra names:</p>
+<ul class="simple">
+<li><p>FOLZ: first order Laue zone</p></li>
+<li><p>SOLZ: second order Laue zone</p></li>
+</ul>
+<p>In electron diffraction these higher order Laue Zones can diffract and so we need to consider them, moreover, they allow for very precise measurements.</p>
+</section>
+<section id="Ewald-Sphere">
+<h3>Ewald Sphere<a class="headerlink" href="#Ewald-Sphere" title="Link to this heading">¶</a></h3>
+<p>The origin of the reciprocal lattice is defined as above as the end point of the wave-vector <span class="math notranslate nohighlight">\(\vec{k}_I\)</span>. The length of <span class="math notranslate nohighlight">\(\vec{k}_I\)</span> is given by the energy of the beam or the reciprocal of the wave_length (we are n reciprocal space).</p>
+<p>Because all diffracted wave vectors <span class="math notranslate nohighlight">\(\vec{k}_D\)</span> have to have the same length in elastic scattering, they have to end at the sphere, whose center is the beginning of the incident wave vector.</p>
+<p>This sphere is called Ewald sphere and gives us all possible diffracted wave vectors.</p>
+<p>For a short explanation of Braggs Law and Ewald sphere construction please see the <em>top of this notebook</em></p>
+<p>Below we show the difference the wavelength makes on size of the Ewald sphere for electron and X-ray diffraction. Please <code class="docutils literal notranslate"><span class="pre">zoom</span> <span class="pre">in</span></code> to the reciprocal lattice to see clearly the difference between X-ray and electron diffraction.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Ewald_Sphere</span>  <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">K0_magnitude</span><span class="p">),</span> <span class="n">K0_magnitude</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;TEM&#39;</span><span class="p">)</span>
+<span class="n">Ewald_Sphere_CuKa</span>  <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.</span><span class="o">/</span><span class="mf">1.5418</span><span class="p">),</span> <span class="mf">1.</span><span class="o">/</span><span class="mf">1.5418</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Cu-Kα&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot 2D</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">K0_magnitude</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">Ewald_Sphere</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">Ewald_Sphere_CuKa</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">);</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;u (1/Å)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;w (1/Å)&#39;</span><span class="p">);</span>
+<span class="n">line1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="mi">300</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markerfacecolor</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">markeredgecolor</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;TEM&#39;</span><span class="p">)</span>
+<span class="n">line2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="mi">300</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markerfacecolor</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">markeredgecolor</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;X-Ray&#39;</span><span class="p">)</span>
+<span class="n">line3</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="mi">300</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markerfacecolor</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">markeredgecolor</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span><span class="mi">15</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Ignoring fixed x limits to fulfill fixed data aspect with adjustable data limits.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "ed0e9bb976da46f595a274f9546468df", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<ul class="simple">
+<li><p>Only if a wave vector hits a reciprocal lattice point is the Bragg condition fulfilled and we will get an intensity. Therefore, we look where the Ewald sphere cuts one of the reciprocal lattice points.</p></li>
+<li><p>Higher order Laue zone (HOLZ) excitations are due to diffraction from reciprocal lattice planes that are not the one the incident scattering vector end. These excitations are possible as soon as we have an Ewald sphere much larger than the inter{atom reciprocal lattice vector. The most prominent HOLZ features in a diffraction pattern are the so called HOLZ rings. We will learn later how to use the HOLZ rings to extract information.</p></li>
+</ul>
+</section>
+<section id="Tilting">
+<h3>Tilting<a class="headerlink" href="#Tilting" title="Link to this heading">¶</a></h3>
+<p>Mathematically it is equivalent to tilt the reciprocal lattice or the Ewald Sphere.</p>
+<p>Tilting is the way to achieve exact Bragg conditions.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ----Input ----</span>
+<span class="n">tilt_angle</span> <span class="o">=</span> <span class="mf">15.</span>  <span class="c1"># in degree</span>
+<span class="c1"># --------------</span>
+
+<span class="n">tilt_angle_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">tilt_angle</span><span class="p">)</span>  <span class="c1"># now in radians</span>
+<span class="n">rotation_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">tilt_angle_r</span><span class="p">),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tilt_angle_r</span><span class="p">)],</span>
+                            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tilt_angle_r</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">tilt_angle_r</span><span class="p">)]])</span>
+<span class="n">K0_tilt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">K0_magnitude</span><span class="p">],</span> <span class="n">rotation_matrix</span><span class="p">)</span>
+<span class="n">K_xray_tilt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.</span><span class="o">/</span><span class="mf">1.5418</span><span class="p">],</span> <span class="n">rotation_matrix</span><span class="p">)</span>
+
+<span class="n">g_tilt</span> <span class="o">=</span> <span class="n">g</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">g_tilt</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">g_tilt</span><span class="p">,</span> <span class="n">rotation_matrix</span><span class="p">)</span>
+
+<span class="n">Ewald_Sphere</span>  <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">K0_magnitude</span><span class="p">),</span> <span class="n">K0_magnitude</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;TEM&#39;</span><span class="p">)</span>
+<span class="n">Ewald_Sphere_CuKa</span>  <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mf">1.5418</span><span class="p">),</span> <span class="mi">1</span><span class="o">/</span><span class="mf">1.5418</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Cu-K$</span><span class="se">\a</span><span class="s1">lpha$&#39;</span><span class="p">)</span>
+<span class="n">Ewald_Sphere_tilt</span>  <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="o">-</span><span class="n">K0_tilt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">K0_tilt</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">K0_magnitude</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;TEM&#39;</span><span class="p">)</span>
+<span class="n">Ewald_Sphere_CuKa_tilt</span>  <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="o">-</span><span class="n">K_xray_tilt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">K_xray_tilt</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>  <span class="mf">1.</span><span class="o">/</span><span class="mf">1.5418</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;TEM&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">K0_magnitude</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g_tilt</span> <span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g_tilt</span> <span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">Ewald_Sphere</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">Ewald_Sphere_CuKa</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;u (1/Å)&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;w (1/Å)&#39;</span><span class="p">);</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Tilt sample&#39;</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">-</span><span class="n">K0_tilt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">K0_tilt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">Ewald_Sphere_tilt</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">Ewald_Sphere_CuKa_tilt</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;u (1/Å)&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Tilt Ewald sphere&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "b5170989239545f59b7be6f41944d0a9", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="Precise-Bragg-Condition">
+<h3>Precise Bragg Condition<a class="headerlink" href="#Precise-Bragg-Condition" title="Link to this heading">¶</a></h3>
+<p>The precise Bragg condition is important in X-ray Diffraction and is the reason for the <span class="math notranslate nohighlight">\(\theta - 2\theta\)</span> scans in X-ray diffraction experiments.</p>
+<p>The precise Bragg condition will become important in section of conventional TEM (two beam condition).</p>
+<p>Obviously, angles are too small for acceleration voltages used in a TEM to show nicely in a graph. Reduce the acceleration voltage to about 1000 to see a decent graphic with larger angles (why?).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># -----Input -------</span>
+<span class="n">Miller_index_h</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">acceleration_voltage_V</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">*</span><span class="mf">1000.0</span> <span class="c1">#V</span>
+<span class="c1"># ---------------------</span>
+
+<span class="n">hkl_g</span><span class="o">=</span><span class="p">[</span><span class="n">Miller_index_h</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">wave_length_A</span>  <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">utilities</span><span class="o">.</span><span class="n">get_wavelength</span><span class="p">(</span><span class="n">acceleration_voltage_V</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The wavelength for </span><span class="si">{</span><span class="n">acceleration_voltage_V</span><span class="o">/</span><span class="mi">1000</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">kV is : </span><span class="si">{</span><span class="n">wave_length_A</span><span class="o">*</span><span class="mf">100.</span><span class="si">:</span><span class="s1">.5f</span><span class="si">}</span><span class="s1">pm&#39;</span><span class="p">)</span>
+
+<span class="n">K0_magnitude</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">wave_length_A</span>
+
+
+<span class="n">reciprocal_unit_cell</span> <span class="o">=</span> <span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="o">.</span><span class="n">reciprocal</span><span class="p">()</span> <span class="c1"># transposed of inverted unit_cell</span>
+<span class="n">g_hkl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">reciprocal_unit_cell</span><span class="p">,</span> <span class="n">hkl_g</span><span class="p">)</span> <span class="c1"># calculate g vector for reflection</span>
+<span class="n">g_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">g_hkl</span><span class="p">)</span>          <span class="c1"># calculate length or norm of g vector</span>
+<span class="n">theta_B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">g_norm</span><span class="o">/</span><span class="mf">2.</span><span class="o">/</span><span class="n">K0_magnitude</span><span class="p">)</span>    <span class="c1">#calculate Bragg angle in degree</span>
+<span class="c1">#theta_B =g_norm/2./K0</span>
+<span class="n">d_theta_B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">g_hkl</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="n">g_hkl</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">tilt_angle_rad</span><span class="o">=</span><span class="p">(</span><span class="n">theta_B</span><span class="o">-</span><span class="n">d_theta_B</span><span class="p">)</span>
+
+<span class="n">theta_B</span> <span class="o">=</span><span class="n">theta_B</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="mi">180</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Reflection </span><span class="si">{</span><span class="n">hkl_g</span><span class="si">}</span><span class="s1"> with magnitude of reciprocal vector </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">g_hkl</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> 1/A&#39;</span><span class="p">,</span>
+      <span class="sa">f</span><span class="s1">&#39; has the Bragg angle </span><span class="si">{</span><span class="n">theta_B</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="se">\u00b0</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># Tilted coordinates</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">K0_magnitude</span>
+<span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c1"># Tilt reciprocal lattice</span>
+<span class="n">c</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">tilt_angle_rad</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tilt_angle_rad</span><span class="p">)</span>
+<span class="n">rot_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">c</span><span class="p">,</span> <span class="mi">0</span> <span class="p">,</span><span class="n">s</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="p">]])</span>
+<span class="n">g_tilt</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">g_tilt</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">g_tilt</span> <span class="p">,</span> <span class="n">rot_matrix</span><span class="p">)</span>
+<span class="n">Ewald_Sphere</span>  <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span> <span class="n">K0_magnitude</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;TEM&#39;</span><span class="p">)</span>
+<span class="n">theta_Arc</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">patches</span><span class="o">.</span><span class="n">Arc</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span> <span class="n">K0_magnitude</span><span class="p">,</span> <span class="o">-</span><span class="n">K0_magnitude</span><span class="p">,</span> <span class="n">angle</span><span class="o">=-</span><span class="mi">90</span><span class="o">-</span><span class="n">start</span><span class="p">,</span> <span class="n">theta1</span><span class="o">=</span><span class="n">theta_B</span><span class="p">,</span> <span class="n">theta2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">linewidth</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">g_hkl_tilt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">g_hkl</span> <span class="p">,</span> <span class="n">rot_matrix</span><span class="p">)</span>
+
+<span class="c1"># Plot 2D</span>
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>  <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g_tilt</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g_tilt</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">Ewald_Sphere</span><span class="p">)</span>
+<span class="c1">#Plot K0</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">quiver</span><span class="p">([</span><span class="n">x</span><span class="p">],[</span><span class="n">y</span><span class="p">],[</span><span class="o">-</span><span class="n">x</span><span class="p">],[</span><span class="o">-</span><span class="n">y</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">.025</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="mf">.1</span><span class="p">,</span><span class="n">y</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$\vec</span><span class="si">{K}</span><span class="s1">_0$&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span><span class="c1"># , size=20)</span>
+<span class="c1">#Plot Kg</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">quiver</span><span class="p">([</span><span class="n">x</span><span class="p">],[</span><span class="n">y</span><span class="p">],[</span><span class="n">g_hkl_tilt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">x</span><span class="p">],[</span><span class="n">g_hkl_tilt</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">y</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">.025</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">g_hkl_tilt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mf">.4</span><span class="p">,</span><span class="n">y</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$\vec</span><span class="si">{K}</span><span class="s1">_g=\vec</span><span class="si">{K}</span><span class="s1">_0+\vec</span><span class="si">{g}</span><span class="s1">$&#39;</span><span class="p">,</span>  <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span><span class="c1">#, size=12)</span>
+<span class="c1">#Plot middle line</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">g_hkl_tilt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">],[</span><span class="n">y</span><span class="p">,</span><span class="n">g_hkl_tilt</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="p">)</span>
+<span class="c1"># Plot g</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">quiver</span><span class="p">([</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">],[</span><span class="n">g_hkl_tilt</span><span class="p">[</span><span class="mi">0</span><span class="p">]],[</span><span class="n">g_hkl_tilt</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">.025</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">g_hkl_tilt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mf">.07</span><span class="p">,</span><span class="n">g_hkl_tilt</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="mf">.13</span> <span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$\vec</span><span class="si">{g}</span><span class="s1">$&#39;</span><span class="p">)</span><span class="c1">#, size=12)</span>
+<span class="c1"># Plot Brag angle</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">theta_Arc</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mf">.05</span><span class="p">,</span><span class="n">y</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="mf">.2</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$\theta_</span><span class="si">{B}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span><span class="c1">#, size=12)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="n">K0_magnitude</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Tilted sample&#39;</span><span class="p">)</span>
+<span class="c1">#plt.title(&#39;Wavevectors for exact Bragg Condition for {0} in Silicon&#39;.format(hkl_g))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;u (1/Å)&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;w (1/Å)&#39;</span><span class="p">)</span>
+
+<span class="c1">## titled Ewald sphere in untilted coordinates</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">g_hkl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">K0_magnitude</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="n">g_norm</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="mf">180.</span> <span class="c1"># start of Arc in degree</span>
+
+<span class="n">Ewald_Sphere</span>  <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span> <span class="n">K0_magnitude</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;TEM&#39;</span><span class="p">)</span>
+<span class="n">theta_Arc</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">patches</span><span class="o">.</span><span class="n">Arc</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span> <span class="n">K0_magnitude</span><span class="p">,</span> <span class="o">-</span><span class="n">K0_magnitude</span><span class="p">,</span> <span class="n">angle</span><span class="o">=-</span><span class="mi">90</span><span class="o">-</span><span class="n">start</span><span class="p">,</span> <span class="n">theta1</span><span class="o">=</span><span class="n">theta_B</span><span class="p">,</span> <span class="n">theta2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">linewidth</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">Ewald_Sphere</span><span class="p">)</span>
+<span class="c1">#Plot K0</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">quiver</span><span class="p">([</span><span class="n">x</span><span class="p">],[</span><span class="n">y</span><span class="p">],[</span><span class="o">-</span><span class="n">x</span><span class="p">],[</span><span class="o">-</span><span class="n">y</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">.025</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="mf">.1</span><span class="p">,</span><span class="n">y</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$\vec</span><span class="si">{K}</span><span class="s1">_0$&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span><span class="c1"># , size=20)</span>
+<span class="c1">#Plot Kg</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">quiver</span><span class="p">([</span><span class="n">x</span><span class="p">],[</span><span class="n">y</span><span class="p">],[</span><span class="n">g_hkl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">x</span><span class="p">],[</span><span class="n">g_hkl</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">y</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">.025</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">g_hkl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mf">.3</span><span class="p">,</span><span class="n">y</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$\vec</span><span class="si">{K}</span><span class="s1">_g=\vec</span><span class="si">{K}</span><span class="s1">_0+\vec</span><span class="si">{g}</span><span class="s1">$&#39;</span><span class="p">,</span>  <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span><span class="c1">#, size=12)</span>
+<span class="c1">#Plot middle line</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">g_hkl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">],[</span><span class="n">y</span><span class="p">,</span><span class="n">g_hkl</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="p">)</span>
+<span class="c1"># Plot g</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">quiver</span><span class="p">([</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">],[</span><span class="n">g_hkl</span><span class="p">[</span><span class="mi">0</span><span class="p">]],[</span><span class="n">g_hkl</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">.025</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">g_hkl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mf">.07</span><span class="p">,</span><span class="n">g_hkl</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="mf">.13</span> <span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$\vec</span><span class="si">{g}</span><span class="s1">$&#39;</span><span class="p">)</span><span class="c1">#, size=12)</span>
+<span class="c1"># Plot Brag angle</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">theta_Arc</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mf">.05</span><span class="p">,</span><span class="n">y</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="mf">.2</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$\theta_</span><span class="si">{B}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span><span class="c1">#, size=12)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Tilted Ewald sphere&#39;</span><span class="p">)</span>
+<span class="c1">#plt.title(&#39;Wavevectors for exact Bragg Condition for {0} in Silicon&#39;.format(hkl_g))</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;u (1/Å)&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Exact Bragg condition&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The wavelength for 1.0kV is : 38.76403pm
+Reflection [8, 0, 0] with magnitude of reciprocal vector 1.47 1/A  has the Bragg angle 16.6°
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(-1.0, 3.0)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "1e43f96b392e4fe59cfa20fe8c0e4721", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="Excitation-Error">
+<h2>Excitation Error<a class="headerlink" href="#Excitation-Error" title="Link to this heading">¶</a></h2>
+<section id="2D-Plot-of-Reciprocal-Lattice-with-Excitation-Error">
+<h3>2D Plot of Reciprocal Lattice with Excitation Error<a class="headerlink" href="#2D-Plot-of-Reciprocal-Lattice-with-Excitation-Error" title="Link to this heading">¶</a></h3>
+<p>Here we define the excitation error. With the wave vector coming in parallel to a zone axis, the Ewald sphere should not cut any point in reciprocal space.</p>
+<p>However the dimensions of a TEM specimen are rather small, for a minimum the thickness paralllel to the beam has to be in the nanometer range (&lt;200nm). This leads to the effect that the reciprocal lattice spots now are 3 dimensional objects reflecting the specimen geometry in reciprocal space. The spots are theFourier transfrom of the specimen geometry. A normal specimen is a thin disk perpendicular to the beam and in reciprocal space it is a thin rod parallel to the wave vector.</p>
+<p>Therefore we can excite Bragg reflections even though we not exactly cut the reflection spot with the Ewald sphere. This deviation is called excitation error and is expressed as a vector.</p>
+<p>If this vector is inside the Ewald sphere (here pointing down) the excitation error <span class="math notranslate nohighlight">\(|\vec{s}_g|\)</span> &lt; 0 if the vector is outside <span class="math notranslate nohighlight">\(|\vec{s}_g|\)</span> &gt; 0</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">acceleration_voltage_V</span> <span class="o">=</span> <span class="mf">100.0</span> <span class="o">*</span><span class="mf">1000.0</span> <span class="c1">#V</span>
+
+<span class="n">wave_length_A</span>  <span class="o">=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">utilities</span><span class="o">.</span><span class="n">get_wavelength</span><span class="p">(</span><span class="n">acceleration_voltage_V</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The wavelength for </span><span class="si">{0:.1f}</span><span class="s1">kV is : </span><span class="si">{1:.5f}</span><span class="s1">pm&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">acceleration_voltage_V</span><span class="o">/</span><span class="mf">1000.</span><span class="p">,</span><span class="n">wave_length_A</span><span class="o">*</span><span class="mf">100.</span><span class="p">))</span>
+
+<span class="n">K0_magnitude</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">wave_length_A</span>
+
+<span class="n">Ewald_Sphere</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">K0_magnitude</span><span class="p">),</span> <span class="n">K0_magnitude</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Plot 2D</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">K0_magnitude</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">Ewald_Sphere</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">g</span><span class="p">[</span><span class="mi">2001</span><span class="p">,</span><span class="mi">0</span><span class="p">]],[</span><span class="n">K0_magnitude</span><span class="p">,</span><span class="n">K0_magnitude</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="n">g</span><span class="p">[</span><span class="mi">2001</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="n">g</span><span class="p">[</span><span class="mi">2001</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="n">K0_magnitude</span><span class="p">,</span> <span class="o">-</span><span class="n">K0_magnitude</span><span class="o">+</span><span class="mf">0.063</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.063</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">.005</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">1.86</span><span class="p">,</span> <span class="mf">.01</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$\vec</span><span class="si">{S_g}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">1.56</span><span class="p">,</span> <span class="o">-</span><span class="mf">.06</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$\vec</span><span class="si">{g}</span><span class="s1">_</span><span class="si">{ZOLZ}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">1.77</span><span class="p">,</span> <span class="mf">.21</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$\vec</span><span class="si">{K_g}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">.1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$\vec</span><span class="si">{K_0}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Parallel Illumination&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;u [1/Å]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;w [1/Å]&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">1.6</span><span class="p">,</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">.2</span><span class="p">,</span><span class="mf">.3</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The wavelength for 100.0kV is : 3.70144pm
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "4da6c017b55c4f06ad0fde04472de168", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="id1">
+<h3>2D Plot of Reciprocal Lattice with Excitation Error<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<p>The same plot as above but a little zoomed out will show also the incident wave vector.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Ewald_Sphere</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">K0_magnitude</span><span class="p">),</span> <span class="n">K0_magnitude</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Plot 2D</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">g</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">g</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">K0_magnitude</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">Ewald_Sphere</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">g</span><span class="p">[</span><span class="mi">2001</span><span class="p">,</span><span class="mi">0</span><span class="p">]],[</span><span class="n">K0_magnitude</span><span class="p">,</span><span class="n">K0_magnitude</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="n">g</span><span class="p">[</span><span class="mi">2001</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="n">g</span><span class="p">[</span><span class="mi">2001</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="n">K0_magnitude</span><span class="p">,</span> <span class="o">-</span><span class="n">K0_magnitude</span><span class="o">+</span><span class="mf">0.063</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.063</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">.01</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">1.86</span><span class="p">,</span> <span class="mf">.01</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$\vec</span><span class="si">{S_g}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">.13</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$\vec</span><span class="si">{g}</span><span class="s1">_</span><span class="si">{ZOLZ}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">1.8</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$\vec</span><span class="si">{K_g}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">.01</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$\vec</span><span class="si">{K_0}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Parallel Illumination&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x [1/nm]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;z [1/nm]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">.1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">.3</span><span class="p">,</span><span class="mf">1.2</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "a319dde93959448c919c14818b559854", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+<section id="Origin-of-Excitation-Error">
+<h2>Origin of Excitation Error<a class="headerlink" href="#Origin-of-Excitation-Error" title="Link to this heading">¶</a></h2>
+<p>Part of the reason why we have an excitation error lays in the sample dimensions required for TEM investigations.</p>
+<p>This influence of the sample geometry is further explored in these notebooks:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="CH2_06b-FFT.html"><span class="doc">Fourier Transform Laboratory</span></a></p></li>
+<li><p><a class="reference internal" href="CH2_06c-Relrod.html"><span class="doc">Relrod</span></a></p></li>
+</ul>
+</section>
+<section id="Center-of-Ewald-Shere">
+<h2>Center of Ewald Shere<a class="headerlink" href="#Center-of-Ewald-Shere" title="Link to this heading">¶</a></h2>
+<p>So far we have considered the incident wave vector to be parallel to the Z-axis. However, we need to know the center of the Ewald sphere for any zone axis.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># INPUT</span>
+<span class="n">zone_hkl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">U0</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">atoms</span><span class="p">:</span>
+    <span class="n">U0</span> <span class="o">+=</span> <span class="n">pyTEMlib</span><span class="o">.</span><span class="n">diffraction_tools</span><span class="o">.</span><span class="n">get_form_factor</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">symbol</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mf">0.023933754</span>
+
+<span class="n">volume</span> <span class="o">=</span>  <span class="n">atoms</span><span class="o">.</span><span class="n">cell</span><span class="o">.</span><span class="n">volume</span>  <span class="c1"># Needs to be in Angstrom for form factors</span>
+<span class="n">AngstromConversion</span> <span class="o">=</span> <span class="mf">1.0e10</span>  <span class="c1"># So [1A (in m)] * AngstromConversion = 1</span>
+<span class="n">NanometerConversion</span> <span class="o">=</span> <span class="mf">1.0e9</span>
+
+<span class="n">ScattFacToVolts</span><span class="o">=</span><span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">h</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">AngstromConversion</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">m_e</span><span class="o">*</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">e</span><span class="p">)</span><span class="o">*</span><span class="n">volume</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The inner potential is </span><span class="si">{</span><span class="n">U0</span><span class="o">/</span><span class="mi">1000</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">kV&#39;</span><span class="p">)</span>
+
+<span class="n">incident_wave_vector_vacuum</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">wave_length_A</span>
+<span class="n">K0_magnitude</span> <span class="o">=</span> <span class="n">incident_wave_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">wave_length_A</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">U0</span> <span class="p">)</span><span class="c1">#1/Ang</span>
+
+<span class="n">center_ewald</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">zone_hkl</span><span class="p">,</span><span class="n">reciprocal_lattice</span><span class="p">)</span>
+<span class="n">center_ewald</span> <span class="o">=</span> <span class="n">center_ewald</span> <span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">center_ewald</span><span class="p">)</span><span class="o">*</span> <span class="n">incident_wave_vector</span>
+
+<span class="n">normal</span> <span class="o">=</span> <span class="n">zone_hkl</span><span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">zone_hkl</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Center of Ewald sphere &#39;</span><span class="p">,</span><span class="n">center_ewald</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The inner potential is 0.0kV
+Center of Ewald sphere  [19.11813988 19.11813988  0.        ]
+</pre></div></div>
+</div>
+</section>
+<section id="Possible-Reflections">
+<h2>Possible Reflections<a class="headerlink" href="#Possible-Reflections" title="Link to this heading">¶</a></h2>
+<p>must be within the excitation error to the Ewald sphere.</p>
+<p>Find all Miller indices whose reciprocal point lays near the Ewald sphere with radius <span class="math notranslate nohighlight">\(K_0\)</span> within a maximum excitation error <span class="math notranslate nohighlight">\(S_g\)</span></p>
+<p>with <span class="math notranslate nohighlight">\(S_g \approx (K_0^2 -|\vec{K_0}+\vec{g}|^2)/ 2K_0\)</span></p>
+<p>First we produce all Miller indices up to a maximum value of “hkl_max” and then we check whether they fullfil above condition.</p>
+<p>Please change “hkl_max” and the maximum excitation error “Sg_max” and see what happens.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># INPUT</span>
+<span class="n">hkl_max</span> <span class="o">=</span> <span class="mi">25</span><span class="c1">#  maximum allowed Miller index</span>
+<span class="n">Sg_max</span> <span class="o">=</span> <span class="mf">.01</span> <span class="c1"># 1/A  maximum allowed excitation error</span>
+
+<span class="n">h</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">hkl_max</span><span class="p">,</span><span class="n">hkl_max</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">hkl_max</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># all evaluated single Miller Indices</span>
+<span class="n">hkl</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">h</span><span class="p">)</span> <span class="p">))</span> <span class="c1"># all evaluated Miller indices</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">hkl</span><span class="p">,</span><span class="n">reciprocal_lattice</span><span class="p">)</span>               <span class="c1"># all evaluated reciprocal lattice points</span>
+
+<span class="c1"># Calculate exitation errors for all reciprocal lattice points</span>
+<span class="n">S</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span>  <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">)):</span>
+    <span class="c1">## Zuo and Spence, &#39;Adv TEM&#39;, 2017 -- Eq 3:14</span>
+    <span class="n">S</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">((</span><span class="n">K0_magnitude</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">center_ewald</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">K0_magnitude</span><span class="p">)))</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+
+<span class="c1"># Determine reciprocal lattice points with excitation error less than the maximum allowed one: Sg_max</span>
+<span class="n">reflections</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="o">&lt;</span> <span class="n">Sg_max</span>
+
+<span class="n">Sg</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="n">reflections</span><span class="p">]</span>
+<span class="n">g_hkl</span> <span class="o">=</span><span class="n">g</span><span class="p">[</span><span class="n">reflections</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">g_hkl</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">hkl</span> <span class="o">=</span> <span class="n">hkl</span><span class="p">[</span><span class="n">reflections</span><span class="p">]</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Of the </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="si">}</span><span class="s1"> tested reciprocal lattice points, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">g_hkl</span><span class="p">)</span><span class="si">}</span><span class="s1"> have an excitation error less than </span><span class="si">{</span><span class="n">Sg_max</span><span class="o">*</span><span class="mi">10</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> 1/nm&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(351, 3)
+Of the 132651 tested reciprocal lattice points, 351 have an excitation error less than 0.10 1/nm
+</pre></div></div>
+</div>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading">¶</a></h2>
+<p>The scattering geometry provides all the tools to determine which reciprocal lattice points are possible and which of them are allowed and which are forbidden.</p>
+</section>
+<section id="Navigation">
+<h2>Navigation<a class="headerlink" href="#Navigation" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Back:</strong> <a class="reference internal" href="CH2_05-Diffraction_Rings.html"><span class="doc">Analyzing Ring Diffraction Pattern</span></a></p></li>
+<li><p><strong>Next:</strong> <a class="reference internal" href="CH2_07-Plotting_Diffraction_Pattern.html"><span class="doc">Plotting of Diffraction Pattern</span></a></p></li>
+<li><p><strong>Chapter 2:</strong> <a class="reference internal" href="CH2_00-Diffraction.html"><span class="doc">Diffraction</span></a></p></li>
+<li><p><strong>List of Content:</strong> <a class="reference internal" href="../_MSE672_Intro_TEM.html"><span class="doc">Front</span></a></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">MSE672: Introduction to TEM</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Course Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Introduction/index.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Diffraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Imaging/index.html">Imaging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Spectroscopy/index.html">Spectroscopy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Instrument/index.html">Instrument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lab_Course/index.html">Lab Course</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Diffraction</a><ul>
+      <li>Previous: <a href="CH2_03-Basic_Crystallography.html" title="previous chapter">Basic Crystallography</a></li>
+      <li>Next: <a href="CH2_06b-FFT.html" title="next chapter">Fourier Transform - A laboratory</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2023, Gerd Duscher.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Diffraction/CH2_06-Kinematic_Scattering_Geometry.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
